@@ -1,6 +1,10 @@
 package com.tangykiwi.kiwiclient.modules;
 
+import com.google.common.eventbus.Subscribe;
+import com.tangykiwi.kiwiclient.KiwiClient;
 import net.minecraft.client.MinecraftClient;
+
+import java.lang.reflect.Method;
 
 public class Module {
 
@@ -8,7 +12,7 @@ public class Module {
     private Category category;
     private String description;
     private int keyCode;
-    private boolean toggled;
+    private boolean enabled = false;
 
     public MinecraftClient mc = MinecraftClient.getInstance();
 
@@ -28,7 +32,7 @@ public class Module {
     }
 
     public boolean isEnabled() {
-        return toggled;
+        return enabled;
     }
 
     public int getKeyCode() {
@@ -36,16 +40,30 @@ public class Module {
     }
 
     public void toggle() {
-        toggled = !toggled;
-        if(toggled) onEnable();
+        enabled = !enabled;
+        if(enabled) onEnable();
         else onDisable();
     }
 
     public void onEnable() {
-
+        for (Method method : getClass().getMethods()) {
+            if (method.isAnnotationPresent(Subscribe.class)) {
+                KiwiClient.eventBus.register(this);
+                break;
+            }
+        }
     }
 
     public void onDisable() {
-
+        try {
+            for (Method method : getClass().getMethods()) {
+                if (method.isAnnotationPresent(Subscribe.class)) {
+                    KiwiClient.eventBus.unregister(this);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

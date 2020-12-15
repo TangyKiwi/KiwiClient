@@ -6,6 +6,7 @@
   "mixins": [
   ],
   "client": [
+    "ClientPlayerEntityMixin",
     "InGameHudMixin",
     "KeyboardMixin",
     "MinecraftClientMixin"
