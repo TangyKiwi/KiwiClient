@@ -30,8 +30,8 @@ public class InGameHudMixin {
         int scaledHeight = client.getWindow().getScaledHeight();
 
         textureManager.bindTexture(new Identifier("kiwiclient:textures/duck.png"));
-        client.inGameHud.drawTexture(matrixStack, 4, 0, 0, 0, 24, 24);
-        textRenderer.draw(matrixStack, KiwiClient.name + " v" + KiwiClient.version, 22, 6, -1);
+        client.inGameHud.drawTexture(matrixStack, 0, 0, 0, 0, 130, 130);
+        //textRenderer.draw(matrixStack, KiwiClient.name + " v" + KiwiClient.version, 22, 6, -1);
 
         int count = 0;
         ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods();

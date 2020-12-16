@@ -15,12 +15,12 @@ public class FullBright extends Module {
 
     @Subscribe
     public void onTick(TickEvent e) {
-        if(mc.options.gamma < 16) mc.options.gamma += 1.2;
+        if(mc.options.gamma < 12) mc.options.gamma += 0.5;
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
-        while(mc.options.gamma > 1) mc.options.gamma -= 2;
+        while(mc.options.gamma > 1) mc.options.gamma -= 0.5;
     }
 }

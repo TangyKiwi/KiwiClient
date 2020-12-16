@@ -35,7 +35,6 @@ public class ModuleManager {
     }
 
     public static class ModuleComparator implements Comparator<Module> {
-
         @Override
         public int compare(Module a, Module b) {
             if(MinecraftClient.getInstance().inGameHud.getFontRenderer().getWidth(a.getName()) >
