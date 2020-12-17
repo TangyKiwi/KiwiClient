@@ -2,9 +2,11 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.Module;
+import com.tangykiwi.kiwiclient.util.ColorUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.GlyphRenderer;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
@@ -23,7 +25,6 @@ public class InGameHudMixin {
         MinecraftClient client = MinecraftClient.getInstance();
         TextRenderer textRenderer = client.inGameHud.getFontRenderer();
         TextureManager textureManager = client.getTextureManager();
-        //GlyphRenderer glyphRenderer = new GlyphRenderer();
         MatrixStack matrixStack = new MatrixStack();
 
         int scaledWidth = client.getWindow().getScaledWidth();
@@ -39,10 +40,12 @@ public class InGameHudMixin {
 
             int offset = count * (textRenderer.fontHeight + 6);
 
-            //drawRect(scaledWidth - textRenderer.getWidth(m.getName()) - 8, offset, scaledWidth, 6 + textRenderer.fontHeight + offset, 0x90000000);
-            textRenderer.draw(matrixStack, m.getName(), scaledWidth - textRenderer.getWidth(m.getName()) - 4, 4 + offset, -1);
+            DrawableHelper.fill(matrixStack, scaledWidth - textRenderer.getWidth(m.getName()) - 10, offset, scaledWidth - textRenderer.getWidth(m.getName()) - 8, 6 + textRenderer.fontHeight + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+            DrawableHelper.fill(matrixStack, scaledWidth - textRenderer.getWidth(m.getName()) - 8, offset, scaledWidth, 6 + textRenderer.fontHeight + offset, 0x90000000);
+            textRenderer.draw(matrixStack, m.getName(), scaledWidth - textRenderer.getWidth(m.getName()) - 2, 4 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
 
             count++;
         }
+
     }
 }
