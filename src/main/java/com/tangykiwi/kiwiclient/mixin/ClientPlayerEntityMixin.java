@@ -27,7 +27,7 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
     protected void autoJump(float float_1, float float_2) {
     }
 
-    @Inject(at = @At("RETURN"), method = "tick()V", cancellable = true)
+    @Inject(method = "tick()V", at = @At("RETURN"), cancellable = true)
     public void tick(CallbackInfo info) {
         TickEvent event = new TickEvent();
         KiwiClient.eventBus.post(event);

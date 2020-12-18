@@ -15,8 +15,7 @@ public class KeyboardMixin {
         if (key != -1) {
             KeyPressEvent event = new KeyPressEvent(key, scanCode);
             KiwiClient.eventBus.post(event);
-            if (event.isCancelled())
-                callbackInfo.cancel();
+            if (event.isCancelled()) callbackInfo.cancel();
         }
     }
 

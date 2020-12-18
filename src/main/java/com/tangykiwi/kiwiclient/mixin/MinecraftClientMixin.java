@@ -1,12 +1,15 @@
 package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.resource.language.I18n;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MinecraftClient.class)
@@ -32,5 +35,12 @@ public class MinecraftClientMixin {
         }
 
         info.setReturnValue(stringBuilder.toString());
+    }
+
+    @Inject(at = @At("HEAD"), method = "openScreen(Lnet/minecraft/client/gui/screen/Screen;)V", cancellable = true)
+    public void openScreen(Screen screen, CallbackInfo info) {
+        OpenScreenEvent event = new OpenScreenEvent(screen);
+        KiwiClient.eventBus.post(event);
+        if (event.isCancelled()) info.cancel();
     }
 }
