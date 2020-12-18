@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.gui;
 
+import com.tangykiwi.kiwiclient.util.ColorUtil;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -12,8 +13,12 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.realms.gui.screen.RealmsBridgeScreen;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
 
 
 public class MainMenu extends Screen {
@@ -27,11 +32,20 @@ public class MainMenu extends Screen {
     }
 
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {
+        TextureManager textureManager = this.client.getTextureManager();
+        textureManager.bindTexture(new Identifier("kiwiclient:background.jpg"));
+        this.drawTexture(matrixStack, 0, 0, 0, 0, this.width, this.height);
+        this.fillGradient(matrixStack, 0, this.height - 100, this.width, this.height, 0x00000000, 0xff000000);
+
         String[] buttons = {"Singleplayer", "Multiplayer", "Options", "Language", "Quit"};
         TextRenderer textRenderer = this.client.inGameHud.getFontRenderer();
         int offset = 0;
         for(String b : buttons) {
-            textRenderer.draw(matrixStack, b, offset * (this.width / buttons.length) + (this.width / buttons.length) / 2 + 8, this.height - 20, -1);
+            float x = offset * (this.width / buttons.length) + (this.width / buttons.length) / 3;
+            float y = this.height - 20;
+
+            boolean hovered = (mouseX >= x && mouseY >= y && mouseX < x + textRenderer.getWidth(b) && mouseY < y + textRenderer.fontHeight);
+            textRenderer.draw(matrixStack, b, offset * (this.width / buttons.length) + (this.width / buttons.length) / 3, this.height - 20, hovered ? ColorUtil.getRainbow(3, 0.8f, 1) : -1);
             offset++;
         }
 
@@ -43,10 +57,11 @@ public class MainMenu extends Screen {
 
         int offset = 0;
         for(String b : buttons) {
-            float x = offset * (this.width / buttons.length) + (this.width / buttons.length) / 2 + 8 - textRenderer.getWidth(b) / 2f;
+            float x = offset * (this.width / buttons.length) + (this.width / buttons.length) / 3;
             float y = this.height - 20;
 
             if(mouseX >= x && mouseY >= y && mouseX < x + textRenderer.getWidth(b) && mouseY < y + textRenderer.fontHeight) {
+                this.client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 switch(b) {
                     case "Singleplayer":
                         this.client.openScreen(new SelectWorldScreen(this));
