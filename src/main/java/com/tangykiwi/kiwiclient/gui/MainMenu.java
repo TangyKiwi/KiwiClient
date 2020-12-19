@@ -22,6 +22,8 @@ import net.minecraft.util.Identifier;
 
 
 public class MainMenu extends Screen {
+    
+    final String[] buttons = {"Singleplayer", "Multiplayer", "Options", "Language", "Quit"};
 
     public MainMenu() {
         super(new TranslatableText("narrator.screen.title"));
@@ -37,7 +39,6 @@ public class MainMenu extends Screen {
         this.drawTexture(matrixStack, 0, 0, 0, 0, this.width, this.height);
         this.fillGradient(matrixStack, 0, this.height - 100, this.width, this.height, 0x00000000, 0xff000000);
 
-        String[] buttons = {"Singleplayer", "Multiplayer", "Options", "Language", "Quit"};
         TextRenderer textRenderer = this.client.inGameHud.getFontRenderer();
         int offset = 0;
         for(String b : buttons) {
@@ -53,7 +54,6 @@ public class MainMenu extends Screen {
     }
 
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        String[] buttons = {"Singleplayer", "Multiplayer", "Options", "Language", "Quit"};
 
         int offset = 0;
         for(String b : buttons) {
