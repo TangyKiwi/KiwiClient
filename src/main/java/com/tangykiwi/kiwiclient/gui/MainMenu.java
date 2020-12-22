@@ -5,14 +5,9 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerWarningScreen;
-import net.minecraft.client.gui.screen.options.AccessibilityOptionsScreen;
 import net.minecraft.client.gui.screen.options.LanguageOptionsScreen;
 import net.minecraft.client.gui.screen.options.OptionsScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TexturedButtonWidget;
-import net.minecraft.client.realms.gui.screen.RealmsBridgeScreen;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
@@ -23,6 +18,7 @@ import net.minecraft.util.Identifier;
 
 public class MainMenu extends Screen {
 
+    public final String[] BUTTONS = {"Singleplayer", "Multiplayer", "Options", "Language", "Quit"};
     public MainMenu() {
         super(new TranslatableText("narrator.screen.title"));
     }
@@ -37,15 +33,14 @@ public class MainMenu extends Screen {
         this.drawTexture(matrixStack, 0, 0, 0, 0, this.width, this.height);
         this.fillGradient(matrixStack, 0, this.height - 100, this.width, this.height, 0x00000000, 0xff000000);
 
-        String[] buttons = {"Singleplayer", "Multiplayer", "Options", "Language", "Quit"};
         TextRenderer textRenderer = this.client.inGameHud.getFontRenderer();
         int offset = 0;
-        for(String b : buttons) {
-            float x = offset * (this.width / buttons.length) + (this.width / buttons.length) / 3;
+        for(String b : BUTTONS) {
+            float x = offset * (this.width / BUTTONS.length) + (this.width / BUTTONS.length) / 3;
             float y = this.height - 20;
 
             boolean hovered = (mouseX >= x && mouseY >= y && mouseX < x + textRenderer.getWidth(b) && mouseY < y + textRenderer.fontHeight);
-            textRenderer.draw(matrixStack, b, offset * (this.width / buttons.length) + (this.width / buttons.length) / 3, this.height - 20, hovered ? ColorUtil.getRainbow(3, 0.8f, 1) : -1);
+            textRenderer.draw(matrixStack, b, offset * (this.width / BUTTONS.length) + (this.width / BUTTONS.length) / 3, this.height - 20, hovered ? ColorUtil.getRainbow(3, 0.8f, 1) : -1);
             offset++;
         }
 
@@ -53,11 +48,9 @@ public class MainMenu extends Screen {
     }
 
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        String[] buttons = {"Singleplayer", "Multiplayer", "Options", "Language", "Quit"};
-
         int offset = 0;
-        for(String b : buttons) {
-            float x = offset * (this.width / buttons.length) + (this.width / buttons.length) / 3;
+        for(String b : BUTTONS) {
+            float x = offset * (this.width / BUTTONS.length) + (this.width / BUTTONS.length) / 3;
             float y = this.height - 20;
 
             if(mouseX >= x && mouseY >= y && mouseX < x + textRenderer.getWidth(b) && mouseY < y + textRenderer.fontHeight) {
