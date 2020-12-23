@@ -4,6 +4,7 @@ import com.google.common.eventbus.EventBus;
 
 import com.tangykiwi.kiwiclient.modules.ModuleManager;
 import com.tangykiwi.kiwiclient.registry.ModItems;
+import com.tangykiwi.kiwiclient.util.DiscordRP;
 import net.fabricmc.api.ModInitializer;
 
 public class KiwiClient implements ModInitializer {
@@ -12,6 +13,7 @@ public class KiwiClient implements ModInitializer {
     public static String name = "KiwiClient", version = "1.4.3";
 
     public static ModuleManager moduleManager;
+    public static DiscordRP discordRPC;
     public static EventBus eventBus = new EventBus();
 
     @Override
@@ -20,6 +22,10 @@ public class KiwiClient implements ModInitializer {
 
         moduleManager = new ModuleManager();
         moduleManager.init();
+
+        discordRPC = new DiscordRP();
+        discordRPC.start();
+
         eventBus.register(moduleManager);
     }
 }
