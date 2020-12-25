@@ -3,7 +3,6 @@ package com.tangykiwi.kiwiclient;
 import com.google.common.eventbus.EventBus;
 
 import com.tangykiwi.kiwiclient.modules.ModuleManager;
-import com.tangykiwi.kiwiclient.registry.ModItems;
 import com.tangykiwi.kiwiclient.util.DiscordRP;
 import net.fabricmc.api.ModInitializer;
 
@@ -18,8 +17,6 @@ public class KiwiClient implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ModItems.registerItems();
-
         moduleManager = new ModuleManager();
         moduleManager.init();
 
