@@ -17,7 +17,7 @@ public class BookUpdateC2SPacketMixin {
     private static final String str2 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
     @Shadow
-    private ItemStack itemStack;
+    private ItemStack book;
 
     @Inject(at={@At(value="RETURN")}, method={"<init>(Lnet/minecraft/item/ItemStack;ZI)V"})
     public void onInit(ItemStack book, boolean signed, int slot, CallbackInfo callbackInfo) {
@@ -28,7 +28,7 @@ public class BookUpdateC2SPacketMixin {
             for (int i = 1; i < 38; ++i) {
                 listTag.addTag(i, (Tag) StringTag.of((String)str2));
             }
-            this.itemStack.putSubTag("pages", (Tag) listTag);
+            this.book.putSubTag("pages", (Tag) listTag);
         }
     }
 
