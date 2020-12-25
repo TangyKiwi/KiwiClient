@@ -6,6 +6,7 @@
   "mixins": [
   ],
   "client": [
+    "BookUpdateC2SPacketMixin",
     "ClientPlayerEntityMixin",
     "InGameHudMixin",
     "KeyboardMixin",

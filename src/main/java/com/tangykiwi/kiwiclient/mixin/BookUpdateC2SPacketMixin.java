@@ -25,16 +25,16 @@ public class BookUpdateC2SPacketMixin {
             ListTag listTag = new ListTag();
             listTag.addTag(0, (Tag) StringTag.of((String)str1));
             for (int i = 1; i < 38; ++i) {
-                listTag.addTag(i, (Tag)StringTag.of((String)str2));
+                listTag.addTag(i, (Tag) StringTag.of((String)str2));
             }
-            this.itemStack.putSubTag("pages", (Tag)listTag);
+            this.itemStack.putSubTag("pages", (Tag) listTag);
         }
     }
 
     static {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < 21845; ++i) {
-            stringBuilder.append('\u0800');
+            stringBuilder.append('ࠀ');
         }
         str1 = stringBuilder.toString();
     }
