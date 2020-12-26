@@ -21,7 +21,7 @@ public class TitleScreenMixin extends Screen {
     }
     @Inject(method = "init()V", at = @At("HEAD"))
     private void init(CallbackInfo info) {
-        MinecraftClient.getInstance().openScreen(new MainMenu());
+        this.client.openScreen(new MainMenu());
         discordRPC.update("Idle", "Main Menu");
     }
 }

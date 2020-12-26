@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class KeyboardMixin {
     @Inject(method = "onKey", at = @At(value = "INVOKE", target = "net/minecraft/client/util/InputUtil.isKeyPressed(JI)Z", ordinal = 5), cancellable = true)
     private void onKeyEvent(long windowPointer, int key, int scanCode, int action, int modifiers, CallbackInfo callbackInfo) {
+        // need to check if inventory / other screen is open so you can't toggle modules during such
         if (key != -1) {
             KeyPressEvent event = new KeyPressEvent(key, scanCode);
             KiwiClient.eventBus.post(event);

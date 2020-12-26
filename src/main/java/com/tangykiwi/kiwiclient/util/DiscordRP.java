@@ -40,7 +40,7 @@ public class DiscordRP {
         DiscordRPC.discordShutdown();
     }
 
-    public static void update(String firstLine, String secondLine) {
+    public void update(String firstLine, String secondLine) {
         DiscordRichPresence.Builder b = new DiscordRichPresence.Builder(secondLine);
         b.setBigImage("discord_background", "");
         b.setDetails(firstLine);

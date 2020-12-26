@@ -12,9 +12,10 @@ import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Style;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
-
 
 public class MainMenu extends Screen {
 
@@ -33,14 +34,15 @@ public class MainMenu extends Screen {
         this.drawTexture(matrixStack, 0, 0, 0, 0, this.width, this.height);
         this.fillGradient(matrixStack, 0, this.height - 100, this.width, this.height, 0x00000000, 0xff000000);
 
-        TextRenderer textRenderer = this.client.inGameHud.getFontRenderer();
+        Style CUSTOM_STYLE = Style.EMPTY.withFont(new Identifier("kiwiclient", "titillium"));
+        TextRenderer textRenderer = this.client.textRenderer;
         int offset = 0;
         for(String b : BUTTONS) {
             float x = offset * (this.width / BUTTONS.length) + (this.width / BUTTONS.length) / 3;
             float y = this.height - 20;
 
             boolean hovered = (mouseX >= x && mouseY >= y && mouseX < x + textRenderer.getWidth(b) && mouseY < y + textRenderer.fontHeight);
-            textRenderer.draw(matrixStack, b, offset * (this.width / BUTTONS.length) + (this.width / BUTTONS.length) / 3, this.height - 20, hovered ? ColorUtil.getRainbow(3, 0.8f, 1) : -1);
+            textRenderer.draw(matrixStack, new LiteralText(b).setStyle(CUSTOM_STYLE), offset * (this.width / BUTTONS.length) + (this.width / BUTTONS.length) / 3, this.height - 20, hovered ? ColorUtil.getRainbow(3, 0.8f, 1) : -1);
             offset++;
         }
 

@@ -16,6 +16,7 @@ import java.util.Comparator;
 public class ModuleManager {
 
     public static ArrayList<Module> moduleList = new ArrayList<Module>();
+    public static MinecraftClient mc = MinecraftClient.getInstance();
 
     public void init() {
         moduleList.add(new Fly());
@@ -37,11 +38,11 @@ public class ModuleManager {
     public static class ModuleComparator implements Comparator<Module> {
         @Override
         public int compare(Module a, Module b) {
-            if(MinecraftClient.getInstance().inGameHud.getFontRenderer().getWidth(a.getName()) >
-                    MinecraftClient.getInstance().inGameHud.getFontRenderer().getWidth(b.getName()))
+            if(mc.textRenderer.getWidth(a.getName()) >
+                    mc.textRenderer.getWidth(b.getName()))
                 return -1;
-            else if(MinecraftClient.getInstance().inGameHud.getFontRenderer().getWidth(a.getName()) <
-                    MinecraftClient.getInstance().inGameHud.getFontRenderer().getWidth(b.getName()))
+            else if(mc.textRenderer.getWidth(a.getName()) <
+                    mc.textRenderer.getWidth(b.getName()))
                 return 1;
             return 0;
         }
@@ -49,7 +50,7 @@ public class ModuleManager {
 
     @Subscribe
     public static void handleKeyPress(KeyPressEvent e) {
-        if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_KEY_F3))
+        if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3))
             return;
 
         for(Module m : moduleList) {
