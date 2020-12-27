@@ -19,7 +19,7 @@ public class BookUpdateC2SPacketMixin {
     @Shadow
     private ItemStack book;
 
-    @Inject(at={@At(value="RETURN")}, method={"<init>(Lnet/minecraft/item/ItemStack;ZI)V"})
+    @Inject(method = "<init>(Lnet/minecraft/item/ItemStack;ZI)V", at = @At("RETURN"))
     public void onInit(ItemStack book, boolean signed, int slot, CallbackInfo callbackInfo) {
         System.out.println("CALLED");
         if (signed && book.getTag().getList("pages", 8).getString(0).equals((Object)"DUPE")) {

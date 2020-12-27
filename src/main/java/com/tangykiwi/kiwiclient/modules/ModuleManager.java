@@ -21,7 +21,7 @@ public class ModuleManager {
         moduleList.add(new Fly());
         moduleList.add(new Speed());
         moduleList.add(new FullBright());
-        moduleList.add(new Hud());
+        moduleList.add(new HUD());
     }
 
     public ArrayList<Module> getEnabledMods() {

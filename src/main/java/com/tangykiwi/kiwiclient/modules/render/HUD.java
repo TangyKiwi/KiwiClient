@@ -9,7 +9,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Hud extends Module {
+public class HUD extends Module {
     
     private double tps = 20;
     private double bps = 0;
@@ -20,8 +20,8 @@ public class Hud extends Module {
 
     public List<String> mods = new ArrayList<>();
 
-    public Hud() {
-        super("Hud", "Shows info as an overlay", GLFW.GLFW_KEY_H, Category.RENDER);
+    public HUD() {
+        super("HUD", "Shows info as an overlay", GLFW.GLFW_KEY_H, Category.RENDER);
     }
 
     @Subscribe
