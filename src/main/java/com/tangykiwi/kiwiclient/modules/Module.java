@@ -40,6 +40,8 @@ public class Module {
         return keyCode;
     }
 
+    public Category getCategory() { return category; }
+
     public void toggle() {
         enabled = !enabled;
         if(enabled) onEnable();

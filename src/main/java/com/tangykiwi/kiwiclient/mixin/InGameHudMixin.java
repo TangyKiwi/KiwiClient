@@ -1,7 +1,9 @@
 package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import com.tangykiwi.kiwiclient.modules.Module;
+import com.tangykiwi.kiwiclient.modules.render.ActiveMods;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.GlyphRenderer;
@@ -30,26 +32,12 @@ public class InGameHudMixin {
         TextureManager textureManager = client.getTextureManager();
         MatrixStack matrixStack = new MatrixStack();
 
-        int scaledWidth = client.getWindow().getScaledWidth();
-        int scaledHeight = client.getWindow().getScaledHeight();
-
         textureManager.bindTexture(new Identifier("kiwiclient:textures/duck.png"));
         client.inGameHud.drawTexture(matrixStack, 0, 0, 0, 0, 130, 130);
         //textRenderer.draw(matrixStack, KiwiClient.name + " v" + KiwiClient.version, 22, 6, -1);
 
-        //Style CUSTOM_STYLE = Style.EMPTY.withFont(new Identifier("kiwiclient", "titillium"));
-
-        int count = 0;
-        ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods();
-        for(Module m : enabledMods) {
-
-            int offset = count * (textRenderer.fontHeight + 6);
-
-            DrawableHelper.fill(matrixStack, scaledWidth - textRenderer.getWidth(m.getName()) - 10, offset, scaledWidth - textRenderer.getWidth(m.getName()) - 8, 6 + textRenderer.fontHeight + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-            DrawableHelper.fill(matrixStack, scaledWidth - textRenderer.getWidth(m.getName()) - 8, offset, scaledWidth, 6 + textRenderer.fontHeight + offset, 0x90000000);
-            textRenderer.draw(matrixStack, m.getName(), scaledWidth - textRenderer.getWidth(m.getName()) - 2, 4 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-
-            count++;
-        }
+        DrawOverlayEvent event = new DrawOverlayEvent(matrixStack);
+        KiwiClient.eventBus.post(event);
+        if (event.isCancelled()) info.cancel();
     }
 }
