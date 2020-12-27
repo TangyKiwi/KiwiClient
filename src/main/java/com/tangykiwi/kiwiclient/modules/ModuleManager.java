@@ -2,9 +2,8 @@ package com.tangykiwi.kiwiclient.modules;
 
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
-import com.tangykiwi.kiwiclient.modules.movement.Fly;
-import com.tangykiwi.kiwiclient.modules.movement.Speed;
-import com.tangykiwi.kiwiclient.modules.render.FullBright;
+import com.tangykiwi.kiwiclient.modules.movement.*;
+import com.tangykiwi.kiwiclient.modules.render.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -22,6 +21,7 @@ public class ModuleManager {
         moduleList.add(new Fly());
         moduleList.add(new Speed());
         moduleList.add(new FullBright());
+        moduleList.add(new Hud());
     }
 
     public ArrayList<Module> getEnabledMods() {

@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 
 public class Module {
 
+    public final static int KEY_UNBOUND = -2;
     private String name;
     private Category category;
     private String description;
