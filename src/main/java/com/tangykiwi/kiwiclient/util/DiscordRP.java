@@ -42,7 +42,7 @@ public class DiscordRP {
 
     public void update(String firstLine, String secondLine) {
         DiscordRichPresence.Builder b = new DiscordRichPresence.Builder(secondLine);
-        b.setBigImage("alternate_background", "");
+        b.setBigImage("background", "");
         b.setDetails(firstLine);
         b.setStartTimestamps(time);
 
