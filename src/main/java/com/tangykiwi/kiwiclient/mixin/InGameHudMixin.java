@@ -13,6 +13,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Style;
 import net.minecraft.util.Identifier;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -36,18 +37,26 @@ public class InGameHudMixin {
         client.inGameHud.drawTexture(matrixStack, 0, 0, 0, 0, 130, 130);
         //textRenderer.draw(matrixStack, KiwiClient.name + " v" + KiwiClient.version, 22, 6, -1);
 
+        //Style CUSTOM_STYLE = Style.EMPTY.withFont(new Identifier("kiwiclient", "titillium"));
+
+        double scale = 0.75;
+        double multiplier = 1/scale;
+
+        GL11.glPushMatrix();
+        GL11.glScaled(scale, scale, 0);
         int count = 0;
         ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods();
         for(Module m : enabledMods) {
 
             int offset = count * (textRenderer.fontHeight + 6);
 
-            DrawableHelper.fill(matrixStack, scaledWidth - textRenderer.getWidth(m.getName()) - 10, offset, scaledWidth - textRenderer.getWidth(m.getName()) - 8, 6 + textRenderer.fontHeight + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-            DrawableHelper.fill(matrixStack, scaledWidth - textRenderer.getWidth(m.getName()) - 8, offset, scaledWidth, 6 + textRenderer.fontHeight + offset, 0x90000000);
-            textRenderer.draw(matrixStack, m.getName(), scaledWidth - textRenderer.getWidth(m.getName()) - 2, 4 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+            DrawableHelper.fill(matrixStack, (int) (multiplier * scaledWidth - textRenderer.getWidth(m.getName()) - 10), offset, (int) (multiplier * scaledWidth - textRenderer.getWidth(m.getName()) - 8), 6 + textRenderer.fontHeight + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+            DrawableHelper.fill(matrixStack, (int) (multiplier * scaledWidth - textRenderer.getWidth(m.getName()) - 8), offset, (int) (multiplier * scaledWidth), 6 + textRenderer.fontHeight + offset, 0x90000000);
+            textRenderer.draw(matrixStack, m.getName(), (int) (multiplier * scaledWidth - textRenderer.getWidth(m.getName()) - 2), 4 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
 
             count++;
         }
 
+        GL11.glScaled(multiplier, multiplier, 0);
     }
 }

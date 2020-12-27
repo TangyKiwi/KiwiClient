@@ -1,6 +1,8 @@
 package com.tangykiwi.kiwiclient.gui;
 
 import com.tangykiwi.kiwiclient.util.ColorUtil;
+import com.tangykiwi.kiwiclient.util.GlyphPage;
+import com.tangykiwi.kiwiclient.util.GlyphPageFontRenderer;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -16,6 +18,8 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Style;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
+
+import java.awt.*;
 
 public class MainMenu extends Screen {
 
@@ -34,7 +38,7 @@ public class MainMenu extends Screen {
         this.drawTexture(matrixStack, 0, 0, 0, 0, this.width, this.height);
         this.fillGradient(matrixStack, 0, this.height - 100, this.width, this.height, 0x00000000, 0xff000000);
 
-        Style CUSTOM_STYLE = Style.EMPTY.withFont(new Identifier("kiwiclient", "titillium"));
+        //Style CUSTOM_STYLE = Style.EMPTY.withFont(new Identifier("kiwiclient", "titillium"));
         TextRenderer textRenderer = this.client.textRenderer;
         int offset = 0;
         for(String b : BUTTONS) {
@@ -42,9 +46,25 @@ public class MainMenu extends Screen {
             float y = this.height - 20;
 
             boolean hovered = (mouseX >= x && mouseY >= y && mouseX < x + textRenderer.getWidth(b) && mouseY < y + textRenderer.fontHeight);
-            textRenderer.draw(matrixStack, new LiteralText(b).setStyle(CUSTOM_STYLE), offset * (this.width / BUTTONS.length) + (this.width / BUTTONS.length) / 3, this.height - 20, hovered ? ColorUtil.getRainbow(3, 0.8f, 1) : -1);
+            textRenderer.draw(matrixStack, b, offset * (this.width / BUTTONS.length) + (this.width / BUTTONS.length) / 3, this.height - 20, hovered ? ColorUtil.getRainbow(3, 0.8f, 1) : -1);
             offset++;
         }
+
+        /**
+        char[] chars = new char[256];
+
+        for(int i = 0; i < 256; i++) {
+            chars[i] = (char) i;
+        }
+
+        GlyphPage glyphPage = new GlyphPage(new Font("Arial", Font.PLAIN, 80), true, true);
+
+        glyphPage.generateGlyphPage(chars);
+        glyphPage.setupTexture();
+
+        GlyphPageFontRenderer glyphPageFontRenderer = new GlyphPageFontRenderer(glyphPage, glyphPage, glyphPage, glyphPage);
+        glyphPageFontRenderer.drawString("TEST", 70, 70, 1, false);
+         **/
 
         super.render(matrixStack, mouseX, mouseY, delta);
     }

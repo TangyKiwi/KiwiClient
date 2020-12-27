@@ -14,13 +14,15 @@ Fabric Utility Mod.
 
 - Fullbright
 - Fly
+- DiscordRPC
 
 ### TODO
 - Fix Speed
 - SchwongleClip (.vclip)
 - Miles'sTipoff (xray)
-- DiscordRPC
+- Inventory Viewer
 - Add Command system
+- HUD
 
 ## Disclaimer
 
