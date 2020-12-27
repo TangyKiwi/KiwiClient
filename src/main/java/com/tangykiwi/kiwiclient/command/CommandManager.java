@@ -26,15 +26,17 @@ public class CommandManager {
         String command = split[0];
         String args = input.substring(command.length()).trim();
         for (Command c : commandList) {
-            if (c.getAlias().equalsIgnoreCase(command)) {
-                try {
-                    c.onCommand(command, args.split(" "));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    mc.inGameHud.getChatHud().addMessage(new LiteralText("Invalid Syntax"));
-                    mc.inGameHud.getChatHud().addMessage(new LiteralText(c.getSyntax()));
+            for(String a : c.getAliases()) {
+                if (a.equalsIgnoreCase(command)) {
+                    try {
+                        c.onCommand(command, args.split(" "));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        mc.inGameHud.getChatHud().addMessage(new LiteralText("Invalid Syntax"));
+                        mc.inGameHud.getChatHud().addMessage(new LiteralText(c.getSyntax()));
+                    }
+                    return;
                 }
-                return;
             }
         }
         mc.inGameHud.getChatHud().addMessage(new LiteralText("Command Not Found"));

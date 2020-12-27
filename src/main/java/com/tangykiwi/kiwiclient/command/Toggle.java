@@ -7,8 +7,8 @@ import net.minecraft.text.LiteralText;
 public class Toggle extends Command {
 
     @Override
-    public String getAlias() {
-        return "toggle";
+    public String[] getAliases() {
+        return new String[]{"toggle", "t"};
     }
 
     @Override

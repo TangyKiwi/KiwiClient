@@ -8,8 +8,8 @@ package com.tangykiwi.kiwiclient.command;
 public class Say extends Command {
 
     @Override
-    public String getAlias() {
-        return "say";
+    public String[] getAliases() {
+        return new String[]{"say"};
     }
 
     @Override

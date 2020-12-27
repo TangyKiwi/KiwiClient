@@ -8,7 +8,7 @@ public abstract class Command {
 
     protected MinecraftClient mc = MinecraftClient.getInstance();
 
-    public abstract String getAlias();
+    public abstract String[] getAliases();
 
     public abstract String getDescription();
 
