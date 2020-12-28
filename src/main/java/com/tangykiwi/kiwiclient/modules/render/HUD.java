@@ -39,21 +39,23 @@ public class HUD extends Module {
 
     @Subscribe
     public void onDrawOverlay(DrawOverlayEvent e) {
-        // info.clear();
-        // // coords
-        // Boolean nether = mc.world.getRegistryKey().getValue().getPath().contains("nether");
-        // BlockPos pos = mc.player.getBlockPos();
-        // Vec3d vec = mc.player.getPos();
-        // BlockPos position = nether ? new BlockPos(vec.getX() * 8, vec.getY() * 8, vec.getZ() * 8) : new BlockPos(vec.getX() / 8, vec.getY() / 8, vec.getZ() / 8);
+        if(!mc.options.debugEnabled) {
+            // info.clear();
+            // // coords
+            // Boolean nether = mc.world.getRegistryKey().getValue().getPath().contains("nether");
+            // BlockPos pos = mc.player.getBlockPos();
+            // Vec3d vec = mc.player.getPos();
+            // BlockPos position = nether ? new BlockPos(vec.getX() * 8, vec.getY() * 8, vec.getZ() * 8) : new BlockPos(vec.getX() / 8, vec.getY() / 8, vec.getZ() / 8);
 
-        // // ip
-        // this.ip = mc.getCurrentServerEntry() == null ? "Singleplayer" : mc.getCurrentServerEntry().address;
-        // fps
-        this.fps = (mc.fpsDebugString.equals("")) ? 0 : Integer.parseInt(mc.fpsDebugString.replaceAll("[^\\d]", " ").trim().replaceAll(" +", " ").split(" ")[0]);
-        
-        // ping
-        // this.ping = playerEntry == null ? 0 : playerEntry.getLatency();
-        TextRenderer textRenderer = mc.textRenderer;
-        textRenderer.draw(e.matrix, String.format("FPS: %d", fps), 10, mc.getWindow().getScaledHeight() - 20, ColorUtil.getColorString(fps, 120, 60, 30, 15, 10));
+            // // ip
+            // this.ip = mc.getCurrentServerEntry() == null ? "Singleplayer" : mc.getCurrentServerEntry().address;
+            // fps
+            this.fps = (mc.fpsDebugString.equals("")) ? 0 : Integer.parseInt(mc.fpsDebugString.replaceAll("[^\\d]", " ").trim().replaceAll(" +", " ").split(" ")[0]);
+
+            // ping
+            // this.ping = playerEntry == null ? 0 : playerEntry.getLatency();
+            TextRenderer textRenderer = mc.textRenderer;
+            textRenderer.draw(e.matrix, String.format("FPS: %d", fps), 10, mc.getWindow().getScaledHeight() - 20, ColorUtil.getColorString(fps, 120, 60, 30, 15, 10));
+        }
     }
 }

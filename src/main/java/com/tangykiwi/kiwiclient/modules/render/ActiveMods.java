@@ -20,23 +20,25 @@ public class ActiveMods extends Module {
 
     @Subscribe
     public void onDrawOverlay(DrawOverlayEvent e) {
-        TextRenderer textRenderer = mc.textRenderer;
-        //Style CUSTOM_STYLE = Style.EMPTY.withFont(new Identifier("kiwiclient", "titillium"));
-        int scaledWidth = mc.getWindow().getScaledWidth();
-        int scaledHeight = mc.getWindow().getScaledHeight();
+        if(!mc.options.debugEnabled) {
+            TextRenderer textRenderer = mc.textRenderer;
+            //Style CUSTOM_STYLE = Style.EMPTY.withFont(new Identifier("kiwiclient", "titillium"));
+            int scaledWidth = mc.getWindow().getScaledWidth();
+            int scaledHeight = mc.getWindow().getScaledHeight();
 
-        int count = 0;
-        ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods();
-        DrawableHelper.fill(e.matrix, scaledWidth - textRenderer.getWidth(enabledMods.get(0).getName()) - 5, 0, scaledWidth, 2, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-        for(Module m : enabledMods) {
+            int count = 0;
+            ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods();
+            DrawableHelper.fill(e.matrix, scaledWidth - textRenderer.getWidth(enabledMods.get(0).getName()) - 5, 0, scaledWidth, 2, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+            for (Module m : enabledMods) {
 
-            int offset = count * (textRenderer.fontHeight + 1);
+                int offset = count * (textRenderer.fontHeight + 1);
 
-            DrawableHelper.fill(e.matrix, scaledWidth - textRenderer.getWidth(m.getName()) - 5, 2 + offset, scaledWidth - textRenderer.getWidth(m.getName()) - 3, 3 + textRenderer.fontHeight + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-            DrawableHelper.fill(e.matrix, scaledWidth - textRenderer.getWidth(m.getName()) - 3, 2 + offset, scaledWidth, 3 + textRenderer.fontHeight + offset, 0x90000000);
-            textRenderer.draw(e.matrix, m.getName(), scaledWidth - textRenderer.getWidth(m.getName()) - 1, 3 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                DrawableHelper.fill(e.matrix, scaledWidth - textRenderer.getWidth(m.getName()) - 5, 2 + offset, scaledWidth - textRenderer.getWidth(m.getName()) - 3, 3 + textRenderer.fontHeight + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                DrawableHelper.fill(e.matrix, scaledWidth - textRenderer.getWidth(m.getName()) - 3, 2 + offset, scaledWidth, 3 + textRenderer.fontHeight + offset, 0x90000000);
+                textRenderer.draw(e.matrix, m.getName(), scaledWidth - textRenderer.getWidth(m.getName()) - 1, 3 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
 
-            count++;
+                count++;
+            }
         }
     }
 }
