@@ -7,10 +7,12 @@
   ],
   "client": [
     "BookUpdateC2SPacketMixin",
+    "CapeFeatureRendererMixin",
     "ClientPlayerEntityMixin",
     "InGameHudMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
+    "PlayerListEntryMixin",
     "TitleScreenMixin"
   ],
   "injectors": {
