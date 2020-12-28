@@ -8,20 +8,29 @@ For setup instructions please see the [fabric wiki page](https://fabricmc.net/wi
 
 Fabric Utility Mod.
 
-"_First I quacc, then I hacc_"
+"_First I quacc, then I hacc._"
 
 ### Modules
 
-- Fullbright
-- Fly
-- DiscordRPC
+#### Movement
+- Fly ( z )
+- Speed ( ~ , currently does NOT work)
+  
+#### Render
+- Fullbright ( c )
+- ActiveMods (no bind, on by default)
+- DiscordRPC ("_You use the hacc, then proudly quacc._")
+
+### Commands
+- .say [message]
+- .toggle / .t [module]
+- .d
 
 ### TODO
 - Fix Speed
 - SchwongleClip (.vclip)
 - Miles'sTipoff (xray)
 - Inventory Viewer
-- Add Command system
 - HUD
 
 ## Disclaimer
@@ -31,3 +40,5 @@ For educational purposes only. Use at your own risk.
 ## License
 
 This mod is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+
+If you use any of the code, please keep your project open source!
