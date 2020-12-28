@@ -26,4 +26,16 @@ public class ColorUtil {
         return color.getRGB();
     }
 
+    /**
+     * Returns a color based on the range provided. 
+     */
+    public static Color getColorString(int value, int best, int good, int mid, int bad, int worst) {
+        if (value > best) {return Color.GREEN;} 
+        else if (value > good && value < best) {return Color.YELLOW;} 
+        else if (value > bad && value < good) {return new Color(255, 191, 0);}
+        else if (value > worst && value < bad) {return Color.ORANGE;} 
+        else if (value < worst) {return Color.RED;}
+        return Color.GRAY; // default color if range does not work
+    }
+
 }
