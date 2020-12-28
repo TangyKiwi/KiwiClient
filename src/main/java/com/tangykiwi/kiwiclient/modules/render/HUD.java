@@ -28,7 +28,6 @@ public class HUD extends Module {
     private int ping = 0;
     private String ip = "";
 
-    private TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
     // PlayerListEntry playerEntry = mc.player.networkHandler.getPlayerListEntry(mc.player.getGameProfile().getId());
     private MatrixStack matrixStack = new MatrixStack();
 
@@ -54,7 +53,7 @@ public class HUD extends Module {
         
         // ping
         // this.ping = playerEntry == null ? 0 : playerEntry.getLatency();
-        
-        textRenderer.draw(e.matrix, String.format("FPS:%d", fps), 10, mc.getWindow().getScaledHeight() - 20, ColorUtil.getColorString(fps, 120, 60, 30, 15, 10).getRGB());
+        TextRenderer textRenderer = mc.textRenderer;
+        textRenderer.draw(e.matrix, String.format("FPS: %d", fps), 10, mc.getWindow().getScaledHeight() - 20, ColorUtil.getColorString(fps, 120, 60, 30, 15, 10));
     }
 }

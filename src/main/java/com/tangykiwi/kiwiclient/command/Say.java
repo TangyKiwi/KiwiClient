@@ -19,7 +19,7 @@ public class Say extends Command {
 
     @Override
     public String getSyntax() {
-        return "say [message]";
+        return ".say [message]";
     }
 
     @Override

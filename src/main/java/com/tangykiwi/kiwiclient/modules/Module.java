@@ -69,4 +69,8 @@ public class Module {
             e.printStackTrace();
         }
     }
+
+    public void setKeyCode(int key) {
+        keyCode = key;
+    }
 }

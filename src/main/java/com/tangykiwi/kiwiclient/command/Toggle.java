@@ -18,11 +18,16 @@ public class Toggle extends Command {
 
     @Override
     public String getSyntax() {
-        return "toggle [Module]";
+        return ".toggle [Module]";
     }
 
     @Override
     public void onCommand(String command, String[] args) throws Exception {
+        if(args.length == 0) {
+            mc.inGameHud.getChatHud().addMessage(new LiteralText(getSyntax()));
+            return;
+        }
+
         for (Module m : ModuleManager.moduleList) {
             if (args[0].equalsIgnoreCase(m.getName())) {
                 m.toggle();
@@ -30,6 +35,7 @@ public class Toggle extends Command {
                 return;
             }
         }
+
         mc.inGameHud.getChatHud().addMessage(new LiteralText("Module \"" + args[0] + "\" Not Found!"));
     }
 }

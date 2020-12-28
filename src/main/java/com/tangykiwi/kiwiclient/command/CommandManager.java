@@ -12,8 +12,10 @@ public class CommandManager {
     public static MinecraftClient mc = MinecraftClient.getInstance();
 
     public void init() {
+        commandList.add(new Bind());
         commandList.add(new Say());
         commandList.add(new Toggle());
+        commandList.add(new Unbind());
     }
 
     public ArrayList<Command> getCommandList() {
@@ -32,7 +34,6 @@ public class CommandManager {
                         c.onCommand(command, args.split(" "));
                     } catch (Exception e) {
                         e.printStackTrace();
-                        mc.inGameHud.getChatHud().addMessage(new LiteralText("Invalid Syntax"));
                         mc.inGameHud.getChatHud().addMessage(new LiteralText(c.getSyntax()));
                     }
                     return;
