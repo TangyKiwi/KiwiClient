@@ -29,13 +29,14 @@ public class ColorUtil {
     /**
      * Returns a color based on the range provided. 
      */
-    public static int getColorString(int value, int best, int good, int mid, int bad, int worst) {
-        Color color = Color.GRAY;
-        if (value >= best) {color = Color.GREEN;}
-        else if (value >= good && value < best) {color = Color.YELLOW;}
-        else if (value >= bad && value < good) {color = new Color(255, 191, 0);}
-        else if (value >= worst && value < bad) {color = Color.ORANGE;}
-        else if (value < worst) {color = Color.RED;}
+    public static int getColorString(int value, int best, int good, int mid, int bad, int worst, Boolean reverse) {
+        Color color = Color.GRAY; // default
+        if (!reverse ? value > best : value < best) {color = Color.GREEN;}
+        else if (!reverse ? value > good : value < good) {color = Color.YELLOW;}
+        else if (!reverse ? value > mid : value < mid) {color = new Color(255, 191, 0);}
+        else if (!reverse ? value > bad : value < bad) {color = new Color(255, 191, 0);}
+        else if (!reverse ? value > worst : value < worst) {color = Color.ORANGE;}
+        else {color = Color.RED;}
         return (int) Long.parseLong(Integer.toHexString(color.getRGB()), 16);
     }
 
