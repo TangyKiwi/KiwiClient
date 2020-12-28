@@ -23,19 +23,16 @@ public class Toggle extends Command {
 
     @Override
     public void onCommand(String command, String[] args) throws Exception {
-        if(args.length == 0) {
-            mc.inGameHud.getChatHud().addMessage(new LiteralText(getSyntax()));
-            return;
-        }
-
-        for (Module m : ModuleManager.moduleList) {
-            if (args[0].equalsIgnoreCase(m.getName())) {
-                m.toggle();
-                mc.inGameHud.getChatHud().addMessage(new LiteralText("Toggled " + m.getName()));
-                return;
+        if(args.length >= 1) {
+            for (Module m : ModuleManager.moduleList) {
+                if (args[0].equalsIgnoreCase(m.getName())) {
+                    m.toggle();
+                    mc.inGameHud.getChatHud().addMessage(new LiteralText("Toggled " + m.getName()));
+                    return;
+                }
             }
+            mc.inGameHud.getChatHud().addMessage(new LiteralText("Module \"" + args[0] + "\" Not Found!"));
         }
-
-        mc.inGameHud.getChatHud().addMessage(new LiteralText("Module \"" + args[0] + "\" Not Found!"));
+        else mc.inGameHud.getChatHud().addMessage(new LiteralText(getSyntax()));
     }
 }

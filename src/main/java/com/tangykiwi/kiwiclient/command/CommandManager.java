@@ -14,6 +14,7 @@ public class CommandManager {
     public void init() {
         commandList.add(new Bind());
         commandList.add(new Say());
+        commandList.add(new SchwongleClip());
         commandList.add(new Toggle());
         commandList.add(new Unbind());
     }
