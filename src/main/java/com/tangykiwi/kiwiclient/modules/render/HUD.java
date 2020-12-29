@@ -2,7 +2,6 @@ package com.tangykiwi.kiwiclient.modules.render;
 
 import com.google.common.eventbus.Subscribe;
 
-import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
@@ -59,7 +58,8 @@ public class HUD extends Module {
 
             textRenderer.draw(e.matrix, "X: " + (int) vec.x + " Y: " + (int) vec.y + " Z: " + (int) vec.z, 2, mc.getWindow().getScaledHeight() - 10, 0x55FF55);
             textRenderer.draw(e.matrix, String.format("Ping: %d", ping), 2, mc.getWindow().getScaledHeight() - 40, ColorUtil.getColorString(ping, 75, 180, 300, 500, 1000, true));
-            textRenderer.draw(e.matrix, KiwiClient.name + " v" + KiwiClient.version, 2, mc.getWindow().getScaledHeight() - 20, 0xFFAA00);
+            textRenderer.draw(e.matrix, "KiwiClient 1.0.0", 2, mc.getWindow().getScaledHeight() - 20, ColorUtil.getColorString(ping, 75, 180, 300, 500, 1000, true));
+
         }
     }
 }
