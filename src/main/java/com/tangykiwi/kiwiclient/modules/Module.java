@@ -20,8 +20,6 @@ public class Module {
     private String description;
     private int keyCode;
     private boolean enabled = false;
-
-
     private List<Settings> settings = new ArrayList<>();
 
     public Module(String name, String description, int keyCode, Category category) {
@@ -89,6 +87,8 @@ public class Module {
     public void setKeyCode(int key) {
         keyCode = key;
     }
+
+    public void setToggled(boolean toggle) {enabled = toggle;}
 
     public List<Settings> getSettings() {
         return this.settings;

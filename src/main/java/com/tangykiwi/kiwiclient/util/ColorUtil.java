@@ -40,4 +40,8 @@ public class ColorUtil {
         return (int) Long.parseLong(Integer.toHexString(color.getRGB()), 16);
     }
 
+    public static int guiColour() {
+        return (0xff << 24) | ((85 & 0xff) << 16) | ((85 & 0xff) << 8) | (255 & 0xff);
+    }
+
 }

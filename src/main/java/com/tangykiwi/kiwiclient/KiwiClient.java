@@ -5,6 +5,7 @@ import com.google.common.eventbus.EventBus;
 import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.gui.BrewingStandBlockEntityRenderer;
 import com.tangykiwi.kiwiclient.modules.ModuleManager;
+import com.tangykiwi.kiwiclient.modules.render.ClickGui;
 import com.tangykiwi.kiwiclient.util.DiscordRP;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
@@ -41,6 +42,8 @@ public class KiwiClient implements ModInitializer {
         discordRPC.start();
 
         eventBus.register(moduleManager);
+
+        ClickGui.clickGui.initWindows();
 
         BlockEntityRendererRegistry.INSTANCE.register(BlockEntityType.BREWING_STAND, BrewingStandBlockEntityRenderer::new);
 

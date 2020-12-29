@@ -25,6 +25,7 @@ public class ModuleManager {
         moduleList.add(new FullBright());
         moduleList.add(new HUD());
         moduleList.add(new ActiveMods());
+        moduleList.add(new ClickGui());
     }
 
     public ArrayList<Module> getEnabledMods() {
@@ -38,7 +39,7 @@ public class ModuleManager {
         return enabledMods;
     }
 
-    public Module getModule(Class<? extends Module> c) {
+    public static Module getModule(Class<? extends Module> c) {
         for (Module m : moduleList) {
             if (m.getClass().equals(c)) {
                 return m;
@@ -56,8 +57,12 @@ public class ModuleManager {
         return null;
     }
 
-    public ArrayList<Module> getModulesInCat(Category cat) {
-        return (ArrayList<Module>) moduleList.stream().filter(m -> m.getCategory().equals(cat)).collect(Collectors.toList());
+    public static ArrayList<Module> getModulesInCat(Category cat) {
+        ArrayList<Module> modulesInCat = new ArrayList<Module>();
+        for(Module m : moduleList) {
+            if(m.getCategory().equals(cat)) modulesInCat.add(m);
+        }
+        return modulesInCat;
     }
 
     public static class ModuleComparator implements Comparator<Module> {
