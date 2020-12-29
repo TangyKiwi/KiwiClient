@@ -37,6 +37,10 @@ Fabric Utility Mod.
 - Inventory Viewer
 - HUD (in progress)
 
+## Usage
+- Requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files) to launch
+- Make sure all mods/binaries are placed in the mods folder. If it doesn't exist, create the folder.
+
 ## Disclaimer
 
 For educational purposes only. Use at your own risk.
