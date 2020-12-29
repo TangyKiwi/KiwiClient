@@ -34,8 +34,8 @@ public class MainMenu extends Screen {
 
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {
         TextureManager textureManager = this.client.getTextureManager();
-        textureManager.bindTexture(new Identifier("kiwiclient:background.jpg"));
-        this.drawTexture(matrixStack, 0, 0, 0, 0, this.width, this.height);
+        textureManager.bindTexture(new Identifier("kiwiclient:background1.jpg"));
+        this.drawTexture(matrixStack, 0, 0, 0, 0, this.width, this.height, this.width, this.height);
         this.fillGradient(matrixStack, 0, this.height - 100, this.width, this.height, 0x00000000, 0xff000000);
 
         //Style CUSTOM_STYLE = Style.EMPTY.withFont(new Identifier("kiwiclient", "titillium"));
