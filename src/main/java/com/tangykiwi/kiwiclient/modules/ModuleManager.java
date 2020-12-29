@@ -21,6 +21,7 @@ public class ModuleManager {
 
     public void init() {
         moduleList.add(new Fly());
+        moduleList.add(new NoClip());
         moduleList.add(new Speed());
         moduleList.add(new FullBright());
         moduleList.add(new HUD());

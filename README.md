@@ -15,23 +15,27 @@ Fabric Utility Mod.
 #### Movement
 - Fly ( z )
 - Speed ( ~ , currently does NOT work)
+- NoClip ( n , only allows you to go up to escape suffocation)
   
 #### Render
 - Fullbright ( c )
 - ActiveMods (no bind, on by default)
+- HUD ( h )  
 - DiscordRPC ("_You use the hacc, then proudly quacc._")
 
 ### Commands
+- .bind [module] [key]
 - .say [message]
+- .schwongleclip / .vclip [blocks]  
 - .toggle / .t [module]
+- .unbind [module]  
 - .d
 
 ### TODO
 - Fix Speed
-- SchwongleClip (.vclip)
 - Miles'sTipoff (xray)
 - Inventory Viewer
-- HUD
+- HUD (in progress)
 
 ## Disclaimer
 
