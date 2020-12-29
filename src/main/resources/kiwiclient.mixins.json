@@ -8,6 +8,7 @@
   "client": [
     "AbstractBlockStateMixin",
     "BookUpdateC2SPacketMixin",
+    "BrewingStandBlockEntityMixin",
     "CapeFeatureRendererMixin",
     "ChunkOcclusionDataBuilderMixin",
     "ClientPlayerEntityMixin",
