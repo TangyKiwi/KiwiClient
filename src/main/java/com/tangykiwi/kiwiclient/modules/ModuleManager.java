@@ -35,6 +35,8 @@ public class ModuleManager {
             if(m.isEnabled()) enabledMods.add(m);
         }
 
+        enabledMods.add(moduleList.get(6));
+
         Collections.sort(enabledMods, new ModuleComparator());
         return enabledMods;
     }

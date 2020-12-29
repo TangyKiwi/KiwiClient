@@ -8,9 +8,9 @@ public abstract class Settings {
     
     protected String description = "";
 
-    public SettingToggle asToggle() {
+    public ToggleSetting asToggle() {
         try {
-            return (SettingToggle) this;
+            return (ToggleSetting) this;
         } catch (Exception e) {
             throw new ClassCastException("Exception parsing setting: " + this);
         }

@@ -84,7 +84,7 @@ public class Window {
             GL11.glPushMatrix();
             GL11.glScaled(0.55, 0.55, 1);
             DiffuseLighting.enableGuiDepthLighting();
-            MinecraftClient.getInstance().getItemRenderer().renderGuiItemIcon(icon, (int) ((x1 + 3) * 1 / 0.55), (int) ((y1 + 3) * 1 / 0.55));
+            MinecraftClient.getInstance().getItemRenderer().renderGuiItemIcon(icon, (int) ((x1 + 3) / 0.55), (int) ((y1 + 2) / 0.55));
             DiffuseLighting.disableGuiDepthLighting();
             GL11.glPopMatrix();
         }
