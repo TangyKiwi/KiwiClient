@@ -2,6 +2,9 @@ package com.tangykiwi.kiwiclient.modules.render;
 
 import com.google.common.eventbus.Subscribe;
 
+import com.tangykiwi.kiwiclient.modules.settings.SettingToggle;
+import com.tangykiwi.kiwiclient.modules.settings.Settings;
+
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.Category;
@@ -33,7 +36,11 @@ public class HUD extends Module {
     public List<String> info = new ArrayList<>();
     
     public HUD() {
-        super("HUD", "Shows info as an overlay", GLFW.GLFW_KEY_H, Category.RENDER);
+        super("HUD", "Shows info as an overlay", GLFW.GLFW_KEY_H, Category.RENDER,
+            new SettingToggle("FPS", true).withDesc("Shows FPS"),
+            new SettingToggle("Ping", true).withDesc("Shows Ping"),
+            new SettingToggle("Coords", true).withDesc("Shows Player Position")
+        );
     }
     
     @Subscribe
@@ -48,7 +55,7 @@ public class HUD extends Module {
             // BlockPos position = nether ? new BlockPos(vec.getX() * 8, vec.getY() * 8, vec.getZ() * 8) : new BlockPos(vec.getX() / 8, vec.getY() / 8, vec.getZ() / 8);
             
             // ip
-            // this.ip = mc.getCurrentServerEntry() == null ? "Singleplayer" : mc.getCurrentServerEntry().address;
+            this.ip = mc.getCurrentServerEntry() == null ? "Singleplayer" : mc.getCurrentServerEntry().address;
             // fps
             this.fps = (mc.fpsDebugString.equals("")) ? 0 : Integer.parseInt(mc.fpsDebugString.replaceAll("[^\\d]", " ").trim().replaceAll(" +", " ").split(" ")[0]);
             textRenderer.draw(e.matrix, String.format("FPS: %d", fps), 10, mc.getWindow().getScaledHeight() - 20, ColorUtil.getColorString(fps, 80, 60, 30, 15, 10, false));

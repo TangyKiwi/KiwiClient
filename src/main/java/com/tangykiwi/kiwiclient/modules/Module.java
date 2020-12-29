@@ -6,22 +6,38 @@ import net.minecraft.client.MinecraftClient;
 
 import java.lang.reflect.Method;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import com.tangykiwi.kiwiclient.modules.settings.Settings;
+
 public class Module {
 
     public final static int KEY_UNBOUND = -2;
+    public final MinecraftClient mc = MinecraftClient.getInstance();
     private String name;
     private Category category;
     private String description;
     private int keyCode;
     private boolean enabled = false;
 
-    public MinecraftClient mc = MinecraftClient.getInstance();
+
+    private List<Settings> settings = new ArrayList<>();
 
     public Module(String name, String description, int keyCode, Category category) {
         this.name = name;
         this.description = description;
         this.keyCode = keyCode;
         this.category = category;
+    }
+
+    public Module(String name, String description, int keyCode, Category category, Settings... s) {
+        // new Module(name, description, keyCode, category);
+        this.name = name;
+        this.description = description;
+        this.keyCode = keyCode;
+        this.category = category;
+        settings = new ArrayList<>(Arrays.asList(s));
     }
 
     public String getName() {
@@ -72,5 +88,13 @@ public class Module {
 
     public void setKeyCode(int key) {
         keyCode = key;
+    }
+
+    public List<Settings> getSettings() {
+        return this.settings;
+    }
+
+    public Settings getSetting(int setting) {
+        return settings.get(setting);
     }
 }
