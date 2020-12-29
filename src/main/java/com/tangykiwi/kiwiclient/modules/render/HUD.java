@@ -53,18 +53,16 @@ public class HUD extends Module {
             // this.ip = mc.getCurrentServerEntry() == null ? "Singleplayer" : mc.getCurrentServerEntry().address;
             // fps
             this.fps = (mc.fpsDebugString.equals("")) ? 0 : Integer.parseInt(mc.fpsDebugString.replaceAll("[^\\d]", " ").trim().replaceAll(" +", " ").split(" ")[0]);
-            textRenderer.draw(e.matrix, String.format("FPS: %d", fps), 10, mc.getWindow().getScaledHeight() - 30, ColorUtil.getColorString(fps, 80, 60, 30, 15, 10, false));
+            textRenderer.draw(e.matrix, String.format("FPS: %d", fps), 2, mc.getWindow().getScaledHeight() - 30, ColorUtil.getColorString(fps, 80, 60, 30, 15, 10, false));
 
 
             // ping
             PlayerListEntry playerEntry = mc.player.networkHandler.getPlayerListEntry(mc.player.getGameProfile().getId());
             this.ping = playerEntry == null ? 0 : playerEntry.getLatency();
-
-
-            textRenderer.draw(e.matrix, "X: " + (int) vec.x + " Y: " + (int) vec.y + " Z: " + (int) vec.z, 10, mc.getWindow().getScaledHeight() - 10, 0x55FF55);
-            textRenderer.draw(e.matrix, String.format("Ping: %d", ping), 10, mc.getWindow().getScaledHeight() - 40, ColorUtil.getColorString(ping, 75, 180, 300, 500, 1000, true));
-            textRenderer.draw(e.matrix, KiwiClient.name + " v" + KiwiClient.version, 10, mc.getWindow().getScaledHeight() - 20, 0xFFAA00);
-
+            
+            textRenderer.draw(e.matrix, "X: " + (int) vec.x + " Y: " + (int) vec.y + " Z: " + (int) vec.z, 2, mc.getWindow().getScaledHeight() - 10, 0x55FF55);
+            textRenderer.draw(e.matrix, String.format("Ping: %d", ping), 2, mc.getWindow().getScaledHeight() - 40, ColorUtil.getColorString(ping, 75, 180, 300, 500, 1000, true));
+            textRenderer.draw(e.matrix, KiwiClient.name + " v" + KiwiClient.version, 2, mc.getWindow().getScaledHeight() - 20, 0xFFAA00);
         }
     }
 }
