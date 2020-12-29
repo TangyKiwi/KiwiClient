@@ -57,6 +57,7 @@ public class HUD extends Module {
             PlayerListEntry playerEntry = mc.player.networkHandler.getPlayerListEntry(mc.player.getGameProfile().getId());
             this.ping = playerEntry == null ? 0 : playerEntry.getLatency();
             textRenderer.draw(e.matrix, String.format("Ping: %d", ping), 10, mc.getWindow().getScaledHeight() - 40, ColorUtil.getColorString(ping, 75, 180, 300, 500, 1000, true));
+            textRenderer.draw(e.matrix, String.format("KiwiClient"), 10, mc.getWindow().getScaledHeight() - 10, ColorUtil.getColorString(ping, 75, 180, 300, 500, 1000, true));
 
         }
     }

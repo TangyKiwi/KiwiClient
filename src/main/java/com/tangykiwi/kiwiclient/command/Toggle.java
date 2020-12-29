@@ -25,8 +25,10 @@ public class Toggle extends Command {
     public void onCommand(String command, String[] args) throws Exception {
         if(args.length == 0) {
             mc.inGameHud.getChatHud().addMessage(new LiteralText(getSyntax()));
+
             return;
         }
+
 
         for (Module m : ModuleManager.moduleList) {
             if (args[0].equalsIgnoreCase(m.getName())) {
@@ -35,6 +37,8 @@ public class Toggle extends Command {
                 return;
             }
         }
+
+
 
         mc.inGameHud.getChatHud().addMessage(new LiteralText("Module \"" + args[0] + "\" Not Found!"));
     }
