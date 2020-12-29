@@ -25,6 +25,7 @@ public class HUD extends Module {
     private long timer = 0;
     private int ping = 0;
     private String ip = "";
+    private float speed;
 
     private MatrixStack matrixStack = new MatrixStack();
     
@@ -50,24 +51,25 @@ public class HUD extends Module {
                 altx = vec.x * 8;
                 altz = vec.z * 8;
             }
+            //speed = mc.player.getSpeed();
 
             // ip
             // this.ip = mc.getCurrentServerEntry() == null ? "Singleplayer" : mc.getCurrentServerEntry().address;
             // fps
             this.fps = (mc.fpsDebugString.equals("")) ? 0 : Integer.parseInt(mc.fpsDebugString.replaceAll("[^\\d]", " ").trim().replaceAll(" +", " ").split(" ")[0]);
-            textRenderer.draw(e.matrix, String.format("FPS: %d", fps), 2, mc.getWindow().getScaledHeight() - 40, ColorUtil.getColorString(fps, 80, 60, 30, 15, 10, false));
+            textRenderer.draw(e.matrix, String.format("FPS: %d", fps), 2, mc.getWindow().getScaledHeight() - 40, 0xFFAA00);
 
 
             // ping
             PlayerListEntry playerEntry = mc.player.networkHandler.getPlayerListEntry(mc.player.getGameProfile().getId());
             this.ping = playerEntry == null ? 0 : playerEntry.getLatency();
 
-            textRenderer.draw(e.matrix, String.format("X: %.1f Y: %.1f Z: %.1f", vec.x, vec.y, vec.z), 2, mc.getWindow().getScaledHeight() - 20, 0x55FF55);
-            if(nether) {textRenderer.draw(e.matrix, String.format("(Overworld) X: %.1f Y: %.1f Z: %.1f", altx, vec.y, altz), 2, mc.getWindow().getScaledHeight() - 10, 0x55FF55); }
-            else textRenderer.draw(e.matrix, String.format("(Nether) X: %.1f Y: %.1f Z: %.1f", altx, vec.y, altz), 2, mc.getWindow().getScaledHeight() - 10, 0x55FF55);
-            textRenderer.draw(e.matrix, String.format("Ping: %d", ping), 2, mc.getWindow().getScaledHeight() - 50, ColorUtil.getColorString(ping, 75, 180, 300, 500, 1000, true));
+            textRenderer.draw(e.matrix, String.format("X: %.1f Y: %.1f Z: %.1f", vec.x, vec.y, vec.z), 2, mc.getWindow().getScaledHeight() - 20, 0xFFAA00);
+            if(nether) {textRenderer.draw(e.matrix, String.format("(Overworld) X: %.1f Y: %.1f Z: %.1f", altx, vec.y, altz), 2, mc.getWindow().getScaledHeight() - 10, 0xFFAA00); }
+            else textRenderer.draw(e.matrix, String.format("(Nether) X: %.1f Y: %.1f Z: %.1f", altx, vec.y, altz), 2, mc.getWindow().getScaledHeight() - 10, 0xFFAA00);
+            textRenderer.draw(e.matrix, String.format("Ping: %d", ping), 2, mc.getWindow().getScaledHeight() - 50, 0xFFAA00);
             textRenderer.draw(e.matrix, KiwiClient.name + " v" + KiwiClient.version, 2, mc.getWindow().getScaledHeight() - 30, 0xFFAA00);
-
+            //textRenderer.draw(e.matrix, "Speed: " + String.format("%.x2", speed), 2, mc.getWindow().getScaledHeight() - 50, 0xFFAA00);
         }
     }
 }
