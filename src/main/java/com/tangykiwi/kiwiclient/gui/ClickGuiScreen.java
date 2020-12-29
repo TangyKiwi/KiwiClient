@@ -49,7 +49,7 @@ public class ClickGuiScreen extends AbstractWindowScreen {
 
         int i = 10;
         windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.PLAYER), i, 35, len,
-                StringUtils.capitalize(StringUtils.lowerCase(Category.PLAYER.toString())), new ItemStack(Items.ARMOR_STAND)));
+                StringUtils.capitalize(StringUtils.lowerCase(Category.PLAYER.toString())), new ItemStack(Items.PLAYER_HEAD)));
         i += len + 5;
         windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.COMBAT), i, 35, len,
                 StringUtils.capitalize(StringUtils.lowerCase(Category.COMBAT.toString())), new ItemStack(Items.DIAMOND_SWORD)));
