@@ -1,6 +1,10 @@
 package com.tangykiwi.kiwiclient.command;
 
+import com.google.common.eventbus.Subscribe;
+import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.LiteralText;
 
 import java.util.ArrayList;

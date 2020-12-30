@@ -1,10 +1,12 @@
 package com.tangykiwi.kiwiclient.command;
 
 import net.minecraft.client.MinecraftClient;
+import org.lwjgl.glfw.GLFW;
 
 public abstract class Command {
 
     public static String PREFIX = ".";
+    public static int KEY = GLFW.GLFW_KEY_PERIOD;
 
     protected MinecraftClient mc = MinecraftClient.getInstance();
 

@@ -86,8 +86,7 @@ public class ModuleManager {
 
     @Subscribe
     public static void handleKeyPress(KeyPressEvent e) {
-        if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3))
-            return;
+        if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) return;
 
         for(Module m : moduleList) {
             if(m.getKeyCode() == e.getKeyCode()) m.toggle();
