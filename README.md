@@ -12,15 +12,20 @@ Fabric Utility Mod.
 
 ### Modules
 
+#### Combat
+- TriggerBot ( x )
+
 #### Movement
 - Fly ( z )
+- FastBridge ( g )  
 - Speed ( ~ , currently does NOT work)
 - NoClip ( n , only allows you to go up to escape suffocation)
   
 #### Render
 - Fullbright ( c )
 - ActiveMods (no bind, on by default)
-- HUD ( h )  
+- HUD ( h )
+- BetterBrewingStands (no bind)  
 - DiscordRPC ("_You use the hacc, then proudly quacc._")
 
 ### Commands
@@ -36,6 +41,8 @@ Fabric Utility Mod.
 - Miles'sTipoff (xray)
 - Inventory Viewer
 - HUD (in progress)
+- Setting system (in progress)  
+- Config system
 
 ## Usage
 - Requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files) to launch

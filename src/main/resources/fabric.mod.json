@@ -1,12 +1,14 @@
 {
   "schemaVersion": 1,
   "id": "kiwiclient",
-  "version": "1.6.12",
+  "version": "1.6.15",
 
   "name": "KiwiClient",
   "description": "Experimental MC Client Mod",
   "authors": [
-    "TangyKiwi"
+    "TangyKiwi",
+    "nzeng8 (Nicholas Zeng)",
+    "TheEpicProgrammer (Alex)"
   ],
   "contact": {
     "homepage": "",
