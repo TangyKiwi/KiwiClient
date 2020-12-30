@@ -7,6 +7,8 @@ import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.event.OnMoveEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.mixininterface.IClientPlayerEntity;
+import com.tangykiwi.kiwiclient.modules.movement.FastBridge;
+import com.tangykiwi.kiwiclient.modules.movement.SafeWalk;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -79,5 +81,10 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implemen
     public void setNoClip(boolean noClip)
     {
         this.noClip = noClip;
+    }
+
+    @Override
+    protected boolean clipAtLedge() {
+        return super.clipAtLedge() || KiwiClient.moduleManager.getModule(SafeWalk.class).isEnabled();
     }
 }

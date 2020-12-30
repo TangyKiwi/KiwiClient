@@ -19,6 +19,7 @@ public class ModuleManager {
     public static MinecraftClient mc = MinecraftClient.getInstance();
 
     public void init() {
+        moduleList.add(new FastBridge());
         moduleList.add(new Fly());
         moduleList.add(new NoClip());
         moduleList.add(new Speed());
@@ -26,6 +27,7 @@ public class ModuleManager {
         moduleList.add(new HUD());
         moduleList.add(new ActiveMods());
         moduleList.add(new ClickGui());
+        moduleList.add(new SafeWalk());
     }
 
     public ArrayList<Module> getEnabledMods() {
@@ -35,7 +37,7 @@ public class ModuleManager {
             if(m.isEnabled()) enabledMods.add(m);
         }
 
-        enabledMods.add(moduleList.get(6));
+        enabledMods.add(getModule(ClickGui.class));
 
         Collections.sort(enabledMods, new ModuleComparator());
         return enabledMods;
