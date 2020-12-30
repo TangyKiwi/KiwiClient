@@ -29,6 +29,7 @@ public class ModuleManager {
         moduleList.add(new ClickGui());
         moduleList.add(new SafeWalk());
         moduleList.add(new TriggerBot());
+        moduleList.add(new BetterBrewingStands());
     }
 
     public ArrayList<Module> getEnabledMods() {

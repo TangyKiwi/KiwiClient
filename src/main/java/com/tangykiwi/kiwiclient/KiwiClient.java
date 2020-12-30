@@ -5,6 +5,7 @@ import com.google.common.eventbus.EventBus;
 import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.gui.BrewingStandBlockEntityRenderer;
 import com.tangykiwi.kiwiclient.modules.ModuleManager;
+import com.tangykiwi.kiwiclient.modules.render.BetterBrewingStands;
 import com.tangykiwi.kiwiclient.modules.render.ClickGui;
 import com.tangykiwi.kiwiclient.util.DiscordRP;
 import net.fabricmc.api.ModInitializer;
@@ -48,7 +49,8 @@ public class KiwiClient implements ModInitializer {
         BlockEntityRendererRegistry.INSTANCE.register(BlockEntityType.BREWING_STAND, BrewingStandBlockEntityRenderer::new);
 
         ClientSidePacketRegistryImpl.INSTANCE.register(POTION_BOTTLES,
-                (packetContext, attachedData) -> {
+            (packetContext, attachedData) -> {
+                if(moduleManager.getModule(BetterBrewingStands.class).isEnabled()) {
                     BlockPos pos = attachedData.readBlockPos();
                     DefaultedList<ItemStack> inv = DefaultedList.ofSize(5, ItemStack.EMPTY);
                     for (int i = 0; i < 4; i++) {
@@ -56,12 +58,13 @@ public class KiwiClient implements ModInitializer {
                     }
                     packetContext.getTaskQueue().execute(() -> {
                         BrewingStandBlockEntity blockEntity = (BrewingStandBlockEntity) MinecraftClient.getInstance().world.getBlockEntity(pos);
-                        blockEntity.setStack(0,inv.get(0));
-                        blockEntity.setStack(1,inv.get(1));
-                        blockEntity.setStack(2,inv.get(2));
-                        blockEntity.setStack(3,inv.get(3));
-                        blockEntity.setStack(4,inv.get(4));
+                        blockEntity.setStack(0, inv.get(0));
+                        blockEntity.setStack(1, inv.get(1));
+                        blockEntity.setStack(2, inv.get(2));
+                        blockEntity.setStack(3, inv.get(3));
+                        blockEntity.setStack(4, inv.get(4));
                     });
-                });
+                }
+            });
     }
 }
