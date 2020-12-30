@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class HUD extends Module {
-    
+
+
     private double tps = 20;
     private double bps = 0;
     private int fps = 0;

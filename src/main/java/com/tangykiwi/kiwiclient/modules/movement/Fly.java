@@ -17,6 +17,7 @@ public class Fly extends Module {
     public void onTick(TickEvent e) {
         mc.player.abilities.allowFlying = true;
         mc.player.abilities.flying = true;
+        mc.player.abilities.setFlySpeed();
     }
 
     @Override
