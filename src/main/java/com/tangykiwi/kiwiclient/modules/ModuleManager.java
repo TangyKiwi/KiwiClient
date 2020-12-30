@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.modules;
 
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
+import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
 import com.tangykiwi.kiwiclient.modules.render.*;
 import net.minecraft.client.MinecraftClient;
@@ -11,7 +12,6 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.stream.Collectors;
 
 public class ModuleManager {
 
@@ -28,6 +28,7 @@ public class ModuleManager {
         moduleList.add(new ActiveMods());
         moduleList.add(new ClickGui());
         moduleList.add(new SafeWalk());
+        moduleList.add(new TriggerBot());
     }
 
     public ArrayList<Module> getEnabledMods() {
