@@ -1,11 +1,14 @@
 package com.tangykiwi.kiwiclient.modules;
 
 import com.google.common.eventbus.Subscribe;
+import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
 import com.tangykiwi.kiwiclient.modules.render.*;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.input.Input;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
@@ -87,6 +90,11 @@ public class ModuleManager {
     @Subscribe
     public static void handleKeyPress(KeyPressEvent e) {
         if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) return;
+
+        if(InputUtil.isKeyPressed(mc.getWindow().getHandle(), Command.KEY)) {
+            mc.openScreen(new ChatScreen(""));
+            return;
+        }
 
         for(Module m : moduleList) {
             if(m.getKeyCode() == e.getKeyCode()) m.toggle();

@@ -19,4 +19,10 @@ public class FastBridge extends Module {
         Vec3d pos = mc.player.getPos();
         mc.options.keySneak.setPressed(mc.world.getBlockState(new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ())).isAir());
     }
+
+    @Override
+    public void onDisable() {
+        mc.options.keySneak.setPressed(false);
+        super.onDisable();
+    }
 }
