@@ -1,5 +1,11 @@
 package com.tangykiwi.kiwiclient.util;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.util.math.MatrixStack;
+
 import java.awt.Color;
 import java.util.Random;
 
@@ -24,6 +30,34 @@ public class ColorUtil {
         float b = rng.nextFloat();
         Color color = new Color(r, g, b);
         return color.getRGB();
+    }
+
+    public static void fillGradient(MatrixStack matrixStack, int xStart, int yStart, int xEnd, int yEnd, int colorStart, int colorEnd) {
+        RenderSystem.disableTexture();
+        RenderSystem.enableBlend();
+        RenderSystem.disableAlphaTest();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.shadeModel(7425);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+        bufferBuilder.begin(7, VertexFormats.POSITION_COLOR);
+        float f = (float)(colorStart >> 24 & 255) / 255.0F;
+        float g = (float)(colorStart >> 16 & 255) / 255.0F;
+        float h = (float)(colorStart >> 8 & 255) / 255.0F;
+        float i = (float)(colorStart & 255) / 255.0F;
+        float j = (float)(colorEnd >> 24 & 255) / 255.0F;
+        float k = (float)(colorEnd >> 16 & 255) / 255.0F;
+        float l = (float)(colorEnd >> 8 & 255) / 255.0F;
+        float m = (float)(colorEnd & 255) / 255.0F;
+        bufferBuilder.vertex(matrixStack.peek().getModel(), (float)xEnd, (float)yStart, (float)0).color(g, h, i, f).next();
+        bufferBuilder.vertex(matrixStack.peek().getModel(), (float)xStart, (float)yStart, (float)0).color(g, h, i, f).next();
+        bufferBuilder.vertex(matrixStack.peek().getModel(), (float)xStart, (float)yEnd, (float)0).color(k, l, m, j).next();
+        bufferBuilder.vertex(matrixStack.peek().getModel(), (float)xEnd, (float)yEnd, (float)0).color(k, l, m, j).next();
+        tessellator.draw();
+        RenderSystem.shadeModel(7424);
+        RenderSystem.disableBlend();
+        RenderSystem.enableAlphaTest();
+        RenderSystem.enableTexture();
     }
 
     /**

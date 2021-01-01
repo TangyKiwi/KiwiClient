@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.command;
 
+import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import net.minecraft.client.MinecraftClient;
@@ -7,8 +8,7 @@ import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.LiteralText;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class CommandManager {
 
@@ -25,6 +25,18 @@ public class CommandManager {
 
     public ArrayList<Command> getCommandList() {
         return commandList;
+    }
+
+    public Collection<String> getCommands() {
+        List<String> result = Lists.newArrayList();
+        for(Command c : commandList) {
+            for(String alias : c.getAliases()) {
+                result.add(alias);
+            }
+        }
+
+        Collections.sort(result);
+        return result;
     }
 
     public static void callCommand(String input) {

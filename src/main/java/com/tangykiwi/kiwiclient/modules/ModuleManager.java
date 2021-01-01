@@ -5,6 +5,7 @@ import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
+import com.tangykiwi.kiwiclient.modules.player.InventoryViewer;
 import com.tangykiwi.kiwiclient.modules.render.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
@@ -33,6 +34,7 @@ public class ModuleManager {
         moduleList.add(new SafeWalk());
         moduleList.add(new TriggerBot());
         moduleList.add(new BetterBrewingStands());
+        moduleList.add(new InventoryViewer());
     }
 
     public ArrayList<Module> getEnabledMods() {
