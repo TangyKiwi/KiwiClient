@@ -24,17 +24,6 @@ public class InventoryViewer extends Module {
 
     @Subscribe
     public void onDrawOverlay(DrawOverlayEvent e) {
-        TextureManager textureManager = mc.getTextureManager();
-        textureManager.bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE);
-        textureManager.getTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).setFilter(false, false);
-
-        RenderSystem.enableRescaleNormal();
-        RenderSystem.enableAlphaTest();
-        RenderSystem.defaultAlphaFunc();
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-        RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
-
         ItemRenderer itemRenderer = mc.getItemRenderer();
         ClientPlayerEntity player = mc.player;
 
@@ -57,8 +46,5 @@ public class InventoryViewer extends Module {
                 }
             }
         }
-
-        RenderSystem.disableAlphaTest();
-        RenderSystem.disableRescaleNormal();
     }
 }
