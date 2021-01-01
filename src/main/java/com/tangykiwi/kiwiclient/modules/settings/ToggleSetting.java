@@ -38,10 +38,10 @@ public class ToggleSetting extends Settings {
         return this;
     }
 
-    public ToggleSetting withRange(int best, int good, int mid, int bad, int worst, Boolean reverse) {
-        color = ColorUtil.getColorString(Integer.parseInt(value), best, good, mid, bad, worst, reverse);
-        return this;
-    }
+    // public ToggleSetting withRange(int best, int good, int mid, int bad, int worst, Boolean reverse) {
+    //     color = ColorUtil.getColorString(Integer.parseInt(value), best, good, mid, bad, worst, reverse);
+    //     return this;
+    // }
 
     public int getHeight(int len) {
         int h = 12;
