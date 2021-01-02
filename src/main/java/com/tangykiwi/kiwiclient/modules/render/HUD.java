@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.modules.render;
 import com.google.common.eventbus.Subscribe;
 
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
+import com.tangykiwi.kiwiclient.modules.settings.Settings;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.Module;
@@ -17,6 +18,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HUD extends Module {
     
@@ -29,6 +31,8 @@ public class HUD extends Module {
     private String ip = "";
     private float speed;
 
+    private int defaultColor = 0xFFAA00;
+
     private MatrixStack matrixStack = new MatrixStack();
     
     public List<String> info = new ArrayList<>();
@@ -39,6 +43,7 @@ public class HUD extends Module {
             new ToggleSetting("FPS", true).withDesc("Shows FPS"),
             new ToggleSetting("Ping", true).withDesc("Shows Ping"),
             new ToggleSetting("Coords", true).withDesc("Shows Player Position"),
+            new ToggleSetting("BPS", true).withDesc("Shows Player Speed"),
             new ToggleSetting("Watermark", true).withDesc("KiwiClient Watermark")
         
         );
@@ -48,23 +53,29 @@ public class HUD extends Module {
     public void onDrawOverlay(DrawOverlayEvent e) {
         if(!mc.options.debugEnabled) {
             TextRenderer textRenderer = mc.textRenderer;
-            // info.clear();
-            // coords
 
-            //speed = mc.player.getSpeed();
+            // for (Setting setting : getSettings().stream().toArray())
+            // Settings[] lists = info.stream().toArray(Settings[]::new);
+            // for (int i = 0; i < lists.length; ++i) {
+            //     textRenderer.draw(e.matrix, getSetting(i).asToggle().value, 2, mc.getWindow().getScaledHeight() - (i * 10 + 10), getSetting(i).asToggle().color);
+            // }
 
             if (getSetting(0).asToggle().state) {
                 this.ip = mc.getCurrentServerEntry() == null ? "Singleplayer" : mc.getCurrentServerEntry().address;
+                // getSetting(0).asToggle().color = defaultColor;
+                textRenderer.draw(e.matrix, ip, 2, mc.getWindow().getScaledHeight() - 60, 0xFFAA00);
             }
             
             if (getSetting(1).asToggle().state) {
                 this.fps = (mc.fpsDebugString.equals("")) ? 0 : Integer.parseInt(mc.fpsDebugString.replaceAll("[^\\d]", " ").trim().replaceAll(" +", " ").split(" ")[0]);
+                getSetting(1).asToggle().color = ColorUtil.getColorString(fps, 80, 60, 30, 15, 10, false);
                 textRenderer.draw(e.matrix, String.format("FPS: %d", fps), 2, mc.getWindow().getScaledHeight() - 40, ColorUtil.getColorString(fps, 80, 60, 30, 15, 10, false));                
             }
 
             if (getSetting(2).asToggle().state) {
                 PlayerListEntry playerEntry = mc.player.networkHandler.getPlayerListEntry(mc.player.getGameProfile().getId());
-                this.ping = playerEntry == null ? 0 : playerEntry.getLatency();                
+                this.ping = playerEntry == null ? 0 : playerEntry.getLatency();
+                getSetting(2).asToggle().color = ColorUtil.getColorString(ping, 10, 20, 50, 75, 100, true);
                 textRenderer.draw(e.matrix, String.format("Ping: %d", ping), 2, mc.getWindow().getScaledHeight() - 50, ColorUtil.getColorString(ping, 10, 20, 50, 75, 100, true));
             }
 
@@ -87,7 +98,13 @@ public class HUD extends Module {
             }
 
             if (getSetting(4).asToggle().state) {
-                textRenderer.draw(e.matrix, String.format("%s v%s", KiwiClient.name, KiwiClient.version), 2, mc.getWindow().getScaledHeight() - 30, 0xFFAA00);
+                speed = mc.player.getSpeed();
+                // getSetting(4).asToggle().color = 0xFFAA00;
+                textRenderer.draw(e.matrix, String.format("Speed: %.1f b/s", speed), 2, mc.getWindow().getScaledHeight() - 70, ColorUtil.getColorString(Math.round(speed), 1, 5, 10, 20, 50, true));
+            }
+
+            if (getSetting(5).asToggle().state) {
+                textRenderer.draw(e.matrix, String.format("%s v%s", KiwiClient.name, KiwiClient.version), 2, mc.getWindow().getScaledHeight() - 30, ColorUtil.getRainbow(3, 0.8f, 1));
             }
         }
     }

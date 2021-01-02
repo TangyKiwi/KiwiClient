@@ -16,7 +16,7 @@ public class ToggleSetting extends Settings {
 
     private String name;
     private String description;
-    private String value;
+    public String value;
     public Boolean state;
     public int color;
 
