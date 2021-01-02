@@ -29,17 +29,8 @@ public class TriggerBot extends Module {
         if(mc.crosshairTarget == null || !(mc.crosshairTarget instanceof EntityHitResult)) return;
 
         Entity target = ((EntityHitResult) mc.crosshairTarget).getEntity();
-        if(KiwiClient.moduleManager.getModule(Criticals.class).isEnabled()) this.doCritical();
+        if(KiwiClient.moduleManager.getModule(Criticals.class).isEnabled()) ((Criticals) KiwiClient.moduleManager.getModule(Criticals.class)).doCritical();
         mc.interactionManager.attackEntity(player, target);
         player.swingHand(Hand.MAIN_HAND);
-    }
-
-    public void doCritical() {
-        if (mc.player.isInLava() || mc.player.isTouchingWater()) return;
-        double posX = mc.player.getX();
-        double posY = mc.player.getY();
-        double posZ = mc.player.getZ();
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(posX, posY + 0.0625, posZ, true));
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionOnly(posX, posY, posZ, false));
     }
 }

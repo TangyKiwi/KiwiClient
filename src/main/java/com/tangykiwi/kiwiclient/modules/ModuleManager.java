@@ -6,6 +6,7 @@ import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.modules.combat.Criticals;
 import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
+import com.tangykiwi.kiwiclient.modules.player.Deadmau5Ears;
 import com.tangykiwi.kiwiclient.modules.player.InventoryViewer;
 import com.tangykiwi.kiwiclient.modules.render.*;
 import net.minecraft.client.MinecraftClient;
@@ -37,6 +38,7 @@ public class ModuleManager {
         moduleList.add(new BetterBrewingStands());
         moduleList.add(new InventoryViewer());
         moduleList.add(new Criticals());
+        moduleList.add(new Deadmau5Ears());
     }
 
     public ArrayList<Module> getEnabledMods() {
