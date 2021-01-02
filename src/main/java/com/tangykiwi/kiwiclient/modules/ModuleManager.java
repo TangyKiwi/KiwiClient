@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.modules;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
+import com.tangykiwi.kiwiclient.modules.combat.Criticals;
 import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
 import com.tangykiwi.kiwiclient.modules.player.InventoryViewer;
@@ -35,6 +36,7 @@ public class ModuleManager {
         moduleList.add(new TriggerBot());
         moduleList.add(new BetterBrewingStands());
         moduleList.add(new InventoryViewer());
+        moduleList.add(new Criticals());
     }
 
     public ArrayList<Module> getEnabledMods() {

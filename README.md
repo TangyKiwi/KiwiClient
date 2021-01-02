@@ -14,12 +14,16 @@ Fabric Utility Mod.
 
 #### Combat
 - TriggerBot ( x )
+- Criticals (no bind)
 
 #### Movement
 - Fly ( z )
 - FastBridge ( g )  
 - Speed ( ~ , currently does NOT work)
 - NoClip ( n , only allows you to go up to escape suffocation)
+
+#### Player
+- InventoryViewer (no bind)
   
 #### Render
 - Fullbright ( c )
@@ -39,7 +43,6 @@ Fabric Utility Mod.
 ### TODO
 - Fix Speed
 - Miles'sTipoff (xray)
-- Inventory Viewer
 - HUD (in progress)
 - Setting system (in progress)  
 - Config system
