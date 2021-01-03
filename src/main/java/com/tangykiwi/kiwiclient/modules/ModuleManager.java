@@ -3,6 +3,9 @@ package com.tangykiwi.kiwiclient.modules;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
+import com.tangykiwi.kiwiclient.modules.client.ActiveMods;
+import com.tangykiwi.kiwiclient.modules.client.ClickGui;
+import com.tangykiwi.kiwiclient.modules.client.HUD;
 import com.tangykiwi.kiwiclient.modules.combat.Criticals;
 import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
@@ -11,7 +14,6 @@ import com.tangykiwi.kiwiclient.modules.player.InventoryViewer;
 import com.tangykiwi.kiwiclient.modules.render.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.input.Input;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 

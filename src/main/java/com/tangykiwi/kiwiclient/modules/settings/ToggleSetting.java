@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.modules.settings;
 
+import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import com.tangykiwi.kiwiclient.gui.ModuleWindow;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
 import net.minecraft.client.MinecraftClient;
@@ -16,7 +17,7 @@ public class ToggleSetting extends Settings {
 
     private String name;
     private String description;
-    public String value;
+    public int value;
     public Boolean state;
     public int color;
 
@@ -33,7 +34,7 @@ public class ToggleSetting extends Settings {
         return this;
     }
 
-    public ToggleSetting withValue(String value) {
+    public ToggleSetting withValue(int value) {
         this.value = value;
         return this;
     }
@@ -120,5 +121,7 @@ public class ToggleSetting extends Settings {
     public String getDesc() {
         return this.description;
     }
+
+    public int getValue() { return this.value; }
     
 }

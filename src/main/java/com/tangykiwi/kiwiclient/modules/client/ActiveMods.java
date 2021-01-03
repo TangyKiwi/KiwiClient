@@ -1,4 +1,4 @@
-package com.tangykiwi.kiwiclient.modules.render;
+package com.tangykiwi.kiwiclient.modules.client;
 
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.KiwiClient;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class ActiveMods extends Module {
 
     public ActiveMods() {
-        super("ActiveMods", "Display toggled modules", KEY_UNBOUND, Category.RENDER);
+        super("ActiveMods", "Display toggled modules", KEY_UNBOUND, Category.CLIENT);
         super.toggle();
     }
 

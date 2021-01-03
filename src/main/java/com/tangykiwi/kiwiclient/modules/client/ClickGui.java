@@ -1,4 +1,4 @@
-package com.tangykiwi.kiwiclient.modules.render;
+package com.tangykiwi.kiwiclient.modules.client;
 
 import com.tangykiwi.kiwiclient.gui.ClickGuiScreen;
 import com.tangykiwi.kiwiclient.modules.Module;
@@ -10,7 +10,7 @@ public class ClickGui extends Module {
     public static ClickGuiScreen clickGui = new ClickGuiScreen();
 
     public ClickGui() {
-        super("ClickGui", "Draws the ClickGui", GLFW.GLFW_KEY_RIGHT_SHIFT, Category.RENDER);
+    super("ClickGui", "Draws the ClickGui", GLFW.GLFW_KEY_RIGHT_SHIFT, Category.CLIENT);
     }
 
     public void onEnable() {

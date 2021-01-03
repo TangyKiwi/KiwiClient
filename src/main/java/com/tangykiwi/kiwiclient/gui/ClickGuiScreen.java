@@ -2,25 +2,19 @@ package com.tangykiwi.kiwiclient.gui;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.Category;
-import com.tangykiwi.kiwiclient.modules.ModuleManager;
 import com.tangykiwi.kiwiclient.modules.Module;
-import com.tangykiwi.kiwiclient.modules.render.ClickGui;
+import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.LiteralText;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ClickGuiScreen extends AbstractWindowScreen {
 
@@ -59,6 +53,9 @@ public class ClickGuiScreen extends AbstractWindowScreen {
         i += len + 5;
         windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.MOVEMENT), i, 35, len,
                 StringUtils.capitalize(StringUtils.lowerCase(Category.MOVEMENT.toString())), new ItemStack(Items.DIAMOND_BOOTS)));
+        i += len + 5;
+        windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.CLIENT), i, 35, len,
+                StringUtils.capitalize(StringUtils.lowerCase(Category.CLIENT.toString())), new ItemStack(Items.GLASS_PANE)));
         /**
         i += len + 5;
         windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.WORLD), i, 35, len,
@@ -72,9 +69,7 @@ public class ClickGuiScreen extends AbstractWindowScreen {
         i += len + 5;
         windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.MISC), i, 35, len,
                 StringUtils.capitalize(StringUtils.lowerCase(Category.MISC.toString())), new ItemStack(Items.SPAWNER)));
-        i += len + 5;
-        windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.CLIENT), i, 35, len,
-                StringUtils.capitalize(StringUtils.lowerCase(Category.CLIENT.toString())), new ItemStack(Items.PUFFERFISH))); **/
+        */
     }
 
     public boolean isPauseScreen() {

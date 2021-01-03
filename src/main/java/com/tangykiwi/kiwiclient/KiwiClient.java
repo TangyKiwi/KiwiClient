@@ -6,7 +6,7 @@ import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.gui.BrewingStandBlockEntityRenderer;
 import com.tangykiwi.kiwiclient.modules.ModuleManager;
 import com.tangykiwi.kiwiclient.modules.render.BetterBrewingStands;
-import com.tangykiwi.kiwiclient.modules.render.ClickGui;
+import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.util.DiscordRP;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;

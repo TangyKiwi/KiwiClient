@@ -94,6 +94,17 @@ public class Module {
         return this.settings;
     }
 
+    public List<Settings> getToggledSettings() {
+        List<Settings> toggledSettings = new ArrayList<Settings>();
+        for(Settings s : settings) {
+            if(s.asToggle().state) {
+                toggledSettings.add(s);
+            }
+        }
+
+        return toggledSettings;
+    }
+
     public Settings getSetting(int setting) {
         return settings.get(setting);
     }
