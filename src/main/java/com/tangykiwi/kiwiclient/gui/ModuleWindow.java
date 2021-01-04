@@ -52,7 +52,7 @@ public class ModuleWindow extends ClickGuiWindow {
         int y = y1 + 13;
         x2 = x + len + 1;
 
-        if ((lmDown || rmDown) && mouseOver(x, y - 12, x + len, y)) {
+        if (rmDown && mouseOver(x, y - 12, x + len, y)) {
             mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
             hiding = !hiding;
         }

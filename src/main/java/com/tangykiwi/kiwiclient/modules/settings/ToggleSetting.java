@@ -1,8 +1,6 @@
 package com.tangykiwi.kiwiclient.modules.settings;
 
-import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import com.tangykiwi.kiwiclient.gui.ModuleWindow;
-import com.tangykiwi.kiwiclient.util.ColorUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;

@@ -5,6 +5,7 @@ import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.modules.Module;
 
 import com.tangykiwi.kiwiclient.modules.Category;
+import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -22,7 +23,8 @@ public class Fly extends Module {
     public long time;
 
     public Fly() {
-        super("Fly", "Fly like in Creative", GLFW.GLFW_KEY_Z, Category.MOVEMENT);
+        super("Fly", "Fly like in Creative", GLFW.GLFW_KEY_Z, Category.MOVEMENT,
+            new SliderSetting("Speed", 0, 5, 1, 1));
     }
 
     @Override
@@ -33,13 +35,13 @@ public class Fly extends Module {
 
     @Subscribe
     public void onTick(TickEvent e) {
-        float speed = 1;
+        float speed = (float) getSetting(0).asSlider().getValue();
 
-        /** Vanilla fly
+        /** Vanilla fly */
         mc.player.abilities.setFlySpeed(speed / 10);
         mc.player.abilities.allowFlying = true;
         mc.player.abilities.flying = true;
-         */
+
 
         /** Packet Antikick
         if(mc.player.age % 20 == 0) {
@@ -49,7 +51,6 @@ public class Fly extends Module {
          */
 
         /** Vanilla Antikick
-         */
         List<Block> NONSOLID_BLOCKS = Arrays.asList(
                 Blocks.AIR, Blocks.LAVA, Blocks.WATER, Blocks.GRASS,
                 Blocks.VINE, Blocks.SEAGRASS, Blocks.TALL_SEAGRASS,
@@ -70,12 +71,13 @@ public class Fly extends Module {
         if (mc.options.keyLeft.isPressed())
             mc.player.setVelocity(mc.player.getVelocity().add(strafe.x, 0, strafe.z));
         if (mc.options.keyRight.isPressed())
-            mc.player.setVelocity(mc.player.getVelocity().add(-strafe.x, 0, -strafe.z));
+            mc.player.setVelocity(mc.player.getVelocity().add(-strafe.x, 0, -strafe.z)); */
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
+        mc.player.abilities.setFlySpeed(0.1f);
         if (!mc.player.abilities.creativeMode) mc.player.abilities.allowFlying = false;
         mc.player.abilities.flying = false;
     }

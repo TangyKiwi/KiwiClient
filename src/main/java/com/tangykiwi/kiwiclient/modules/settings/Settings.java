@@ -16,6 +16,14 @@ public abstract class Settings {
         }
     }
 
+    public SliderSetting asSlider() {
+        try {
+            return (SliderSetting) this;
+        } catch (Exception e) {
+            throw new ClassCastException("Execption parsing setting: " + this);
+        }
+    }
+
     public Triple<Integer, Integer, String> getGuiDesc(ModuleWindow window, int x, int y, int len) {
         return Triple.of(x + len + 2, y, description);
     }
