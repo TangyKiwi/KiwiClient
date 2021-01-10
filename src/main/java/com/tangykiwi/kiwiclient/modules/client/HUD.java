@@ -13,6 +13,7 @@ import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 
@@ -83,7 +84,19 @@ public class HUD extends Module {
                 break;
             case 4:
                 Vec3d vec = mc.player.getPos();
-                textRenderer.draw(m, String.format("X: %.1f Y: %.1f Z: %.1f", vec.x, vec.y, vec.z), 2, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
+                float yaw = MathHelper.wrapDegrees(mc.getCameraEntity().yaw);
+                String dir = "";
+                if(yaw > 157.5) dir = "N -Z";
+                else if(yaw >= 112.5) dir = "NW -X, -Z";
+                else if(yaw > 67.5) dir = "W -X";
+                else if(yaw >= 22.5) dir = "SW -X, +Z";
+                else if(yaw > -22.5) dir = "S +Z";
+                else if(yaw >= -67.5) dir = "SE +X, +Z";
+                else if(yaw > -112.5) dir = "E +X";
+                else if(yaw >= -157.5) dir = "NE +X, -Z";
+                else dir = "N -Z";
+
+                textRenderer.draw(m, String.format("X: %.1f Y: %.1f Z: %.1f " + dir, vec.x, vec.y, vec.z), 2, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
                 break;
             case 5:
                 Boolean nether = mc.world.getRegistryKey().getValue().getPath().contains("nether");

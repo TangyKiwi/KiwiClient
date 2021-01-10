@@ -10,6 +10,7 @@ import com.tangykiwi.kiwiclient.modules.combat.Criticals;
 import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
 import com.tangykiwi.kiwiclient.modules.player.Deadmau5Ears;
+import com.tangykiwi.kiwiclient.modules.player.Freecam;
 import com.tangykiwi.kiwiclient.modules.player.InventoryViewer;
 import com.tangykiwi.kiwiclient.modules.render.*;
 import net.minecraft.client.MinecraftClient;
@@ -29,6 +30,7 @@ public class ModuleManager {
     public void init() {
         moduleList.add(new FastBridge());
         moduleList.add(new Fly());
+        moduleList.add(new Freecam());
         moduleList.add(new NoClip());
         moduleList.add(new Speed());
         moduleList.add(new FullBright());
