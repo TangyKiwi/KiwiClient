@@ -10,7 +10,7 @@ import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
 import com.tangykiwi.kiwiclient.util.CameraEntity;
-import com.tangykiwi.kiwiclient.util.FakeEntity;
+import com.tangykiwi.kiwiclient.util.FakeEntity;w
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.HorseBaseEntity;
@@ -79,7 +79,6 @@ public class Freecam extends Module {
 
     @Subscribe
     public void onTick(TickEvent event) {
-        dummy.copyFrom(mc.player);
         CameraEntity.movementTick(mc.player.input.sneaking, mc.player.input.jumping);
     }
 }
