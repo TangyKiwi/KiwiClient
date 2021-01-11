@@ -13,9 +13,11 @@ import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -44,7 +46,8 @@ public class HUD extends Module {
             new ToggleSetting("IP", true).withDesc("Shows Server Address").withValue(2),
             new ToggleSetting("BPS", true).withDesc("Shows Player Speed").withValue(3),
             new ToggleSetting("Coords", true).withDesc("Shows Player Position").withValue(4),
-            new ToggleSetting("Alternate Coords", true).withDesc("Shows Nether/Overworld Position").withValue(5)
+            new ToggleSetting("Alternate Coords", true).withDesc("Shows Nether/Overworld Position").withValue(5),
+            new ToggleSetting("Armor", true).withDesc("Shows Armor Status")
             //new ToggleSetting("Watermark", true).withDesc("KiwiClient Watermark")
         );
     }
@@ -55,10 +58,53 @@ public class HUD extends Module {
             TextRenderer textRenderer = mc.textRenderer;
 
             List<Settings> settings = getToggledSettings();
-            for(int i = settings.size() - 1 ; i >= 0; i--) {
+            for(int i = 5; i >= 0; i--) {
                 if(settings.get(i).asToggle().state) {
                     drawSetting(textRenderer, e.matrix, settings.get(i).asToggle().getValue(), (settings.size() - i) * 10);
                 }
+            }
+
+            if(settings.get(6).asToggle().state && !mc.player.isSpectator()) {
+                GL11.glPushMatrix();
+
+                int count = 0;
+                int x1 = mc.getWindow().getScaledWidth() / 2;
+                int y = mc.getWindow().getScaledHeight() -
+                        (mc.player.isSubmergedInWater() || mc.player.getAir() < mc.player.getMaxAir() ? 66 : 56);
+                for (ItemStack is : mc.player.inventory.armor) {
+                    count++;
+                    if (is.isEmpty()) continue;
+                    int x = x1 - 90 + (9 - count) * 20 + 2;
+
+                    GL11.glEnable(GL11.GL_DEPTH_TEST);
+                    mc.getItemRenderer().zOffset = 200F;
+                    mc.getItemRenderer().renderGuiItemIcon(is, x, y);
+                    mc.getItemRenderer().renderGuiItemOverlay(mc.textRenderer, is, x, y);
+
+                    mc.getItemRenderer().zOffset = 0F;
+                    GL11.glDisable(GL11.GL_DEPTH_TEST);
+
+                    GL11.glPushMatrix();
+                    GL11.glScaled(0.75, 0.75, 0.75);
+                    String s = is.getCount() > 1 ? "x" + is.getCount() : "";
+                    mc.textRenderer.drawWithShadow(e.matrix, s, (x + 19 - mc.textRenderer.getWidth(s)) * 1.333f, (y + 9) * 1.333f, ColorUtil.guiColour());
+
+                    if (is.isDamageable()) {
+                        String dur = is.getMaxDamage() - is.getDamage() + "";
+                        int durcolor = ColorUtil.guiColour();
+                        try {
+                            durcolor = MathHelper.hsvToRgb(((float) (is.getMaxDamage() - is.getDamage()) / is.getMaxDamage()) / 3.0F, 1.0F, 1.0F);
+                        } catch (Exception exception) {
+                        }
+
+                        mc.textRenderer.drawWithShadow(e.matrix, dur, (x + 10 - mc.textRenderer.getWidth(dur) / 2) * 1.333f, (y - 3) * 1.333f, durcolor);
+                    }
+
+                    GL11.glPopMatrix();
+                }
+
+                GL11.glEnable(GL11.GL_DEPTH_TEST);
+                GL11.glPopMatrix();
             }
         }
     }
