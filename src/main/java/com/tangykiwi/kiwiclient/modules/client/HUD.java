@@ -60,7 +60,7 @@ public class HUD extends Module {
             List<Settings> settings = getToggledSettings();
             for(int i = 5; i >= 0; i--) {
                 if(settings.get(i).asToggle().state) {
-                    drawSetting(textRenderer, e.matrix, settings.get(i).asToggle().getValue(), (settings.size() - i) * 10);
+                    drawSetting(textRenderer, e.matrix, settings.get(i).asToggle().getValue(), (5 - i) * 10);
                 }
             }
 
