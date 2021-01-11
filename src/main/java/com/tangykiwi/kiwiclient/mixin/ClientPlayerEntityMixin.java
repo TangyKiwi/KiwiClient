@@ -9,11 +9,13 @@ import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.mixininterface.IClientPlayerEntity;
 import com.tangykiwi.kiwiclient.modules.movement.FastBridge;
 import com.tangykiwi.kiwiclient.modules.movement.SafeWalk;
+import com.tangykiwi.kiwiclient.modules.player.Freecam;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.ListTag;
@@ -27,12 +29,17 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ClientPlayerEntity.class)
-public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implements IClientPlayerEntity {
+public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implements IClientPlayerEntity {
     @Shadow
     protected MinecraftClient client;
+
+    @Shadow
+    protected abstract boolean isCamera();
 
     public ClientPlayerEntityMixin(ClientWorld world, GameProfile gameProfile)
     {
@@ -74,6 +81,50 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implemen
         else if(message.startsWith(Command.PREFIX)) {
             CommandManager.callCommand(message.substring(Command.PREFIX.length()));
             callbackInfo.cancel();
+        }
+    }
+
+    @Redirect(method = "tickMovement", at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/network/ClientPlayerEntity;isCamera()Z"))
+    private boolean preventVerticalMotion(ClientPlayerEntity player)
+    {
+        if (KiwiClient.moduleManager.getModule(Freecam.class).isEnabled())
+        {
+            return false;
+        }
+
+        return this.isCamera();
+    }
+
+    @Redirect(method = "tickMovement", require = 0, at = @At(
+            value = "FIELD", ordinal = 1,
+            target = "Lnet/minecraft/entity/player/PlayerAbilities;allowFlying:Z"))
+    private boolean preventFlyStateToggle(PlayerAbilities abilities)
+    {
+        if (KiwiClient.moduleManager.getModule(Freecam.class).isEnabled())
+        {
+            return false;
+        }
+
+        return abilities.allowFlying;
+    }
+
+    @Inject(method = "tickNewAi", at = @At("RETURN"))
+    private void preventJumpingInCameraMode(CallbackInfo ci)
+    {
+        if (KiwiClient.moduleManager.getModule(Freecam.class).isEnabled())
+        {
+            this.jumping = false;
+        }
+    }
+
+    @Inject(method = "isSneaking", at = @At("HEAD"), cancellable = true)
+    private void preventSneakingInCameraMode(CallbackInfoReturnable<Boolean> cir)
+    {
+        if (KiwiClient.moduleManager.getModule(Freecam.class).isEnabled())
+        {
+            cir.setReturnValue(false);
         }
     }
 

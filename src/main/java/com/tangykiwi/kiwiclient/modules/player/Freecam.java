@@ -9,6 +9,7 @@ import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
+import com.tangykiwi.kiwiclient.util.CameraEntity;
 import com.tangykiwi.kiwiclient.util.FakeEntity;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.entity.Entity;
@@ -20,12 +21,7 @@ import org.lwjgl.glfw.GLFW;
 
 public class Freecam extends Module {
     private FakeEntity dummy;
-    private double[] playerPos;
-    private float[] playerRot;
     private Entity riding;
-
-    private boolean prevFlying;
-    private float prevFlySpeed;
 
     public Freecam() {
         super("Freecam", "Detaches your camera.", GLFW.GLFW_KEY_U, Category.PLAYER,
@@ -34,14 +30,11 @@ public class Freecam extends Module {
 
     @Override
     public void onEnable() {
-        playerPos = new double[]{mc.player.getX(), mc.player.getY(), mc.player.getZ()};
-        playerRot = new float[]{mc.player.yaw, mc.player.pitch};
-
         dummy = new FakeEntity();
-        dummy.copyPositionAndRotation(mc.player);
-        dummy.setBoundingBox(dummy.getBoundingBox().expand(0.1));
-
+        dummy.copyFrom(mc.player);
         dummy.spawn();
+
+        CameraEntity.createCamera(mc);
 
         if (mc.player.getVehicle() != null) {
             riding = mc.player.getVehicle();
@@ -52,21 +45,13 @@ public class Freecam extends Module {
             mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
         }
 
-        prevFlying = mc.player.abilities.flying;
-        prevFlySpeed = mc.player.abilities.getFlySpeed();
-
         super.onEnable();
     }
 
     @Override
     public void onDisable() {
         dummy.despawn();
-        mc.player.noClip = false;
-        mc.player.abilities.flying = prevFlying;
-        mc.player.abilities.setFlySpeed(prevFlySpeed);
-
-        mc.player.refreshPositionAndAngles(playerPos[0], playerPos[1], playerPos[2], playerRot[0], playerRot[1]);
-        mc.player.setVelocity(Vec3d.ZERO);
+        CameraEntity.removeCamera();
 
         if (riding != null && mc.world.getEntityById(riding.getEntityId()) != null) {
             mc.player.startRiding(riding);
@@ -93,15 +78,8 @@ public class Freecam extends Module {
     }
 
     @Subscribe
-    public void onMove(OnMoveEvent event) {
-        mc.player.noClip = true;
-    }
-
-    @Subscribe
     public void onTick(TickEvent event) {
-        mc.player.setOnGround(false);
-        mc.player.abilities.setFlySpeed((float) (getSetting(0).asSlider().getValue() / 5));
-        mc.player.abilities.flying = true;
+        dummy.copyFrom(mc.player);
+        CameraEntity.movementTick(mc.player.input.sneaking, mc.player.input.jumping);
     }
-
 }

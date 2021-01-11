@@ -24,6 +24,9 @@ public class FakeEntity extends OtherClientPlayerEntity {
         MinecraftClient.getInstance().world.addEntity(this.getEntityId(), this);
     }
 
+    public void update() {
+        MinecraftClient.getInstance().world.getEntityById(this.getEntityId());
+    }
     public void despawn() {
         MinecraftClient.getInstance().world.removeEntity(this.getEntityId());
     }

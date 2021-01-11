@@ -13,6 +13,8 @@
     "ChunkOcclusionDataBuilderMixin",
     "ClientConnectionMixin",
     "ClientPlayerEntityMixin",
+    "EntityMixin",
+    "GameRendererMixin",
     "InGameHudMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
