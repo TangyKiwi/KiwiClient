@@ -43,20 +43,20 @@ public class ClickGuiScreen extends AbstractWindowScreen {
 
         int i = 10;
         windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.PLAYER), i, 35, len,
-                StringUtils.capitalize(StringUtils.lowerCase(Category.PLAYER.toString())), new ItemStack(Items.PLAYER_HEAD)));
+            StringUtils.capitalize(StringUtils.lowerCase(Category.PLAYER.toString())), new ItemStack(Items.PLAYER_HEAD)));
         i += len + 5;
         windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.COMBAT), i, 35, len,
-                StringUtils.capitalize(StringUtils.lowerCase(Category.COMBAT.toString())), new ItemStack(Items.NETHERITE_SWORD)));
+            StringUtils.capitalize(StringUtils.lowerCase(Category.COMBAT.toString())), new ItemStack(Items.DIAMOND_SWORD)));
         i += len + 5;
         windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.RENDER), i, 35, len,
-                StringUtils.capitalize(StringUtils.lowerCase(Category.RENDER.toString())), new ItemStack(Items.ENDER_EYE)));
+            StringUtils.capitalize(StringUtils.lowerCase(Category.RENDER.toString())), new ItemStack(Items.ENDER_EYE)));
         i += len + 5;
         windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.MOVEMENT), i, 35, len,
-                StringUtils.capitalize(StringUtils.lowerCase(Category.MOVEMENT.toString())), new ItemStack(Items.DIAMOND_BOOTS)));
+            StringUtils.capitalize(StringUtils.lowerCase(Category.MOVEMENT.toString())), new ItemStack(Items.DIAMOND_BOOTS)));
         i = 10;
-        int y = ((ModuleWindow) windows.get(0)).getHeight();
+        int y = 45 + ((ModuleWindow) windows.get(0)).getHeight();
         windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.CLIENT), i, y + 5, len,
-                StringUtils.capitalize(StringUtils.lowerCase(Category.CLIENT.toString())), new ItemStack(Items.GLASS_PANE)));
+            StringUtils.capitalize(StringUtils.lowerCase(Category.CLIENT.toString())), new ItemStack(Items.GLASS_PANE)));
     }
 
     public boolean isPauseScreen() {
