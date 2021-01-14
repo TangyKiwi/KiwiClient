@@ -47,22 +47,28 @@ public class Bind extends Command {
                                 mc.inGameHud.getChatHud().addMessage(new LiteralText("Unknown key: " + args[1] + " / " + args[1].toLowerCase().replaceFirst("r", "right.")));
                                 return;
                             }
-                            /**
-                             *  Please add custom keybinds for
-                             *  +=
-                             *  [{
-                             *  ]}
-                             *  \|
-                             *  ;:
-                             *  '"
-                             *  ,<
-                             *  .>
-                             *  /?
-                             */
                         } else if (args[1].equals("`") || args[1].equals("~")) {
                             key = GLFW.GLFW_KEY_GRAVE_ACCENT;
                         } else if (args[1].equals("-") || args[1].equals("_")) {
-                            key = GLFW.GLFW_KEY_KP_SUBTRACT;
+                            key = GLFW.GLFW_KEY_MINUS;
+                        } else if (args[1].equals("=") || args[1].equals("+")) {
+                            key = GLFW.GLFW_KEY_EQUAL;
+                        } else if (args[1].equals("[") || args[1].equals("{")) {
+                            key = GLFW.GLFW_KEY_RIGHT_BRACKET;
+                        } else if (args[1].equals("]") || args[1].equals("}")) {
+                            key = GLFW.GLFW_KEY_LEFT_BRACKET;
+                        } else if (args[1].equals("\\") || args[1].equals("|")) {
+                            key = GLFW.GLFW_KEY_BACKSLASH;
+                        } else if (args[1].equals(";") || args[1].equals(":")) {
+                            key = GLFW.GLFW_KEY_SEMICOLON;
+                        } else if (args[1].equals("'") || args[1].equals("\"")) {
+                            key = GLFW.GLFW_KEY_APOSTROPHE;
+                        } else if (args[1].equals(",") || args[1].equals("<")) {
+                            key = GLFW.GLFW_KEY_COMMA;
+                        } else if (args[1].equals(".") || args[1].equals(">")) {
+                            key = GLFW.GLFW_KEY_PERIOD;
+                        } else if (args[1].equals("/") || args[1].equals("?")) {
+                            key = GLFW.GLFW_KEY_SLASH;
                         } else {
                             mc.inGameHud.getChatHud().addMessage(new LiteralText("Unknown key: " + args[1]));
                             return;
