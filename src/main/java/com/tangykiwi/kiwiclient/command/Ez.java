@@ -20,11 +20,30 @@ public class Ez extends Command {
 
     @Override
     public void onCommand(String command, String[] args) throws Exception {
-        mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("███████╗███████╗"));
-        mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("██╔════╝╚════██║"));
-        mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("█████╗░░░░███╔═╝"));
-        mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("██╔══╝░░██╔══╝░░"));
-        mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("███████╗███████╗"));
-        mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("╚══════╝╚══════╝"));
+        ChatMessageC2SPacket[] packets = new ChatMessageC2SPacket[]{
+            new ChatMessageC2SPacket("███████╗███████╗"),
+            new ChatMessageC2SPacket("██╔════╝╚════██║"),
+            new ChatMessageC2SPacket("█████╗░░░░███╔═╝"),
+            new ChatMessageC2SPacket("██╔══╝░░██╔══╝░░"),
+            new ChatMessageC2SPacket("███████╗███████╗"),
+            new ChatMessageC2SPacket("╚══════╝╚══════╝")
+        };
+
+        long time = System.currentTimeMillis();
+        for(int i = 0; i < packets.length; i++) {
+            while(System.currentTimeMillis() - time <= 50) {
+                //do nothing as a "buffer"
+            }
+            mc.getNetworkHandler().sendPacket(packets[i]);
+            time = System.currentTimeMillis();
+        }
+        /**
+         mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("███████╗███████╗"));
+         mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("██╔════╝╚════██║"));
+         mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("█████╗░░░░███╔═╝"));
+         mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("██╔══╝░░██╔══╝░░"));
+         mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("███████╗███████╗"));
+         mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("╚══════╝╚══════╝"));
+         */
     }
 }
