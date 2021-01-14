@@ -31,7 +31,7 @@ public class Ez extends Command {
 
         long time = System.currentTimeMillis();
         for(int i = 0; i < packets.length; i++) {
-            while(System.currentTimeMillis() - time <= 50) {
+            while(System.currentTimeMillis() - time <= 500) {
                 //do nothing as a "buffer"
             }
             mc.getNetworkHandler().sendPacket(packets[i]);

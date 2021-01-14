@@ -1,8 +1,13 @@
 # KiwiClient
 
+## Usage
+- Requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files) to launch
+- Download the [latest release](https://github.com/TangyKiwi/KiwiClient/releases), or build it by yourself (See Setup below)
+- Make sure all mods/binaries are placed in the mods folder. If it doesn't exist, create the folder.
+
 ## Setup
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+For instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
 
 ## Info
 
@@ -12,44 +17,50 @@ Fabric Utility Mod.
 
 ### Modules
 
+- DiscordRPC ("_You use the hacc, then proudly quacc._")
+
+#### Client
+- ActiveMods (no bind, on by default)
+- ClickGui (rshift, on by default)
+- HUD ( h )
+
 #### Combat
-- TriggerBot ( x )
+- AutoClicker (does not work)
 - Criticals (no bind)
+- TriggerBot ( x )
 
 #### Movement
+- FastBridge ( g )
 - Fly ( z )
-- FastBridge ( g )  
-- Speed ( ~ , currently does NOT work)
 - NoClip ( n , only allows you to go up to escape suffocation)
+- SafeWalk (no bind)
+- Speed ( ~ , currently does NOT work)
 
 #### Player
+- Deadmau5Ears (no bind)
+- Freecam ( u )
 - InventoryViewer (no bind)
   
 #### Render
+- BetterBrewingStands (no bind)
 - Fullbright ( c )
-- ActiveMods (no bind, on by default)
-- HUD ( h )
-- BetterBrewingStands (no bind)  
-- DiscordRPC ("_You use the hacc, then proudly quacc._")
 
 ### Commands
 - .bind [module] [key]
+- .d
+- .ez
 - .say [message]
 - .schwongleclip / .vclip [blocks]  
 - .toggle / .t [module]
-- .unbind [module]  
-- .d
+- .unbind [module]
 
 ### TODO
 - Fix Speed
-- Miles'sTipoff (xray)
+- Fix AutoClicker
+- Miles'sTipoff (xray, in progress)
 - HUD (in progress)
 - Setting system (in progress)  
 - Config system
-
-## Usage
-- Requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files) to launch
-- Make sure all mods/binaries are placed in the mods folder. If it doesn't exist, create the folder.
 
 ## Disclaimer
 
