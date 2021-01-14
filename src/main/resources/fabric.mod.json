@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "id": "kiwiclient",
-  "version": "1.7.18",
+  "version": "1.7.20",
 
   "name": "KiwiClient",
-  "description": "Experimental MC Client Mod",
+  "description": "Experimental MC Utility Mod",
   "authors": [
     "TangyKiwi",
     "nzeng8 (Nicholas Zeng)",

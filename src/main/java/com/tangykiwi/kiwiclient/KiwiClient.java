@@ -22,7 +22,7 @@ import net.minecraft.util.math.BlockPos;
 public class KiwiClient implements ModInitializer {
 
     public static final String MOD_ID = "kiwiclient";
-    public static String name = "KiwiClient", version = "1.7.18";
+    public static String name = "KiwiClient", version = "1.7.20";
 
     public static ModuleManager moduleManager;
     public static CommandManager commandManager;
