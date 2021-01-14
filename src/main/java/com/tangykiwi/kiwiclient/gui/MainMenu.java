@@ -1,8 +1,6 @@
 package com.tangykiwi.kiwiclient.gui;
 
 import com.tangykiwi.kiwiclient.util.ColorUtil;
-import com.tangykiwi.kiwiclient.util.GlyphPage;
-import com.tangykiwi.kiwiclient.util.GlyphPageFontRenderer;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -14,12 +12,8 @@ import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Style;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
-
-import java.awt.*;
 
 public class MainMenu extends Screen {
 

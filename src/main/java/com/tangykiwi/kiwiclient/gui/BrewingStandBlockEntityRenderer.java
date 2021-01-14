@@ -20,7 +20,6 @@ public class BrewingStandBlockEntityRenderer extends BlockEntityRenderer<Brewing
         super(blockEntityRenderDispatcher);
     }
 
-
     @Override
     public void render(BrewingStandBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         int lightAtBlock = WorldRenderer.getLightmapCoordinates(blockEntity.getWorld(), blockEntity.getPos());

@@ -53,23 +53,10 @@ public class ClickGuiScreen extends AbstractWindowScreen {
         i += len + 5;
         windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.MOVEMENT), i, 35, len,
                 StringUtils.capitalize(StringUtils.lowerCase(Category.MOVEMENT.toString())), new ItemStack(Items.DIAMOND_BOOTS)));
-        i += len + 5;
-        windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.CLIENT), i, 35, len,
+        i = 10;
+        int y = ((ModuleWindow) windows.get(0)).getHeight();
+        windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.CLIENT), i, y + 5, len,
                 StringUtils.capitalize(StringUtils.lowerCase(Category.CLIENT.toString())), new ItemStack(Items.GLASS_PANE)));
-        /**
-        i += len + 5;
-        windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.WORLD), i, 35, len,
-                StringUtils.capitalize(StringUtils.lowerCase(Category.WORLD.toString())), new ItemStack(Items.GRASS_BLOCK)));
-        i += len + 5;
-        windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.EXPLOITS), i, 35, len,
-                StringUtils.capitalize(StringUtils.lowerCase(Category.EXPLOITS.toString())), new ItemStack(Items.BEDROCK)));
-        i += len + 5;
-        windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.CHAT), i, 35, len,
-                StringUtils.capitalize(StringUtils.lowerCase(Category.CHAT.toString())), new ItemStack(Items.WRITABLE_BOOK)));
-        i += len + 5;
-        windows.add(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.MISC), i, 35, len,
-                StringUtils.capitalize(StringUtils.lowerCase(Category.MISC.toString())), new ItemStack(Items.SPAWNER)));
-        */
     }
 
     public boolean isPauseScreen() {
@@ -160,10 +147,12 @@ public class ClickGuiScreen extends AbstractWindowScreen {
         keyDown = int_1;
         return super.keyPressed(int_1, int_2, int_3);
     }
+
     public boolean mouseScrolled(double double_1, double double_2, double double_3) {
         mwScroll = (int) double_3;
         return super.mouseScrolled(double_1, double_2, double_3);
     }
+
     public void resetGui() {
         int x = 30;
         for (Window m : windows) {

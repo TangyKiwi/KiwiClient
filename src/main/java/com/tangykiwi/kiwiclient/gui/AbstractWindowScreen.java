@@ -108,5 +108,4 @@ public abstract class AbstractWindowScreen extends Screen {
 
         return super.mouseReleased(double_1, double_2, int_1);
     }
-
 }
