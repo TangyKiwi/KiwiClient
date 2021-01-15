@@ -57,10 +57,12 @@ public class HUD extends Module {
         if(!mc.options.debugEnabled) {
             TextRenderer textRenderer = mc.textRenderer;
 
-            List<Settings> settings = getToggledSettings();
+            List<Settings> settings = getSettings();
+            int counter = 0;
             for(int i = 5; i >= 0; i--) {
                 if(settings.get(i).asToggle().state) {
-                    drawSetting(textRenderer, e.matrix, settings.get(i).asToggle().getValue(), (5 - i) * 10);
+                    counter++;
+                    drawSetting(textRenderer, e.matrix, settings.get(i).asToggle().getValue(), (counter) * 10);
                 }
             }
 
