@@ -19,9 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Fly extends Module {
-
-    public long time;
-
     public Fly() {
         super("Fly", "Fly like in Creative", GLFW.GLFW_KEY_Z, Category.MOVEMENT,
             new SliderSetting("Speed", 0, 5, 1, 1));
@@ -30,7 +27,6 @@ public class Fly extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
-        time = System.currentTimeMillis();
     }
 
     @Subscribe

@@ -43,6 +43,7 @@ public class ModuleManager {
         moduleList.add(new InventoryViewer());
         moduleList.add(new Criticals());
         moduleList.add(new Deadmau5Ears());
+        moduleList.add(new VanillaTweaks());
     }
 
     public ArrayList<Module> getEnabledMods() {

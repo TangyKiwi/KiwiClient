@@ -20,6 +20,7 @@
     "MinecraftClientMixin",
     "PlayerEntityRendererMixin",
     "PlayerListEntryMixin",
+    "SplashScreenMixin",
     "TitleScreenMixin"
   ],
   "injectors": {
