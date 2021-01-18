@@ -18,6 +18,7 @@
     "InGameHudMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
+    "PlayerEntityModelMixin",
     "PlayerEntityRendererMixin",
     "PlayerListEntryMixin",
     "SplashScreenMixin",
