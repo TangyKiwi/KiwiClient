@@ -28,7 +28,7 @@ public class Deadmau5EarsRenderer extends FeatureRenderer<AbstractClientPlayerEn
                 matrixStack.translate(0.0D, 0.25D, 0.0D);
             }
 
-            ((PlayerEntityModel)this.getContextModel()).renderEars(matrixStack, vertexConsumer, i, m);
+            this.getContextModel().renderEars(matrixStack, vertexConsumer, i, m);
             matrixStack.pop();
         }
     }

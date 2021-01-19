@@ -9,6 +9,7 @@ import com.tangykiwi.kiwiclient.modules.client.HUD;
 import com.tangykiwi.kiwiclient.modules.combat.Criticals;
 import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
+import com.tangykiwi.kiwiclient.modules.player.Cape;
 import com.tangykiwi.kiwiclient.modules.player.Deadmau5Ears;
 import com.tangykiwi.kiwiclient.modules.player.Freecam;
 import com.tangykiwi.kiwiclient.modules.player.InventoryViewer;
@@ -28,6 +29,7 @@ public class ModuleManager {
     public static MinecraftClient mc = MinecraftClient.getInstance();
 
     public void init() {
+        moduleList.add(new Cape());
         moduleList.add(new FastBridge());
         moduleList.add(new Fly());
         moduleList.add(new Freecam());

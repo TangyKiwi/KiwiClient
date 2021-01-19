@@ -24,7 +24,7 @@ import net.minecraft.util.math.BlockPos;
 public class KiwiClient implements ModInitializer {
 
     public static final String MOD_ID = "kiwiclient";
-    public static String name = "KiwiClient", version = "1.7.21";
+    public static String name = "KiwiClient", version = "Ari1.8.21";
 
     public static ModuleManager moduleManager;
     public static CommandManager commandManager;
@@ -32,6 +32,8 @@ public class KiwiClient implements ModInitializer {
     public static EventBus eventBus = new EventBus();
 
     public static Identifier POTION_BOTTLES = new Identifier("kiwiclient:textures/brewing_stand.png");
+    public static Identifier CAPE = new Identifier("kiwiclient:textures/cape.png");
+    public static Identifier EARS = new Identifier("kiwiclient:textures/ears.png");
 
     @Override
     public void onInitialize() {
@@ -51,23 +53,23 @@ public class KiwiClient implements ModInitializer {
         BlockEntityRendererRegistry.INSTANCE.register(BlockEntityType.BREWING_STAND, BrewingStandBlockEntityRenderer::new);
 
         ClientSidePacketRegistryImpl.INSTANCE.register(POTION_BOTTLES,
-            (packetContext, attachedData) -> {
-                if(moduleManager.getModule(BetterBrewingStands.class).isEnabled()) {
-                    BlockPos pos = attachedData.readBlockPos();
-                    DefaultedList<ItemStack> inv = DefaultedList.ofSize(5, ItemStack.EMPTY);
-                    for (int i = 0; i < 4; i++) {
-                        inv.set(i, attachedData.readItemStack());
+                (packetContext, attachedData) -> {
+                    if(moduleManager.getModule(BetterBrewingStands.class).isEnabled()) {
+                        BlockPos pos = attachedData.readBlockPos();
+                        DefaultedList<ItemStack> inv = DefaultedList.ofSize(5, ItemStack.EMPTY);
+                        for (int i = 0; i < 4; i++) {
+                            inv.set(i, attachedData.readItemStack());
+                        }
+                        packetContext.getTaskQueue().execute(() -> {
+                            BrewingStandBlockEntity blockEntity = (BrewingStandBlockEntity) MinecraftClient.getInstance().world.getBlockEntity(pos);
+                            blockEntity.setStack(0, inv.get(0));
+                            blockEntity.setStack(1, inv.get(1));
+                            blockEntity.setStack(2, inv.get(2));
+                            blockEntity.setStack(3, inv.get(3));
+                            blockEntity.setStack(4, inv.get(4));
+                        });
                     }
-                    packetContext.getTaskQueue().execute(() -> {
-                        BrewingStandBlockEntity blockEntity = (BrewingStandBlockEntity) MinecraftClient.getInstance().world.getBlockEntity(pos);
-                        blockEntity.setStack(0, inv.get(0));
-                        blockEntity.setStack(1, inv.get(1));
-                        blockEntity.setStack(2, inv.get(2));
-                        blockEntity.setStack(3, inv.get(3));
-                        blockEntity.setStack(4, inv.get(4));
-                    });
-                }
-            });
+                });
 
         FabricLoader.getInstance().getModContainer("kiwiclient").ifPresent(modContainer -> {
             ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("kiwiclient:vanillatweaks"), "resourcepacks/vanillatweaks", modContainer, true);

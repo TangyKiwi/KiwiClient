@@ -9,7 +9,6 @@
     "AbstractBlockStateMixin",
     "BookUpdateC2SPacketMixin",
     "BrewingStandBlockEntityMixin",
-    "CapeFeatureRendererMixin",
     "ChunkOcclusionDataBuilderMixin",
     "ClientConnectionMixin",
     "ClientPlayerEntityMixin",
@@ -20,7 +19,6 @@
     "MinecraftClientMixin",
     "PlayerEntityModelMixin",
     "PlayerEntityRendererMixin",
-    "PlayerListEntryMixin",
     "SplashScreenMixin",
     "TitleScreenMixin"
   ],

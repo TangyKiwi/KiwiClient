@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.mixin;
 
+import com.tangykiwi.kiwiclient.util.CapeRenderer;
 import com.tangykiwi.kiwiclient.util.Deadmau5EarsRenderer;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -23,6 +24,7 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
             at = {@At("RETURN")}
     )
     private void construct(EntityRenderDispatcher entityRenderDispatcher, boolean alex, CallbackInfo info) {
+        this.addFeature(new CapeRenderer(this));
         this.addFeature(new Deadmau5EarsRenderer(this));
     }
 }
