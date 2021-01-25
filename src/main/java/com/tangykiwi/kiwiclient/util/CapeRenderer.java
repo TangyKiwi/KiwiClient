@@ -18,7 +18,6 @@ import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 public class CapeRenderer extends FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
@@ -57,7 +56,7 @@ public class CapeRenderer extends FeatureRenderer<AbstractClientPlayerEntity, Pl
                 matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(6.0F + r / 2.0F + q));
                 matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(s / 2.0F));
                 matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180.0F - s / 2.0F));
-                VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(new Identifier("kiwiclient:textures/cape.png")), false, KiwiClient.moduleManager.getModule(Cape.class).getSettings().get(0).asToggle().state);
+                VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(((Cape) KiwiClient.moduleManager.getModule(Cape.class)).getCape()), false, KiwiClient.moduleManager.getModule(Cape.class).getSettings().get(1).asToggle().state);
                 this.getContextModel().renderCape(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
                 matrixStack.pop();
             }

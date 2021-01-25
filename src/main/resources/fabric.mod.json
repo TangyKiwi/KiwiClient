@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "kiwiclient",
-  "version": "1.7.22",
+  "version": "1.8.22",
 
   "name": "KiwiClient",
   "description": "Experimental MC Utility Mod",
