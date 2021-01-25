@@ -46,6 +46,7 @@ public class ModuleManager {
         moduleList.add(new Criticals());
         moduleList.add(new Deadmau5Ears());
         moduleList.add(new VanillaTweaks());
+        moduleList.add(new ItemPhysics());
     }
 
     public ArrayList<Module> getEnabledMods() {
