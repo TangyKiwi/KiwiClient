@@ -19,17 +19,24 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.BrewingStandBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.client.sound.Sound;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.Locale;
 
 public class KiwiClient implements ModInitializer {
 
@@ -93,7 +100,8 @@ public class KiwiClient implements ModInitializer {
                 int armorIndexSlot = determineIndex(equipmentSlot);
 
                 if (hand == Hand.MAIN_HAND && armorIndexSlot != -1) {
-                    player.playSound(stack.getItem() == Items.ELYTRA ? SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA : SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 1.0F, 1.0F);
+                    SoundEvent sound = determineSound(stack.getItem());
+                    player.playSound(sound, 1.0F, 1.0F);
                     interactionManager.clickSlot(player.playerScreenHandler.syncId, armorIndexSlot, currentItemIndex, SlotActionType.SWAP, player);
                     return TypedActionResult.success(stack);
                 }
@@ -107,7 +115,7 @@ public class KiwiClient implements ModInitializer {
     }
 
     private static int determineIndex(EquipmentSlot type) {
-        switch (type) {
+        switch(type) {
             case HEAD:
                 return 5;
             case CHEST:
@@ -119,5 +127,18 @@ public class KiwiClient implements ModInitializer {
             default:
                 return -1;
         }
+    }
+
+    private static SoundEvent determineSound(Item item) {
+        String name = item.toString();
+        if(name.contains("turtle")) return SoundEvents.ITEM_ARMOR_EQUIP_TURTLE;
+        else if(name.contains("leather")) return SoundEvents.ITEM_ARMOR_EQUIP_LEATHER;
+        else if(name.contains("chain")) return SoundEvents.ITEM_ARMOR_EQUIP_CHAIN;
+        else if(name.contains("iron")) return SoundEvents.ITEM_ARMOR_EQUIP_IRON;
+        else if(name.contains("gold")) return SoundEvents.ITEM_ARMOR_EQUIP_GOLD;
+        else if(name.contains("diamond")) return SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND;
+        else if(name.contains("netherite")) return SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE;
+        else if(name.contains("elytra")) return SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA;
+        return SoundEvents.ITEM_ARMOR_EQUIP_GENERIC;
     }
 }
