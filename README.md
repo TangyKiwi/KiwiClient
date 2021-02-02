@@ -37,6 +37,7 @@ Fabric Utility Mod.
 - Speed ( ~ , currently does NOT work)
 
 #### Player
+- ArmorSwap (no bind)
 - Cape (no bind)
 - Deadmau5Ears (no bind)
 - Freecam ( u )
