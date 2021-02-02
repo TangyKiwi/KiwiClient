@@ -9,10 +9,7 @@ import com.tangykiwi.kiwiclient.modules.client.HUD;
 import com.tangykiwi.kiwiclient.modules.combat.Criticals;
 import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
-import com.tangykiwi.kiwiclient.modules.player.Cape;
-import com.tangykiwi.kiwiclient.modules.player.Deadmau5Ears;
-import com.tangykiwi.kiwiclient.modules.player.Freecam;
-import com.tangykiwi.kiwiclient.modules.player.InventoryViewer;
+import com.tangykiwi.kiwiclient.modules.player.*;
 import com.tangykiwi.kiwiclient.modules.render.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
@@ -46,6 +43,7 @@ public class ModuleManager {
         moduleList.add(new Criticals());
         moduleList.add(new Deadmau5Ears());
         moduleList.add(new ItemPhysics());
+        moduleList.add(new ArmorSwap());
     }
 
     public ArrayList<Module> getEnabledMods() {
