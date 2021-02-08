@@ -48,6 +48,7 @@ Fabric Utility Mod.
 - Fullbright ( c )
 - VanillaTweaks (currently built-in)
 - ItemPhysics (no bind)
+- LogoutSpots (no bind)
 
 ### Commands
 - .bind [module] [key]

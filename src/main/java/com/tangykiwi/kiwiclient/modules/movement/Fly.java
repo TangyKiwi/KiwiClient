@@ -24,11 +24,6 @@ public class Fly extends Module {
             new SliderSetting("Speed", 0, 5, 1, 1));
     }
 
-    @Override
-    public void onEnable() {
-        super.onEnable();
-    }
-
     @Subscribe
     public void onTick(TickEvent e) {
         float speed = (float) getSetting(0).asSlider().getValue();

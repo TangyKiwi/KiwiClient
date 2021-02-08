@@ -12,6 +12,7 @@
     "ChunkOcclusionDataBuilderMixin",
     "ClientConnectionMixin",
     "ClientPlayerEntityMixin",
+    "ClientWorldMixin",
     "EntityMixin",
     "GameRendererMixin",
     "InGameHudMixin",
@@ -22,7 +23,8 @@
     "PlayerEntityModelMixin",
     "PlayerEntityRendererMixin",
     "SplashScreenMixin",
-    "TitleScreenMixin"
+    "TitleScreenMixin",
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

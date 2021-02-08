@@ -44,6 +44,7 @@ public class ModuleManager {
         moduleList.add(new Deadmau5Ears());
         moduleList.add(new ItemPhysics());
         moduleList.add(new ArmorSwap());
+        moduleList.add(new LogoutSpots());
     }
 
     public ArrayList<Module> getEnabledMods() {
