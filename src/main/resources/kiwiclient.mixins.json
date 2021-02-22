@@ -20,8 +20,10 @@
     "ItemEntityRendererMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
+    "MouseMixin",
     "PlayerEntityModelMixin",
     "PlayerEntityRendererMixin",
+    "PlayerInventoryMixin",
     "SplashScreenMixin",
     "TitleScreenMixin",
     "WorldRendererMixin"

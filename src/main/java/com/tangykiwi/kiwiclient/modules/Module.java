@@ -62,6 +62,16 @@ public class Module {
         else onDisable();
     }
 
+    public void enable() {
+        enabled = true;
+        onEnable();
+    }
+
+    public void disable() {
+        enabled = false;
+        onDisable();
+    }
+
     public void onEnable() {
         for (Method method : getClass().getMethods()) {
             if (method.isAnnotationPresent(Subscribe.class)) {

@@ -4,25 +4,31 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.RenderWorldEvent;
 import com.tangykiwi.kiwiclient.modules.player.Freecam;
+import com.tangykiwi.kiwiclient.modules.render.Zoom;
 import com.tangykiwi.kiwiclient.util.CameraEntity;
 import com.tangykiwi.kiwiclient.util.CustomMatrix;
 import com.tangykiwi.kiwiclient.util.CustomRenderer;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.options.GameOptions;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.resource.SynchronousResourceReloadListener;
 import org.jetbrains.annotations.Nullable;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = GameRenderer.class, priority = 1001)
-public abstract class GameRendererMixin
+public abstract class GameRendererMixin implements AutoCloseable, SynchronousResourceReloadListener
 {
     @Shadow
     @Final
@@ -93,5 +99,30 @@ public abstract class GameRendererMixin
             this.client.setCameraEntity(this.cameraEntityOriginal);
             this.cameraEntityOriginal = null;
         }
+    }
+
+    @Redirect(
+            at = @At(value = "FIELD",
+                    target = "Lnet/minecraft/client/options/GameOptions;fov:D",
+                    opcode = Opcodes.GETFIELD,
+                    ordinal = 0),
+            method = {"getFov(Lnet/minecraft/client/render/Camera;FZ)D"})
+    private double getFov(GameOptions options)
+    {
+        return ((Zoom) KiwiClient.moduleManager.getModule(Zoom.class)).changeFovBasedOnZoom(options.fov);
+    }
+
+    @Shadow
+    @Override
+    public void apply(ResourceManager var1)
+    {
+
+    }
+
+    @Shadow
+    @Override
+    public void close() throws Exception
+    {
+
     }
 }

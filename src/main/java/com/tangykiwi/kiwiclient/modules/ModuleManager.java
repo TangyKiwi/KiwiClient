@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.modules;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
+import com.tangykiwi.kiwiclient.event.MouseButtonEvent;
 import com.tangykiwi.kiwiclient.modules.client.ActiveMods;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.modules.client.HUD;
@@ -45,6 +46,7 @@ public class ModuleManager {
         moduleList.add(new ItemPhysics());
         moduleList.add(new ArmorSwap());
         moduleList.add(new LogoutSpots());
+        moduleList.add(new Zoom());
     }
 
     public ArrayList<Module> getEnabledMods() {
@@ -112,4 +114,12 @@ public class ModuleManager {
             if(m.getKeyCode() == e.getKeyCode()) m.toggle();
         }
     }
+
+    /**
+     @Subscribe
+     public static void handleMouseButton(MouseButtonEvent e) {
+     for(Module m : moduleList) {
+     if(m.getKeyCode() == e.getKey()) m.toggle();
+     }
+     } */
 }
