@@ -1,0 +1,22 @@
+{
+	"credit": "Created by Stridey",
+	"ambientocclusion": false,
+	"textures": {
+		"particle": "block/jungle_door_bottom",
+		"bottom": "block/jungle_door_bottom"
+	},
+	"elements": [
+		{
+			"name": "Box10",
+			"from": [0, 0, 0],
+			"to": [3, 16, 16],
+			"faces": {
+				"north": {"uv": [15, 0, 16, 16], "texture": "#bottom"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#bottom"},
+				"south": {"uv": [0, 0, 1, 16], "texture": "#bottom"},
+				"west": {"uv": [16, 0, 0, 16], "texture": "#bottom"},
+				"down": {"uv": [0, 15, 16, 16], "rotation": 90, "texture": "#bottom"}
+			}
+		}
+	]
+}

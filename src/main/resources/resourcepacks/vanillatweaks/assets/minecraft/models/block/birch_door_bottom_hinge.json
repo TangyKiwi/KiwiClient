@@ -1,0 +1,50 @@
+{
+	"credit": "Created by Stridey",
+	"ambientocclusion": false,
+	"textures": {
+		"particle": "block/birch_door_bottom",
+		"bottom": "block/birch_door_bottom"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [3, 16, 3],
+			"faces": {
+				"north": {"uv": [16, 0, 15, 16], "texture": "#bottom"},
+				"east": {"uv": [13, 0, 16, 16], "texture": "#bottom"},
+				"south": {"uv": [13, 0, 14, 16], "texture": "#bottom"},
+				"west": {"uv": [16, 0, 13, 16], "texture": "#bottom"},
+				"down": {"uv": [13, 16, 16, 15], "rotation": 90, "texture": "#bottom"}
+			}
+		},
+		{
+			"from": [0, 0, 13],
+			"to": [3, 16, 16],
+			"faces": {
+				"north": {"uv": [2, 0, 3, 16], "texture": "#bottom"},
+				"east": {"uv": [0, 0, 3, 16], "texture": "#bottom"},
+				"south": {"uv": [0, 0, 1, 16], "texture": "#bottom"},
+				"west": {"uv": [3, 0, 0, 16], "texture": "#bottom"},
+				"down": {"uv": [0, 16, 3, 15], "rotation": 90, "texture": "#bottom"}
+			}
+		},
+		{
+			"from": [0, 0, 3],
+			"to": [3, 12, 13],
+			"faces": {
+				"east": {"uv": [3, 4, 13, 16], "texture": "#bottom"},
+				"west": {"uv": [13, 4, 3, 16], "texture": "#bottom"},
+				"up": {"uv": [3, 4, 13, 5], "rotation": 90, "texture": "#bottom"},
+				"down": {"uv": [3, 16, 13, 15], "texture": "#bottom"}
+			}
+		},
+		{
+			"from": [1, 12, 3],
+			"to": [2, 16, 13],
+			"faces": {
+				"east": {"uv": [3, 0, 13, 4], "texture": "#bottom"},
+				"west": {"uv": [13, 0, 3, 4], "texture": "#bottom"}
+			}
+		}
+	]
+}
