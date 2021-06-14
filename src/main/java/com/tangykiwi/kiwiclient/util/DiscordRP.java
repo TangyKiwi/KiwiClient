@@ -1,11 +1,8 @@
 package com.tangykiwi.kiwiclient.util;
 
-import com.tangykiwi.kiwiclient.KiwiClient;
 import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
-import net.arikia.dev.drpc.DiscordUser;
-import net.arikia.dev.drpc.callbacks.ReadyCallback;
 
 public class DiscordRP {
 
@@ -15,12 +12,8 @@ public class DiscordRP {
     public void start() {
         this.time = System.currentTimeMillis();
 
-        DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler(new ReadyCallback() {
-            @Override
-            public void apply(DiscordUser user) {
-                System.out.println(user.username + "#" +  user.discriminator);
-                update("Loading ", KiwiClient.name + " v" + KiwiClient.version);
-            }
+        DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler((user) -> {
+            System.out.println("Welcome " + user.username + "#" + user.discriminator + "!");
         }).build();
 
         DiscordRPC.discordInitialize("790758093113917491", handlers, true);
