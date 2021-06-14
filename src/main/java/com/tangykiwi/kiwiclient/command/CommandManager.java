@@ -13,6 +13,7 @@ public class CommandManager {
 
     public void init() {
         commandList.add(new Bind());
+        commandList.add(new Dupe());
         commandList.add(new Ez());
         commandList.add(new Say());
         commandList.add(new SchwongleClip());
