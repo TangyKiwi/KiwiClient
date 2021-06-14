@@ -1,5 +1,7 @@
 package com.tangykiwi.kiwiclient.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
@@ -29,9 +31,10 @@ public class MainMenu extends Screen {
 
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {
         TextureManager textureManager = this.client.getTextureManager();
-        textureManager.bindTexture(new Identifier("kiwiclient:background.jpg"));
+        //textureManager.bindTexture(new Identifier("kiwiclient:background.jpg"));
+        RenderSystem.setShaderTexture(0, KiwiClient.MENU);
         this.drawTexture(matrixStack, 0, 0, 0, 0, this.width, this.height, this.width, this.height);
-        //this.fillGradient(matrixStack, 0, this.height - 100, this.width, this.height, 0x00000000, 0xff000000);
+        this.fillGradient(matrixStack, 0, this.height - 100, this.width, this.height, 0x00000000, 0xff000000);
 
         TextRenderer textRenderer = this.client.textRenderer;
         int offset = 0;

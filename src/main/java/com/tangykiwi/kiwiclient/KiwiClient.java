@@ -33,7 +33,7 @@ import org.lwjgl.glfw.GLFW;
 public class KiwiClient implements ModInitializer {
 
 	public static final String MOD_ID = "kiwiclient";
-	public static String name = "KiwiClient 1.17", version = "1.0.1";
+	public static String name = "KiwiClient 1.17", version = "2.1.1";
 	private MinecraftClient mc;
 
 	public static DiscordRP discordRPC;
@@ -42,6 +42,8 @@ public class KiwiClient implements ModInitializer {
 	public static EventBus eventBus = new EventBus();
 
 	public static Identifier EARS = new Identifier("kiwiclient:textures/ears.png");
+	public static Identifier MENU = new Identifier("kiwiclient:background.jpg");
+	public static Identifier DUCK = new Identifier("kiwiclient:textures/duck.png");
 
 	public static KeyBinding zoomKey = new KeyBinding("kiwiclient.zoom", InputUtil.Type.MOUSE,
 			GLFW.GLFW_MOUSE_BUTTON_5, "KiwiClient");
