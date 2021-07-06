@@ -2,7 +2,7 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.gui.LoadingScreen;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.SplashScreen;
+import net.minecraft.client.gui.screen.SplashOverlay;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(SplashScreen.class)
+@Mixin(SplashOverlay.class)
 public class SplashScreenMixin {
 
     @Shadow

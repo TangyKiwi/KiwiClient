@@ -2,9 +2,14 @@ package com.tangykiwi.kiwiclient.command;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.network.packet.c2s.play.BookUpdateC2SPacket;
+
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Dupe extends Command {
 
@@ -35,7 +40,7 @@ public class Dupe extends Command {
 
         StringBuilder builder2 = new StringBuilder();
         for(int i = 0; i < 32; i++)
-            builder2.append("KiwiClient!!!");
+            builder2.append("KiwiClient, first I quacc then I hacc");
 
         String string2 = builder2.toString();
         for(int i = 1; i < 40; i++)
@@ -46,7 +51,8 @@ public class Dupe extends Command {
                 NbtString.of("If you can see this, it didn't work"));
         bookStack.putSubTag("pages", listTag);
 
-        mc.player.networkHandler.sendPacket(new BookUpdateC2SPacket(bookStack,
-                true, mc.player.getInventory().selectedSlot));
+        ArrayList<String> pages = listTag.stream().map(NbtElement::asString).collect(Collectors.toCollection(ArrayList::new));
+
+        mc.player.networkHandler.sendPacket(new BookUpdateC2SPacket(mc.player.getInventory().selectedSlot, pages, Optional.of("If you can see this, it didn't work")));
     }
 }
