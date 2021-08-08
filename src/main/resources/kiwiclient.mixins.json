@@ -1,0 +1,32 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.tangykiwi.kiwiclient.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+  ],
+  "client": [
+    "AbstractBlockStateMixin",
+    "ChunkOcclusionDataBuilderMixin",
+    "ClientConnectionMixin",
+    "ClientPlayerEntityMixin",
+    "ClientWorldMixin",
+    "GameRendererMixin",
+    "InGameHudMixin",
+    "ItemEntityMixin",
+    "ItemEntityRendererMixin",
+    "ItemStackMixin",
+    "KeyboardMixin",
+    "MinecraftClientMixin",
+    "MouseMixin",
+    "PlayerEntityModelMixin",
+    "PlayerEntityRendererMixin",
+    "PlayerInventoryMixin",
+    "SplashScreenMixin",
+    "TitleScreenMixin",
+    "WorldRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,31 @@
+{
+	"credit": "Created by Stridey",
+	"textures": {
+		"1": "block/pointed_dripstone_light",
+		"particle": "block/pointed_dripstone_tip_merge",
+		"cross": "block/pointed_dripstone_tip_merge"
+	},
+	"elements": [
+		{
+			"from": [5, 0, 5],
+			"to": [11, 8, 11],
+			"faces": {
+				"north": {"uv": [5, 8, 11, 16], "texture": "#cross"},
+				"east": {"uv": [5, 8, 11, 16], "texture": "#cross"},
+				"south": {"uv": [5, 8, 11, 16], "texture": "#cross"},
+				"west": {"uv": [5, 8, 11, 16], "texture": "#cross"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#1"}
+			}
+		},
+		{
+			"from": [6, 8, 6],
+			"to": [10, 16, 10],
+			"faces": {
+				"north": {"uv": [6, 0, 10, 8], "texture": "#cross"},
+				"east": {"uv": [6, 0, 10, 8], "texture": "#cross"},
+				"south": {"uv": [6, 0, 10, 8], "texture": "#cross"},
+				"west": {"uv": [6, 0, 10, 8], "texture": "#cross"}
+			}
+		}
+	]
+}
