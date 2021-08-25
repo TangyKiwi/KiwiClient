@@ -32,22 +32,6 @@ import static net.minecraft.client.gui.DrawableHelper.fill;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
-    @Shadow
-    @Final
-    private MinecraftClient client;
-
-    @Shadow
-    private int heldItemTooltipFade;
-
-    @Shadow
-    private ItemStack currentStack;
-
-    @Shadow
-    private int scaledWidth;
-
-    @Shadow
-    private int scaledHeight;
-
     @Inject(method="render", at=@At(value="TAIL"), cancellable=true)
     private void render(CallbackInfo info){
         if(!MinecraftClient.getInstance().options.debugEnabled) {
@@ -65,58 +49,5 @@ public class InGameHudMixin {
         DrawOverlayEvent event = new DrawOverlayEvent(new MatrixStack());
         KiwiClient.eventBus.post(event);
         if (event.isCancelled()) info.cancel();
-    }
-
-    @Inject(at = @At("HEAD"), method = "renderHeldItemTooltip")
-    public void onInjectTooltip(MatrixStack matrixStack, CallbackInfo info) {
-        if(KiwiClient.moduleManager.getModule(Tooltips.class).isEnabled()) {
-            if(KiwiClient.moduleManager.getModule(Tooltips.class).getSetting(0).asToggle().state) {
-                this.client.getProfiler().push("selectedItemName");
-                if (this.heldItemTooltipFade > 0 && !this.currentStack.isEmpty()) {
-                    MutableText mutableText = (new LiteralText("")).append(this.currentStack.getName()).formatted(this.currentStack.getRarity().formatting);
-                    if (this.currentStack.hasCustomName()) {
-                        mutableText.formatted(Formatting.ITALIC);
-                    }
-
-                    int mainItemNameWidth = client.textRenderer.getWidth(mutableText);
-                    int j = (this.scaledWidth - mainItemNameWidth) / 2;
-                    int hotbarOffset = this.scaledHeight - 59;
-                    if (!this.client.interactionManager.hasStatusBars()) {
-                        hotbarOffset += 14;
-                    }
-
-                    int opacity = (int)((float)this.heldItemTooltipFade * 256.0F / 10.0F);
-                    if (opacity > 255) {
-                        opacity = 255;
-                    }
-
-                    if (opacity > 0) {
-                        RenderSystem.enableBlend();
-                        RenderSystem.defaultBlendFunc();
-                        int var10001 = j - 2;
-                        int var10002 = hotbarOffset - 2;
-                        int var10003 = j + mainItemNameWidth + 2;
-                        fill(matrixStack, var10001, var10002, var10003, hotbarOffset + 9 + 2, this.client.options.getTextBackgroundColor(0));
-                        if (currentStack.getItem() == Items.SUSPICIOUS_STEW){
-                            NbtCompound tag = currentStack.getTag();
-                            if (tag != null) {
-                                NbtList effects = tag.getList("Effects", 10);
-                                int effectsCount = effects.size();
-                                for (int i = 0; i < effectsCount; i++) {
-                                    tag = effects.getCompound(i);
-                                    int duration = tag.getInt("EffectDuration");
-                                    StatusEffect effect = StatusEffect.byRawId(tag.getByte("EffectId"));
-                                    String time = ChatUtil.ticksToString(duration);
-                                    Text completeText = new TranslatableText(effect.getTranslationKey()).append(" "+time);
-                                    j = (this.scaledWidth - client.textRenderer.getWidth(completeText)) / 2;
-                                    client.textRenderer.drawWithShadow(matrixStack, completeText, (float)j, (float)hotbarOffset-(i*14)-14, 13421772 + (opacity << 24));
-                                }
-                            }
-                        }
-                        RenderSystem.disableBlend();
-                    }
-                }
-            }
-        }
     }
 }

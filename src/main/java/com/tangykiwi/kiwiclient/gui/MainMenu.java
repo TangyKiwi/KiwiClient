@@ -60,17 +60,17 @@ public class MainMenu extends Screen {
                 this.client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 switch(b) {
                     case "Singleplayer":
-                        this.client.openScreen(new SelectWorldScreen(this));
+                        this.client.setScreen(new SelectWorldScreen(this));
                         break;
                     case "Multiplayer":
                         Screen screen = this.client.options.skipMultiplayerWarning ? new MultiplayerScreen(this) : new MultiplayerWarningScreen(this);
-                        this.client.openScreen((Screen) screen);
+                        this.client.setScreen((Screen) screen);
                         break;
                     case "Options":
-                        this.client.openScreen(new OptionsScreen(this, this.client.options));
+                        this.client.setScreen(new OptionsScreen(this, this.client.options));
                         break;
                     case "Language":
-                        this.client.openScreen(new LanguageOptionsScreen(this, this.client.options, this.client.getLanguageManager()));
+                        this.client.setScreen(new LanguageOptionsScreen(this, this.client.options, this.client.getLanguageManager()));
                         break;
                     case "Quit":
                         this.client.scheduleStop();

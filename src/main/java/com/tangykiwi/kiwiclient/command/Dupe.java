@@ -47,9 +47,9 @@ public class Dupe extends Command {
             listTag.addElement(i, NbtString.of(string2));
 
         ItemStack bookStack = new ItemStack(Items.WRITABLE_BOOK, 1);
-        bookStack.putSubTag("title",
+        bookStack.setSubNbt("title",
                 NbtString.of("If you can see this, it didn't work"));
-        bookStack.putSubTag("pages", listTag);
+        bookStack.setSubNbt("pages", listTag);
 
         ArrayList<String> pages = listTag.stream().map(NbtElement::asString).collect(Collectors.toCollection(ArrayList::new));
 

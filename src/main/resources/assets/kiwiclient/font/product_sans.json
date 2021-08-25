@@ -1,0 +1,11 @@
+{
+  "providers": [
+    {
+      "type": "ttf",
+      "file": "kiwiclient:product_sans.ttf",
+      "shift": [0, 0],
+      "size": 7.0,
+      "oversample": 14.0
+    }
+  ]
+}

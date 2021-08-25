@@ -2,6 +2,10 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
+import com.tangykiwi.kiwiclient.util.renderer.Fonts;
+import com.tangykiwi.kiwiclient.util.renderer.GL;
+import com.tangykiwi.kiwiclient.util.renderer.Renderer2D;
+import com.tangykiwi.kiwiclient.util.renderer.Shaders;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -16,8 +20,14 @@ import static com.tangykiwi.kiwiclient.KiwiClient.discordRPC;
 
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
+//    @Inject(method = "<init>", at = @At("TAIL"))
+//    private void onInit(CallbackInfo info) {
+//        KiwiClient.INSTANCE.onInitialize();
+//    }
+
+
     @Inject(method="getWindowTitle", at=@At(value="TAIL"), cancellable=true)
-    private void getWindowTitle(final CallbackInfoReturnable<String> info){
+    private void getWindowTitle(final CallbackInfoReturnable<String> info) {
         MinecraftClient client = (MinecraftClient) (Object) this;
 
         StringBuilder stringBuilder = new StringBuilder(KiwiClient.name + " v" + KiwiClient.version);
@@ -39,11 +49,14 @@ public class MinecraftClientMixin {
                 discordRPC.update("Playing", "LAN Server");
             }
         }
+        else {
+            discordRPC.update("Idle", "Main Menu");
+        }
 
         info.setReturnValue(stringBuilder.toString());
     }
 
-    @Inject(at = @At("HEAD"), method = "openScreen(Lnet/minecraft/client/gui/screen/Screen;)V", cancellable = true)
+    @Inject(at = @At("HEAD"), method = "setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", cancellable = true)
     public void openScreen(Screen screen, CallbackInfo info) {
         OpenScreenEvent event = new OpenScreenEvent(screen);
         KiwiClient.eventBus.post(event);

@@ -9,15 +9,25 @@ import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.Settings;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
+import com.tangykiwi.kiwiclient.util.CustomColor;
+import com.tangykiwi.kiwiclient.util.renderer.Fonts;
+import com.tangykiwi.kiwiclient.util.renderer.text.CustomTextRenderer;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Style;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HUD extends Module {
     
@@ -28,11 +38,12 @@ public class HUD extends Module {
     private long timer = 0;
     private int ping = 0;
     private String ip = "";
-    private float speed;
 
     private int defaultColor = 0xFFAA00;
 
     private MatrixStack matrixStack = new MatrixStack();
+
+    private static Style CUSTOM_STYLE = Style.EMPTY.withFont(new Identifier("kiwiclient", "product_sans"));
     
     public List<String> info = new ArrayList<>();
     
@@ -41,9 +52,10 @@ public class HUD extends Module {
             new ToggleSetting("FPS", true).withDesc("Shows FPS").withValue(0),
             new ToggleSetting("Ping", true).withDesc("Shows Ping").withValue(1),
             new ToggleSetting("IP", false).withDesc("Shows Server Address").withValue(2),
-            new ToggleSetting("BPS", false).withDesc("Shows Player Speed").withValue(3),
-            new ToggleSetting("Coords", true).withDesc("Shows Player Position").withValue(4),
-            new ToggleSetting("Alternate Coords", true).withDesc("Shows Nether/Overworld Position").withValue(5),
+            new ToggleSetting("Biome", true).withDesc("Shows current biome").withValue(3),
+            new ToggleSetting("Speed", true).withDesc("Shows Player Speed").withValue(4),
+            new ToggleSetting("Coords", true).withDesc("Shows Player Position").withValue(5),
+            new ToggleSetting("Alternate Coords", true).withDesc("Shows Nether/Overworld Position").withValue(6),
             new ToggleSetting("Armor", true).withDesc("Shows Armor Status")
             //new ToggleSetting("Watermark", true).withDesc("KiwiClient Watermark")
         );
@@ -53,18 +65,21 @@ public class HUD extends Module {
     @Subscribe
     public void onDrawOverlay(DrawOverlayEvent e) {
         if(!mc.options.debugEnabled) {
-            TextRenderer textRenderer = mc.textRenderer;
+            net.minecraft.client.font.TextRenderer textRenderer = mc.textRenderer;
+            //TextRenderer textRenderer = TextRenderer.get();
+            //TextRenderer textRenderer = new TextRenderer((id) -> new FontStorage(mc.getTextureManager(), new Identifier("kiwiclient:fonts/product_sans.json")));
 
             List<Settings> settings = getSettings();
             int counter = 0;
-            for(int i = 5; i >= 0; i--) {
+            for(int i = settings.size() - 2; i >= 0; i--) {
                 if(settings.get(i).asToggle().state) {
                     counter++;
                     drawSetting(textRenderer, e.matrix, settings.get(i).asToggle().getValue(), (counter) * 10);
                 }
             }
 
-            if(settings.get(6).asToggle().state && !mc.player.isSpectator()) {
+            // Armor HUD
+            if(settings.get(7).asToggle().state && !mc.player.isSpectator()) {
                 int count = 0;
                 int x1 = mc.getWindow().getScaledWidth() / 2;
                 int y = mc.getWindow().getScaledHeight() -
@@ -120,14 +135,31 @@ public class HUD extends Module {
                 textRenderer.draw(m, String.format("Ping: %d", ping), 2, mc.getWindow().getScaledHeight() - offset, ColorUtil.getColorString(ping, 10, 20, 50, 75, 100, true));
                 break;
             case 2:
-                this.ip = mc.getCurrentServerEntry() == null ? "IP: Singleplayer" : "IP: " + mc.getCurrentServerEntry().address;
+                this.ip = "IP: Singleplayer";
+                if(mc.getCurrentServerEntry() != null) {
+                    if(mc.isConnectedToRealms()) {
+                        this.ip = "IP: " + mc.getCurrentServerEntry().name;
+                    }
+                    else this.ip = "IP: " + mc.getCurrentServerEntry().address;
+                }
                 textRenderer.draw(m, ip, 2, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
                 break;
             case 3:
-                speed = mc.player.getSpeed();
-                textRenderer.draw(m, String.format("Speed: %.1f b/s", speed), 2, mc.getWindow().getScaledHeight() - offset, ColorUtil.getColorString(Math.round(speed), 1, 5, 10, 20, 50, true));
+                String biome = "";
+                Identifier id = mc.world.getRegistryManager().get(Registry.BIOME_KEY).getId(mc.world.getBiome(new BlockPos.Mutable().set(mc.player.getX(), mc.player.getY(), mc.player.getZ())));
+                if (id == null) biome = "Unknown";
+                else biome = Arrays.stream(id.getPath().split("_")).map(StringUtils::capitalize).collect(Collectors.joining(" "));
+                textRenderer.draw(m, "Biome: " + biome, 2, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
                 break;
             case 4:
+                double tX = Math.abs(mc.player.getX() - mc.player.prevX);
+                double tZ = Math.abs(mc.player.getZ() - mc.player.prevZ);
+                double length = Math.sqrt(tX * tX + tZ * tZ);
+
+                this.bps = length * 20;
+                textRenderer.draw(m, String.format("Speed: %.1f b/s", bps), 2, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
+                break;
+            case 5:
                 Vec3d vec = mc.player.getPos();
                 float yaw = MathHelper.wrapDegrees(mc.getCameraEntity().getYaw());
                 String dir = "";
@@ -143,7 +175,7 @@ public class HUD extends Module {
 
                 textRenderer.draw(m, String.format("X: %.1f Y: %.1f Z: %.1f " + dir, vec.x, vec.y, vec.z), 2, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
                 break;
-            case 5:
+            case 6:
                 Boolean nether = mc.world.getRegistryKey().getValue().getPath().contains("nether");
                 Vec3d vec2 = mc.player.getPos();
                 double altx = vec2.x / 8;
@@ -156,7 +188,7 @@ public class HUD extends Module {
                 if (nether) textRenderer.draw(m, String.format("(Overworld) X: %.1f Y: %.1f Z: %.1f", altx, vec2.y, altz), 2, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
                 else textRenderer.draw(m, String.format("(Nether) X: %.1f Y: %.1f Z: %.1f", altx, vec2.y, altz), 2, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
                 break;
-            case 6:
+            case 7:
                 textRenderer.draw(m, String.format("%s v%s", KiwiClient.name, KiwiClient.version), 2, mc.getWindow().getScaledHeight() - offset, ColorUtil.getRainbow(3, 0.8f, 1));
                 break;
         }

@@ -118,7 +118,7 @@ public class ModuleManager {
         if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) return;
 
         if(InputUtil.isKeyPressed(mc.getWindow().getHandle(), Command.KEY)) {
-            mc.openScreen(new ChatScreen(""));
+            mc.setScreen(new ChatScreen(""));
             return;
         }
 

@@ -5,9 +5,14 @@ import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.modules.ModuleManager;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.modules.player.ArmorSwap;
-import com.tangykiwi.kiwiclient.util.CustomMatrix;
-import com.tangykiwi.kiwiclient.util.DiscordRP;
-import com.tangykiwi.kiwiclient.util.Utils;
+import com.tangykiwi.kiwiclient.util.*;
+import com.tangykiwi.kiwiclient.util.font.CustomFont;
+import com.tangykiwi.kiwiclient.util.font.CustomFontOversample;
+import com.tangykiwi.kiwiclient.util.renderer.Fonts;
+import com.tangykiwi.kiwiclient.util.renderer.GL;
+import com.tangykiwi.kiwiclient.util.renderer.Renderer2D;
+import com.tangykiwi.kiwiclient.util.renderer.Shaders;
+import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
@@ -30,9 +35,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import org.lwjgl.glfw.GLFW;
 
+import java.io.File;
+
 public class KiwiClient implements ModInitializer {
 
 	public static final String MOD_ID = "kiwiclient";
+	public static KiwiClient INSTANCE;
 	public static String name = "KiwiClient 1.17.1", version = "2.1.2";
 	private MinecraftClient mc;
 
@@ -45,13 +53,25 @@ public class KiwiClient implements ModInitializer {
 	public static Identifier MENU = new Identifier("kiwiclient:background.jpg");
 	public static Identifier DUCK = new Identifier("kiwiclient:textures/duck.png");
 
+	public static final File FOLDER = new File(FabricLoader.getInstance().getGameDir().toString(), "kiwiclient");
+
 	public static KeyBinding zoomKey = new KeyBinding("kiwiclient.zoom", InputUtil.Type.MOUSE,
 			GLFW.GLFW_MOUSE_BUTTON_5, "KiwiClient");
 
 	@Override
 	public void onInitialize() {
+//		if (INSTANCE == null) {
+//			INSTANCE = this;
+//			return;
+//		}
 		mc = MinecraftClient.getInstance();
 		Utils.mc = mc;
+
+//		GL.init();
+//		Shaders.init();
+//		Renderer2D.init();
+//		Fonts.init();
+
 		CustomMatrix.begin(new MatrixStack());
 
 		moduleManager = new ModuleManager();
@@ -89,6 +109,8 @@ public class KiwiClient implements ModInitializer {
 			}
 			return TypedActionResult.pass(ItemStack.EMPTY);
 		});
+
+		//Fonts.load();
 
 		KeyBindingHelper.registerKeyBinding(zoomKey);
 	}

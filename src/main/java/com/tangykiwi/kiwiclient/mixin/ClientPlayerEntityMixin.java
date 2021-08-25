@@ -82,8 +82,8 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         if (!KiwiClient.moduleManager.getModule(NoPortal.class).isEnabled()) closeHandledScreen();
     }
 
-    @Redirect(method = "updateNausea()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;openScreen(Lnet/minecraft/client/gui/screen/Screen;)V", ordinal = 0))
+    @Redirect(method = "updateNausea()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", ordinal = 0))
     private void updateNausea_openScreen(MinecraftClient player, Screen screen_1) {
-        if (!KiwiClient.moduleManager.getModule(NoPortal.class).isEnabled()) client.openScreen(screen_1);
+        if (!KiwiClient.moduleManager.getModule(NoPortal.class).isEnabled()) client.setScreen(screen_1);
     }
 }
