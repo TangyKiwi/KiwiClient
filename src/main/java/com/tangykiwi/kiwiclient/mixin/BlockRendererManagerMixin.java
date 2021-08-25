@@ -25,21 +25,19 @@ public class BlockRendererManagerMixin {
         XRay xray = (XRay) KiwiClient.moduleManager.getModule(XRay.class);
 
         if (xray.isEnabled() && !xray.isVisible(state.getBlock())) {
-            if (xray.getSetting(1).asToggle().state) {
-                if (xray.getSetting(1).asToggle().getChild(1).asToggle().state
-                        && (state.getBlock() instanceof FernBlock
-                        || state.getBlock() instanceof PlantBlock
-                        || state.getBlock() instanceof RailBlock
-                        || state.getBlock().getClass() == TallPlantBlock.class
-                        || getTopBlockIgnoreLeaves(pos.getX(), pos.getZ()) == pos.getY())) {
-                    ci.setReturnValue(false);
-                    return;
-                }
-
-                vertexConsumer.fixedColor(-1, -1, -1, (int) xray.getSetting(1).asToggle().getChild(0).asSlider().getValue());
-            } else {
+//            if (xray.getSetting(1).asToggle().state) {
+//                if (xray.getSetting(1).asToggle().getChild(1).asToggle().state
+//                        && (state.getBlock() instanceof FernBlock
+//                        || state.getBlock().getClass() == TallPlantBlock.class
+//                        || getTopBlockIgnoreLeaves(pos.getX(), pos.getZ()) == pos.getY())) {
+//                    ci.setReturnValue(false);
+//                    return;
+//                }
+//
+//                vertexConsumer.fixedColor(-1, -1, -1, (int) xray.getSetting(1).asToggle().getChild(0).asSlider().getValue());
+//            } else {
                 ci.setReturnValue(false);
-            }
+            //}
         }
     }
 

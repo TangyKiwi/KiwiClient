@@ -21,11 +21,12 @@ public class BlockMixin {
         XRay xray = (XRay) KiwiClient.moduleManager.getModule(XRay.class);
 
         if (xray.isEnabled()) {
-            if (!xray.getSetting(1).asToggle().state) {
-                callback.setReturnValue(xray.isVisible(state.getBlock()));
-            } else if (xray.isVisible(state.getBlock())) {
-                callback.setReturnValue(true);
-            }
+            callback.setReturnValue(xray.isVisible(state.getBlock()));
+//            if (!xray.getSetting(1).asToggle().state) {
+//                callback.setReturnValue(xray.isVisible(state.getBlock()));
+//            } else if (xray.isVisible(state.getBlock())) {
+//                callback.setReturnValue(true);
+//            }
         }
     }
 }

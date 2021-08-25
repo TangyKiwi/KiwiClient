@@ -46,10 +46,10 @@ public class XRay extends Module {
 
     public XRay() {
         super("XRay", "Shows ores", KEY_UNBOUND, Category.RENDER,
-        new ToggleSetting("Fluids", true).withDesc("Show fluids"),
-        new ToggleSetting("Opacity", false).withDesc("Changes opacity of non xray blocks").withChildren(
-                new SliderSetting("Value", 0, 255, 64, 0).withDesc("Opacity level"),
-                new ToggleSetting("Hide Surface", false).withDesc("Hides top of blocks on the surface"))
+        new ToggleSetting("Fluids", true).withDesc("Show fluids, toggle xray to see changes")//,
+//        new ToggleSetting("Opacity", false).withDesc("Changes opacity of non xray blocks").withChildren(
+//                new SliderSetting("Value", 0, 255, 64, 0).withDesc("Opacity level"),
+//                new ToggleSetting("Hide Surface", false).withDesc("Hides top of blocks on the surface"))
         );
     }
 
@@ -80,10 +80,10 @@ public class XRay extends Module {
         mc.options.gamma = 69;
     }
 
-    @Subscribe
-    public void onMarkClosed(MarkClosedEvent e) {
-        e.setCancelled(true);
-    }
+//    @Subscribe
+//    public void onMarkClosed(MarkClosedEvent e) {
+//        e.setCancelled(true);
+//    }
 
     @Subscribe
     public void onGetAmbientOcclusionLightLevel(AmbientOcclusionEvent e) {
