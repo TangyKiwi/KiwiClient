@@ -14,6 +14,7 @@
     "ClientConnectionMixin",
     "ClientPlayerEntityMixin",
     "ClientWorldMixin",
+    "CommandSuggestorMixin",
     "EntityAccessor",
     "EntityBucketItemAccessor",
     "EntityBucketItemMixin",

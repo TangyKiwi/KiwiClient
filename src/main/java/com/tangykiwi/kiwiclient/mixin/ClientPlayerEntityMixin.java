@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.mixin;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.command.CommandManager;
@@ -9,6 +10,7 @@ import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.mixininterface.IClientPlayerEntity;
 import com.tangykiwi.kiwiclient.modules.movement.SafeWalk;
 import com.tangykiwi.kiwiclient.modules.render.NoPortal;
+import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -16,6 +18,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.MovementType;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -56,12 +59,21 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     public void onChatMessage(String message, CallbackInfo callbackInfo) {
-        if(message.startsWith(".say ")) {
-            this.client.getNetworkHandler().sendPacket(new ChatMessageC2SPacket(message.substring(5)));
-            callbackInfo.cancel();
-        }
-        else if(message.startsWith(Command.PREFIX)) {
-            CommandManager.callCommand(message.substring(Command.PREFIX.length()));
+//        if(message.startsWith(".say ")) {
+//            this.client.getNetworkHandler().sendPacket(new ChatMessageC2SPacket(message.substring(5)));
+//            callbackInfo.cancel();
+//        }
+//        else if(message.startsWith(Command.PREFIX)) {
+//            CommandManager.callCommand(message.substring(Command.PREFIX.length()));
+//            callbackInfo.cancel();
+//        }
+
+        if (message.startsWith(KiwiClient.PREFIX)) {
+            try {
+                KiwiClient.commandManager.dispatch(message.substring(KiwiClient.PREFIX.length()));
+            } catch (CommandSyntaxException e) {
+                Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText(e.getMessage()));
+            }
             callbackInfo.cancel();
         }
     }

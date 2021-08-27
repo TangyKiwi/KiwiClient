@@ -2,11 +2,14 @@ package com.tangykiwi.kiwiclient.util;
 
 import net.minecraft.client.MinecraftClient;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Utils {
     public static MinecraftClient mc;
@@ -31,5 +34,9 @@ public class Utils {
 
     public static boolean canUpdate() {
         return mc != null && mc.world != null && mc.player != null;
+    }
+
+    public static String nameToTitle(String name) {
+        return Arrays.stream(name.split("-")).map(StringUtils::capitalize).collect(Collectors.joining(" "));
     }
 }

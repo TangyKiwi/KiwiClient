@@ -47,6 +47,7 @@ public class KiwiClient implements ModInitializer {
 	public static DiscordRP discordRPC;
 	public static ModuleManager moduleManager;
 	public static CommandManager commandManager;
+	public static String PREFIX = ",";
 	public static EventBus eventBus = new EventBus();
 
 	public static Identifier EARS = new Identifier("kiwiclient:textures/ears.png");

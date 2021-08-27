@@ -26,7 +26,7 @@ public abstract class EntityBucketItemMixin extends Item {
 
     @Override
     public Optional<TooltipData> getTooltipData(ItemStack stack) {
-        if(KiwiClient.moduleManager.getModule(Tooltips.class).getSetting(2).asToggle().state) return EntityTooltipComponent.of(this.entityType, stack.getOrCreateNbt()).or(() -> super.getTooltipData(stack));
+        if(KiwiClient.moduleManager.getModule(Tooltips.class).isEnabled() && KiwiClient.moduleManager.getModule(Tooltips.class).getSetting(2).asToggle().state) return EntityTooltipComponent.of(this.entityType, stack.getOrCreateNbt()).or(() -> super.getTooltipData(stack));
         return super.getTooltipData(stack);
     }
 }

@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.modules;
 
 import com.google.common.eventbus.Subscribe;
+import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.modules.client.ActiveMods;
@@ -117,7 +118,7 @@ public class ModuleManager {
     public static void handleKeyPress(KeyPressEvent e) {
         if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) return;
 
-        if(InputUtil.isKeyPressed(mc.getWindow().getHandle(), Command.KEY)) {
+        if(InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_COMMA)) {
             mc.setScreen(new ChatScreen(""));
             return;
         }

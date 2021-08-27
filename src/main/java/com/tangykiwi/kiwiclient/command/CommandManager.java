@@ -1,60 +1,76 @@
 package com.tangykiwi.kiwiclient.command;
 
-import com.google.common.collect.Lists;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.ParseResults;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.tangykiwi.kiwiclient.command.commands.*;
+import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.LiteralText;
+import net.minecraft.client.network.ClientCommandSource;
+import net.minecraft.command.CommandSource;
 
 import java.util.*;
 
 public class CommandManager {
-
-    public static ArrayList<Command> commandList = new ArrayList<Command>();
-    public static MinecraftClient mc = MinecraftClient.getInstance();
+    private final CommandDispatcher<CommandSource> DISPATCHER = new CommandDispatcher<>();
+    private final CommandSource COMMAND_SOURCE = new ChatCommandSource(Utils.mc);
+    private final List<Command> commands = new ArrayList<>();
+    private final Map<Class<? extends Command>, Command> commandInstances = new HashMap<>();
 
     public void init() {
-        commandList.add(new Bind());
-        commandList.add(new Dupe());
-        commandList.add(new Ez());
-        commandList.add(new Say());
-        commandList.add(new SchwongleClip());
-        commandList.add(new Toggle());
-        commandList.add(new Unbind());
+        add(new Bind());
+        //add(new Dupe());
+        add(new Ez());
+        add(new Say());
+        add(new Toggle());
+        add(new Unbind());
+        add(new VClip());
+
+        commands.sort(Comparator.comparing(Command::getName));
     }
 
-    public ArrayList<Command> getCommandList() {
-        return commandList;
+    public void dispatch(String message) throws CommandSyntaxException {
+        dispatch(message, new ChatCommandSource(Utils.mc));
     }
 
-    public Collection<String> getCommands() {
-        List<String> result = Lists.newArrayList();
-        for(Command c : commandList) {
-            for(String alias : c.getAliases()) {
-                result.add(alias);
-            }
+    public void dispatch(String message, CommandSource source) throws CommandSyntaxException {
+        ParseResults<CommandSource> results = DISPATCHER.parse(message, source);
+        DISPATCHER.execute(results);
+    }
+
+    public CommandDispatcher<CommandSource> getDispatcher() {
+        return DISPATCHER;
+    }
+
+    public CommandSource getCommandSource() {
+        return COMMAND_SOURCE;
+    }
+
+    private final static class ChatCommandSource extends ClientCommandSource {
+        public ChatCommandSource(MinecraftClient client) {
+            super(null, client);
         }
-
-        Collections.sort(result);
-        return result;
     }
 
-    public static void callCommand(String input) {
-        String[] split = input.split(" ", -1);
-        System.out.println(Arrays.asList(split));
-        String command = split[0];
-        String args = input.substring(command.length()).trim();
-        for (Command c : commandList) {
-            for(String a : c.getAliases()) {
-                if (a.equalsIgnoreCase(command)) {
-                    try {
-                        c.onCommand(command, args.split(" "));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        mc.inGameHud.getChatHud().addMessage(new LiteralText(c.getSyntax()));
-                    }
-                    return;
-                }
-            }
-        }
-        mc.inGameHud.getChatHud().addMessage(new LiteralText("Command Not Found"));
+    public void add(Command command) {
+        commands.removeIf(command1 -> command1.getName().equals(command.getName()));
+        commandInstances.values().removeIf(command1 -> command1.getName().equals(command.getName()));
+
+        command.registerTo(DISPATCHER);
+        commands.add(command);
+        commandInstances.put(command.getClass(), command);
+    }
+
+    public int getCount() {
+        return commands.size();
+    }
+
+    public List<Command> getCommands() {
+        return commands;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Command> T get(Class<T> klass) {
+        return (T) commandInstances.get(klass);
     }
 }
