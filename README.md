@@ -1,4 +1,17 @@
-# KiwiClient
+<p align="center">
+<img src="https://raw.githubusercontent.com/TangyKiwi/KiwiClient/master/src/main/resources/assets/kiwiclient/icon.png" width="20%"/>
+</p>
+
+<h1 align="center">KiwiClient</h1>
+
+<div align="center">
+    <img src="https://img.shields.io/github/last-commit/TangyKiwi/KiwiClient" alt="GitHub last commit"/>
+    <br>
+    <img src="https://img.shields.io/github/languages/code-size/TangyKiwi/KiwiClient" alt="GitHub code size in bytes"/>
+    <img src="https://tokei.rs/b1/github/TangyKiwi/KiwiClient" alt="GitHub lines of code"/>
+    <br>
+</div>
+
 
 ## Usage
 - Requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files) to launch
