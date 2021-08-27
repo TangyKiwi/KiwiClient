@@ -2,8 +2,9 @@
 
 ## Usage
 - Requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files) to launch
-- Build the mod (See Setup below)
-- Place the jar (build/libs/KiwiClient-X.X.X.jar) in libaries/me/deftware/EMC-F-v2/latest-1.17.X
+- Build the mod (See Setup below), or get the latest [release](https://github.com/TangyKiwi/KiwiClient/releases)
+- **Vanilla**: Place the jar (build/libs/KiwiClient-X.X.X.jar) in your mods folder
+- **Aristois**: Place the jar (build/libs/KiwiClient-X.X.X.jar) in libaries/me/deftware/EMC-F-v2/latest-1.17.X
 
 ## Setup
 
