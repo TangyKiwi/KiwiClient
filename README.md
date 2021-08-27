@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/TangyKiwi/KiwiClient/master/src/main/resources/assets/kiwiclient/icon.png" width="20%"/>
+<img src="https://cdn.discordapp.com/emojis/783170477115965480.gif?v=1" width="20%"/>
 </p>
 
 <h1 align="center">KiwiClient</h1>
