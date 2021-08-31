@@ -31,7 +31,7 @@ public class ClickGuiScreen extends AbstractWindowScreen {
     }
 
     public void init() {
-        searchField = new TextFieldWidget(textRenderer, 2, 14, 100, 12, LiteralText.EMPTY /* @LasnikProgram is author lol*/);
+        searchField = new TextFieldWidget(textRenderer, 2, 14, 100, 12, LiteralText.EMPTY);
         searchField.visible = false;
         searchField.setMaxLength(20);
         searchField.setSuggestion("Search here");
@@ -70,23 +70,23 @@ public class ClickGuiScreen extends AbstractWindowScreen {
     }
 
     public void render(MatrixStack matrix, int mX, int mY, float float_1) {
-        searchField.visible = true;
+        searchField.visible = false;
 
         this.renderBackground(matrix);
         searchField.setSuggestion(searchField.getText().isEmpty() ? "Search here" : "");
 
-        Set<Module> seachMods = new HashSet<>();
+        Set<Module> searchMods = new HashSet<>();
         if (!searchField.getText().isEmpty()) {
             for (Module m : KiwiClient.moduleManager.moduleList) {
                 if (m.getName().toLowerCase().contains(searchField.getText().toLowerCase().replace(" ", ""))) {
-                    seachMods.add(m);
+                    searchMods.add(m);
                 }
             }
         }
 
         for (Window w : windows) {
             if (w instanceof ModuleWindow) {
-                ((ModuleWindow) w).setSearchedModule(seachMods);
+                ((ModuleWindow) w).setSearchedModule(searchMods);
             }
         }
 

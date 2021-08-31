@@ -4,10 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
-import com.tangykiwi.kiwiclient.modules.client.ActiveMods;
-import com.tangykiwi.kiwiclient.modules.client.ClickGui;
-import com.tangykiwi.kiwiclient.modules.client.HUD;
-import com.tangykiwi.kiwiclient.modules.client.Tooltips;
+import com.tangykiwi.kiwiclient.modules.client.*;
 import com.tangykiwi.kiwiclient.modules.combat.AutoClicker;
 import com.tangykiwi.kiwiclient.modules.combat.Criticals;
 import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
@@ -31,6 +28,8 @@ public class ModuleManager {
     public void init() {
         //client
         moduleList.add(new ActiveMods());
+        moduleList.add(new BetterTab());
+        moduleList.add(new BetterChat());
         moduleList.add(new ClickGui());
         moduleList.add(new HUD());
         moduleList.add(new Tooltips());

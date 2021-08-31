@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.modules.movement;
 
+import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.IsFullCubeEvent;
 import com.tangykiwi.kiwiclient.event.MarkClosedEvent;
@@ -16,6 +17,7 @@ public class NoClip extends Module {
     }
 
     @Subscribe
+    @AllowConcurrentEvents
     public void onTick(TickEvent e) {
         ClientPlayerEntity player = mc.player;
 
@@ -36,18 +38,21 @@ public class NoClip extends Module {
     }
 
     @Subscribe
+    @AllowConcurrentEvents
     public void onPlayerMove(OnMoveEvent event)
     {
         event.getPlayer().setNoClip(true);
     }
 
     @Subscribe
+    @AllowConcurrentEvents
     public void onIsFullCube(IsFullCubeEvent event)
     {
         event.setCancelled(true);
     }
 
     @Subscribe
+    @AllowConcurrentEvents
     public void onMarkClosed(MarkClosedEvent event)
     {
         event.setCancelled(true);

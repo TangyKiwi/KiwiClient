@@ -6,6 +6,7 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.event.OnMoveEvent;
+import com.tangykiwi.kiwiclient.event.SendChatMessageEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.mixininterface.IClientPlayerEntity;
 import com.tangykiwi.kiwiclient.modules.movement.SafeWalk;
@@ -35,6 +36,10 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     @Shadow
     protected abstract boolean isCamera();
 
+    private boolean ignoreChatMessage;
+
+    @Shadow public abstract void sendChatMessage(String string);
+
     public ClientPlayerEntityMixin(ClientWorld world, GameProfile gameProfile)
     {
         super(world, gameProfile);
@@ -59,14 +64,21 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     public void onChatMessage(String message, CallbackInfo callbackInfo) {
-//        if(message.startsWith(".say ")) {
-//            this.client.getNetworkHandler().sendPacket(new ChatMessageC2SPacket(message.substring(5)));
-//            callbackInfo.cancel();
-//        }
-//        else if(message.startsWith(Command.PREFIX)) {
-//            CommandManager.callCommand(message.substring(Command.PREFIX.length()));
-//            callbackInfo.cancel();
-//        }
+        if (ignoreChatMessage) return;
+
+        if (!message.startsWith(KiwiClient.PREFIX) && !message.startsWith("/")) {
+            SendChatMessageEvent event = new SendChatMessageEvent(message);
+            KiwiClient.eventBus.post(event);
+
+            if (!event.isCancelled()) {
+                ignoreChatMessage = true;
+                sendChatMessage(event.message);
+                ignoreChatMessage = false;
+            }
+
+            callbackInfo.cancel();
+            return;
+        }
 
         if (message.startsWith(KiwiClient.PREFIX)) {
             try {
