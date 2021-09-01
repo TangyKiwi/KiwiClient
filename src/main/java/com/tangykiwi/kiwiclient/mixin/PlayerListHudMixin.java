@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.client.BetterTab;
+import com.tangykiwi.kiwiclient.util.ColorUtil;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.PlayerListHud;
@@ -50,7 +51,7 @@ public class PlayerListHudMixin {
             TextRenderer textRenderer = Utils.mc.textRenderer;
 
             int latency = clamp(entry.getLatency(), 0, 9999);
-            int color = latency < 150 ? 0x00E970 : latency < 300 ? 0xE7D020 : 0xD74238;
+            int color = ColorUtil.getColorString(latency, 10, 20, 50, 75, 100, true);
             String text = latency + "ms";
             textRenderer.drawWithShadow(matrices, text, (float) x + width - textRenderer.getWidth(text), (float) y, color);
         } else {

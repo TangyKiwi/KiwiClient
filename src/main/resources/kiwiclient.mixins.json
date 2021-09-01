@@ -35,6 +35,7 @@
     "PlayerEntityRendererMixin",
     "PlayerInventoryMixin",
     "PlayerListHudMixin",
+    "PlayerMoveC2SPacketAccessor",
     "RenderLayersMixin",
     "ScreenMixin",
     "SplashScreenMixin",

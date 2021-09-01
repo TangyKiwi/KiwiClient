@@ -48,6 +48,7 @@ public class ModuleManager {
         moduleList.add(new Speed());
 
         //player
+        moduleList.add(new AntiHunger());
         moduleList.add(new ArmorSwap());
         moduleList.add(new Cape());
         moduleList.add(new Deadmau5Ears());
