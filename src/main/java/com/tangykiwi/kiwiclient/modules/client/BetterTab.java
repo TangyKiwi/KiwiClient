@@ -17,6 +17,7 @@ public class BetterTab extends Module {
         super("BetterTab", "Tab modifications with more information", KEY_UNBOUND, Category.CLIENT,
             new SliderSetting("Tab Size", 1, 1000, 80, 0).withDesc("Changes the number of people shown in tab (default 80)"),
             new ToggleSetting("Latency", true).withDesc("Shows ping next to player names"));
+        super.toggle();
     }
 
     public Text getPlayerName(PlayerListEntry playerListEntry) {

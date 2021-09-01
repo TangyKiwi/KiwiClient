@@ -56,7 +56,7 @@ public class CapeRenderer extends FeatureRenderer<AbstractClientPlayerEntity, Pl
                 matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(6.0F + r / 2.0F + q));
                 matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(s / 2.0F));
                 matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - s / 2.0F));
-                VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(((Cape) KiwiClient.moduleManager.getModule(Cape.class)).getCape()), false, KiwiClient.moduleManager.getModule(Cape.class).getSettings().get(1).asToggle().state);
+                VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(((Cape) KiwiClient.moduleManager.getModule(Cape.class)).getCape()), false, KiwiClient.moduleManager.getModule(Cape.class).getSettings().get(2).asToggle().state);
                 this.getContextModel().renderCape(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
                 matrixStack.pop();
             }
