@@ -55,6 +55,7 @@ Fabric Utility Mod, compatible with Aristois Client.
 - Speed
 
 #### Player
+- AntiHunger
 - ArmorSwap
 - Cape
 - Deadmau5Ears
