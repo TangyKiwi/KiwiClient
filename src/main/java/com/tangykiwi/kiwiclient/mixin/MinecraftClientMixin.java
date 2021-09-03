@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.command.commands.Dupe;
 import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
 import com.tangykiwi.kiwiclient.util.renderer.Fonts;
 import com.tangykiwi.kiwiclient.util.renderer.GL;
@@ -24,6 +25,11 @@ public class MinecraftClientMixin {
 //    private void onInit(CallbackInfo info) {
 //        KiwiClient.INSTANCE.onInitialize();
 //    }
+
+    @Inject(method="tick", at=@At("TAIL"))
+    private void onTick(CallbackInfo ci) {
+        Dupe.tick();
+    }
 
 
     @Inject(method="getWindowTitle", at=@At(value="TAIL"), cancellable=true)

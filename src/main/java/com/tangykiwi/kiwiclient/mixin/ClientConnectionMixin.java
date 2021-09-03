@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.command.commands.Dupe;
 import com.tangykiwi.kiwiclient.event.SendPacketEvent;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -24,5 +25,14 @@ public class ClientConnectionMixin {
         KiwiClient.eventBus.post(event);
 
         if (event.isCancelled()) callbackInfo.cancel();
+    }
+
+    @Inject(
+        method = {"send(Lnet/minecraft/network/Packet;)V"},
+        at = {@At("TAIL")},
+        cancellable = true
+    )
+    private void send(Packet<?> packet, CallbackInfo ci) {
+        Dupe.packetSent(packet);
     }
 }

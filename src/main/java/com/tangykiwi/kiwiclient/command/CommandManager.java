@@ -19,7 +19,7 @@ public class CommandManager {
 
     public void init() {
         add(new Bind());
-        //add(new Dupe());
+        add(new Dupe());
         add(new Ez());
         add(new Say());
         add(new Toggle());
