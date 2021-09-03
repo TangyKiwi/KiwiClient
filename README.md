@@ -70,6 +70,7 @@ Fabric Utility Mod, compatible with Aristois Client.
 
 ### Commands
 - ,bind [module] [key]
+- ,dupe
 - ,ez
 - ,say [message]
 - ,toggle [module]
