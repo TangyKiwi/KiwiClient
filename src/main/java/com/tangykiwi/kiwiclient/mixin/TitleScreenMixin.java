@@ -1,7 +1,6 @@
 package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.gui.MainMenu;
-import com.tangykiwi.kiwiclient.util.font.CustomFontOversample;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.text.Text;

@@ -10,8 +10,6 @@ import com.tangykiwi.kiwiclient.modules.settings.Settings;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
 import com.tangykiwi.kiwiclient.util.CustomColor;
-import com.tangykiwi.kiwiclient.util.renderer.Fonts;
-import com.tangykiwi.kiwiclient.util.renderer.text.CustomTextRenderer;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
