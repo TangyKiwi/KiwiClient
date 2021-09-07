@@ -11,6 +11,7 @@ import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
 import com.tangykiwi.kiwiclient.modules.player.*;
 import com.tangykiwi.kiwiclient.modules.render.*;
+import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.util.InputUtil;
@@ -102,13 +103,23 @@ public class ModuleManager {
     }
 
     public static class ModuleComparator implements Comparator<Module> {
+//        @Override
+//        public int compare(Module a, Module b) {
+//            if(mc.textRenderer.getWidth(a.getName()) >
+//                    mc.textRenderer.getWidth(b.getName()))
+//                return -1;
+//            else if(mc.textRenderer.getWidth(a.getName()) <
+//                    mc.textRenderer.getWidth(b.getName()))
+//                return 1;
+//            return 0;
+//        }
         @Override
         public int compare(Module a, Module b) {
-            if(mc.textRenderer.getWidth(a.getName()) >
-                    mc.textRenderer.getWidth(b.getName()))
+            if(IFont.customFont.getStringWidth(a.getName()) >
+                    IFont.customFont.getStringWidth(b.getName()))
                 return -1;
-            else if(mc.textRenderer.getWidth(a.getName()) <
-                    mc.textRenderer.getWidth(b.getName()))
+            else if(IFont.customFont.getStringWidth(a.getName()) <
+                    IFont.customFont.getStringWidth(b.getName()))
                 return 1;
             return 0;
         }

@@ -4,6 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import com.tangykiwi.kiwiclient.modules.client.Tooltips;
+import com.tangykiwi.kiwiclient.util.ColorUtil;
+import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -28,6 +30,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.awt.*;
+
 import static net.minecraft.client.gui.DrawableHelper.fill;
 
 @Mixin(InGameHud.class)
@@ -44,6 +48,9 @@ public class InGameHudMixin {
             //textureManager.bindTexture(new Identifier("kiwiclient:textures/duck.png"));
             client.inGameHud.drawTexture(matrixStack, 0, 0, 0, 0, 130, 130);
             //textRenderer.draw(matrixStack, KiwiClient.name + " v" + KiwiClient.version, 22, 6, -1);
+
+//            IFont.customFont.drawString(new MatrixStack(), "Test Render", 120, 4, ColorUtil.getRainbow(3, 0.8f, 1));
+//            IFont.customFontBold.drawString(new MatrixStack(), "Test Render", 120, 26, ColorUtil.getRainbow(3, 0.8f, 1));
         }
 
         DrawOverlayEvent event = new DrawOverlayEvent(new MatrixStack());
