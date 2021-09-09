@@ -267,16 +267,17 @@ public class GlyphPageFontRenderer {
     private void renderStringAtPos(MatrixStack matrices, String text, boolean shadow, int color) {
         GlyphPage glyphPage = getCurrentGlyphPage();
         float alpha = (float) (color >> 24 & 255) / 255.0F;
-        float g = (float) (color >> 16 & 255) / 255.0F;
-        float h = (float) (color >> 8 & 255) / 255.0F;
-        float k = (float) (color & 255) / 255.0F;
+
+        float g = (float) (color >> 16 & 255) / 240.0F;
+        if (g > 1.0) g = 1.0F;
+        float h = (float) (color >> 8 & 255) / 240.0F;
+        if (h > 1.0) h = 1.0F;
+        float k = (float) (color & 255) / 240.0F;
+        if (k > 1.0) k = 1.0F;
 
         matrices.push();
 
-        matrices.scale(0.1F, 0.1F, 0.1F);
-
-        this.posX = posX * 4;
-        this.posY = posY * 5;
+        matrices.scale(0.5F, 0.5F, 0.5F);
 
         GlStateManager._enableBlend();
         GlStateManager._blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -408,7 +409,7 @@ public class GlyphPageFontRenderer {
     }
 
     public int getFontHeight() {
-        return regularGlyphPage.getMaxFontHeight() / 10;
+        return regularGlyphPage.getMaxFontHeight() / 2;
     }
 
     public int getStringWidth(String text) {
@@ -455,7 +456,7 @@ public class GlyphPageFontRenderer {
             }
         }
 
-        return width / 10;
+        return width / 2;
     }
 
     /**

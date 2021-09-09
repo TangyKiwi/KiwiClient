@@ -23,7 +23,7 @@ public class ActiveMods extends Module {
     @Subscribe
     public void onDrawOverlay(DrawOverlayEvent e) {
         if(!mc.options.debugEnabled) {
-            GlyphPageFontRenderer textRenderer = IFont.customFont;
+            GlyphPageFontRenderer textRenderer = IFont.CONSOLAS;
             //TextRenderer textRenderer = mc.textRenderer;
 
 //            DrawableHelper.fill(e.matrix, 0, 60, textRenderer.getWidth(enabledMods.get(0).getName()) + 5, 62, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
@@ -40,14 +40,14 @@ public class ActiveMods extends Module {
 
             int count = 0;
             ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods();
-            DrawableHelper.fill(e.matrix, 0, 60, textRenderer.getStringWidth(enabledMods.get(0).getName()) + 6, 62, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+            DrawableHelper.fill(e.matrix, 0, 59, textRenderer.getStringWidth(enabledMods.get(0).getName()) + 5, 61, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
             for (Module m : enabledMods) {
 
-                int offset = count * 9;
+                int offset = count * 8;
 
-                DrawableHelper.fill(e.matrix, textRenderer.getStringWidth(m.getName()) + 4, 62 + offset, textRenderer.getStringWidth(m.getName()) + 6, 62 + 9 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-                DrawableHelper.fill(e.matrix, 0, 62 + offset, textRenderer.getStringWidth(m.getName()) + 4, 62 + 9 + offset, 0x90000000);
-                textRenderer.drawString(e.matrix, m.getName(), 2, 61 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                DrawableHelper.fill(e.matrix, textRenderer.getStringWidth(m.getName()) + 3, 61 + offset, textRenderer.getStringWidth(m.getName()) + 5, 61 + 8 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                DrawableHelper.fill(e.matrix, 0, 61 + offset, textRenderer.getStringWidth(m.getName()) + 3, 61 + 8 + offset, 0x90000000);
+                textRenderer.drawString(e.matrix, m.getName(), 0.2, 61.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
 
                 count++;
             }

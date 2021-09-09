@@ -7,8 +7,10 @@ import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.modules.player.ArmorSwap;
 import com.tangykiwi.kiwiclient.util.*;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
+import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
@@ -29,12 +31,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import org.lwjgl.glfw.GLFW;
 
+import java.awt.*;
 import java.io.File;
 
 public class KiwiClient implements ModInitializer {
 
 	public static final String MOD_ID = "kiwiclient";
-	public static String name = "KiwiClient 1.17.1", version = "3.2.7";
+	public static String name = "KiwiClient 1.17.1", version = "4.2.7";
 	private MinecraftClient mc;
 
 	public static DiscordRP discordRPC;

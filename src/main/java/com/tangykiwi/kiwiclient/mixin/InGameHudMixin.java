@@ -45,7 +45,6 @@ public class InGameHudMixin {
             MatrixStack matrixStack = new MatrixStack();
 
             RenderSystem.setShaderTexture(0, KiwiClient.DUCK);
-            //textureManager.bindTexture(new Identifier("kiwiclient:textures/duck.png"));
             client.inGameHud.drawTexture(matrixStack, 0, 0, 0, 0, 130, 130);
             //textRenderer.draw(matrixStack, KiwiClient.name + " v" + KiwiClient.version, 22, 6, -1);
 
