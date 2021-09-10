@@ -115,11 +115,11 @@ public class ModuleManager {
 //        }
         @Override
         public int compare(Module a, Module b) {
-            if(IFont.customFont.getStringWidth(a.getName()) >
-                    IFont.customFont.getStringWidth(b.getName()))
+            if(IFont.CONSOLAS.getStringWidth(a.getName()) >
+                    IFont.CONSOLAS.getStringWidth(b.getName()))
                 return -1;
-            else if(IFont.customFont.getStringWidth(a.getName()) <
-                    IFont.customFont.getStringWidth(b.getName()))
+            else if(IFont.CONSOLAS.getStringWidth(a.getName()) <
+                    IFont.CONSOLAS.getStringWidth(b.getName()))
                 return 1;
             return 0;
         }

@@ -1,43 +1,21 @@
 package com.tangykiwi.kiwiclient.mixin;
 
-import com.tangykiwi.kiwiclient.util.ItemPhysicsExtension;
+import com.tangykiwi.kiwiclient.util.IItemEntity;
 import net.minecraft.entity.*;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-
-import java.util.UUID;
 
 @Mixin(ItemEntity.class)
-public abstract class ItemEntityMixin extends Entity implements ItemPhysicsExtension {
-
-    @Shadow
-    public abstract ItemStack getStack();
-
-    @Shadow
-    @Nullable
-    public abstract UUID getThrower();
-
-    @Shadow
-    private int itemAge;
-
-    @Unique
-    private float rotation = -1;
-
-    private ItemEntityMixin(EntityType<?> type, World world) {
-        super(type, world);
-    }
+public class ItemEntityMixin implements IItemEntity {
+    private Vec3d rotation = new Vec3d(0, 0, 0);
 
     @Override
-    public float getRotation() {
+    public Vec3d getRotation() {
         return rotation;
     }
 
     @Override
-    public void setRotation(float rotation) {
+    public void setRotation(Vec3d rotation) {
         this.rotation = rotation;
     }
 }
