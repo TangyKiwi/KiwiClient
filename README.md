@@ -92,3 +92,14 @@ This project is licensed under the [GNU General Public License v3.0](https://www
 If you use **ANY** code from the source:
 - You must disclose the source code of your modified work, and the source code you took from this project. This means you are not allowed to use code from this project (even partially) in a closed-source and/or obfuscated application.
 - Your application must also be licensed under the same license.
+
+
+## Credits
+**Clients**:  
+[Meteor Client](https://github.com/MeteorDevelopment/meteor-client)  
+[Bleach Hack](https://github.com/BleachDrinker420/BleachHack)  
+[Wurst](https://github.com/Wurst-Imperium/Wurst7)  
+
+**Resource Pack**:  
+[Vanilla Tweaks](https://vanillatweaks.net/picker/resource-packs/)  
+[Kyomin's Sus Bed](https://www.mediafire.com/file/xero5355lcpa48e/%2521_%25C2%25A74Bedless_Noob_%25C2%25A7b200k_%255B128x%255D.zip/file)
