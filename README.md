@@ -97,7 +97,7 @@ If you use **ANY** code from the source:
 ## Credits
 **Clients**:  
 [Meteor Client](https://github.com/MeteorDevelopment/meteor-client)  
-[Bleach Hack](https://github.com/BleachDrinker420/BleachHack)  
+[BleachHack](https://github.com/BleachDrinker420/BleachHack)  
 [Wurst](https://github.com/Wurst-Imperium/Wurst7)  
 
 **Resource Pack**:  
