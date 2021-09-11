@@ -67,11 +67,20 @@ public abstract class ClickGuiScreen extends WindowScreen {
 
 						int start = tooltipY - lines.size() * 10;
 						for (int l = 0; l < lines.size(); l++) {
-							fill(matrices, tooltip.getLeft(), start + (l * 10) - 1,
-									tooltip.getLeft() + IFont.CONSOLAS.getStringWidth(lines.get(l)) + 3,
-									start + (l * 10) + 9, 0xff000000);
+							if(lines.get(l).equals("ᴍᴀᴋᴇꜱ ʏᴏᴜʀ ᴍᴇꜱꜱᴀɢᴇꜱ ғᴀɴᴄʏ!")) {
+								fill(matrices, tooltip.getLeft(), start + (l * 10) - 1,
+										tooltip.getLeft() + textRenderer.getWidth(lines.get(l)) + 3,
+										start + (l * 10) + 9, 0xff000000);
 
-							IFont.CONSOLAS.drawStringWithShadow(matrices, lines.get(l), tooltip.getLeft() + 2, start + (l * 10), -1);
+								textRenderer.drawWithShadow(matrices, lines.get(l), tooltip.getLeft() + 2, start + (l * 10), -1);
+							}
+							else {
+								fill(matrices, tooltip.getLeft(), start + (l * 10) - 1,
+										tooltip.getLeft() + IFont.CONSOLAS.getStringWidth(lines.get(l)) + 3,
+										start + (l * 10) + 9, 0xff000000);
+
+								IFont.CONSOLAS.drawStringWithShadow(matrices, lines.get(l), tooltip.getLeft() + 2, start + (l * 10), -1);
+							}
 						}
 
 						tooltipY -= lines.size() * 10;

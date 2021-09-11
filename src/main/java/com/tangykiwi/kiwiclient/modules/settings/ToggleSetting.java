@@ -63,17 +63,12 @@ public class ToggleSetting extends Settings {
 
             if (expanded) {
                 IFont.CONSOLAS.drawString(matrices,
-                        color2 + "\u2228",
-                        x + len - 8, y + 3, -1);
+                        color2 + "v",
+                        x + len - 8, y + 2, -1);
             } else {
-                matrices.push();
-
-                matrices.scale(0.75f, 0.75f, 1f);
                 IFont.CONSOLAS.drawStringWithShadow(matrices,
                         color2 + "\u00a7l>",
-                        (int) ((x + len - 7) * 1 / 0.75), (int) ((y + 4) * 1 / 0.75), -1);
-
-                matrices.pop();
+                        x + len - 8, y + 2, -1);
             }
         }
 
