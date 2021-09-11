@@ -6,7 +6,10 @@
 
 <div align="center">
     <img src="https://img.shields.io/github/last-commit/TangyKiwi/KiwiClient" alt="GitHub last commit"/>
+    <img src="https://img.shields.io/github/workflow/status/TangyKiwi/KiwiClient/build" alt="Build status"/>
+    <img src="https://img.shields.io/badge/MC-1.17.X-brightgreen.svg" alt="Minecraft"/>
     <br>
+    <img src="https://img.shields.io/github/v/release/TangyKiwi/KiwiClient.svg" alt="Release"/>
     <img src="https://img.shields.io/github/languages/code-size/TangyKiwi/KiwiClient" alt="GitHub code size in bytes"/>
     <img src="https://tokei.rs/b1/github/TangyKiwi/KiwiClient" alt="GitHub lines of code"/>
     <br>
