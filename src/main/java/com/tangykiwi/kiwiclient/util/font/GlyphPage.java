@@ -106,7 +106,7 @@ public class GlyphPage {
             Rectangle2D bounds = fontMetrics.getStringBounds(Character.toString(ch), g);
 
             glyph.width = bounds.getBounds().width + 8; // Leave some additional space
-            glyph.height = bounds.getBounds().height;
+            glyph.height = ch == 'i' ? bounds.getBounds().height - 4 : bounds.getBounds().height; // Hard code to fix dot underneath i
 
             if (posX + glyph.width >= imgSize) {
                 posX = 0;

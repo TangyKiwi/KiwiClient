@@ -52,10 +52,10 @@ public class HUD extends Module {
             new ToggleSetting("FPS", true).withDesc("Shows FPS").withValue(0),
             new ToggleSetting("Ping", true).withDesc("Shows Ping").withValue(1),
             new ToggleSetting("IP", false).withDesc("Shows Server Address").withValue(2),
-            new ToggleSetting("Biome", true).withDesc("Shows current biome").withValue(3),
+            new ToggleSetting("Biome", true).withDesc("Shows Current Biome").withValue(3),
             new ToggleSetting("Speed", true).withDesc("Shows Player Speed").withValue(4),
             new ToggleSetting("Coords", true).withDesc("Shows Player Position").withValue(5),
-            new ToggleSetting("Alternate Coords", true).withDesc("Shows Nether/Overworld Position").withValue(6),
+            new ToggleSetting("Nether Coords", true).withDesc("Shows Nether/Overworld Position").withValue(6),
             new ToggleSetting("Armor", true).withDesc("Shows Armor Status")
             //new ToggleSetting("Watermark", true).withDesc("KiwiClient Watermark")
         );

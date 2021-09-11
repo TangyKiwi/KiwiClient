@@ -1,6 +1,6 @@
 package com.tangykiwi.kiwiclient.modules.settings;
 
-import com.tangykiwi.kiwiclient.gui.ModuleWindow;
+import com.tangykiwi.kiwiclient.gui.clickgui.window.ModuleWindow;
 import net.minecraft.client.util.math.MatrixStack;
 import org.apache.commons.lang3.tuple.Triple;
 
@@ -8,17 +8,17 @@ public abstract class Settings {
     
     protected String description = "";
 
-    public com.tangykiwi.kiwiclient.modules.settings.ToggleSetting asToggle() {
+    public ToggleSetting asToggle() {
         try {
-            return (com.tangykiwi.kiwiclient.modules.settings.ToggleSetting) this;
+            return (ToggleSetting) this;
         } catch (Exception e) {
             throw new ClassCastException("Exception parsing setting: " + this);
         }
     }
 
-    public com.tangykiwi.kiwiclient.modules.settings.SliderSetting asSlider() {
+    public SliderSetting asSlider() {
         try {
-            return (com.tangykiwi.kiwiclient.modules.settings.SliderSetting) this;
+            return (SliderSetting) this;
         } catch (Exception e) {
             throw new ClassCastException("Execption parsing setting: " + this);
         }
@@ -32,7 +32,7 @@ public abstract class Settings {
 
     public abstract int getHeight(int len);
 
-    public abstract void render(ModuleWindow window, MatrixStack matrix, int x, int y, int len);
+    public abstract void render(ModuleWindow window, MatrixStack matrices, int x, int y, int len);
 
     public String getDesc() {
         return description;

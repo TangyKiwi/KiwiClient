@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.modules.settings;
 
-import com.tangykiwi.kiwiclient.gui.ModuleWindow;
+import com.tangykiwi.kiwiclient.gui.clickgui.window.ModuleWindow;
+import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.sound.PositionedSoundInstance;
@@ -16,53 +17,24 @@ import java.util.List;
 
 public class ToggleSetting extends Settings {
 
-    private String name;
-    private String description;
+    public boolean state;
+    public String text;
     public int value;
-    public Boolean state;
-    public int color;
+
+    protected boolean defaultState;
 
     protected List<Settings> children = new ArrayList<>();
     protected boolean expanded = false;
 
-    public ToggleSetting(String name, Boolean state) {
-        this.name = name;
+    public ToggleSetting(String text, boolean state) {
         this.state = state;
+        this.text = text;
+
+        defaultState = state;
     }
 
-    public ToggleSetting withDesc(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public ToggleSetting withValue(int value) {
-        this.value = value;
-        return this;
-    }
-
-    public Settings getChild(int c) {
-        return children.get(c);
-    }
-
-    public ToggleSetting withChildren(Settings... children) {
-        this.children.addAll(Arrays.asList(children));
-        return this;
-    }
-
-    // public ToggleSetting withRange(int best, int good, int mid, int bad, int worst, Boolean reverse) {
-    //     color = ColorUtil.getColorString(Integer.parseInt(value), best, good, mid, bad, worst, reverse);
-    //     return this;
-    // }
-
-    public int getHeight(int len) {
-        int h = 12;
-
-        if (expanded) {
-            h += 1;
-            for (Settings s : children) h += s.getHeight(len - 2);
-        }
-
-        return h;
+    public String getName() {
+        return text;
     }
 
     public void render(ModuleWindow window, MatrixStack matrices, int x, int y, int len) {
@@ -90,14 +62,14 @@ public class ToggleSetting extends Settings {
             }
 
             if (expanded) {
-                MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices,
+                IFont.CONSOLAS.drawString(matrices,
                         color2 + "\u2228",
                         x + len - 8, y + 3, -1);
             } else {
                 matrices.push();
 
                 matrices.scale(0.75f, 0.75f, 1f);
-                MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices,
+                IFont.CONSOLAS.drawStringWithShadow(matrices,
                         color2 + "\u00a7l>",
                         (int) ((x + len - 7) * 1 / 0.75), (int) ((y + 4) * 1 / 0.75), -1);
 
@@ -105,7 +77,7 @@ public class ToggleSetting extends Settings {
             }
         }
 
-        MinecraftClient.getInstance().textRenderer.drawWithShadow(matrices, color2 + name, x + 3, y + 2, 0xffffff);
+        IFont.CONSOLAS.drawStringWithShadow(matrices, color2 + text, x + 3, y + 2, 0xffffff);
 
         if (window.mouseOver(x, y, x + len, y + 12) && window.lmDown) {
             state = !state;
@@ -113,8 +85,40 @@ public class ToggleSetting extends Settings {
         }
     }
 
+    public int getHeight(int len) {
+        int h = 12;
+
+        if (expanded) {
+            h += 1;
+            for (Settings s : children)
+                h += s.getHeight(len - 2);
+        }
+
+        return h;
+    }
+
+    public Settings getChild(int c) {
+        return children.get(c);
+    }
+
+    public ToggleSetting withChildren(Settings... children) {
+        this.children.addAll(Arrays.asList(children));
+        return this;
+    }
+
+    public ToggleSetting withDesc(String desc) {
+        description = desc;
+        return this;
+    }
+
+    public ToggleSetting withValue(int value) {
+        this.value = value;
+        return this;
+    }
+
     public Triple<Integer, Integer, String> getGuiDesc(ModuleWindow window, int x, int y, int len) {
-        if (!expanded || window.mouseY - y <= 12) return super.getGuiDesc(window, x, y, len);
+        if (!expanded || window.mouseY - y <= 12)
+            return super.getGuiDesc(window, x, y, len);
 
         Triple<Integer, Integer, String> triple = null;
 
@@ -130,18 +134,5 @@ public class ToggleSetting extends Settings {
         return triple;
     }
 
-    public void toggle() {
-        state = !state;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getDesc() {
-        return this.description;
-    }
-
     public int getValue() { return this.value; }
-    
 }
