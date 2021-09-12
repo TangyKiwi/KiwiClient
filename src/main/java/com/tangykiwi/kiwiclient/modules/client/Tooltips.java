@@ -41,7 +41,7 @@ public class Tooltips extends Module {
             new ToggleSetting("Bees", true).withDesc("Shows honey level and number of bees in hive/nest"),
             new ToggleSetting("Fish", true).withDesc("Shows what mob is in a water bucket"),
             new ToggleSetting("Shulker Boxes", true).withDesc("Shows what is inside a shulkerbox when hovered over"),
-            new ToggleSetting("Ender Chests", true).withDesc("Shows what is inside your enderchest when hovered over")
+            new ToggleSetting("Ender Chests", false).withDesc("Shows what is inside your enderchest when hovered over")
         );
         super.toggle();
     }
