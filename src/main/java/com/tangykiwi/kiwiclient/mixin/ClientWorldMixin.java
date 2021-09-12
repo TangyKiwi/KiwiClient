@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.AddEntityPrivateEvent;
+import com.tangykiwi.kiwiclient.event.TickEvent;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,5 +15,13 @@ public class ClientWorldMixin {
     @Inject(method = "addEntityPrivate", at = @At("TAIL"))
     private void onAddEntityPrivate(int id, Entity entity, CallbackInfo info) {
         KiwiClient.eventBus.post(new AddEntityPrivateEvent(entity));
+    }
+
+    @Inject(method = "tickEntities", at = @At("HEAD"), cancellable = true)
+    public void tickEntities(CallbackInfo info) {
+        TickEvent event = new TickEvent();
+        KiwiClient.eventBus.post(event);
+        if (event.isCancelled())
+            info.cancel();
     }
 }
