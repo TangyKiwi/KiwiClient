@@ -1,28 +1,37 @@
 package com.tangykiwi.kiwiclient.modules.client;
 
+import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.ItemStackTooltipEvent;
 import com.tangykiwi.kiwiclient.event.TooltipDataEvent;
-import com.tangykiwi.kiwiclient.mixin.EntityAccessor;
-import com.tangykiwi.kiwiclient.mixin.EntityBucketItemAccessor;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
-import com.tangykiwi.kiwiclient.util.EntityTooltipComponent;
-import net.minecraft.entity.Bucketable;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
+import com.tangykiwi.kiwiclient.util.tooltip.ContainerTooltipComponent;
+import com.tangykiwi.kiwiclient.util.tooltip.EChestMemory;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.Items;
+import net.minecraft.inventory.Inventories;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.collection.DefaultedList;
+
+import java.awt.*;
+import java.util.Comparator;
+import java.util.List;
 
 public class Tooltips extends Module {
 
@@ -30,12 +39,15 @@ public class Tooltips extends Module {
         super("Tooltips", "Displays even more advanced tooltips", KEY_UNBOUND, Category.CLIENT,
             new ToggleSetting("Suspicious Stew", true).withDesc("Shows effect and duration of suspicious stew"),
             new ToggleSetting("Bees", true).withDesc("Shows honey level and number of bees in hive/nest"),
-            new ToggleSetting("Fish", true).withDesc("Shows what mob is in a water bucket")
+            new ToggleSetting("Fish", true).withDesc("Shows what mob is in a water bucket"),
+            new ToggleSetting("Shulker Boxes", true).withDesc("Shows what is inside a shulkerbox when hovered over"),
+            new ToggleSetting("Ender Chests", true).withDesc("Shows what is inside your enderchest when hovered over")
         );
         super.toggle();
     }
 
     @Subscribe
+    @AllowConcurrentEvents
     public void appendTooltip(ItemStackTooltipEvent event) {
         // Stew
         if (getSetting(0).asToggle().state) {
@@ -85,20 +97,26 @@ public class Tooltips extends Module {
                 }
             }
         }
+
+        // Fish handled in EntityBucketItemMixin
     }
 
     @Subscribe
+    @AllowConcurrentEvents
     public void getTooltipData(TooltipDataEvent event) {
-        // Setting check in EntityBucketItemMixin.java
-//        if (getSetting(2).asToggle().state && event.itemStack.getItem() instanceof EntityBucketItem bucketItem) {
-//            EntityType<?> type = ((EntityBucketItemAccessor) bucketItem).getEntityType();
-//            Entity entity = type.create(mc.world);
-//            if (entity != null) {
-//                ((Bucketable) entity).copyDataFromNbt(event.itemStack.getOrCreateNbt());
-//                ((EntityAccessor) entity).setInWater(true);
-//                event.tooltipData = new EntityTooltipComponent(entity);
-//            }
-//        }
+
+        // Shulker Box
+        if (hasItems(event.itemStack) && getSetting(3).asToggle().state) {
+            NbtCompound compoundTag = event.itemStack.getSubNbt("BlockEntityTag");
+            DefaultedList<ItemStack> itemStacks = DefaultedList.ofSize(27, ItemStack.EMPTY);
+            Inventories.readNbt(compoundTag, itemStacks);
+            event.tooltipData = new ContainerTooltipComponent(itemStacks, getShulkerColor(event.itemStack));
+        }
+
+        // EChest
+        else if (event.itemStack.getItem() == Items.ENDER_CHEST && getSetting(4).asToggle().state) {
+            event.tooltipData = new ContainerTooltipComponent(EChestMemory.ITEMS, new Color(0, 50, 50));
+        }
     }
 
     private MutableText getStatusText(StatusEffectInstance effect) {
@@ -113,5 +131,22 @@ public class Tooltips extends Module {
         } else {
             return text.formatted(Formatting.RED);
         }
+    }
+
+    public Color getShulkerColor(ItemStack shulkerItem) {
+        if (!(shulkerItem.getItem() instanceof BlockItem)) return Color.WHITE;
+        Block block = ((BlockItem) shulkerItem.getItem()).getBlock();
+        if (block == Blocks.ENDER_CHEST) return new Color(0, 50, 50);
+        if (!(block instanceof ShulkerBoxBlock)) return Color.WHITE;
+        ShulkerBoxBlock shulkerBlock = (ShulkerBoxBlock) ShulkerBoxBlock.getBlockFromItem(shulkerItem.getItem());
+        DyeColor dye = shulkerBlock.getColor();
+        if (dye == null) return Color.WHITE;
+        final float[] colors = dye.getColorComponents();
+        return new Color(colors[0], colors[1], colors[2], 1f);
+    }
+
+    public boolean hasItems(ItemStack itemStack) {
+        NbtCompound compoundTag = itemStack.getSubNbt("BlockEntityTag");
+        return compoundTag != null && compoundTag.contains("Items", 9);
     }
 }

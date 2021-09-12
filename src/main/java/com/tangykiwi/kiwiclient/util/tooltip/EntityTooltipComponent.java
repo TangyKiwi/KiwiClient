@@ -1,4 +1,4 @@
-package com.tangykiwi.kiwiclient.util;
+package com.tangykiwi.kiwiclient.util.tooltip;
 
 import com.tangykiwi.kiwiclient.mixin.EntityAccessor;
 import com.tangykiwi.kiwiclient.mixininterface.ITooltipData;

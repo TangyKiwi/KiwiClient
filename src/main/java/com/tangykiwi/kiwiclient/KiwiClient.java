@@ -8,6 +8,7 @@ import com.tangykiwi.kiwiclient.modules.player.ArmorSwap;
 import com.tangykiwi.kiwiclient.util.*;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import com.tangykiwi.kiwiclient.util.font.IFont;
+import com.tangykiwi.kiwiclient.util.tooltip.EChestMemory;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -80,6 +81,7 @@ public class KiwiClient implements ModInitializer {
 		discordRPC = new DiscordRP();
 		discordRPC.start();
 
+		EChestMemory.init();
 		eventBus.register(moduleManager);
 
 		ClickGui.clickGui.initWindows();

@@ -2,7 +2,7 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.client.Tooltips;
-import com.tangykiwi.kiwiclient.util.EntityTooltipComponent;
+import com.tangykiwi.kiwiclient.util.tooltip.EntityTooltipComponent;
 import net.minecraft.client.item.TooltipData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.EntityBucketItem;

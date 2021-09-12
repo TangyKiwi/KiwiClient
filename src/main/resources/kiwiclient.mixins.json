@@ -8,6 +8,7 @@
     "AbstractBlockStateMixin",
     "BlockMixin",
     "BlockRendererManagerMixin",
+    "BlockStateMixin",
     "BufferRendererMixin",
     "CapabilityTrackerMixin",
     "ChatHudAccessor",
@@ -38,6 +39,7 @@
     "PlayerMoveC2SPacketAccessor",
     "RenderLayersMixin",
     "ScreenMixin",
+    "ShulkerBoxBlockMixin",
     "SplashScreenMixin",
     "TitleScreenMixin",
     "WorldRendererMixin"
