@@ -4,10 +4,14 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class DrawOverlayEvent extends Event {
 
-    public MatrixStack matrix;
+    private MatrixStack matrix;
 
     public DrawOverlayEvent(MatrixStack matrix) {
         this.matrix = matrix;
+    }
+
+    public MatrixStack getMatrix() {
+        return matrix;
     }
 }
 

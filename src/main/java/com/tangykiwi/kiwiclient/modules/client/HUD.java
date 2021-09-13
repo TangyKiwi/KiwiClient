@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.modules.client;
 
+import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
@@ -75,8 +76,8 @@ public class HUD extends Module {
             for(int i = settings.size() - 2; i >= 0; i--) {
                 if(settings.get(i).asToggle().state) {
                     counter++;
-                    drawSetting(textRenderer, e.matrix, settings.get(i).asToggle().getValue(), (counter) * 8 + 2);
-                    //drawSetting(textRenderer, e.matrix, settings.get(i).asToggle().getValue(), (counter) * 10);
+                    drawSetting(textRenderer, e.getMatrix(), settings.get(i).asToggle().getValue(), (counter) * 8 + 2);
+                    //drawSetting(textRenderer, e.getMatrix(), settings.get(i).asToggle().getValue(), (counter) * 10);
                 }
             }
 
@@ -98,12 +99,12 @@ public class HUD extends Module {
 
                     mc.getItemRenderer().zOffset = 0F;
 
-                    e.matrix.push();
-                    e.matrix.scale(0.75F, 0.75F, 0.75F);
+                    e.getMatrix().push();
+                    e.getMatrix().scale(0.75F, 0.75F, 0.75F);
 
                     RenderSystem.disableDepthTest();
                     String s = is.getCount() > 1 ? "x" + is.getCount() : "";
-                    mc.textRenderer.drawWithShadow(e.matrix, s, (x + 19 - mc.textRenderer.getWidth(s)) * 1.333f, (y + 9) * 1.333f, ColorUtil.guiColour());
+                    mc.textRenderer.drawWithShadow(e.getMatrix(), s, (x + 19 - mc.textRenderer.getWidth(s)) * 1.333f, (y + 9) * 1.333f, ColorUtil.guiColour());
 
                     if (is.isDamageable()) {
                         String dur = is.getMaxDamage() - is.getDamage() + "";
@@ -113,14 +114,12 @@ public class HUD extends Module {
                         } catch (Exception exception) {
                         }
 
-                        mc.textRenderer.drawWithShadow(e.matrix, dur, (x + 10 - mc.textRenderer.getWidth(dur) / 2) * 1.333f, (y - 3) * 1.333f, durcolor);
+                        mc.textRenderer.drawWithShadow(e.getMatrix(), dur, (x + 10 - mc.textRenderer.getWidth(dur) / 2) * 1.333f, (y - 3) * 1.333f, durcolor);
                     }
 
                     RenderSystem.enableDepthTest();
-                    e.matrix.pop();
+                    e.getMatrix().pop();
                 }
-
-                e.matrix.pop();
             }
         }
     }
