@@ -23,6 +23,7 @@
     "EntityBucketItemAccessor",
     "EntityBucketItemMixin",
     "FluidRendererMixin",
+    "FrustrumAccessor",
     "GameRendererMixin",
     "InGameHudMixin",
     "ItemEntityMixin",
@@ -42,6 +43,7 @@
     "ShulkerBoxBlockMixin",
     "SplashScreenMixin",
     "TitleScreenMixin",
+    "WorldRendererAccessor",
     "WorldRendererMixin"
   ],
   "injectors": {

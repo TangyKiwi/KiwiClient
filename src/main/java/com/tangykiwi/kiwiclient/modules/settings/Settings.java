@@ -8,6 +8,14 @@ public abstract class Settings {
     
     protected String description = "";
 
+    public ModeSetting asMode() {
+        try {
+            return (ModeSetting) this;
+        } catch (Exception e) {
+            throw new ClassCastException("Execption parsing setting: " + this);
+        }
+    }
+
     public ToggleSetting asToggle() {
         try {
             return (ToggleSetting) this;
