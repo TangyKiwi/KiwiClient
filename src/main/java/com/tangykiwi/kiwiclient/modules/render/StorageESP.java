@@ -31,13 +31,8 @@ public class StorageESP extends Module {
 
     private Set<BlockPos> blacklist = new HashSet<>();
 
-    private int lastWidth = -1;
-    private int lastHeight = -1;
-    private double lastShaderWidth;
-    private boolean shaderUnloaded = true;
-
     public StorageESP() {
-        super("StorageESP","Draws a box around storage containers.", KEY_UNBOUND, Category.RENDER,
+        super("StorageESP","Highlights storage containers", KEY_UNBOUND, Category.RENDER,
             new ModeSetting("Mode", "Box+Fill", "Box", "Fill").withDesc("ESP Mode"),
             new SliderSetting("Box", 0.1, 4, 2, 1).withDesc("Box line thickness"),
             new SliderSetting("Fill", 0, 1, 0.3, 2).withDesc("Fill opacity"));
