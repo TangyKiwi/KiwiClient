@@ -22,7 +22,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
-import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import org.apache.commons.io.IOUtils;
