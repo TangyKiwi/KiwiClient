@@ -18,7 +18,8 @@
 
 ## Usage
 - Requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files) to launch
-- Build the mod (See Setup below), or get the latest [release](https://github.com/TangyKiwi/KiwiClient/releases)
+- Build the mod yourself (See Setup below), or get the latest [release](https://github.com/TangyKiwi/KiwiClient/releases)
+- If you want the most up-to-date version, please build the client yourself or ask me for the jar, I do not update releases often
 - **Vanilla**: Place the jar (build/libs/KiwiClient-X.X.X.jar) in your mods folder
 - **Aristois**: Place the jar (build/libs/KiwiClient-X.X.X.jar) in libaries/me/deftware/EMC-F-v2/latest-1.17.X
 
@@ -52,7 +53,7 @@ Fabric Utility Mod, compatible with Aristois Client.
 #### Movement
 - FastBridge 
 - Fly
-- NoClip (no working)
+- NoClip (not working)
 - NoFall
 - SafeWalk
 - Speed
@@ -65,9 +66,11 @@ Fabric Utility Mod, compatible with Aristois Client.
 - InventoryViewer
 
 #### Render
+- ESP
 - Fullbright
 - ItemPhysics
 - NoPortal
+- StorageESP
 - XRay
 - Zoom
 
@@ -81,7 +84,6 @@ Fabric Utility Mod, compatible with Aristois Client.
 - ,vclip [blocks]
 
 ### TODO
-- ESP
 - Config system
 
 ## Disclaimer
