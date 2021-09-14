@@ -56,6 +56,7 @@ public class ModuleManager {
         moduleList.add(new InventoryViewer());
 
         //render
+        moduleList.add(new ESP());
         moduleList.add(new FullBright());
         moduleList.add(new ItemPhysics());
         moduleList.add(new NoPortal());
