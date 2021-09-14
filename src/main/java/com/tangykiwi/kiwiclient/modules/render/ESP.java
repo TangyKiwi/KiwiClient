@@ -52,11 +52,11 @@ public class ESP extends Module {
                     || lastShaderWidth != getSetting(1).asSlider().getValue() || shaderUnloaded) {
                 try {
                     ShaderEffect shader = ShaderEffectLoader.load(mc.getFramebuffer(), "esp-shader",
-                            String.format(
-                                    Locale.ENGLISH,
-                                    IOUtils.toString(getClass().getResource("/assets/kiwiclient/shaders/mc_outline.ujson"), StandardCharsets.UTF_8),
-                                    getSetting(1).asSlider().getValue() / 2,
-                                    getSetting(1).asSlider().getValue() / 4));
+                        String.format(
+                            Locale.ENGLISH,
+                            IOUtils.toString(getClass().getResource("/assets/kiwiclient/shaders/mc_outline.ujson"), StandardCharsets.UTF_8),
+                            getSetting(1).asSlider().getValue() / 2,
+                            getSetting(1).asSlider().getValue() / 4));
 
                     shader.setupDimensions(mc.getWindow().getFramebufferWidth(), mc.getWindow().getFramebufferHeight());
                     lastWidth = mc.getWindow().getFramebufferWidth();

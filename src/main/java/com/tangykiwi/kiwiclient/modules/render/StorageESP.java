@@ -96,20 +96,24 @@ public class StorageESP extends Module {
     }
 
     private float[] getColorForBlock(BlockEntity be) {
-        if ((be instanceof ChestBlockEntity || be instanceof BarrelBlockEntity)) {
+        if (be instanceof TrappedChestBlockEntity) {
+            return new float[] {0.75F, 0.0F, 0.0F};
+        } else if (be instanceof ChestBlockEntity) {
             return new float[] { 1F, 0.6F, 0.3F };
-        } else if (be instanceof EnderChestBlockEntity) {
-            return new float[] { 1F, 0.05F, 1F };
-        } else if (be instanceof AbstractFurnaceBlockEntity) {
+        } else if (be instanceof BarrelBlockEntity) {
             return new float[] { 0.5F, 0.5F, 0.5F };
-        } else if (be instanceof DispenserBlockEntity) {
-            return new float[] { 0.55F, 0.55F, 0.7F };
-        } else if (be instanceof HopperBlockEntity) {
-            return new float[] { 0.45F, 0.45F, 0.6F };
+        } else if (be instanceof EnderChestBlockEntity) {
+            return new float[]{0.5F, 0.2F, 1F};
+//        } else if (be instanceof AbstractFurnaceBlockEntity) {
+//            return new float[] { 0.5F, 0.5F, 0.5F };
+//        } else if (be instanceof DispenserBlockEntity) {
+//            return new float[] { 0.55F, 0.55F, 0.7F };
+//        } else if (be instanceof HopperBlockEntity) {
+//            return new float[] { 0.45F, 0.45F, 0.6F };
         } else if (be instanceof ShulkerBoxBlockEntity) {
-            return new float[] { 0.5F, 0.2F, 1F };
-        } else if (be instanceof BrewingStandBlockEntity) {
-            return new float[] { 0.5F, 0.4F, 0.2F };
+            return new float[] { 1F, 0.05F, 1F };
+//        } else if (be instanceof BrewingStandBlockEntity) {
+//            return new float[] { 0.5F, 0.4F, 0.2F };
         }
 
         return null;
