@@ -46,7 +46,7 @@ public class MainMenu extends Screen {
         this.renderBackground(matrixStack);
 
         RenderSystem.setShaderTexture(0, KiwiClient.MENU);
-        this.drawTexture(matrixStack, 0, 0, 0, 0, this.width, this.height, this.width, this.height);
+        this.drawTexture(matrixStack, 0, 0, 20 * mouseX / this.width,  20 * mouseY / this.height, this.width + 20 * mouseX / this.width, this.height + 20 * mouseY / this.height, this.width + 40, this.height + 40);
         this.fillGradient(matrixStack, 0, 0, this.width, this.height, 0x00000000, 0xff000000);
 
         GlStateManager._enableBlend();

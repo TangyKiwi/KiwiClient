@@ -22,6 +22,5 @@ public class TitleScreenMixin extends Screen {
     private void init(CallbackInfo info) {
         this.client.setScreen(new MainMenu());
         discordRPC.update("Idle", "Main Menu");
-        //CustomFontOversample.run("STB Truetype Oversample Demo");
     }
 }
