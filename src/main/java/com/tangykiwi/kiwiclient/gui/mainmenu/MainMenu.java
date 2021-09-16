@@ -1,4 +1,4 @@
-package com.tangykiwi.kiwiclient.gui;
+package com.tangykiwi.kiwiclient.gui.mainmenu;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -57,8 +57,6 @@ public class MainMenu extends Screen {
         for(GuiButton b : buttonList) {
             b.drawButton(matrixStack, mouseX, mouseY);
         }
-
-
 
         super.render(matrixStack, mouseX, mouseY, delta);
     }

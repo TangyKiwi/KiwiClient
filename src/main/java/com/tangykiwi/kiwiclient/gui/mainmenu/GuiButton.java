@@ -1,6 +1,5 @@
-package com.tangykiwi.kiwiclient.gui;
+package com.tangykiwi.kiwiclient.gui.mainmenu;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
 import com.tangykiwi.kiwiclient.util.font.IFont;
