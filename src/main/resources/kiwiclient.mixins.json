@@ -31,6 +31,7 @@
     "ItemMixin",
     "ItemStackMixin",
     "KeyboardMixin",
+    "LivingEntityRendererMixin",
     "MinecraftClientMixin",
     "MouseMixin",
     "PlayerEntityModelMixin",
