@@ -17,6 +17,7 @@ public class TitleScreenMixin extends Screen {
     protected TitleScreenMixin(Text t) {
         super(t);
     }
+
     @Inject(method = "init()V", at = @At("HEAD"))
     private void init(CallbackInfo info) {
         this.client.setScreen(new MainMenu());
