@@ -1,8 +1,14 @@
 package com.tangykiwi.kiwiclient.gui.mainmenu;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.util.ColorUtil;
+import com.tangykiwi.kiwiclient.util.font.IFont;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerWarningScreen;
@@ -22,6 +28,7 @@ public class MainMenu extends Screen {
 
     public final String[] BUTTONS = {"Singleplayer", "Multiplayer", "Realms", "Options", "Language", "Quit"};
     public final ArrayList<GuiButton> buttonList = new ArrayList<GuiButton>();
+    public Identifier skin = new Identifier("textures/entity/steve.png");
 
     public MainMenu() {
         super(new TranslatableText("narrator.screen.title"));
@@ -40,6 +47,12 @@ public class MainMenu extends Screen {
         buttonList.add(new GuiButton(3, xMid + 30, initHeight, objWidth, objHeight, BUTTONS[3]));
         buttonList.add(new GuiButton(4, xMid + 90, initHeight, objWidth, objHeight, BUTTONS[4]));
         buttonList.add(new GuiButton(5, xMid + 150, initHeight, objWidth, objHeight, BUTTONS[5]));
+
+        MinecraftClient.getInstance().getSkinProvider().loadSkin(new GameProfile(this.client.getSession().getProfile().getId(), "cskin"), (type, identifier, minecraftProfileTexture) -> {
+            if (type == MinecraftProfileTexture.Type.SKIN) {
+                skin = identifier;
+            }
+        }, false);
     }
 
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {
@@ -49,14 +62,26 @@ public class MainMenu extends Screen {
         this.drawTexture(matrixStack, 0, 0, 20 * mouseX / this.width,  20 * mouseY / this.height, this.width + 20 * mouseX / this.width, this.height + 20 * mouseY / this.height, this.width + 40, this.height + 40);
         this.fillGradient(matrixStack, 0, 0, this.width, this.height, 0x00000000, 0xff000000);
 
+        String version = "v" + KiwiClient.version + " - MC 1.17.1";
+        DrawableHelper.fill(matrixStack, 0, 0, IFont.CONSOLAS.getStringWidth(version) + 4, IFont.CONSOLAS.getFontHeight() + 2, 0x90000000);
+        IFont.CONSOLAS.drawString(matrixStack, version, 1, 2, 0xFFFFFF);
+
         GlStateManager._enableBlend();
         RenderSystem.setShaderTexture(0, new Identifier("kiwiclient:textures/menu/title.png"));
-        this.drawTexture(matrixStack, this.width / 2 - 160, 3 * this.height / 10, 0, 0, 320, 40, 320, 40);
+        this.drawTexture(matrixStack, this.width / 2 - 160, this.height / 2 - 55, 0, 0, 320, 40, 320, 40);
         GlStateManager._disableBlend();
 
         for(GuiButton b : buttonList) {
             b.drawButton(matrixStack, mouseX, mouseY);
         }
+
+        int renderScale = 2 * this.height / 100;
+        RenderSystem.setShaderTexture(0, skin);
+        this.drawTexture(matrixStack, 2, this.height - 8 * renderScale - 2, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 64 * renderScale, 64 * renderScale);
+        this.drawTexture(matrixStack, 2, this.height - 8 * renderScale - 2, 8 * renderScale, 8 * renderScale, 40 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 64 * renderScale, 64 * renderScale);
+        IFont.CONSOLAS.drawString(matrixStack, this.client.getSession().getUsername(), 8 * renderScale + 3, this.height - IFont.CONSOLAS.getFontHeight() - 2, ColorUtil.getRainbow(4, 0.8f, 1));
+
+        //InventoryScreen.drawEntity(10, 10, 30, -mouseX + 10, -mouseY + this.height / 4 + 102, this.client.player);
 
         super.render(matrixStack, mouseX, mouseY, delta);
     }
