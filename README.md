@@ -71,6 +71,7 @@ Fabric Utility Mod, compatible with Aristois Client.
 - ItemPhysics
 - NoPortal
 - StorageESP
+- Tracers
 - XRay
 - Zoom
 

@@ -38,7 +38,7 @@ import java.io.File;
 public class KiwiClient implements ModInitializer {
 
 	public static final String MOD_ID = "kiwiclient";
-	public static String name = "KiwiClient 1.17.1", version = "4.5.11";
+	public static String name = "KiwiClient 1.17.1", version = "4.5.12";
 	private MinecraftClient mc;
 
 	public static DiscordRP discordRPC;
