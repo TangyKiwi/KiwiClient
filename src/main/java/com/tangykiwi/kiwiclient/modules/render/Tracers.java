@@ -21,8 +21,8 @@ public class Tracers extends Module {
             new SliderSetting("Width", 0.1, 5, 1.5, 1).withDesc("Tracer line width"),
             new SliderSetting("Opacity", 0, 1, 0.75, 2).withDesc("Tracer line opacity"),
             new ToggleSetting("Players", true).withDesc("Draw tracers to players"),
-            new ToggleSetting("Animals", true).withDesc("Draw tracers to animals"),
-            new ToggleSetting("Mobs", true).withDesc("Draw tracers to hostile mobs"));
+            new ToggleSetting("Animals", false).withDesc("Draw tracers to animals"),
+            new ToggleSetting("Mobs", false).withDesc("Draw tracers to hostile mobs"));
     }
 
     @Subscribe
