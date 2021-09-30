@@ -6,12 +6,9 @@ import com.tangykiwi.kiwiclient.modules.ModuleManager;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.modules.player.ArmorSwap;
 import com.tangykiwi.kiwiclient.util.*;
-import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
-import com.tangykiwi.kiwiclient.util.font.IFont;
 import com.tangykiwi.kiwiclient.util.tooltip.EChestMemory;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
@@ -31,9 +28,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import org.lwjgl.glfw.GLFW;
-
-import java.awt.*;
-import java.io.File;
 
 public class KiwiClient implements ModInitializer {
 
@@ -58,17 +52,8 @@ public class KiwiClient implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-//		if (INSTANCE == null) {
-//			INSTANCE = this;
-//			return;
-//		}
 		mc = MinecraftClient.getInstance();
 		Utils.mc = mc;
-
-//		GL.init();
-//		Shaders.init();
-//		Renderer2D.init();
-//		Fonts.init();
 
 		CustomMatrix.begin(new MatrixStack());
 
@@ -108,8 +93,6 @@ public class KiwiClient implements ModInitializer {
 			}
 			return TypedActionResult.pass(ItemStack.EMPTY);
 		});
-
-		//Fonts.load();
 
 		KeyBindingHelper.registerKeyBinding(zoomKey);
 	}
