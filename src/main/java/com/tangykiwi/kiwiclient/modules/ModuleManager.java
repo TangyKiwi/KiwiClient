@@ -61,6 +61,7 @@ public class ModuleManager {
         moduleList.add(new ItemPhysics());
         moduleList.add(new NoPortal());
         moduleList.add(new StorageESP());
+        moduleList.add(new TNTimer());
         moduleList.add(new Tracers());
         moduleList.add(new XRay());
         moduleList.add(new Zoom());
