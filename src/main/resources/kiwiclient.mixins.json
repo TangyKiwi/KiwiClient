@@ -26,6 +26,7 @@
     "FrustrumAccessor",
     "GameRendererMixin",
     "InGameHudMixin",
+    "InGameOverlayRendererMixin",
     "ItemEntityMixin",
     "ItemEntityRendererMixin",
     "ItemMixin",

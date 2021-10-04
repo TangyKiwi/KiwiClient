@@ -4,7 +4,6 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.render.TNTimer;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -12,9 +11,6 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.TntEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.TntEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -51,7 +47,6 @@ public abstract class TntEntityRendererMixin extends EntityRenderer<TntEntity> {
             matrices.translate(0.0D, f, 0.0D);
             matrices.multiply(this.dispatcher.getRotation());
             matrices.scale(-0.025F, -0.025F, 0.025F);
-            final Matrix4f matrix4f = matrices.peek().getModel();
 
             float backgroundOpacity = MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25F);
             int backgroundColor = (int) (backgroundOpacity * 255.0F) << 24;
