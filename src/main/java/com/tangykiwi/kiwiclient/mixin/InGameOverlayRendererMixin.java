@@ -19,7 +19,7 @@ public abstract class InGameOverlayRendererMixin {
     )
     private static float renderFireOverlay_opacity(float alpha) {
         NoRender noRender = (NoRender) KiwiClient.moduleManager.getModule(NoRender.class);
-        if(noRender.getSetting(0).asToggle().state) {
+        if(noRender.isEnabled() && noRender.getSetting(0).asToggle().state) {
             return (float) noRender.getSetting(0).asToggle().getChild(0).asSlider().getValue();
         }
         return 1;
@@ -35,7 +35,7 @@ public abstract class InGameOverlayRendererMixin {
     )
     private static double renderFireOverlay_translate(double y) {
         NoRender noRender = (NoRender) KiwiClient.moduleManager.getModule(NoRender.class);
-        if(noRender.getSetting(0).asToggle().state) {
+        if(noRender.isEnabled() && noRender.getSetting(0).asToggle().state) {
             return -1.0D + noRender.getSetting(0).asToggle().getChild(1).asSlider().getValue();
         }
         return -0.3;
