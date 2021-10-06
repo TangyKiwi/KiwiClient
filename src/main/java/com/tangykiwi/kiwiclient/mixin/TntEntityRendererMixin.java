@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.mixin;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.render.TNTimer;
 import com.tangykiwi.kiwiclient.util.font.IFont;
+import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -41,24 +42,11 @@ public abstract class TntEntityRendererMixin extends EntityRenderer<TntEntity> {
             String text = getTime(entity.getFuse());
             int color = getColor(entity.getFuse());
 
-            float f = entity.getHeight() + 0.5F;
+            float scale = 1f;
 
-            matrices.push();
-            matrices.translate(0.0D, f, 0.0D);
-            matrices.multiply(this.dispatcher.getRotation());
-            matrices.scale(-0.025F, -0.025F, 0.025F);
+            if(Math.sqrt(d) > 10 ) scale *= Math.sqrt(d) / 10;
 
-            float backgroundOpacity = MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25F);
-            int backgroundColor = (int) (backgroundOpacity * 255.0F) << 24;
-
-            float x = (float) (-IFont.CONSOLAS.getStringWidth(text) / 2);
-            float y = -4;
-
-            text = text + "s";
-
-            IFont.CONSOLAS.drawString(matrices, text, x, y, color);
-            DrawableHelper.fill(matrices, (int) (x - 1), (int) (y - 2), (int) (x + IFont.CONSOLAS.getStringWidth(text) + 2), (int) (y + IFont.CONSOLAS.getFontHeight() + 1), backgroundColor);
-            matrices.pop();
+            RenderUtils.drawWorldText(text, entity.getX(), entity.getY() + entity.getHeight() + 0.5f, entity.getZ(), scale, color);
         }
     }
 

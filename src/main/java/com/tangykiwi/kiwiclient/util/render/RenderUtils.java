@@ -1,12 +1,15 @@
 package com.tangykiwi.kiwiclient.util.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.tangykiwi.kiwiclient.util.Utils;
+import com.tangykiwi.kiwiclient.util.font.IFont;
 import com.tangykiwi.kiwiclient.util.render.color.LineColor;
 import com.tangykiwi.kiwiclient.util.render.color.QuadColor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.*;
 
 public class RenderUtils {
@@ -181,6 +184,45 @@ public class RenderUtils {
 		RenderSystem.enableCull();
 		RenderSystem.enableDepthTest();
 		cleanup();
+	}
+
+	// -------------------- World --------------------
+
+	public static void drawWorldText(String text, double x, double y, double z, double scale, int color) {
+		drawWorldText(text, x, y, z, 0, 0, scale, false, color);
+	}
+
+	public static void drawWorldText(String text, double x, double y, double z, double offX, double offY, double scale, boolean shadow, int color) {
+		MatrixStack matrices = matrixFrom(x, y, z);
+
+		Camera camera = Utils.mc.gameRenderer.getCamera();
+		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
+		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+
+		matrices.translate(offX, offY, 0);
+		matrices.scale(-0.025f * (float) scale, -0.025f * (float) scale, 1);
+
+		int halfWidth = IFont.CONSOLAS.getStringWidth(text) / 2;
+		VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+
+		if(shadow) {
+			matrices.push();
+			matrices.translate(1, 1, 0);
+			IFont.CONSOLAS.drawString(matrices, text, -halfWidth, 0f, 0x202020);
+			immediate.draw();
+			matrices.pop();
+		}
+
+		IFont.CONSOLAS.drawString(matrices, text, -halfWidth, 0f, color);
+		immediate.draw();
+
+		RenderSystem.disableBlend();
 	}
 
 	// -------------------- Utils --------------------
