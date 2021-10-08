@@ -59,6 +59,7 @@ public class ModuleManager {
         moduleList.add(new ESP());
         moduleList.add(new FullBright());
         moduleList.add(new ItemPhysics());
+        moduleList.add(new Nametags());
         moduleList.add(new NoPortal());
         moduleList.add(new NoRender());
         moduleList.add(new StorageESP());
