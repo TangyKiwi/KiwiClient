@@ -69,6 +69,7 @@ Fabric Utility Mod, compatible with Aristois Client.
 - ESP
 - Fullbright
 - ItemPhysics
+- Nametags
 - NoPortal
 - NoRender
 - StorageESP
