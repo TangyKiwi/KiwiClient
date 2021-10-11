@@ -1,18 +1,27 @@
 package com.tangykiwi.kiwiclient.util.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.tangykiwi.kiwiclient.util.CustomColor;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import com.tangykiwi.kiwiclient.util.render.color.LineColor;
 import com.tangykiwi.kiwiclient.util.render.color.QuadColor;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.*;
+import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.*;
+import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.logging.log4j.core.appender.rolling.action.IfNot;
+
+import java.lang.reflect.Field;
 
 public class RenderUtils {
+	private static Field shaderLightField;
 
 	// -------------------- Fill + Outline Boxes --------------------
 
@@ -225,6 +234,39 @@ public class RenderUtils {
 		RenderSystem.disableBlend();
 	}
 
+	public static void drawWorldGuiItem(double x, double y, double z, double offX, double offY, double scale, ItemStack item) {
+		if (item.isEmpty()) {
+			return;
+		}
+
+		MatrixStack matrices = matrixFrom(x, y, z);
+
+		Camera camera = Utils.mc.gameRenderer.getCamera();
+		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
+		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+
+		matrices.translate(offX, offY, 0);
+		matrices.scale((float) scale, (float) scale, 0.001f);
+
+		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180f));
+
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+
+		Vec3f[] currentLight = getCurrentLight();
+		DiffuseLighting.disableGuiDepthLighting();
+
+		Utils.mc.getBufferBuilders().getEntityVertexConsumers().draw();
+
+		Utils.mc.getItemRenderer().renderItem(item, ModelTransformation.Mode.GUI, 0xF000F0,
+				OverlayTexture.DEFAULT_UV, matrices, Utils.mc.getBufferBuilders().getEntityVertexConsumers(), 0);
+
+		Utils.mc.getBufferBuilders().getEntityVertexConsumers().draw();
+
+		RenderSystem.setShaderLights(currentLight[0], currentLight[1]);
+		RenderSystem.disableBlend();
+	}
+
 	// -------------------- Utils --------------------
 
 	public static MatrixStack matrixFrom(double x, double y, double z) {
@@ -260,5 +302,17 @@ public class RenderUtils {
 	public static void cleanup() {
 		RenderSystem.disableBlend();
 		RenderSystem.enableTexture();
+	}
+
+	public static Vec3f[] getCurrentLight() {
+		if (shaderLightField == null) {
+			shaderLightField = FieldUtils.getField(RenderSystem.class, "shaderLightDirections", true);
+		}
+
+		try {
+			return (Vec3f[]) shaderLightField.get(null);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

@@ -22,6 +22,7 @@
     "EntityAccessor",
     "EntityBucketItemAccessor",
     "EntityBucketItemMixin",
+    "EntityRendererMixin",
     "FluidRendererMixin",
     "FrustrumAccessor",
     "GameRendererMixin",
