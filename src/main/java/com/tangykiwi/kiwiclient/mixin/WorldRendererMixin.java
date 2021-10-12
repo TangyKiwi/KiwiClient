@@ -60,7 +60,7 @@ public class WorldRendererMixin {
     private void render_return(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer,
                                LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo info) {
         RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
-        WorldRenderEvent.Post event = new WorldRenderEvent.Post(tickDelta);
+        WorldRenderEvent.Post event = new WorldRenderEvent.Post(tickDelta, matrices);
         KiwiClient.eventBus.post(event);
     }
 }

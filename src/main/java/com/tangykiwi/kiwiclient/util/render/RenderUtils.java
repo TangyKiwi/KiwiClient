@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.util.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.tangykiwi.kiwiclient.util.ColorUtil;
 import com.tangykiwi.kiwiclient.util.CustomColor;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
@@ -197,19 +198,16 @@ public class RenderUtils {
 
 	// -------------------- World --------------------
 
-	public static void drawWorldText(String text, double x, double y, double z, double scale, int color) {
-		drawWorldText(text, x, y, z, 0, 0, scale, false, color);
+	public static void drawWorldText(String text, double x, double y, double z, double scale, int color, boolean background) {
+		drawWorldText(text, x, y, z, 0, 0, scale, false, color, background);
 	}
 
-	public static void drawWorldText(String text, double x, double y, double z, double offX, double offY, double scale, boolean shadow, int color) {
+	public static void drawWorldText(String text, double x, double y, double z, double offX, double offY, double scale, boolean shadow, int color, boolean background) {
 		MatrixStack matrices = matrixFrom(x, y, z);
 
 		Camera camera = Utils.mc.gameRenderer.getCamera();
 		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
 		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
-
-		RenderSystem.enableBlend();
-		RenderSystem.defaultBlendFunc();
 
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
@@ -228,6 +226,13 @@ public class RenderUtils {
 			matrices.pop();
 		}
 
+		if(background) {
+			float backgroundOpacity = MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25F);
+			int backgroundColor = (int) (backgroundOpacity * 255.0F) << 24;
+
+			int xF = -IFont.CONSOLAS.getStringWidth(text) / 2;
+			DrawableHelper.fill(matrices, xF - 1, -2, IFont.CONSOLAS.getStringWidth(text) / 2 + 3, IFont.CONSOLAS.getFontHeight() + 1, backgroundColor);
+		}
 		IFont.CONSOLAS.drawString(matrices, text, -halfWidth, 0f, color);
 		immediate.draw();
 

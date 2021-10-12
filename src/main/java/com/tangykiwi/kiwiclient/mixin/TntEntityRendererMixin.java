@@ -46,7 +46,7 @@ public abstract class TntEntityRendererMixin extends EntityRenderer<TntEntity> {
 
             if(Math.sqrt(d) > 10 ) scale *= Math.sqrt(d) / 10;
 
-            RenderUtils.drawWorldText(text, entity.getX(), entity.getY() + entity.getHeight() + 0.5f, entity.getZ(), scale, color);
+            RenderUtils.drawWorldText(text, entity.getX(), entity.getY() + entity.getHeight() + 0.5f, entity.getZ(), scale, color, true);
         }
     }
 
