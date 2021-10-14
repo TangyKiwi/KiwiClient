@@ -22,7 +22,7 @@ public class Bind extends Command {
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(argument("module", ModuleArgumentType.module())
-                .then(argument("key", StringArgumentType.greedyString()).executes(context -> {
+            .then(argument("key", StringArgumentType.greedyString()).executes(context -> {
                 int key = -1;
                 String keycode = context.getArgument("key", String.class);
                 try {
@@ -42,7 +42,22 @@ public class Bind extends Command {
                             Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("r", "right.")));
                             return SINGLE_SUCCESS;
                         }
-                    } else if (keycode.equals("`") || keycode.equals("~")) {
+                    } else if (keycode.toLowerCase().startsWith("left")) {
+                        try {
+                            key = InputUtil.fromTranslationKey("key.keyboard." + keycode.replaceFirst("left", "left.")).getCode();
+                        } catch (IllegalArgumentException e1) {
+                            Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("left", "left.")));
+                            return SINGLE_SUCCESS;
+                        }
+                    } else if (keycode.toLowerCase().startsWith("l")) {
+                        try {
+                            key = InputUtil.fromTranslationKey("key.keyboard." + keycode.toLowerCase().replaceFirst("l", "left.")).getCode();
+                        } catch (IllegalArgumentException e1) {
+                            Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("l", "left.")));
+                            return SINGLE_SUCCESS;
+                        }
+                    }
+                    else if (keycode.equals("`") || keycode.equals("~")) {
                         key = GLFW.GLFW_KEY_GRAVE_ACCENT;
                     } else if (keycode.equals("-") || keycode.equals("_")) {
                         key = GLFW.GLFW_KEY_MINUS;

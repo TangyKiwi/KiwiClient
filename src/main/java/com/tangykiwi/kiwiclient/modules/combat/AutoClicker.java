@@ -10,7 +10,6 @@ public class AutoClicker extends Module {
         super("Autoclicker", "Clicks really fast", KEY_UNBOUND, Category.COMBAT);
     }
 
-
     @Subscribe
     public void onTick(TickEvent event)
     {

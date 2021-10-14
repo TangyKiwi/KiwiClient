@@ -47,8 +47,7 @@ public class KiwiClient implements ModInitializer {
 	public static Identifier CAPE2 = new Identifier("kiwiclient:textures/gura_cape.png");
 	public static Identifier MENU = new Identifier("kiwiclient:background.jpg");
 
-	public static KeyBinding zoomKey = new KeyBinding("kiwiclient.zoom", InputUtil.Type.MOUSE,
-			GLFW.GLFW_MOUSE_BUTTON_5, "KiwiClient");
+	public static KeyBinding zoomKey = new KeyBinding("kiwiclient.zoom", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_5, "KiwiClient");
 
 	@Override
 	public void onInitialize() {
