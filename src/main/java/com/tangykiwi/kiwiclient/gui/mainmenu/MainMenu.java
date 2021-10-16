@@ -5,6 +5,7 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.modules.client.ActiveMods;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
@@ -53,6 +54,8 @@ public class MainMenu extends Screen {
                 skin = identifier;
             }
         }, false);
+
+        //((ActiveMods) KiwiClient.moduleManager.getModule(ActiveMods.class)).currModules = KiwiClient.moduleManager.getEnabledMods();
     }
 
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {

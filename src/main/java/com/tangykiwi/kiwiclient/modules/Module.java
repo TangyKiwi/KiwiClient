@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.modules;
 
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.modules.settings.BindSetting;
 import com.tangykiwi.kiwiclient.modules.settings.Settings;
 import net.minecraft.client.MinecraftClient;
 
@@ -26,6 +27,7 @@ public class Module {
         this.description = description;
         this.keyCode = keyCode;
         this.category = category;
+        this.settings.add(new BindSetting(this));
     }
 
     public Module(String name, String description, int keyCode, Category category, Settings... s) {
@@ -34,7 +36,8 @@ public class Module {
         this.description = description;
         this.keyCode = keyCode;
         this.category = category;
-        settings = new ArrayList<>(Arrays.asList(s));
+        this.settings = new ArrayList<>(Arrays.asList(s));
+        this.settings.add(new BindSetting(this));
     }
 
     public String getName() {

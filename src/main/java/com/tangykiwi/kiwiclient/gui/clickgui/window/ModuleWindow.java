@@ -75,7 +75,7 @@ public class ModuleWindow extends ClickGuiWindow {
 					IFont.CONSOLAS.drawString(matrices,
 							color2 + "v",
 							x + len - 8, y + 2 + curY, -1);
-				} else {
+				} else if (m.getKey().getSettings().size() > 1){
 					IFont.CONSOLAS.drawStringWithShadow(matrices,
 							color2 + "\u00a7l>",
 							x + len - 8, y + 2 + curY, -1);

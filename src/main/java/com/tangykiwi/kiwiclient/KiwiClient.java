@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient;
 import com.google.common.eventbus.EventBus;
 import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.modules.ModuleManager;
+import com.tangykiwi.kiwiclient.modules.client.ActiveMods;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.modules.player.ArmorSwap;
 import com.tangykiwi.kiwiclient.util.*;
