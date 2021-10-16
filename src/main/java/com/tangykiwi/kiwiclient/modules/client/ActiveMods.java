@@ -48,7 +48,6 @@ public class ActiveMods extends Module {
 
             int count = 0;
             ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods();
-            DrawableHelper.fill(e.getMatrix(), 0, 60, textRenderer.getStringWidth(enabledMods.get(0).getName()) + 5, 62, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
 
             boolean changed = false;
             if(!firstDraw && enabledMods.size() > currModules.size()) {
@@ -66,6 +65,15 @@ public class ActiveMods extends Module {
                 }
             }
 
+            Module firstMod = enabledMods.get(0);
+            if(!firstDraw && changingMods.containsKey(firstMod)) {
+                int displace = changingMods.get(firstMod);
+                DrawableHelper.fill(e.getMatrix(), displace, 60, textRenderer.getStringWidth(firstMod.getName()) + 5 + displace, 62, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+            }
+            else {
+                DrawableHelper.fill(e.getMatrix(), 0, 60, textRenderer.getStringWidth(firstMod.getName()) + 5, 62, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+            }
+
             for (Module m : enabledMods) {
 
                 int offset = count * 8;
@@ -75,11 +83,10 @@ public class ActiveMods extends Module {
                     DrawableHelper.fill(e.getMatrix(), textRenderer.getStringWidth(m.getName()) + 3 + displace, 62 + offset, textRenderer.getStringWidth(m.getName()) + 5 + displace, 62 + 8 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
                     DrawableHelper.fill(e.getMatrix(), displace, 62 + offset, textRenderer.getStringWidth(m.getName()) + 3 + displace, 62 + 8 + offset, 0x90000000);
                     textRenderer.drawString(e.getMatrix(), m.getName(), 0.2 + displace, 62.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-                    if(displace + 1 == 0) {
+                    if(displace + 1 >= 0) {
                         changingMods.remove(m);
                     }
-                    else
-                    {
+                    else {
                         changingMods.replace(m, changingMods.get(m) + 1);
                     }
                 }

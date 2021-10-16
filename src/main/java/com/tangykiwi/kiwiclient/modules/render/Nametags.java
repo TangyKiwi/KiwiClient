@@ -74,6 +74,7 @@ public class Nametags extends Module {
                         RenderUtils.drawWorldText(getEmptyString(name) + " " + amount, rPos.x, rPos.y + up, rPos.z, scale, 0xFFFF55, true);
                         RenderUtils.drawWorldText(customName, rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFAA00, true);
                     } else {
+                        //RenderUtils.drawWorldText("\u00a76" + name + " " + "\u00a7e" + amount, rPos.x, rPos.y + 0.5, rPos.z, scale, -1, true);
                         RenderUtils.drawWorldText(name + " " + getEmptyString(amount), rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFAA00, true);
                         RenderUtils.drawWorldText(getEmptyString(name) + " " + amount, rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFFF55, true);
                     }
@@ -176,7 +177,7 @@ public class Nametags extends Module {
 
             String subText = text.substring(0, Math.min(text.length(), 2)) + m.getValue();
 
-            RenderUtils.drawWorldText(subText, x, y, z, (offX + 0.055) * scale, (offY + 0.75 - c * 0.34) * scale, scale * 1.4, false, m.getKey().isCursed() ? 0xff5050 : 0xFFFFFF, false);
+            RenderUtils.drawWorldText(subText, x, y, z, (offX + 0.055) * scale, (offY + 0.75 - c * 0.34) * scale, scale * 1.4, false, m.getKey().isCursed() ? 0xff5050 : 0xFFAA00, false);
             c--;
         }
         return c;
