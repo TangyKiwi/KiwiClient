@@ -21,7 +21,7 @@ public class Deadmau5EarsRenderer extends FeatureRenderer<AbstractClientPlayerEn
 
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float g, float h, float j, float k, float l) {
         if (KiwiClient.moduleManager.getModule(Deadmau5Ears.class).isEnabled() && !abstractClientPlayerEntity.isInvisible() && abstractClientPlayerEntity.getName().equals(MinecraftClient.getInstance().player.getName())) {
-            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntitySolid(KiwiClient.EARS));
+        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntitySolid(KiwiClient.EARS));
             int m = LivingEntityRenderer.getOverlay(abstractClientPlayerEntity, 0.0F);
             matrixStack.push();
             if (abstractClientPlayerEntity.isInSneakingPose()) {

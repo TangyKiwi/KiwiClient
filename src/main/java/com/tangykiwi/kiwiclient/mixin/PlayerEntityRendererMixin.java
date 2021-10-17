@@ -8,6 +8,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
+import net.minecraft.client.render.entity.feature.CapeFeatureRenderer;
 import net.minecraft.client.render.entity.feature.ElytraFeatureRenderer;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,12 +34,11 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
         this.addFeature(new Deadmau5EarsRenderer(this));
         this.addFeature(new ElytraRenderer(this, ctm.getModelLoader()));
 
-        ListIterator it = this.features.listIterator();
-
-        while(it.hasNext()) {
-            if(it.next() instanceof ElytraFeatureRenderer) {
-                it.remove();
-            }
-        }
+        this.features.removeIf((modelFeature) -> {
+            return modelFeature instanceof ElytraFeatureRenderer;
+        });
+        this.features.removeIf((modelFeature) -> {
+            return modelFeature instanceof CapeFeatureRenderer;
+        });
     }
 }

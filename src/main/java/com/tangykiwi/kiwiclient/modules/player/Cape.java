@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.modules.player;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
+import com.tangykiwi.kiwiclient.modules.settings.ModeSetting;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
 import net.minecraft.util.Identifier;
 
@@ -13,20 +14,18 @@ public class Cape extends Module {
 
     public Cape() {
         super("Cape", "Gives you a custom cape", KEY_UNBOUND, Category.PLAYER,
-            new ToggleSetting("Animated", false).withDesc("Animated cape"),
-            new ToggleSetting("Gura", false).withDesc("Gura cape"),
+            new ModeSetting("Style", "Default", "Animated", "Gura").withDesc("Cape to display"),
             new ToggleSetting("Glint", true).withDesc("Makes your cape enchanted"));
         super.toggle();
     }
 
     public Identifier getCape() {
-        if (getSetting(0).asToggle().state) {
+        if (getSetting(0).asMode().mode == 0) {
+            return KiwiClient.CAPE;
+        } else if (getSetting(0).asMode().mode == 1) {
             return getFrame();
         }
-        else if (getSetting(1).asToggle().state) {
-            return KiwiClient.CAPE2;
-        }
-        return KiwiClient.CAPE;
+        return KiwiClient.CAPE2;
     }
 
     private Identifier getFrame() {
