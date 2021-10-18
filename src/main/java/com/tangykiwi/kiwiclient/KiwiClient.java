@@ -3,7 +3,6 @@ package com.tangykiwi.kiwiclient;
 import com.google.common.eventbus.EventBus;
 import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.modules.ModuleManager;
-import com.tangykiwi.kiwiclient.modules.client.ActiveMods;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.modules.player.ArmorSwap;
 import com.tangykiwi.kiwiclient.util.*;
@@ -47,6 +46,8 @@ public class KiwiClient implements ModInitializer {
 	public static Identifier CAPE = new Identifier("kiwiclient:textures/cape.png");
 	public static Identifier CAPE2 = new Identifier("kiwiclient:textures/gura_cape.png");
 	public static Identifier MENU = new Identifier("kiwiclient:background.jpg");
+	public static Identifier MENU2 = new Identifier("kiwiclient:background1.jpg");
+	public static Identifier MENU3 = new Identifier("kiwiclient:background2.jpg");
 
 	public static KeyBinding zoomKey = new KeyBinding("kiwiclient.zoom", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_5, "KiwiClient");
 
