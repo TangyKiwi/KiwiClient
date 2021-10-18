@@ -1,6 +1,5 @@
 package com.tangykiwi.kiwiclient.modules.client;
 
-import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
@@ -10,10 +9,8 @@ import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.Settings;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
-import com.tangykiwi.kiwiclient.util.CustomColor;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import com.tangykiwi.kiwiclient.util.font.IFont;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
@@ -73,7 +70,7 @@ public class HUD extends Module {
 
             List<Settings> settings = getSettings();
             int counter = 0;
-            for(int i = settings.size() - 3; i >= 0; i--) {
+            for(int i = 6; i >= 0; i--) {
                 if(settings.get(i).asToggle().state) {
                     counter++;
                     drawSetting(textRenderer, e.getMatrix(), settings.get(i).asToggle().getValue(), (counter) * 8 + 2);

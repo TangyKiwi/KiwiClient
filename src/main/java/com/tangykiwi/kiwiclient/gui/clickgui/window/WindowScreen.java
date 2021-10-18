@@ -121,7 +121,6 @@ public abstract class WindowScreen extends Screen {
 	}
 
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		/* Handle what window will be selected when clicking */
 		for (int wi: getWindowsFrontToBack()) {
 			Window w = getWindow(wi);
 
@@ -181,7 +180,6 @@ public abstract class WindowScreen extends Screen {
 		if (colorOffset > 50)
 			colorOffset = 50 - (colorOffset - 50);
 
-		// smooth
 		colorOffset = (int) (-(Math.cos(Math.PI * (colorOffset / 50d)) - 1) / 2 * 50);
 
 		RenderSystem.disableTexture();

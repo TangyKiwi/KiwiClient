@@ -51,10 +51,9 @@ public abstract class ClickGuiScreen extends WindowScreen {
 				if (tooltip != null) {
 					int tooltipY = tooltip.getMiddle();
 
-					String[] split = tooltip.getRight().split("\n", -1 /* Adding -1 makes it keep empty splits */);
+					String[] split = tooltip.getRight().split("\n", -1);
 					ArrayUtils.reverse(split);
 					for (String s: split) {
-						/* Match lines to end of words after it reaches 22 characters long */
 						Matcher mat = Pattern.compile(".{1,22}\\b\\W*").matcher(s);
 
 						List<String> lines = new ArrayList<>();
@@ -105,7 +104,6 @@ public abstract class ClickGuiScreen extends WindowScreen {
 			rmDown = true;
 		}
 
-		// Fix having to double click windows to move them
 		for (Window w : getWindows()) {
 			if (mouseX > w.x1 && mouseX < w.x2 && mouseY > w.y1 && mouseY < w.y2 && !w.closed) {
 				w.mouseClicked(mouseX, mouseY, button);

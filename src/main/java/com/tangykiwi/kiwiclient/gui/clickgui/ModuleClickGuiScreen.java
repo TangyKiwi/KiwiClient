@@ -28,7 +28,7 @@ public class ModuleClickGuiScreen extends ClickGuiScreen {
 	public void init() {
 		super.init();
 
-		searchField = new TextFieldWidget(textRenderer, 2, 2, 100, 12, LiteralText.EMPTY /* @LasnikProgram is author lol */);
+		searchField = new TextFieldWidget(textRenderer, 2, 2, 100, 12, LiteralText.EMPTY);
 		searchField.visible = false;
 		searchField.setMaxLength(20);
 		searchField.setSuggestion("Search here");

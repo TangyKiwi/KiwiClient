@@ -60,7 +60,6 @@ public class Window {
 
 	public void render(MatrixStack matrices, int mouseX, int mouseY) {
 		GlyphPageFontRenderer textRend = IFont.CONSOLAS;
-		//TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 
 		if (dragging) {
 			x2 = (x2 - x1) + mouseX - dragOffX - Math.min(0, mouseX - dragOffX);
@@ -79,23 +78,19 @@ public class Window {
 
 		boolean blockItem = icon != null && icon.getItem() instanceof BlockItem;
 
-		/* window icon */
 		if (icon != null) {
 			RenderSystem.getModelViewStack().push();
 			RenderSystem.getModelViewStack().scale(0.6f, 0.6f, 1f);
 
 			DiffuseLighting.enableGuiDepthLighting();
-			MinecraftClient.getInstance().getItemRenderer().renderInGui(
-					icon, (int) ((x1 + (blockItem ? 3 : 2)) * 1 / 0.6), (int) ((y1 + 2) * 1 / 0.6));
+			MinecraftClient.getInstance().getItemRenderer().renderInGui(icon, (int) ((x1 + (blockItem ? 3 : 2)) * 1 / 0.6), (int) ((y1 + 2) * 1 / 0.6));
 			DiffuseLighting.disableGuiDepthLighting();
 
 			RenderSystem.getModelViewStack().pop();
 			RenderSystem.applyModelViewMatrix();
 		}
 
-		/* window title */
-		textRend.drawStringWithShadow(matrices, title,
-				x1 + (icon == null || icon.getItem() == Items.AIR ? 4 : (blockItem ? 15 : 14)), y1 + 3, -1);
+		textRend.drawStringWithShadow(matrices, title, x1 + (icon == null || icon.getItem() == Items.AIR ? 4 : (blockItem ? 15 : 14)), y1 + 3, -1);
 	}
 
 	protected void drawBar(MatrixStack matrices, int mouseX, int mouseY, GlyphPageFontRenderer textRend) {
