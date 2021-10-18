@@ -118,6 +118,6 @@ public abstract class ChatHudMixin implements IChatHUD {
                 return p.getSkinTexture();
             }
         }
-        return null;
+        return new Identifier("kiwiclient:textures/terminal.png");
     }
 }
