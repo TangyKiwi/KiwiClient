@@ -149,11 +149,11 @@ public class ActiveMods extends Module {
                     DrawableHelper.fill(e.getMatrix(), textRenderer.getStringWidth(m.getName()) + 3 + displace, 62 + offset, textRenderer.getStringWidth(m.getName()) + 5 + displace, 62 + 8 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
                     DrawableHelper.fill(e.getMatrix(), displace, 62 + offset, textRenderer.getStringWidth(m.getName()) + 3 + displace, 62 + 8 + offset, 0x90000000);
                     textRenderer.drawString(e.getMatrix(), m.getName(), 0.2 + displace, 62.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-                    if(displace - 1 <= -textRenderer.getStringWidth(m.getName())) {
+                    if(displace - 2 <= -textRenderer.getStringWidth(m.getName())) {
                         disablingMods.remove(m);
                     }
                     else {
-                        disablingMods.replace(m, disablingMods.get(m) - 1);
+                        disablingMods.replace(m, disablingMods.get(m) - 2);
                     }
                 }
                 else{
