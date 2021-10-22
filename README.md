@@ -81,7 +81,10 @@ Fabric Utility Mod, compatible with Aristois Client.
 ### Commands
 - ,bind [module] [key]
 - ,dupe
+- ,enchant [type/enchantment] [level]
 - ,ez
+- ,gamemode [gamemode]
+- ,give [item{nbt}] [count]
 - ,say [message]
 - ,toggle [module]
 - ,unbind [module]

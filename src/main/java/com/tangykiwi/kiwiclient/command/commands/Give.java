@@ -13,7 +13,7 @@ import net.minecraft.text.LiteralText;
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 
 public class Give extends Command {
-    private final static SimpleCommandExceptionType NOT_IN_CREATIVE = new SimpleCommandExceptionType(new LiteralText("You must be in creative mode to use this."));
+    private final static SimpleCommandExceptionType NOT_IN_CREATIVE = new SimpleCommandExceptionType(new LiteralText("You must be in creative mode."));
     private final static SimpleCommandExceptionType NO_SPACE = new SimpleCommandExceptionType(new LiteralText("No space in hotbar."));
 
     public Give() {
