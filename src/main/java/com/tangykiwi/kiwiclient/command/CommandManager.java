@@ -23,6 +23,7 @@ public class CommandManager {
         add(new Enchant());
         add(new Ez());
         add(new Gamemode());
+        add(new Give());
         add(new Say());
         add(new Toggle());
         add(new Unbind());
