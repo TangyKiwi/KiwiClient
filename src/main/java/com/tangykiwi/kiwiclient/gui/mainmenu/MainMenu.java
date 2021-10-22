@@ -5,7 +5,7 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
-import com.tangykiwi.kiwiclient.modules.client.ActiveMods;
+import com.tangykiwi.kiwiclient.gui.mainmenu.particles.ParticleManager;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
 import com.tangykiwi.kiwiclient.util.Utils;
@@ -33,6 +33,7 @@ public class MainMenu extends Screen {
     public final String[] BUTTONS = {"Singleplayer", "Multiplayer", "Realms", "Options", "Language", "Quit"};
     public final ArrayList<GuiButton> buttonList = new ArrayList<GuiButton>();
     public Identifier skin = new Identifier("textures/entity/steve.png");
+    public ParticleManager particles;
 
     public MainMenu() {
         super(new TranslatableText("narrator.screen.title"));
@@ -40,6 +41,7 @@ public class MainMenu extends Screen {
 
     public void init() {
         buttonList.clear();
+        particles = new ParticleManager();
         int initHeight = this.height / 2;
         int objHeight = 50;
         int objWidth = 50;
@@ -87,8 +89,8 @@ public class MainMenu extends Screen {
         this.drawTexture(matrixStack, 2, this.height - 8 * renderScale - 2, 8 * renderScale, 8 * renderScale, 40 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 64 * renderScale, 64 * renderScale);
         IFont.CONSOLAS.drawString(matrixStack, this.client.getSession().getUsername(), 8 * renderScale + 3, this.height - IFont.CONSOLAS.getFontHeight() - 2, ColorUtil.getRainbow(4, 0.8f, 1));
 
+        particles.render(matrixStack, mouseX, mouseY);
         //InventoryScreen.drawEntity(10, 10, 30, -mouseX + 10, -mouseY + this.height / 4 + 102, this.client.player);
-
         super.render(matrixStack, mouseX, mouseY, delta);
     }
 

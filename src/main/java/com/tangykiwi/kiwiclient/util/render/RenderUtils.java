@@ -272,6 +272,14 @@ public class RenderUtils {
 		RenderSystem.disableBlend();
 	}
 
+	// -------------------- Other --------------------
+	public static void drawFullCircle(MatrixStack m, float x, float y, float size, int color) {
+		m.push();
+		m.scale(size, size, 1);
+		IFont.CONSOLAS.drawString(m, ".", x, y, color);
+		m.pop();
+	}
+
 	// -------------------- Utils --------------------
 
 	public static MatrixStack matrixFrom(double x, double y, double z) {
