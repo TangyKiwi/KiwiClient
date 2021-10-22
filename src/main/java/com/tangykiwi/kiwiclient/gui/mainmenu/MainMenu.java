@@ -6,7 +6,9 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.client.ActiveMods;
+import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
+import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -22,6 +24,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 
@@ -123,5 +126,13 @@ public class MainMenu extends Screen {
         }
 
         return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if(keyCode == GLFW.GLFW_KEY_SEMICOLON) {
+            Utils.mc.setScreen(ClickGui.clickGui);
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 }
