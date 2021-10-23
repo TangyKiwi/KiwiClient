@@ -59,8 +59,6 @@ public class MainMenu extends Screen {
                 skin = identifier;
             }
         }, false);
-
-        //((ActiveMods) KiwiClient.moduleManager.getModule(ActiveMods.class)).currModules = KiwiClient.moduleManager.getEnabledMods();
     }
 
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {
@@ -69,6 +67,8 @@ public class MainMenu extends Screen {
         RenderSystem.setShaderTexture(0, KiwiClient.MENU);
         this.drawTexture(matrixStack, 0, 0, 20 * mouseX / this.width,  20 * mouseY / this.height, this.width + 20 * mouseX / this.width, this.height + 20 * mouseY / this.height, this.width + 40, this.height + 40);
         this.fillGradient(matrixStack, 0, 0, this.width, this.height, 0x00000000, 0xff000000);
+
+        particles.render(matrixStack, mouseX, mouseY);
 
         String version = "v" + KiwiClient.version + " - MC 1.17.1";
         DrawableHelper.fill(matrixStack, 0, 0, IFont.CONSOLAS.getStringWidth(version) + 4, IFont.CONSOLAS.getFontHeight() + 2, 0x90000000);
@@ -89,7 +89,6 @@ public class MainMenu extends Screen {
         this.drawTexture(matrixStack, 2, this.height - 8 * renderScale - 2, 8 * renderScale, 8 * renderScale, 40 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 64 * renderScale, 64 * renderScale);
         IFont.CONSOLAS.drawString(matrixStack, this.client.getSession().getUsername(), 8 * renderScale + 3, this.height - IFont.CONSOLAS.getFontHeight() - 2, ColorUtil.getRainbow(4, 0.8f, 1));
 
-        particles.render(matrixStack, mouseX, mouseY);
         //InventoryScreen.drawEntity(10, 10, 30, -mouseX + 10, -mouseY + this.height / 4 + 102, this.client.player);
         super.render(matrixStack, mouseX, mouseY, delta);
     }
