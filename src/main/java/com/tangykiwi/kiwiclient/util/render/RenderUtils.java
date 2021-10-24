@@ -276,7 +276,9 @@ public class RenderUtils {
 	public static void drawFullCircle(MatrixStack m, float x, float y, float size, int color) {
 		m.push();
 		m.scale(size, size, 1);
-		IFont.CONSOLAS.drawString(m, ".", x, y, color);
+		if(color != CustomColor.fromRGBA(255, 255, 255, 0)) {
+			IFont.CONSOLAS.drawString(m, ".", x, y, color);
+		}
 		m.pop();
 	}
 
