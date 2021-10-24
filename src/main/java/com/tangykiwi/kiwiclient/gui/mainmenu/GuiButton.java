@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.gui.mainmenu;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
+import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -44,8 +45,10 @@ public class GuiButton {
 
         IFont.CONSOLAS.drawCenteredString(matrixStack, buttonText, x, (int) (y + getPosition(index)) + 55, hovered ? ColorUtil.getRainbow(3, 0.8f, 1) : -1);
 
+        RenderSystem.enableBlend();
         RenderSystem.setShaderTexture(0, icon);
         DrawableHelper.drawTexture(matrixStack, (x - width / 2), (int) (y + getPosition(index)), 0, 0, 50, 50, 50, 50);
+        RenderSystem.disableBlend();
     }
 
     public float getPosition(int index) {

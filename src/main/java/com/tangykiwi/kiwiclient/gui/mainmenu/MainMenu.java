@@ -74,10 +74,10 @@ public class MainMenu extends Screen {
         DrawableHelper.fill(matrixStack, 0, 0, IFont.CONSOLAS.getStringWidth(version) + 4, IFont.CONSOLAS.getFontHeight() + 2, 0x90000000);
         IFont.CONSOLAS.drawString(matrixStack, version, 1, 2, 0xFFFFFF);
 
-        GlStateManager._enableBlend();
+        RenderSystem.enableBlend();
         RenderSystem.setShaderTexture(0, new Identifier("kiwiclient:textures/menu/title.png"));
         this.drawTexture(matrixStack, this.width / 2 - 160, this.height / 2 - 55, 0, 0, 320, 40, 320, 40);
-        GlStateManager._disableBlend();
+        RenderSystem.disableBlend();
 
         for(GuiButton b : buttonList) {
             b.drawButton(matrixStack, mouseX, mouseY);
