@@ -59,6 +59,8 @@ public class Compass extends Module {
         degrees.add(new Degree("NW", 3));
         degrees.add(new Degree("150", 2));
         degrees.add(new Degree("165", 2));
+
+        super.toggle();
     }
 
     @Subscribe
