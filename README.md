@@ -42,6 +42,7 @@ Fabric Utility Mod, compatible with Aristois Client.
 - BetterChat
 - BetterTab
 - ClickGui
+- Compass
 - HUD
 - Tooltips
 
