@@ -16,7 +16,7 @@ public class ClickGui extends Module {
     @Override
     public void onEnable() {
         mc.setScreen(clickGui);
-        //setToggled(false);
+        setToggled(false);
     }
 
     @Override

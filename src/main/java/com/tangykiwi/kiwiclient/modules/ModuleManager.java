@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
+import com.tangykiwi.kiwiclient.gui.clickgui.ClickGuiScreen;
 import com.tangykiwi.kiwiclient.modules.client.*;
 import com.tangykiwi.kiwiclient.modules.combat.AutoClicker;
 import com.tangykiwi.kiwiclient.modules.combat.Criticals;
@@ -77,7 +78,9 @@ public class ModuleManager {
             if(m.isEnabled()) enabledMods.add(m);
         }
 
-        enabledMods.add(getModule(ClickGui.class));
+        if(mc.currentScreen instanceof ClickGuiScreen) {
+            enabledMods.add(getModule(ClickGui.class));
+        }
 
         Collections.sort(enabledMods, new ModuleComparator());
         return enabledMods;
