@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.util.render;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
 import com.tangykiwi.kiwiclient.util.CustomColor;
@@ -18,6 +19,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.*;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.logging.log4j.core.appender.rolling.action.IfNot;
+import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.Field;
 
@@ -196,6 +198,29 @@ public class RenderUtils {
 		cleanup();
 	}
 
+	public static void drawLine2D(double x1, double y1, double x2, double y2, LineColor color, float width) {
+		setup();
+
+		MatrixStack matrices = matrixFrom(x1, y1, 0);
+
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder buffer = tessellator.getBuffer();
+
+		// Line
+		RenderSystem.disableDepthTest();
+		RenderSystem.disableCull();
+		RenderSystem.setShader(GameRenderer::getRenderTypeLinesShader);
+		RenderSystem.lineWidth(width);
+
+		buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
+		Vertexer.vertexLine(matrices, buffer, (float) x1, (float) y1, 0f, (float) x2, (float) y2, 0, color);
+		tessellator.draw();
+
+		RenderSystem.enableCull();
+		RenderSystem.enableDepthTest();
+		cleanup();
+	}
+
 	// -------------------- World --------------------
 
 	public static void drawWorldText(String text, double x, double y, double z, double scale, int color, boolean background) {
@@ -283,6 +308,14 @@ public class RenderUtils {
 	}
 
 	// -------------------- Utils --------------------
+
+	public static void glColor(int hex) {
+		float alpha = (hex >> 24 & 0xFF) / 255.0F;
+		float red = (hex >> 16 & 0xFF) / 255.0F;
+		float green = (hex >> 8 & 0xFF) / 255.0F;
+		float blue = (hex & 0xFF) / 255.0F;
+		GL11.glColor4f(red, green, blue, alpha);
+	}
 
 	public static MatrixStack matrixFrom(double x, double y, double z) {
 		MatrixStack matrices = new MatrixStack();

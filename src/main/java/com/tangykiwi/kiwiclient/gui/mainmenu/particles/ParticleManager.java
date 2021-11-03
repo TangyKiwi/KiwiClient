@@ -1,6 +1,9 @@
 package com.tangykiwi.kiwiclient.gui.mainmenu.particles;
 
+import com.tangykiwi.kiwiclient.util.render.RenderUtils;
+import com.tangykiwi.kiwiclient.util.render.color.LineColor;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.List;
@@ -37,12 +40,37 @@ public class ParticleManager {
                 }
             }
         }
+        int count = 0;
         for (Particle p : getParticles()) {
             if (p.getAlpha() <= 0.0F) {
                 getParticles().remove(p);
             }
+
             p.render(m, this);
+
+            // Particles
+            //drawConnections(count);
+            count++;
         }
+    }
+
+    public void drawConnections(int i) {
+        if(i < particles.size()) {
+            for(int j = 0; j < particles.size(); j++) {
+                if(j != i) {
+                    Particle pi = particles.get(i);
+                    Particle pj = particles.get(j);
+                    int alpha = (int) ((pi.getAlpha() + pj.getAlpha()) / 2);
+                    if(getDistance(pi, pj) <= 30) {
+                        RenderUtils.drawLine2D(pi.getPosX(), pi.getPosY(), pj.getPosX(), pj.getPosY(), LineColor.single(255, 255, 255, alpha), 1);
+                    }
+                }
+            }
+        }
+    }
+
+    public double getDistance(Particle x, Particle y) {
+        return Math.sqrt(Math.pow(x.getPosX() - y.getPosX(), 2) + Math.pow(x.getPosY() - y.getPosY(), 2));
     }
 
     public int random(int low, int high) {
