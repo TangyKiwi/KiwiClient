@@ -25,7 +25,7 @@ public class BindSetting extends Settings {
     }
 
     @Override
-    public void render(ModuleWindow window, MatrixStack matrices, int x, int y, int len) {
+    public int render(ModuleWindow window, MatrixStack matrices, int x, int y, int len, int index, int max) {
         if (window.mouseOver(x, y, x + len, y + 12)) {
             DrawableHelper.fill(matrices, x + 1, y, x + len, y + 12, 0x70303070);
         }
@@ -43,6 +43,8 @@ public class BindSetting extends Settings {
             name = "NONE";
 
         IFont.CONSOLAS.drawStringWithShadow(matrices, "Bind: " + name + (window.mouseOver(x, y, x + len, y + 12) ? "..." : ""), x + 3, y + 2, 0xcfe0cf);
+
+        return index;
     }
 
     public BindSetting withDesc(String desc) {

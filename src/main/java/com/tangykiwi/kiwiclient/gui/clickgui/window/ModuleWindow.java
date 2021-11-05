@@ -10,8 +10,10 @@ import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import org.apache.commons.lang3.tuple.Triple;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,6 +26,9 @@ public class ModuleWindow extends ClickGuiWindow {
 	public LinkedHashMap<Module, Boolean> mods = new LinkedHashMap<>();
 
 	private int len;
+	private int start;
+	private int max;
+	private int numMods = 16;
 
 	private Set<Module> searchedModules;
 
@@ -33,6 +38,8 @@ public class ModuleWindow extends ClickGuiWindow {
 		super(x1, y1, x1 + len, 0, title, icon);
 
 		this.len = len;
+		start = 0;
+		max = start + numMods;
 		modList = mods;
 
 		for (Module m : mods)
@@ -41,12 +48,22 @@ public class ModuleWindow extends ClickGuiWindow {
 		y2 = getHeight();
 	}
 
+	// numMods lines max
 	public void render(MatrixStack matrices, int mouseX, int mouseY) {
+		int lines = getLines();
+		boolean scrollable = lines > 16;
+
 		tooltip = null;
 		int x = x1 + 1;
 		int y = y1 + 13;
 		x2 = x + len + 1;
 		y2 = hiding ? y1 + 13 : y1 + 13 + getHeight();
+
+		if (mwScroll != 0 && mouseOver(x, y, x2, y2)) {
+			start = MathHelper.clamp(start - mwScroll, 0, lines - numMods);
+		}
+
+		max = start + numMods;
 
 		super.render(matrices, mouseX, mouseY);
 
@@ -56,60 +73,87 @@ public class ModuleWindow extends ClickGuiWindow {
 		//TextRenderer textRend = mc.textRenderer;
 
 		int curY = 0;
+		int index = 0;
+		boolean stopRender = false;
 		for (Entry<Module, Boolean> m : mods.entrySet()) {
-			if (mouseOver(x, y + curY, x + len, y + 12 + curY)) {
-				DrawableHelper.fill(matrices, x, y + curY, x + len, y + 12 + curY, 0x70303070);
-			}
-
-			// If they match: Module gets marked red
-			if (searchedModules != null && searchedModules.contains(m.getKey())) {
-				DrawableHelper.fill(matrices, x, y + curY, x + len, y + 12 + curY, 0x50ff0000);
-			}
-
-			textRend.drawStringWithShadow(matrices, textRend.trimStringToWidth(m.getKey().getName(), len),
-					x + 2, y + 2 + curY, m.getKey().isEnabled() ? 0x70efe0 : 0xc0c0c0);
-
-			String color2 = m.getValue() ? "\u00a7a" : "\u00a7c";
-			if(!m.getKey().getSettings().isEmpty()) {
-				if (m.getValue()) {
-					IFont.CONSOLAS.drawString(matrices,
-							color2 + "v",
-							x + len - 8, y + 2 + curY, -1);
-				} else if (m.getKey().getSettings().size() > 1){
-					IFont.CONSOLAS.drawStringWithShadow(matrices,
-							color2 + "\u00a7l>",
-							x + len - 8, y + 2 + curY, -1);
+			if(index >= start) {
+				if (mouseOver(x, y + curY, x + len, y + 12 + curY)) {
+					DrawableHelper.fill(matrices, x, y + curY, x + len, y + 12 + curY, 0x70303070);
 				}
+
+				// If they match: Module gets marked red
+				if (searchedModules != null && searchedModules.contains(m.getKey())) {
+					DrawableHelper.fill(matrices, x, y + curY, x + len, y + 12 + curY, 0x50ff0000);
+				}
+
+				textRend.drawStringWithShadow(matrices, textRend.trimStringToWidth(m.getKey().getName(), len),
+						x + 2, y + 2 + curY, m.getKey().isEnabled() ? 0x70efe0 : 0xc0c0c0);
+
+				String color2 = m.getValue() ? "\u00a7a" : "\u00a7c";
+				if(!m.getKey().getSettings().isEmpty()) {
+					if (m.getValue()) {
+						IFont.CONSOLAS.drawString(matrices,
+								color2 + "v",
+								x + len - 8, y + 2 + curY, -1);
+					} else if (m.getKey().getSettings().size() > 1){
+						IFont.CONSOLAS.drawStringWithShadow(matrices,
+								color2 + "\u00a7l>",
+								x + len - 8, y + 2 + curY, -1);
+					}
+				}
+
+				// Set which module settings show on
+				if (mouseOver(x, y + curY, x + len, y + 12 + curY)) {
+					tooltip = Triple.of(x + len + 2, y + curY, m.getKey().getDescription());
+
+					if (lmDown)
+						m.getKey().toggle();
+					if (rmDown)
+						mods.replace(m.getKey(), !m.getValue());
+					if (lmDown || rmDown)
+						mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+				}
+
+				curY += 12;
 			}
+			index++;
 
-			// Set which module settings show on
-			if (mouseOver(x, y + curY, x + len, y + 12 + curY)) {
-				tooltip = Triple.of(x + len + 2, y + curY, m.getKey().getDescription());
-
-				if (lmDown)
-					m.getKey().toggle();
-				if (rmDown)
-					mods.replace(m.getKey(), !m.getValue());
-				if (lmDown || rmDown)
-					mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+			if(index == max) {
+				stopRender = true;
+				break;
 			}
-
-			curY += 12;
 
 			// draw settings
 			if (m.getValue()) {
 				for (Settings s : m.getKey().getSettings()) {
-					s.render(this, matrices, x + 1, y + curY, len - 1);
+					if(index >= start) {
+						index = s.render(this, matrices, x + 1, y + curY, len - 1, index, max);
 
-					if (!s.getDesc().isEmpty() && mouseOver(x + 2, y + curY, x + len, y + s.getHeight(len) + curY)) {
-						tooltip = s.getGuiDesc(this, x + 1, y + curY, len - 1);
+						if (!s.getDesc().isEmpty() && mouseOver(x + 2, y + curY, x + len, y + s.getHeight(len) + curY)) {
+							tooltip = s.getGuiDesc(this, x + 1, y + curY, len - 1);
+						}
+
+						DrawableHelper.fill(matrices, x + 1, y + curY, x + 2, y + curY + s.getHeight(len), 0xff8070b0);
+
+						curY += s.getHeight(len);
 					}
-
-					DrawableHelper.fill(matrices, x + 1, y + curY, x + 2, y + curY + s.getHeight(len), 0xff8070b0);
-
-					curY += s.getHeight(len);
+					index++;
+					if(index >= max) {
+						stopRender = true;
+						break;
+					}
 				}
 			}
+
+			if(stopRender) {
+				break;
+			}
+		}
+
+		if (scrollable) {
+			int scrollbarTop = y + (y2 - y - 2) * start / lines;
+			int scrollbarBottom = y + (y2 - y - 2) * max / lines;
+			DrawableHelper.fill(matrices, x2 - 2, scrollbarTop, x2 - 1, scrollbarBottom, Color.WHITE.getRGB());
 		}
 	}
 
@@ -125,14 +169,58 @@ public class ModuleWindow extends ClickGuiWindow {
 		this.len = len;
 	}
 
-	public int getHeight() {
-		int h = 1;
+	public int getLines() {
+		int lines = 0;
 		for (Entry<Module, Boolean> e : mods.entrySet()) {
-			h += 12;
+			lines++;
 
 			if (e.getValue()) {
 				for (Settings s : e.getKey().getSettings()) {
-					h += s.getHeight(len);
+					lines++;
+					try {
+						if(s.asToggle().isExpanded()) {
+							lines += s.asToggle().getChildren().size();
+						}
+					} catch (ClassCastException error) {
+
+					}
+				}
+			}
+		}
+
+		return lines;
+	}
+
+	public int getHeight() {
+		int h = 1;
+		int count = 0;
+
+		for (Entry<Module, Boolean> e : mods.entrySet()) {
+
+			if (count >= start) {
+				h += 12;
+			}
+			count++;
+			if (count >= max) {
+				return h;
+			}
+
+			if (e.getValue()) {
+				for (Settings s : e.getKey().getSettings()) {
+					if (count >= start) {
+						h += s.getHeight(len);
+					}
+					count++;
+					try {
+						if (s.asToggle().isExpanded()) {
+							count += s.asToggle().getChildren().size();
+						}
+					} catch (ClassCastException error ) {
+
+					}
+					if (count >= max) {
+						return h;
+					}
 				}
 			}
 		}

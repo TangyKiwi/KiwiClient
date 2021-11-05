@@ -76,15 +76,11 @@ public class ModuleClickGuiScreen extends ClickGuiScreen {
 			}
 		}
 
+		int len = 85;
+
 		for (Window w : getWindows()) {
 			if (w instanceof ModuleWindow) {
 				((ModuleWindow) w).setSearchedModule(searchMods);
-			}
-		}
-
-		int len = 85;
-		for (Window w : getWindows()) {
-			if (w instanceof ModuleWindow) {
 				((ModuleWindow) w).setLen(len);
 			}
 		}

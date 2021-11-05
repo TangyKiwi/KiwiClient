@@ -20,6 +20,7 @@ public class ToggleSetting extends Settings {
     public boolean state;
     public String text;
     public int value;
+    int index = 0, max = 0;
 
     protected boolean defaultState;
 
@@ -37,7 +38,9 @@ public class ToggleSetting extends Settings {
         return text;
     }
 
-    public void render(ModuleWindow window, MatrixStack matrices, int x, int y, int len) {
+    public int render(ModuleWindow window, MatrixStack matrices, int x, int y, int len, int index, int max) {
+        this.index = index;
+        this.max = max;
         String color2 = state ? "\u00a7a" : "\u00a7c";
 
         if (window.mouseOver(x, y, x + len, y + 12)) {
@@ -55,7 +58,10 @@ public class ToggleSetting extends Settings {
 
                 int h = y + 12;
                 for (Settings s : children) {
-                    s.render(window, matrices, x + 2, h, len - 2);
+                    s.render(window, matrices, x + 2, h, len - 2, index, max);
+                    index++;
+
+                    if(index == max) return max;
 
                     h += s.getHeight(len - 3);
                 }
@@ -78,6 +84,8 @@ public class ToggleSetting extends Settings {
             state = !state;
             MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
         }
+
+        return index;
     }
 
     public int getHeight(int len) {
@@ -87,6 +95,8 @@ public class ToggleSetting extends Settings {
             h += 1;
             for (Settings s : children)
                 h += s.getHeight(len - 2);
+                index++;
+                if(index == max) return h;
         }
 
         return h;
@@ -127,6 +137,14 @@ public class ToggleSetting extends Settings {
         }
 
         return triple;
+    }
+
+    public List<Settings> getChildren() {
+        return children;
+    }
+
+    public boolean isExpanded() {
+        return expanded;
     }
 
     public int getValue() { return this.value; }

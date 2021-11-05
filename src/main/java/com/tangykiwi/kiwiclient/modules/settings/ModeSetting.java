@@ -34,7 +34,7 @@ public class ModeSetting extends Settings {
         return 12;
     }
 
-    public void render(ModuleWindow window, MatrixStack matrices, int x, int y, int len) {
+    public int render(ModuleWindow window, MatrixStack matrices, int x, int y, int len, int index, int max) {
         if (window.mouseOver(x, y, x + len, y + 12)) {
             DrawableHelper.fill(matrices, x + 1, y, x + len, y + 12, 0x70303070);
         }
@@ -45,6 +45,8 @@ public class ModeSetting extends Settings {
             mode = getNextMode();
             MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
         }
+
+        return index;
     }
 
     public ModeSetting withDesc(String desc) {

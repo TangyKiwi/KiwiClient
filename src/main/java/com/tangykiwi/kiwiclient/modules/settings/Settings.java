@@ -12,7 +12,7 @@ public abstract class Settings {
         try {
             return (ModeSetting) this;
         } catch (Exception e) {
-            throw new ClassCastException("Execption parsing setting: " + this);
+            throw new ClassCastException("Exception parsing setting: " + this);
         }
     }
 
@@ -28,7 +28,7 @@ public abstract class Settings {
         try {
             return (SliderSetting) this;
         } catch (Exception e) {
-            throw new ClassCastException("Execption parsing setting: " + this);
+            throw new ClassCastException("Exception parsing setting: " + this);
         }
     }
 
@@ -40,7 +40,7 @@ public abstract class Settings {
 
     public abstract int getHeight(int len);
 
-    public abstract void render(ModuleWindow window, MatrixStack matrices, int x, int y, int len);
+    public abstract int render(ModuleWindow window, MatrixStack matrices, int x, int y, int len, int index, int max);
 
     public String getDesc() {
         return description;

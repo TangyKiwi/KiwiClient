@@ -63,7 +63,7 @@ public class SliderSetting extends Settings {
         return text;
     }
 
-    public void render(ModuleWindow window, MatrixStack matrices, int x, int y, int len) {
+    public int render(ModuleWindow window, MatrixStack matrices, int x, int y, int len, int index, int m) {
         boolean mo = window.mouseOver(x, y, x + len, y + 12);
         if (mo) {
             DrawableHelper.fill(matrices, x + 1, y, x + len, y + 12, 0x70303070);
@@ -84,13 +84,15 @@ public class SliderSetting extends Settings {
                 setValue(round(percent * ((max - min) / 100) + min, decimals));
             }
 
-            if (window.mwScroll != 0) {
-                double units = 1 / (Math.pow(10, decimals));
-
-                setValue(MathHelper.clamp(getValue() + units * window.mwScroll, min, max));
-                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
-            }
+//            if (window.mwScroll != 0) {
+//                double units = 1 / (Math.pow(10, decimals));
+//
+//                setValue(MathHelper.clamp(getValue() + units * window.mwScroll, min, max));
+//                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
+//            }
         }
+
+        return index;
     }
 
     public SliderSetting withDesc(String desc) {
