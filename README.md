@@ -44,10 +44,11 @@ Fabric Utility Mod, compatible with Aristois Client.
 - ClickGui
 - Compass
 - HUD
+- Time
 - Tooltips
 
 #### Combat
-- AutoClicker
+- AutoClicker (not working)
 - Criticals
 - TriggerBot
 
