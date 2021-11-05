@@ -28,7 +28,7 @@ public class ModuleWindow extends ClickGuiWindow {
 	private int len;
 	private int start;
 	private int max;
-	private int numMods = 16;
+	private int numMods = 24;
 
 	private Set<Module> searchedModules;
 
@@ -51,7 +51,7 @@ public class ModuleWindow extends ClickGuiWindow {
 	// numMods lines max
 	public void render(MatrixStack matrices, int mouseX, int mouseY) {
 		int lines = getLines();
-		boolean scrollable = lines > 16;
+		boolean scrollable = lines > numMods;
 
 		tooltip = null;
 		int x = x1 + 1;
