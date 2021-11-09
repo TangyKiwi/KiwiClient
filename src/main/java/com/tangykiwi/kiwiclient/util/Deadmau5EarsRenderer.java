@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.util;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.gui.mainmenu.MainMenu;
 import com.tangykiwi.kiwiclient.modules.player.Deadmau5Ears;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -20,7 +21,7 @@ public class Deadmau5EarsRenderer extends FeatureRenderer<AbstractClientPlayerEn
     }
 
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float g, float h, float j, float k, float l) {
-        if (KiwiClient.moduleManager.getModule(Deadmau5Ears.class).isEnabled() && !abstractClientPlayerEntity.isInvisible() && abstractClientPlayerEntity.getName().equals(MinecraftClient.getInstance().player.getName())) {
+        if (!(MinecraftClient.getInstance().currentScreen instanceof MainMenu) && KiwiClient.moduleManager.getModule(Deadmau5Ears.class).isEnabled() && !abstractClientPlayerEntity.isInvisible() && abstractClientPlayerEntity.getName().equals(MinecraftClient.getInstance().player.getName())) {
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntitySolid(KiwiClient.EARS));
             int m = LivingEntityRenderer.getOverlay(abstractClientPlayerEntity, 0.0F);
             matrixStack.push();

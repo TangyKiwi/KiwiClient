@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.util;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.gui.mainmenu.MainMenu;
 import com.tangykiwi.kiwiclient.modules.player.Cape;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -26,7 +27,7 @@ public class CapeRenderer extends FeatureRenderer<AbstractClientPlayerEntity, Pl
     }
 
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float g, float h, float j, float k, float l) {
-        if (KiwiClient.moduleManager.getModule(Cape.class).isEnabled() && !abstractClientPlayerEntity.isInvisible() && abstractClientPlayerEntity.isPartVisible(PlayerModelPart.CAPE) && abstractClientPlayerEntity.getName().equals(MinecraftClient.getInstance().player.getName())) {
+        if (!(MinecraftClient.getInstance().currentScreen instanceof MainMenu) && KiwiClient.moduleManager.getModule(Cape.class).isEnabled() && !abstractClientPlayerEntity.isInvisible() && abstractClientPlayerEntity.isPartVisible(PlayerModelPart.CAPE) && abstractClientPlayerEntity.getName().equals(MinecraftClient.getInstance().player.getName())) {
             ItemStack itemStack = abstractClientPlayerEntity.getEquippedStack(EquipmentSlot.CHEST);
             if (itemStack.getItem() != Items.ELYTRA) {
                 matrixStack.push();
