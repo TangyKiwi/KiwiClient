@@ -22,6 +22,7 @@ public class CommandManager {
         add(new Dupe());
         add(new Enchant());
         add(new Ez());
+        add(new FF());
         add(new Gamemode());
         add(new Give());
         add(new Say());
