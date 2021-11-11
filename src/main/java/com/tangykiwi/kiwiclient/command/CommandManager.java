@@ -26,6 +26,7 @@ public class CommandManager {
         add(new Gamemode());
         add(new Give());
         add(new Say());
+        add(new Server());
         add(new Toggle());
         add(new Unbind());
         add(new VClip());
