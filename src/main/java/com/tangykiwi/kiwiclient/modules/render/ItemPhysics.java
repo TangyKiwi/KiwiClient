@@ -1,10 +1,14 @@
 package com.tangykiwi.kiwiclient.modules.render;
 
+import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.RenderItemEntityEvent;
+import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
+import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
 import com.tangykiwi.kiwiclient.util.IItemEntity;
+import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
@@ -12,151 +16,118 @@ import net.minecraft.block.SkullBlock;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.AliasedBlockItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tag.FluidTags;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
+
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Random;
 
 public class ItemPhysics extends Module {
     public ItemPhysics() {
-        super("ItemPhysics", "Better item physics", KEY_UNBOUND, Category.RENDER);
+        super("ItemPhysics", "Better item physics", KEY_UNBOUND, Category.RENDER,
+                new SliderSetting("Roll", 0, 50, 0, 0),
+                new SliderSetting("Pitch", 0, 50, 25, 0),
+                new SliderSetting("Yaw", 0, 50, 25, 0));
     }
+
+    private final HashMap<ItemEntity, Float> itemRotationsRoll = new HashMap<>();
+    private final HashMap<ItemEntity, Float> prevItemRotationsRoll = new HashMap<>();
+
+    private final HashMap<ItemEntity, Float> itemRotationsPitch = new HashMap<>();
+    private final HashMap<ItemEntity, Float> prevItemRotationsPitch = new HashMap<>();
+
+    private final HashMap<ItemEntity, Float> itemRotationsYaw = new HashMap<>();
+    private final HashMap<ItemEntity, Float> prevItemRotationsYaw = new HashMap<>();
+
+    private final HashMap<ItemEntity, Boolean> itemPitchNeg = new HashMap<>();
+    private final HashMap<ItemEntity, Boolean> itemRollNeg = new HashMap<>();
+    private final HashMap<ItemEntity, Boolean> itemYawNeg = new HashMap<>();
 
     @Subscribe
+    @AllowConcurrentEvents
     public void onRenderItemEntity(RenderItemEntityEvent event) {
-        ItemStack itemStack = event.itemEntity.getStack();
-        int seed = itemStack.isEmpty() ? 187 : Item.getRawId(itemStack.getItem()) + itemStack.getDamage();
-        event.random.setSeed(seed);
+        ItemEntity itemEntity = event.itemEntity;
+        MatrixStack matrixStack = event.matrixStack;
+        float g = event.tickDelta;
+        float n = itemEntity.getRotation(g);
 
-        event.matrixStack.push();
+        if (!prevItemRotationsRoll.containsKey(itemEntity))
+            return;
+        matrixStack.translate(0, itemEntity.getHeight() / 1.5f, 0);
 
-        BakedModel bakedModel = event.itemRenderer.getHeldItemModel(itemStack, event.itemEntity.world, null, 0);
-        boolean hasDepthInGui = bakedModel.hasDepth();
-        int renderCount = getRenderedAmount(itemStack);
-        IItemEntity rotator = (IItemEntity) event.itemEntity;
-        boolean renderBlockFlat = false;
+        BakedModel bakedModel = Utils.mc.getItemRenderer().getHeldItemModel(itemEntity.getStack(), itemEntity.world, null, itemEntity.getId());
+        float roll = MathHelper.lerp(Utils.mc.getTickDelta(), prevItemRotationsRoll.get(itemEntity), itemRotationsRoll.get(itemEntity));
+        float pitch = MathHelper.lerp(Utils.mc.getTickDelta(), prevItemRotationsPitch.get(itemEntity), itemRotationsPitch.get(itemEntity));
+        float yaw = MathHelper.lerp(Utils.mc.getTickDelta(), prevItemRotationsYaw.get(itemEntity), itemRotationsYaw.get(itemEntity));
 
-        if (event.itemEntity.getStack().getItem() instanceof BlockItem && !(event.itemEntity.getStack().getItem() instanceof AliasedBlockItem)) {
-            Block b = ((BlockItem) event.itemEntity.getStack().getItem()).getBlock();
-            VoxelShape shape = b.getOutlineShape(b.getDefaultState(), event.itemEntity.world, event.itemEntity.getBlockPos(), ShapeContext.absent());
+        if (itemEntity.isOnGround())
+            matrixStack.translate(0, bakedModel.hasDepth() ? -0.04 : -0.151f, 0);
 
-            if (shape.getMax(Direction.Axis.Y) <= .5) renderBlockFlat = true;
-        }
+        matrixStack.multiply(new Quaternion(new Vec3f(itemPitchNeg.get(itemEntity) ? -1 : 1, 0, 0), pitch, true));
+        matrixStack.multiply(new Quaternion(new Vec3f(0, 0, itemRollNeg.get(itemEntity) ? -1 : 1), roll, true));
+        matrixStack.multiply(new Quaternion(new Vec3f(0, itemYawNeg.get(itemEntity) ? -1 : 1, 0), yaw, true));
 
-        Item item = event.itemEntity.getStack().getItem();
-        if (item instanceof BlockItem && !(item instanceof AliasedBlockItem) && !renderBlockFlat) {
-            event.matrixStack.translate(0, -0.06, 0);
-        }
+        matrixStack.translate(0, -(itemEntity.getHeight() / 1.5f), 0);
 
-        if (!renderBlockFlat) {
-            event.matrixStack.translate(0, .185, .0);
-            event.matrixStack.multiply(Vec3f.POSITIVE_X.getRadialQuaternion(1.571F));
-            event.matrixStack.translate(0, -.185, -.0);
-        }
-
-        boolean isAboveWater = event.itemEntity.world.getBlockState(event.itemEntity.getBlockPos()).getFluidState().getFluid().isIn(FluidTags.WATER);
-        if (!event.itemEntity.isOnGround() && (!event.itemEntity.isSubmergedInWater() && !isAboveWater)) {
-            float rotation = ((float) event.itemEntity.getItemAge() + event.tickDelta) / 20.0F + event.itemEntity.uniqueOffset; // calculate rotation based on age and ticks
-
-            if (!renderBlockFlat) {
-                event.matrixStack.translate(0, .185, .0);
-                event.matrixStack.multiply(Vec3f.POSITIVE_Z.getRadialQuaternion(rotation));
-                event.matrixStack.translate(0, -.185, .0);
-                rotator.setRotation(new Vec3d(0, 0, rotation));
-            } else {
-                event.matrixStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(rotation));
-                rotator.setRotation(new Vec3d(0, rotation, 0));
-                event.matrixStack.translate(0, -.065, 0);
-            }
-
-            if (event.itemEntity.getStack().getItem() instanceof AliasedBlockItem) {
-                event.matrixStack.translate(0, 0, .195);
-            } else if (!(event.itemEntity.getStack().getItem() instanceof BlockItem)) {
-                event.matrixStack.translate(0, 0, .195);
-            }
-        } else if (event.itemEntity.getStack().getItem() instanceof AliasedBlockItem) {
-            event.matrixStack.translate(0, .185, .0);
-            event.matrixStack.multiply(Vec3f.POSITIVE_Z.getRadialQuaternion((float) rotator.getRotation().z));
-            event.matrixStack.translate(0, -.185, .0);
-            event.matrixStack.translate(0, 0, .195);
-        } else if (renderBlockFlat) {
-            event.matrixStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion((float) rotator.getRotation().y));
-            event.matrixStack.translate(0, -.065, 0);
-        } else {
-            if (!(event.itemEntity.getStack().getItem() instanceof BlockItem)) {
-                event.matrixStack.translate(0, 0, .195);
-            }
-
-            event.matrixStack.translate(0, .185, .0);
-            event.matrixStack.multiply(Vec3f.POSITIVE_Z.getRadialQuaternion((float) rotator.getRotation().z));
-            event.matrixStack.translate(0, -.185, .0);
-        }
-
-        if (event.itemEntity.world.getBlockState(event.itemEntity.getBlockPos()).getBlock().equals(Blocks.SOUL_SAND)) {
-            event.matrixStack.translate(0, 0, -.1);
-        }
-
-        if (event.itemEntity.getStack().getItem() instanceof BlockItem) {
-            if (((BlockItem) event.itemEntity.getStack().getItem()).getBlock() instanceof SkullBlock) {
-                event.matrixStack.translate(0, .11, 0);
-            }
-        }
-
-        float scaleX = bakedModel.getTransformation().ground.scale.getX();
-        float scaleY = bakedModel.getTransformation().ground.scale.getY();
-        float scaleZ = bakedModel.getTransformation().ground.scale.getZ();
-
-        float x;
-        float y;
-        if (!hasDepthInGui) {
-            float r = -0.0F * (float) (renderCount) * 0.5F * scaleX;
-            x = -0.0F * (float) (renderCount) * 0.5F * scaleY;
-            y = -0.09375F * (float) (renderCount) * 0.5F * scaleZ;
-            event.matrixStack.translate(r, x, y);
-        }
-
-        for (int u = 0; u < renderCount; ++u) {
-            event.matrixStack.push();
-            if (u > 0) {
-                if (hasDepthInGui) {
-                    x = (event.random.nextFloat() * 2.0F - 1.0F) * 0.15F;
-                    y = (event.random.nextFloat() * 2.0F - 1.0F) * 0.15F;
-                    float z = (event.random.nextFloat() * 2.0F - 1.0F) * 0.15F;
-                    event.matrixStack.translate(x, y, z);
-                } else {
-                    x = (event.random.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
-                    y = (event.random.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
-                    event.matrixStack.translate(x, y, 0.0D);
-                    event.matrixStack.multiply(Vec3f.POSITIVE_Z.getRadialQuaternion(event.random.nextFloat()));
-                }
-            }
-
-            event.itemRenderer.renderItem(itemStack, ModelTransformation.Mode.GROUND, false, event.matrixStack, event.vertexConsumerProvider, event.light, OverlayTexture.DEFAULT_UV, bakedModel);
-
-            event.matrixStack.pop();
-
-            if (!hasDepthInGui) {
-                event.matrixStack.translate(0.0F * scaleX, 0.0F * scaleY, 0.0625F * scaleZ);
-            }
-        }
-
-        event.matrixStack.pop();
-        event.setCancelled(true);
+        matrixStack.multiply(Vec3f.NEGATIVE_Y.getRadialQuaternion(n));
+        float l = MathHelper.sin(((float)itemEntity.getItemAge() + g) / 10.0F + itemEntity.uniqueOffset) * 0.1F + 0.1F;
+        float m = bakedModel.getTransformation().getTransformation(ModelTransformation.Mode.GROUND).scale.getY();
+        matrixStack.translate(0.0D, -(l + 0.25F * m), 0.0D);
     }
-
-    private int getRenderedAmount(ItemStack stack) {
-        int i = 1;
-
-        if (stack.getCount() > 48) i = 5;
-        else if (stack.getCount() > 32) i = 4;
-        else if (stack.getCount() > 16) i = 3;
-        else if (stack.getCount() > 1) i = 2;
-
-        return i;
+    
+    @Subscribe
+    @AllowConcurrentEvents
+    public void onTick(TickEvent event) {
+        if (Utils.mc.world != null)
+            Utils.mc.world.getEntities().forEach(entity -> {
+                if (entity instanceof ItemEntity itemEntity) {
+                    if (!itemRotationsRoll.containsKey(itemEntity)) {
+                        Random r = new Random();
+                        float roll = r.nextFloat() * 360;
+                        float yaw = r.nextFloat() * 360;
+                        float pitch = r.nextFloat() * 360;
+                        itemRotationsRoll.put(itemEntity, roll);
+                        prevItemRotationsRoll.put(itemEntity, roll);
+                        itemRotationsPitch.put(itemEntity, yaw);
+                        prevItemRotationsPitch.put(itemEntity, yaw);
+                        itemRotationsYaw.put(itemEntity, pitch);
+                        prevItemRotationsYaw.put(itemEntity, pitch);
+                        itemPitchNeg.put(itemEntity, r.nextBoolean());
+                        itemRollNeg.put(itemEntity, r.nextBoolean());
+                        itemYawNeg.put(itemEntity, r.nextBoolean());
+                    }
+                    prevItemRotationsRoll.replace(itemEntity, itemRotationsRoll.get(itemEntity));
+                    if (!itemEntity.isOnGround()) {
+                        itemRotationsRoll.replace(itemEntity, itemRotationsRoll.get(itemEntity) + getSetting(0).asSlider().getValueFloat());
+                    }
+                    prevItemRotationsPitch.replace(itemEntity, itemRotationsPitch.get(itemEntity));
+                    if (!itemEntity.isOnGround()) {
+                        itemRotationsPitch.replace(itemEntity, itemRotationsPitch.get(itemEntity) + getSetting(1).asSlider().getValueFloat());
+                    } else
+                        itemRotationsPitch.replace(itemEntity, 90.f);
+                    prevItemRotationsYaw.replace(itemEntity, itemRotationsYaw.get(itemEntity));
+                    if (!itemEntity.isOnGround()) {
+                        itemRotationsYaw.replace(itemEntity, itemRotationsYaw.get(itemEntity) + getSetting(2).asSlider().getValueFloat());
+                    } else
+                        itemRotationsYaw.replace(itemEntity, 0.f);
+                }
+            });
+        itemRotationsRoll.keySet().removeIf(Objects::isNull);
+        prevItemRotationsRoll.keySet().removeIf(Objects::isNull);
+        itemRotationsPitch.keySet().removeIf(Objects::isNull);
+        prevItemRotationsPitch.keySet().removeIf(Objects::isNull);
+        itemRotationsYaw.keySet().removeIf(Objects::isNull);
+        prevItemRotationsYaw.keySet().removeIf(Objects::isNull);
+        itemPitchNeg.keySet().removeIf(Objects::isNull);
+        itemRollNeg.keySet().removeIf(Objects::isNull);
+        itemYawNeg.keySet().removeIf(Objects::isNull);
     }
 }
