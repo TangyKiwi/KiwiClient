@@ -1,12 +1,9 @@
 package com.tangykiwi.kiwiclient.modules;
 
 import com.google.common.eventbus.Subscribe;
-import com.tangykiwi.kiwiclient.KiwiClient;
-import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.gui.clickgui.ClickGuiScreen;
 import com.tangykiwi.kiwiclient.modules.client.*;
-import com.tangykiwi.kiwiclient.modules.combat.AutoClicker;
 import com.tangykiwi.kiwiclient.modules.combat.Criticals;
 import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
@@ -39,7 +36,6 @@ public class ModuleManager {
         moduleList.add(new Tooltips());
 
         //combat
-        moduleList.add(new AutoClicker());
         moduleList.add(new Criticals());
         moduleList.add(new TriggerBot());
 

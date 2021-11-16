@@ -48,7 +48,6 @@ Fabric Utility Mod, compatible with Aristois Client.
 - Tooltips
 
 #### Combat
-- AutoClicker (not working)
 - Criticals
 - TriggerBot
 
