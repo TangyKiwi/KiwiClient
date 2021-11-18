@@ -44,6 +44,7 @@ Fabric Utility Mod, compatible with Aristois Client.
 - ClickGui
 - Compass
 - HUD
+- MountHUD
 - Time
 - Tooltips
 
