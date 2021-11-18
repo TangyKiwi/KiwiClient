@@ -13,6 +13,7 @@ import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Style;
 import net.minecraft.util.Identifier;
@@ -82,8 +83,13 @@ public class HUD extends Module {
             if(settings.get(7).asToggle().state && !mc.player.isSpectator()) {
                 int count = 0;
                 int x1 = mc.getWindow().getScaledWidth() / 2;
-                int y = mc.getWindow().getScaledHeight() -
-                        (mc.player.isSubmergedInWater() || mc.player.getAir() < mc.player.getMaxAir() ? 66 : 56);
+                int offset = 56;
+                if (mc.player.isSubmergedInWater() || mc.player.getAir() < mc.player.getMaxAir()) offset += 10;
+                if (KiwiClient.moduleManager.getModule(MountHUD.class).isEnabled()) {
+                    offset += 10;
+                    if(((LivingEntity) mc.player.getVehicle()).getHealth() > 20) offset += 10;
+                }
+                int y = mc.getWindow().getScaledHeight() - offset;
                 for (ItemStack is : mc.player.getInventory().armor) {
                     count++;
                     if (is.isEmpty()) continue;
