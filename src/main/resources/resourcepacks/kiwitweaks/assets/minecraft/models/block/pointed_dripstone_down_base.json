@@ -1,0 +1,34 @@
+{
+	"credit": "Created by Stridey",
+	"textures": {
+		"1": "block/pointed_dripstone_light",
+		"2": "block/pointed_dripstone_dark",
+		"particle": "block/pointed_dripstone_down_base",
+		"cross": "block/pointed_dripstone_down_base"
+	},
+	"elements": [
+		{
+			"from": [1, 7, 1],
+			"to": [15, 16, 15],
+			"faces": {
+				"north": {"uv": [1, 0, 15, 9], "texture": "#cross"},
+				"east": {"uv": [1, 0, 15, 9], "texture": "#cross"},
+				"south": {"uv": [1, 0, 15, 9], "texture": "#cross"},
+				"west": {"uv": [1, 0, 15, 9], "texture": "#cross"},
+				"up": {"uv": [1, 1, 15, 15], "texture": "#1", "cullface": "up"},
+				"down": {"uv": [1, 1, 15, 15], "texture": "#2"}
+			}
+		},
+		{
+			"from": [2, 0, 2],
+			"to": [14, 7, 14],
+			"faces": {
+				"north": {"uv": [2, 9, 14, 16], "texture": "#cross"},
+				"east": {"uv": [2, 9, 14, 16], "texture": "#cross"},
+				"south": {"uv": [2, 9, 14, 16], "texture": "#cross"},
+				"west": {"uv": [2, 9, 14, 16], "texture": "#cross"},
+				"down": {"uv": [2, 2, 14, 14], "texture": "#2", "cullface": "down"}
+			}
+		}
+	]
+}

@@ -1,0 +1,886 @@
+{
+    "__comment": "Designed by MinecraftSpace with Cubik Studio - https://cubik.studio",
+    "textures": {
+        "particle": "entity/3dtiles/dark_oak",
+        "texture": "entity/3dtiles/dark_oak"
+    },
+    "elements": [
+        {
+            "__comment": "BoatBase",
+            "from": [
+                -6,
+                0,
+                0
+            ],
+            "to": [
+                22,
+                3,
+                16
+            ],
+            "faces": {
+                "down": {
+                    "uv": [
+                        0.5,
+                        0.375,
+                        4,
+                        2.375
+                    ],
+                    "texture": "#texture"
+                },
+                "up": {
+                    "uv": [
+                        4.25,
+                        0.375,
+                        7.75,
+                        2.375
+                    ],
+                    "texture": "#texture"
+                },
+                "north": {
+                    "uv": [
+                        0.375,
+                        0,
+                        3.875,
+                        0.375
+                    ],
+                    "texture": "#texture"
+                },
+                "south": {
+                    "uv": [
+                        3.875,
+                        0,
+                        7.375,
+                        0.375
+                    ],
+                    "texture": "#texture"
+                },
+                "west": {
+                    "uv": [
+                        0,
+                        0.375,
+                        0.375,
+                        2.375
+                    ],
+                    "texture": "#texture",
+                    "rotation": 270
+                },
+                "east": {
+                    "uv": [
+                        3.875,
+                        0.375,
+                        4.25,
+                        2.375
+                    ],
+                    "texture": "#texture",
+                    "rotation": 90
+                }
+            }
+        },
+        {
+            "__comment": "BoatWest",
+            "from": [
+                -8,
+                3,
+                -1
+            ],
+            "to": [
+                -6,
+                9,
+                17
+            ],
+            "faces": {
+                "down": {
+                    "uv": [
+                        1.25,
+                        3.25,
+                        3.5,
+                        3.5
+                    ],
+                    "texture": "#texture",
+                    "rotation": 90
+                },
+                "up": {
+                    "uv": [
+                        0.25,
+                        2.375,
+                        2.5,
+                        2.625
+                    ],
+                    "texture": "#texture",
+                    "rotation": 270
+                },
+                "north": {
+                    "uv": [
+                        2.5,
+                        2.625,
+                        2.75,
+                        3.375
+                    ],
+                    "texture": "#texture"
+                },
+                "south": {
+                    "uv": [
+                        0,
+                        2.625,
+                        0.25,
+                        3.375
+                    ],
+                    "texture": "#texture"
+                },
+                "west": {
+                    "uv": [
+                        2.75,
+                        2.625,
+                        5,
+                        3.375
+                    ],
+                    "texture": "#texture"
+                },
+                "east": {
+                    "uv": [
+                        0.375,
+                        2.625,
+                        2.625,
+                        3.375
+                    ],
+                    "texture": "#texture"
+                }
+            }
+        },
+        {
+            "__comment": "BoatEast",
+            "from": [
+                22,
+                3,
+                0
+            ],
+            "to": [
+                24,
+                9,
+                16
+            ],
+            "faces": {
+                "down": {
+                    "uv": [
+                        1.25,
+                        3.25,
+                        3.5,
+                        3.5
+                    ],
+                    "texture": "#texture",
+                    "rotation": 270
+                },
+                "up": {
+                    "uv": [
+                        0.25,
+                        2.375,
+                        2.5,
+                        2.625
+                    ],
+                    "texture": "#texture",
+                    "rotation": 90
+                },
+                "north": {
+                    "uv": [
+                        0,
+                        2.625,
+                        0.25,
+                        3.375
+                    ],
+                    "texture": "#texture"
+                },
+                "south": {
+                    "uv": [
+                        2.5,
+                        2.625,
+                        2.75,
+                        3.375
+                    ],
+                    "texture": "#texture"
+                },
+                "west": {
+                    "uv": [
+                        0.125,
+                        2.625,
+                        2.125,
+                        3.375
+                    ],
+                    "texture": "#texture"
+                },
+                "east": {
+                    "uv": [
+                        2.75,
+                        2.625,
+                        4.75,
+                        3.375
+                    ],
+                    "texture": "#texture"
+                }
+            }
+        },
+        {
+            "__comment": "BoatNorth",
+            "from": [
+                -6,
+                3,
+                -2
+            ],
+            "to": [
+                22,
+                9,
+                0
+            ],
+            "faces": {
+                "down": {
+                    "uv": [
+                        0.25,
+                        4.375,
+                        3.625,
+                        4.625
+                    ],
+                    "texture": "#texture"
+                },
+                "up": {
+                    "uv": [
+                        0.25,
+                        4.375,
+                        3.625,
+                        4.625
+                    ],
+                    "texture": "#texture"
+                },
+                "north": {
+                    "uv": [
+                        4.125,
+                        4.625,
+                        7.5,
+                        5.375001
+                    ],
+                    "texture": "#texture"
+                },
+                "south": {
+                    "uv": [
+                        0.375,
+                        4.625,
+                        3.75,
+                        5.375001
+                    ],
+                    "texture": "#texture"
+                },
+                "west": {
+                    "uv": [
+                        0,
+                        4.625,
+                        0.25,
+                        5.375
+                    ],
+                    "texture": "#texture"
+                },
+                "east": {
+                    "uv": [
+                        0,
+                        4.625,
+                        0.25,
+                        5.375
+                    ],
+                    "texture": "#texture"
+                }
+            }
+        },
+        {
+            "__comment": "BoatSouth",
+            "from": [
+                -6,
+                3,
+                16
+            ],
+            "to": [
+                22,
+                9,
+                18
+            ],
+            "faces": {
+                "down": {
+                    "uv": [
+                        0.25,
+                        4.375,
+                        3.625,
+                        4.625
+                    ],
+                    "texture": "#texture",
+                    "rotation": 180
+                },
+                "up": {
+                    "uv": [
+                        0.25,
+                        4.375,
+                        3.625,
+                        4.625
+                    ],
+                    "texture": "#texture",
+                    "rotation": 180
+                },
+                "north": {
+                    "uv": [
+                        0.375,
+                        4.625,
+                        3.75,
+                        5.375001
+                    ],
+                    "texture": "#texture"
+                },
+                "south": {
+                    "uv": [
+                        4.125,
+                        4.625,
+                        7.5,
+                        5.375001
+                    ],
+                    "texture": "#texture"
+                },
+                "west": {
+                    "uv": [
+                        0,
+                        4.625,
+                        0.25,
+                        5.375
+                    ],
+                    "texture": "#texture"
+                },
+                "east": {
+                    "uv": [
+                        0,
+                        4.625,
+                        0.25,
+                        5.375
+                    ],
+                    "texture": "#texture"
+                }
+            }
+        },
+        {
+            "__comment": "PaddleArm1",
+            "from": [
+                11,
+                3,
+                22
+            ],
+            "to": [
+                13,
+                16,
+                24
+            ],
+            "rotation": {
+                "origin": [
+                    13,
+                    -2,
+                    24
+                ],
+                "axis": "x",
+                "angle": -22.5
+            },
+            "faces": {
+                "up": {
+                    "uv": [
+                        7.75,
+                        2.25,
+                        8,
+                        2.5
+                    ],
+                    "texture": "#texture",
+                    "rotation": 180
+                },
+                "north": {
+                    "uv": [
+                        10,
+                        0,
+                        10.25,
+                        1.625
+                    ],
+                    "texture": "#texture"
+                },
+                "south": {
+                    "uv": [
+                        10.25,
+                        0,
+                        10.5,
+                        1.625
+                    ],
+                    "texture": "#texture"
+                },
+                "west": {
+                    "uv": [
+                        10.25,
+                        0,
+                        10.5,
+                        1.625
+                    ],
+                    "texture": "#texture"
+                },
+                "east": {
+                    "uv": [
+                        10,
+                        0,
+                        10.25,
+                        1.625
+                    ],
+                    "texture": "#texture"
+                }
+            }
+        },
+        {
+            "__comment": "PaddlePan1",
+            "from": [
+                11,
+                -4,
+                21
+            ],
+            "to": [
+                12,
+                3,
+                28
+            ],
+            "rotation": {
+                "origin": [
+                    13,
+                    -2,
+                    24
+                ],
+                "axis": "x",
+                "angle": -22.5
+            },
+            "faces": {
+                "down": {
+                    "uv": [
+                        8.75,
+                        0,
+                        8.875,
+                        0.875
+                    ],
+                    "texture": "#texture",
+                    "rotation": 180
+                },
+                "up": {
+                    "uv": [
+                        8.625,
+                        0,
+                        8.75,
+                        0.875
+                    ],
+                    "texture": "#texture",
+                    "rotation": 180
+                },
+                "north": {
+                    "uv": [
+                        8.75,
+                        0,
+                        8.875,
+                        1
+                    ],
+                    "texture": "#texture"
+                },
+                "south": {
+                    "uv": [
+                        8.625,
+                        0,
+                        8.75,
+                        1
+                    ],
+                    "texture": "#texture"
+                },
+                "west": {
+                    "uv": [
+                        8.874999,
+                        0.875,
+                        9.749999,
+                        1.625
+                    ],
+                    "texture": "#texture"
+                },
+                "east": {
+                    "uv": [
+                        7.75,
+                        0.875,
+                        8.625,
+                        1.625
+                    ],
+                    "texture": "#texture"
+                }
+            }
+        },
+        {
+            "__comment": "PaddleBind1",
+            "from": [
+                12,
+                -2,
+                22
+            ],
+            "to": [
+                13,
+                3,
+                24
+            ],
+            "rotation": {
+                "origin": [
+                    13,
+                    -2,
+                    24
+                ],
+                "axis": "x",
+                "angle": -22.5
+            },
+            "faces": {
+                "down": {
+                    "uv": [
+                        8.625,
+                        0.75,
+                        8.875,
+                        0.875
+                    ],
+                    "texture": "#texture",
+                    "rotation": 180
+                },
+                "north": {
+                    "uv": [
+                        8.750001,
+                        0,
+                        8.875,
+                        0.625
+                    ],
+                    "texture": "#texture"
+                },
+                "south": {
+                    "uv": [
+                        8.625001,
+                        0,
+                        8.75,
+                        0.625
+                    ],
+                    "texture": "#texture"
+                },
+                "east": {
+                    "uv": [
+                        8.625001,
+                        0,
+                        8.875,
+                        0.625
+                    ],
+                    "texture": "#texture"
+                }
+            }
+        },
+        {
+            "__comment": "PaddleBind2",
+            "from": [
+                11,
+                -2,
+                -8
+            ],
+            "to": [
+                12,
+                3,
+                -6
+            ],
+            "rotation": {
+                "origin": [
+                    11,
+                    -2,
+                    -8
+                ],
+                "axis": "x",
+                "angle": 22.5
+            },
+            "faces": {
+                "down": {
+                    "uv": [
+                        8.625,
+                        0.75,
+                        8.875,
+                        0.875
+                    ],
+                    "texture": "#texture"
+                },
+                "north": {
+                    "uv": [
+                        8.625001,
+                        0,
+                        8.75,
+                        0.625
+                    ],
+                    "texture": "#texture"
+                },
+                "south": {
+                    "uv": [
+                        8.750001,
+                        0,
+                        8.875,
+                        0.625
+                    ],
+                    "texture": "#texture"
+                },
+                "west": {
+                    "uv": [
+                        8.625001,
+                        0,
+                        8.875,
+                        0.625
+                    ],
+                    "texture": "#texture"
+                }
+            }
+        },
+        {
+            "__comment": "PaddleArm2",
+            "from": [
+                11,
+                3,
+                -8
+            ],
+            "to": [
+                13,
+                16,
+                -6
+            ],
+            "rotation": {
+                "origin": [
+                    11,
+                    -2,
+                    -8
+                ],
+                "axis": "x",
+                "angle": 22.5
+            },
+            "faces": {
+                "up": {
+                    "uv": [
+                        7.75,
+                        2.25,
+                        8,
+                        2.5
+                    ],
+                    "texture": "#texture"
+                },
+                "north": {
+                    "uv": [
+                        10.25,
+                        0,
+                        10.5,
+                        1.625
+                    ],
+                    "texture": "#texture"
+                },
+                "south": {
+                    "uv": [
+                        10,
+                        0,
+                        10.25,
+                        1.625
+                    ],
+                    "texture": "#texture"
+                },
+                "west": {
+                    "uv": [
+                        10,
+                        0,
+                        10.25,
+                        1.625
+                    ],
+                    "texture": "#texture"
+                },
+                "east": {
+                    "uv": [
+                        10.25,
+                        0,
+                        10.5,
+                        1.625
+                    ],
+                    "texture": "#texture"
+                }
+            }
+        },
+        {
+            "__comment": "PaddlePan2",
+            "from": [
+                12,
+                -4,
+                -12
+            ],
+            "to": [
+                13,
+                3,
+                -5
+            ],
+            "rotation": {
+                "origin": [
+                    11,
+                    -2,
+                    -8
+                ],
+                "axis": "x",
+                "angle": 22.5
+            },
+            "faces": {
+                "down": {
+                    "uv": [
+                        8.75,
+                        0,
+                        8.875,
+                        0.875
+                    ],
+                    "texture": "#texture"
+                },
+                "up": {
+                    "uv": [
+                        8.625,
+                        0,
+                        8.75,
+                        0.875
+                    ],
+                    "texture": "#texture"
+                },
+                "north": {
+                    "uv": [
+                        8.625,
+                        0,
+                        8.75,
+                        1
+                    ],
+                    "texture": "#texture"
+                },
+                "south": {
+                    "uv": [
+                        8.75,
+                        0,
+                        8.875,
+                        1
+                    ],
+                    "texture": "#texture"
+                },
+                "west": {
+                    "uv": [
+                        7.75,
+                        0.875,
+                        8.625,
+                        1.625
+                    ],
+                    "texture": "#texture"
+                },
+                "east": {
+                    "uv": [
+                        8.874999,
+                        0.875,
+                        9.749999,
+                        1.625
+                    ],
+                    "texture": "#texture"
+                }
+            }
+        }
+    ],
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [
+                70,
+                45,
+                0
+            ],
+            "translation": [
+                1.5,
+                4,
+                2
+            ],
+            "scale": [
+                0.275,
+                0.275,
+                0.275
+            ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [
+                70,
+                45,
+                0
+            ],
+            "translation": [
+                1.5,
+                4,
+                2
+            ],
+            "scale": [
+                0.275,
+                0.275,
+                0.275
+            ]
+        },
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                45,
+                0
+            ],
+            "translation": [
+                0,
+                0.8,
+                0
+            ],
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [
+                0,
+                45,
+                0
+            ],
+            "translation": [
+                0,
+                0.8,
+                0
+            ],
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "gui": {
+            "rotation": [
+                30,
+                225,
+                0
+            ],
+            "translation": [
+                0,
+                1,
+                0
+            ],
+            "scale": [
+                0.375,
+                0.4755,
+                0.475
+            ]
+        },
+        "ground": {
+            "translation": [
+                0,
+                3,
+                0
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "fixed": {
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        }
+    }
+}

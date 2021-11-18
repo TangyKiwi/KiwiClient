@@ -1,0 +1,52 @@
+{
+	"credit": "Created by Stridey",
+	"ambientocclusion": false,
+	"texture_size": [64, 64],
+	"textures": {
+		"1": "block/large_sapling/large_dark_oak_sapling_bottom",
+		"2": "block/large_sapling/large_dark_oak_sapling_top",
+		"particle": "block/dark_oak_sapling"
+	},
+	"elements": [
+		{
+			"from": [2, 0, 8],
+			"to": [14, 16, 8],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 8], "rescale": true},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#1"}
+			}
+		},
+		{
+			"from": [2, 16, 7],
+			"to": [14, 32, 7],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [9, 8, 7], "rescale": true},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#2"}
+			}
+		},
+		{
+			"from": [9, 0, 2],
+			"to": [9, 16, 14],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [9, 8, 9], "rescale": true},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#1"}
+			}
+		},
+		{
+			"from": [9, 16, 2],
+			"to": [9, 32, 14],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [9, 8, 9], "rescale": true},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#2"}
+			}
+		}
+	]
+}

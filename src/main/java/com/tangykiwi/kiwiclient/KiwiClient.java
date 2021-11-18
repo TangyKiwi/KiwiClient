@@ -49,6 +49,13 @@ public class KiwiClient implements ModInitializer {
 	public static Identifier MENU2 = new Identifier("kiwiclient:background1.jpg");
 	public static Identifier MENU3 = new Identifier("kiwiclient:background2.jpg");
 
+	/**
+	 * menu1.ogg : Time - Inception
+	 * menu2.ogg : First Step - Interstellar
+	 * menu3.ogg : No Time for Caution - Interstellar
+	 * menu4.ogg : Default Minecraft main menu
+	 */
+
 	public static KeyBinding zoomKey = new KeyBinding("kiwiclient.zoom", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_5, "KiwiClient");
 
 	@Override
@@ -73,7 +80,7 @@ public class KiwiClient implements ModInitializer {
 		ClickGui.clickGui.initWindows();
 
 		FabricLoader.getInstance().getModContainer("kiwiclient").ifPresent(modContainer -> {
-			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("kiwiclient:vanillatweaks"), "resourcepacks/vanillatweaks", modContainer, true);
+			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("kiwiclient:kiwitweaks"), "resourcepacks/kiwitweaks", modContainer, true);
 		});
 
 		UseItemCallback.EVENT.register((player, world, hand) -> {
