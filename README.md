@@ -35,50 +35,60 @@ Fabric Utility Mod, compatible with Aristois Client.
 
 ### Modules
 
-- DiscordRPC ("_You use the hacc, then proudly quacc._")
+DiscordRPC ("_You use the hacc, then proudly quacc._")
 
-#### Client
-- ActiveMods
-- BetterChat
-- BetterTab
-- ClickGui
-- Compass
-- HUD
-- MountHUD
-- Time
-- Tooltips
+<details>
+<summary>Client</summary>
+- ActiveMods<br>
+- BetterChat<br>
+- BetterTab<br>
+- ClickGui<br>
+- Compass<br>
+- HUD<br>
+- MountHUD<br>  
+- Time<br>
+- Tooltips<br>
+</details>
 
-#### Combat
-- Criticals
-- TriggerBot
+<details>
+<summary>Combat</summary>
+- Criticals<br>
+- TriggerBot<br>
+</details>
 
-#### Movement
-- FastBridge 
-- Fly
-- NoClip (not working)
-- NoFall
-- SafeWalk
-- Speed
+<details>
+<summary>Movement</summary>
+- FastBridge<br>
+- Fly<br>
+- NoClip (not working)<br>
+- NoFall<br>
+- SafeWalk<br>
+- Speed<br>
+</details>
 
-#### Player
-- AntiHunger
-- ArmorSwap
-- Cape
-- Deadmau5Ears
-- InventoryViewer
+<details>
+<summary>Player</summary>
+- AntiHunger<br>
+- ArmorSwap<br>
+- Cape<br>
+- Deadmau5Ears<br>
+- InventoryViewer<br>
+</details>
 
-#### Render
-- ESP
-- Fullbright
-- ItemPhysics
-- Nametags
-- NoPortal
-- NoRender
-- StorageESP
-- TNTimer
-- Tracers
-- XRay
-- Zoom
+<details>
+<summary>Render</summary>
+- ESP<br>
+- Fullbright<br>
+- ItemPhysics<br>
+- Nametags<br>
+- NoPortal<br>
+- NoRender<br>
+- StorageESP<br>
+- TNTimer<br>
+- Tracers<br>
+- XRay<br>
+- Zoom<br>
+</details>
 
 ### Commands
 - ,bind [module] [key]

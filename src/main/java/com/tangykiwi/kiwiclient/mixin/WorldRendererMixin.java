@@ -51,11 +51,6 @@ public class WorldRendererMixin {
         }
     }
 
-    @Inject(method = "checkEmpty", at = @At("HEAD"), cancellable = true)
-    private void onCheckEmpty(MatrixStack matrixStack, CallbackInfo callbackInfo) {
-        callbackInfo.cancel();
-    }
-
     @Inject(method = "render", at = @At("RETURN"))
     private void render_return(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer,
                                LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo info) {

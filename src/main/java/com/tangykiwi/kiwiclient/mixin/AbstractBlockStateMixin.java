@@ -40,12 +40,12 @@ public class AbstractBlockStateMixin extends State<Block, BlockState> {
         callbackInfoReturnable.setReturnValue(callbackInfoReturnable.getReturnValue() && !event.isCancelled());
     }
 
-//    @Inject(method = "isOpaque", at = @At("HEAD"), cancellable = true)
-//    public void isOpaque(CallbackInfoReturnable<Boolean> cir) {
-//        XRay xray = (XRay) KiwiClient.moduleManager.getModule(XRay.class);
-//
-//        if(xray.isEnabled() && xray.getSetting(1).asToggle().state) {
-//            cir.setReturnValue(true);
-//        }
-//    }
+    @Inject(method = "isOpaque", at = @At("HEAD"), cancellable = true)
+    public void isOpaque(CallbackInfoReturnable<Boolean> cir) {
+        XRay xray = (XRay) KiwiClient.moduleManager.getModule(XRay.class);
+
+        if(xray.isEnabled() && xray.getSetting(1).asToggle().state) {
+            cir.setReturnValue(true);
+        }
+    }
 }

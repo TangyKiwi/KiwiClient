@@ -21,6 +21,9 @@ public class XRay extends Module {
         Blocks.COAL_ORE,
         Blocks.DEEPSLATE_COAL_ORE,
         Blocks.COAL_BLOCK,
+        Blocks.COPPER_ORE,
+        Blocks.DEEPSLATE_COPPER_ORE,
+        Blocks.COPPER_BLOCK,
         Blocks.IRON_ORE,
         Blocks.DEEPSLATE_IRON_ORE,
         Blocks.IRON_BLOCK,
@@ -40,21 +43,20 @@ public class XRay extends Module {
         Blocks.DIAMOND_BLOCK,
         Blocks.NETHER_GOLD_ORE,
         Blocks.ANCIENT_DEBRIS,
+        Blocks.NETHERITE_BLOCK,
         Blocks.SPAWNER,
         Blocks.END_PORTAL_FRAME
     ));
 
     public XRay() {
         super("XRay", "Shows ores", KEY_UNBOUND, Category.RENDER,
-        new ToggleSetting("Fluids", true).withDesc("Show fluids, toggle xray to see changes")//,
-//        new ToggleSetting("Opacity", false).withDesc("Changes opacity of non xray blocks").withChildren(
-//                new SliderSetting("Value", 0, 255, 64, 0).withDesc("Opacity level"),
-//                new ToggleSetting("Hide Surface", false).withDesc("Hides top of blocks on the surface"))
-        );
+        new ToggleSetting("Fluids", true).withDesc("Show fluids, toggle xray to see changes"),
+        new ToggleSetting("Opacity", false).withDesc("Changes opacity of non xray blocks").withChildren(
+                new SliderSetting("Value", 0, 255, 64, 0).withDesc("Opacity level")));
     }
 
     public boolean isVisible(Block block) {
-        return blocks.contains(block);
+        return !isEnabled() || blocks.contains(block);
     }
 
     @Override
@@ -68,25 +70,15 @@ public class XRay extends Module {
 
     @Override
     public void onDisable() {
-        super.onDisable();
-
         mc.chunkCullingEnabled = true;
         mc.worldRenderer.reload();
         mc.options.gamma = gamma;
+
+        super.onDisable();
     }
 
     @Subscribe
     public void onTick(TickEvent e) {
         mc.options.gamma = 69;
-    }
-
-//    @Subscribe
-//    public void onMarkClosed(MarkClosedEvent e) {
-//        e.setCancelled(true);
-//    }
-
-    @Subscribe
-    public void onGetAmbientOcclusionLightLevel(AmbientOcclusionEvent e) {
-        e.lightLevel = 1;
     }
 }

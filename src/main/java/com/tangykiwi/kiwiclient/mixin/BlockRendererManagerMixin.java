@@ -25,40 +25,16 @@ public class BlockRendererManagerMixin {
         XRay xray = (XRay) KiwiClient.moduleManager.getModule(XRay.class);
 
         if (xray.isEnabled() && !xray.isVisible(state.getBlock())) {
-//            if (xray.getSetting(1).asToggle().state) {
-//                if (xray.getSetting(1).asToggle().getChild(1).asToggle().state
-//                        && (state.getBlock() instanceof FernBlock
-//                        || state.getBlock().getClass() == TallPlantBlock.class
-//                        || getTopBlockIgnoreLeaves(pos.getX(), pos.getZ()) == pos.getY())) {
-//                    ci.setReturnValue(false);
-//                    return;
-//                }
-//
-//                vertexConsumer.fixedColor(-1, -1, -1, (int) xray.getSetting(1).asToggle().getChild(0).asSlider().getValue());
-//            } else {
+            if (xray.getSetting(1).asToggle().state) {
+                vertexConsumer.fixedColor(-1, -1, -1, xray.getSetting(1).asToggle().getChild(0).asSlider().getValueInt());
+            } else {
                 ci.setReturnValue(false);
-            //}
+            }
         }
     }
 
     @Inject(method = "renderBlock", at = @At("RETURN"))
     private void renderBlock_return(BlockState state, BlockPos pos, BlockRenderView world, MatrixStack matrices, VertexConsumer vertexConsumer, boolean cull, Random random, CallbackInfoReturnable<Boolean> ci) {
         vertexConsumer.unfixColor();
-    }
-
-    private int getTopBlockIgnoreLeaves(int x, int z) {
-        int top = Utils.mc.world.getTopY(Heightmap.Type.WORLD_SURFACE, x, z) - 1;
-
-        while (top > Utils.mc.world.getBottomY()) {
-            BlockState state = Utils.mc.world.getBlockState(new BlockPos(x, top, z));
-
-            if (!(state.isAir() || state.getBlock() instanceof LeavesBlock || state.getBlock() instanceof PlantBlock)) {
-                break;
-            }
-
-            top--;
-        }
-
-        return top;
     }
 }

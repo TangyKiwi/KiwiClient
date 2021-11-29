@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.AmbientOcclusionEvent;
+import com.tangykiwi.kiwiclient.modules.render.XRay;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -18,6 +19,7 @@ public class AbstractBlockMixin {
         AmbientOcclusionEvent event = new AmbientOcclusionEvent();
         KiwiClient.eventBus.post(event);
 
-        if (event.lightLevel != -1) info.setReturnValue(event.lightLevel);
+        if(KiwiClient.moduleManager.getModule(XRay.class).isEnabled()) info.setReturnValue(1f);
+        else if (event.lightLevel != -1) info.setReturnValue(event.lightLevel);
     }
 }
