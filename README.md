@@ -7,7 +7,7 @@
 <div align="center">
     <img src="https://img.shields.io/github/last-commit/TangyKiwi/KiwiClient" alt="GitHub last commit"/>
     <img src="https://img.shields.io/github/workflow/status/TangyKiwi/KiwiClient/build" alt="Build status"/>
-    <img src="https://img.shields.io/badge/MC-1.17.X-brightgreen.svg" alt="Minecraft"/>
+    <img src="https://img.shields.io/badge/MC-1.18.X-brightgreen.svg" alt="Minecraft"/>
     <br>
     <img src="https://img.shields.io/github/v/release/TangyKiwi/KiwiClient.svg" alt="Release"/>
     <img src="https://img.shields.io/github/languages/code-size/TangyKiwi/KiwiClient" alt="GitHub code size in bytes"/>
@@ -21,7 +21,7 @@
 - Build the mod yourself (See Setup below), or get the latest [release](https://github.com/TangyKiwi/KiwiClient/releases)
 - If you want the most up-to-date version, please build the client yourself or ask me for the jar, I do not update releases often
 - **Vanilla**: Place the jar (build/libs/KiwiClient-X.X.X.jar) in your mods folder
-- **Aristois**: Place the jar (build/libs/KiwiClient-X.X.X.jar) in libaries/me/deftware/EMC-F-v2/latest-1.17.X
+- **Aristois**: Place the jar (build/libs/KiwiClient-X.X.X.jar) in libaries/me/deftware/EMC-F-v2/latest-1.18.X
 
 ## Setup
 

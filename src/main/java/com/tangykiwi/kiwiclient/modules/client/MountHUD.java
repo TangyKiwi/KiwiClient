@@ -6,6 +6,7 @@ import com.tangykiwi.kiwiclient.modules.Module;
 public class MountHUD extends Module {
     public MountHUD() {
         super("MountHUD", "Changes your HUD when on a mount", KEY_UNBOUND, Category.CLIENT);
+        super.toggle();
     }
 
     // handling done in InGameHudMixin
