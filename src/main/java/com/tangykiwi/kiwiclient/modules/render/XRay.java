@@ -1,8 +1,6 @@
 package com.tangykiwi.kiwiclient.modules.render;
 
 import com.google.common.eventbus.Subscribe;
-import com.tangykiwi.kiwiclient.event.AmbientOcclusionEvent;
-import com.tangykiwi.kiwiclient.event.MarkClosedEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;

@@ -50,10 +50,10 @@ public class ColorUtil {
         float k = (float)(colorEnd >> 16 & 255) / 255.0F;
         float l = (float)(colorEnd >> 8 & 255) / 255.0F;
         float m = (float)(colorEnd & 255) / 255.0F;
-        bufferBuilder.vertex(matrixStack.peek().getModel(), (float)xEnd, (float)yStart, (float)0).color(g, h, i, f).next();
-        bufferBuilder.vertex(matrixStack.peek().getModel(), (float)xStart, (float)yStart, (float)0).color(g, h, i, f).next();
-        bufferBuilder.vertex(matrixStack.peek().getModel(), (float)xStart, (float)yEnd, (float)0).color(k, l, m, j).next();
-        bufferBuilder.vertex(matrixStack.peek().getModel(), (float)xEnd, (float)yEnd, (float)0).color(k, l, m, j).next();
+        bufferBuilder.vertex(matrixStack.peek().getPositionMatrix(), (float)xEnd, (float)yStart, (float)0).color(g, h, i, f).next();
+        bufferBuilder.vertex(matrixStack.peek().getPositionMatrix(), (float)xStart, (float)yStart, (float)0).color(g, h, i, f).next();
+        bufferBuilder.vertex(matrixStack.peek().getPositionMatrix(), (float)xStart, (float)yEnd, (float)0).color(k, l, m, j).next();
+        bufferBuilder.vertex(matrixStack.peek().getPositionMatrix(), (float)xEnd, (float)yEnd, (float)0).color(k, l, m, j).next();
         tessellator.draw();
         //RenderSystem.shadeModel(7424);
         RenderSystem.disableBlend();

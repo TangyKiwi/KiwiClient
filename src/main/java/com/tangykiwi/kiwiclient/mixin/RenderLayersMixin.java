@@ -17,7 +17,7 @@ public class RenderLayersMixin {
     private static void getBlockLayer(BlockState state, CallbackInfoReturnable<RenderLayer> cir) {
         XRay xray = (XRay) KiwiClient.moduleManager.getModule(XRay.class);
 
-        if (xray.isEnabled() && xray.getSetting(1).asToggle().state && !xray.isVisible(state.getBlock())) {
+        if (xray.isEnabled() /*&& xray.getSetting(1).asToggle().state && !xray.isVisible(state.getBlock())*/) {
             cir.setReturnValue(RenderLayer.getTranslucent());
         }
     }

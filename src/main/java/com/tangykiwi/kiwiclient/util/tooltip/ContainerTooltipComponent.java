@@ -42,7 +42,7 @@ public class ContainerTooltipComponent implements TooltipComponent, ITooltipData
     }
 
     @Override
-    public void drawItems(TextRenderer textRenderer, int x, int y, MatrixStack matrices, ItemRenderer itemRenderer, int z, TextureManager textureManager) {
+    public void drawItems(TextRenderer textRenderer, int x, int y, MatrixStack matrices, ItemRenderer itemRenderer, int z) {
 
         // Background
         RenderSystem.setShader(GameRenderer::getPositionTexShader);

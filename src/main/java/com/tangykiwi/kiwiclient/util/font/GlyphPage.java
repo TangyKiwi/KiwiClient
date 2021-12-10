@@ -175,13 +175,13 @@ public class GlyphPage {
         RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE);
 
-        bufferBuilder.vertex(stack.peek().getModel(), x, y + height, 0).color(red, green, blue, alpha)
+        bufferBuilder.vertex(stack.peek().getPositionMatrix(), x, y + height, 0).color(red, green, blue, alpha)
                 .texture(pageX, pageY + pageHeight).next();
-        bufferBuilder.vertex(stack.peek().getModel(), x + width, y + height, 0).color(red, green, blue, alpha)
+        bufferBuilder.vertex(stack.peek().getPositionMatrix(), x + width, y + height, 0).color(red, green, blue, alpha)
                 .texture(pageX + pageWidth, pageY + pageHeight).next();
-        bufferBuilder.vertex(stack.peek().getModel(), x + width, y, 0).color(red, green, blue, alpha)
+        bufferBuilder.vertex(stack.peek().getPositionMatrix(), x + width, y, 0).color(red, green, blue, alpha)
                 .texture(pageX + pageWidth, pageY).next();
-        bufferBuilder.vertex(stack.peek().getModel(), x, y, 0).color(red, green, blue, alpha).texture(pageX, pageY)
+        bufferBuilder.vertex(stack.peek().getPositionMatrix(), x, y, 0).color(red, green, blue, alpha).texture(pageX, pageY)
                 .next();
         bufferBuilder.end();
 

@@ -32,7 +32,7 @@ public class CustomMatrix {
     }
 
     public static Matrix4f getTop() {
-        return matrixStack.peek().getModel();
+        return matrixStack.peek().getPositionMatrix();
     }
 
     public static MatrixStack getMatrixStack() {

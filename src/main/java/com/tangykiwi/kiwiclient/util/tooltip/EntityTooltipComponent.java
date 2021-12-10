@@ -50,7 +50,7 @@ public class EntityTooltipComponent implements ITooltipData, TooltipComponent {
     }
 
     @Override
-    public void drawItems(TextRenderer textRenderer, int x, int y, MatrixStack matrices, ItemRenderer itemRenderer, int z, TextureManager textureManager) {
+    public void drawItems(TextRenderer textRenderer, int x, int y, MatrixStack matrices, ItemRenderer itemRenderer, int z) {
         matrices.push();
         matrices.translate(15, 2, z);
         this.entity.setVelocity(1.f, 1.f, 1.f);

@@ -29,7 +29,7 @@ public class NoClip extends Module {
         player.setVelocity(0, 0, 0);
 
         float speed = 0.2F;
-        player.flyingSpeed = speed;
+        player.speed = speed;
 
         if(mc.options.keyJump.isPressed())
             player.addVelocity(0, speed, 0);
