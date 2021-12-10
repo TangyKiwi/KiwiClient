@@ -121,8 +121,8 @@ If you use **ANY** code from the source:
 ## Credits
 **Clients**:  
 [Meteor Client](https://github.com/MeteorDevelopment/meteor-client)  
-[BleachHack](https://github.com/BleachDrinker420/BleachHack)
-[JexClient](https://github.com/DustinRepo/JexClient)
+[BleachHack](https://github.com/BleachDrinker420/BleachHack)  
+[JexClient](https://github.com/DustinRepo/JexClient)  
 [Wurst](https://github.com/Wurst-Imperium/Wurst7)  
 
 **Resource Pack**:  
