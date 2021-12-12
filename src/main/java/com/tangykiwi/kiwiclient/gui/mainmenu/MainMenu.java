@@ -87,15 +87,15 @@ public class MainMenu extends Screen {
         }
 
         int renderScale = 2 * this.height / 100;
-//        RenderSystem.setShaderTexture(0, skin);
-//        this.drawTexture(matrixStack, 2, this.height - 8 * renderScale - 2, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 64 * renderScale, 64 * renderScale);
-//        this.drawTexture(matrixStack, 2, this.height - 8 * renderScale - 2, 8 * renderScale, 8 * renderScale, 40 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 64 * renderScale, 64 * renderScale);
-//        IFont.CONSOLAS.drawString(matrixStack, this.client.getSession().getUsername(), 8 * renderScale + 3, this.height - IFont.CONSOLAS.getFontHeight() - 2, ColorUtil.getRainbow(4, 0.8f, 1));
+        RenderSystem.setShaderTexture(0, skin);
+        this.drawTexture(matrixStack, 2, this.height - 8 * renderScale - 2, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 64 * renderScale, 64 * renderScale);
+        this.drawTexture(matrixStack, 2, this.height - 8 * renderScale - 2, 8 * renderScale, 8 * renderScale, 40 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 64 * renderScale, 64 * renderScale);
+        IFont.CONSOLAS.drawString(matrixStack, this.client.getSession().getUsername(), 8 * renderScale + 3, this.height - IFont.CONSOLAS.getFontHeight() - 2, ColorUtil.getRainbow(4, 0.8f, 1));
 
-        ClientPlayerEntity player = DummyClientPlayerEntity.getInstance();
-        int height = this.height - 7;
-        int playerX = 20;
-        InventoryScreen.drawEntity(playerX, height, 30, -mouseX + playerX, -mouseY + height - 30, player);
+//        ClientPlayerEntity player = DummyClientPlayerEntity.getInstance();
+//        int height = this.height - 7;
+//        int playerX = 20;
+//        InventoryScreen.drawEntity(playerX, height, 30, -mouseX + playerX, -mouseY + height - 30, player);
 
         IFont.CONSOLAS.drawString(matrixStack, this.client.getSession().getUsername(), 35, this.height - IFont.CONSOLAS.getFontHeight() - 4, ColorUtil.getRainbow(4, 0.8f, 1));
 
