@@ -73,7 +73,7 @@ public class MainMenu extends Screen {
 
         particles.render(matrixStack, mouseX, mouseY);
 
-        String version = "v" + KiwiClient.version + " - MC 1.17.1";
+        String version = "v" + KiwiClient.version + " - MC 1.18.1";
         DrawableHelper.fill(matrixStack, 0, 0, IFont.CONSOLAS.getStringWidth(version) + 4, IFont.CONSOLAS.getFontHeight() + 2, 0x90000000);
         IFont.CONSOLAS.drawString(matrixStack, version, 1, 2, 0xFFFFFF);
 
