@@ -3,7 +3,7 @@
 	"ambientocclusion": false,
 	"textures": {
 		"mushroom": "block/crimson_fungus_dfx",
-		"mushroom_top": "block/crimson_fungus_top",
+		"mushroom_top": "block/crimson_fungus_top_dfx",
 		"particle": "block/flower_pot",
 		"flowerpot": "block/flower_pot",
 		"dirt": "block/dirt"

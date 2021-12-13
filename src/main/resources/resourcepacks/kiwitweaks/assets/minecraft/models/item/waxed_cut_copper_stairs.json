@@ -1,0 +1,12 @@
+{
+	"credit": "Created by Stridey",
+	"parent": "item/waxed_stairs",
+	"textures": {
+		"side1": "block/waxed_copper_stairs1",
+		"side2": "block/waxed_copper_stairs2",
+		"inner": "block/waxed_copper_double2",
+		"double1": "block/waxed_copper_double1",
+		"top": "block/waxed_cut_copper",
+		"particle": "block/waxed_cut_copper"
+	}
+}

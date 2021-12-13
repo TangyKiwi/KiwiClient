@@ -2,10 +2,10 @@
 	"credit": "Created by Stridey",
 	"ambientocclusion": false,
 	"textures": {
-		"2": "block/lever_base_on",
-		"particle": "block/cobblestone",
-		"base": "block/cobblestone",
-		"lever": "block/lever"
+		"base_texture": "minecraft:block/lever_base",
+		"particle": "minecraft:block/cobblestone",
+		"base": "minecraft:block/cobblestone",
+		"lever": "minecraft:block/lever"
 	},
 	"elements": [
 		{
@@ -16,7 +16,7 @@
 				"east": {"uv": [4, 0, 12, 3], "texture": "#base"},
 				"south": {"uv": [5, 0, 11, 3], "texture": "#base"},
 				"west": {"uv": [4, 0, 12, 3], "texture": "#base"},
-				"up": {"uv": [0, 0, 12, 16], "texture": "#2"},
+				"up": {"uv": [9, 4, 15, 12], "texture": "#base_texture"},
 				"down": {"uv": [5, 4, 11, 12], "texture": "#base", "cullface": "down"}
 			}
 		},

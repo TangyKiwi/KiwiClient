@@ -1,8 +1,8 @@
 {
   "variants": {
     "": [
-      { "model": "block/brown_mushroom/block/0" },
-      { "model": "block/brown_mushroom/block/1" }
+      { "model": "block/brown_mushroom/plant/0" },
+      { "model": "block/brown_mushroom/plant/1" }
     ]
   }
 }

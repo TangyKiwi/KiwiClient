@@ -85,7 +85,7 @@ public class HUD extends Module {
                 int x1 = mc.getWindow().getScaledWidth() / 2;
                 int offset = 56;
                 if (mc.player.isSubmergedInWater() || mc.player.getAir() < mc.player.getMaxAir()) offset += 10;
-                if (KiwiClient.moduleManager.getModule(MountHUD.class).isEnabled()) {
+                if (KiwiClient.moduleManager.getModule(MountHUD.class).isEnabled() && mc.player.getVehicle() != null) {
                     offset += 10;
                     if(((LivingEntity) mc.player.getVehicle()).getHealth() > 20) offset += 10;
                 }

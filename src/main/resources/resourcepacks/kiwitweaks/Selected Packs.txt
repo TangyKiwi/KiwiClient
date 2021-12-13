@@ -1,44 +1,54 @@
 Vanilla Tweaks Resource Pack
-Version: 1.17
+Version: 1.18
 Packs:
-	ClearerWater
-	WavyLeaves
 	CircularSunandMoon
+	ClearerWater
+	BuddingAmethystBorders
 	OreBorders
 	VisualInfestedStoneItems
+	VisualWaxedCopperItems
+	Age25Kelp
 	ClearBannerPatterns
 	HungerPreview
 	StickyPistonSides
 	DirectionalHoppers
 	DirectionalDispensersDroppers
-	GroovyLevers
-	RedstonePowerLevels
-	VisibleTripwires
 	BetterObservers
 	CleanRedstoneDust
+	RedstonePowerLevels
+	GroovyLevers
+	VisibleTripwires
 	CompassLodestone
 	BrewingGuide
 	VisualHoney
-	VisualComposterStages
-	NoteblockBanners
 	VisualCauldronStages
+	VisualComposterStages
 	VisualSaplingGrowth
+	NoteblockBanners
+	TransparentSpyglassOverlay
 	NoVignette
-	3DPointedDripstone
-	3DLilyPads
-	3DTiles
-	3DLadders
-	3DDoors&Trapdoors
-	3DVines
-	3DRails
-	3DMushrooms
-	3DStonecutters
-	3DSugarcane
-	3DIronBars
 	3DBookshelves
 	3DChains
+	3DPointedDripstone
+	3DTiles
+	3DLadders
+	3DRails
+	3DSugarcane
+	3DIronBars
+	3DLilyPads
+	3DDoors
+	3DTrapdoors
+	3DMushrooms
+	3DVines
+	3DGlowLichen
+	3DStonecutters
+	RainbowExperience
 	WitherHearts
 	PingColorIndicator
-	RainbowExperience
 	NumberedHotbar
+	FullAgeCropMarker
 	DifferentStems
+	VariatedBookshelves
+	ConnectedBookshelves
+	FullAgeAmethystMarker
+	3DAmethyst

@@ -2,7 +2,7 @@
 	"credit": "Created by Stridey",
 	"textures": {
 		"0": "block/crimson_fungus_dfx",
-		"2": "block/crimson_fungus_top",
+		"2": "block/crimson_fungus_top_dfx",
 		"particle": "block/crimson_fungus"
 	},
 	"elements": [

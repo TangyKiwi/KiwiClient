@@ -1,0 +1,12 @@
+{
+    "parent": "block/ctm_sides",
+    "textures": {
+        "all": "variated/bookshelf/5",
+        "north": "variated/bookshelf/5_borderless",
+        "south": "variated/bookshelf/5_borderless",
+        "east": "variated/bookshelf/5_borderless",
+        "west": "variated/bookshelf/5_borderless",
+        "up": "block/oak_planks",
+        "down": "block/oak_planks"
+    }
+}

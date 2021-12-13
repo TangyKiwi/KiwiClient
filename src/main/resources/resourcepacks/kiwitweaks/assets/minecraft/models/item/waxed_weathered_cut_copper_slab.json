@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "minecraft:block/waxed_weathered_cut_copper",
+    "top": "minecraft:block/waxed_weathered_cut_copper",
+    "side": "minecraft:block/waxed_weathered_copper_double1"
+  }
+}
