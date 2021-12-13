@@ -48,7 +48,7 @@ public class ContainerTooltipComponent implements TooltipComponent, ITooltipData
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
         RenderSystem.setShaderTexture(0, TEXTURE_CONTAINER_BACKGROUND);
-        DrawableHelper.drawTexture(matrices, x, y, z, 0, 0, 176, 67, 67, 176);
+        DrawableHelper.drawTexture(matrices, x, y, z, 0, 0, 176, 67, 176, 67);
 
         //Contents
         int row = 0;
