@@ -1,8 +1,7 @@
 package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
-import com.tangykiwi.kiwiclient.event.AmbientOcclusionEvent;
-import com.tangykiwi.kiwiclient.modules.render.XRay;
+import com.tangykiwi.kiwiclient.event.RenderBlockEvent;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -16,10 +15,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class AbstractBlockMixin {
     @Inject(method = "getAmbientOcclusionLightLevel", at = @At("HEAD"), cancellable = true)
     private void onGetAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos, CallbackInfoReturnable<Float> info) {
-        AmbientOcclusionEvent event = new AmbientOcclusionEvent();
+        RenderBlockEvent.Light event = new RenderBlockEvent.Light(state);
         KiwiClient.eventBus.post(event);
 
-        if(KiwiClient.moduleManager.getModule(XRay.class).isEnabled()) info.setReturnValue(1f);
-        else if (event.lightLevel != -1) info.setReturnValue(event.lightLevel);
+        if (event.getLight() != null)
+            info.setReturnValue(event.getLight());
     }
 }

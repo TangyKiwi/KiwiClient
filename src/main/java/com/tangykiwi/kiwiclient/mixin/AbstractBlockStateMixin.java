@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.MapCodec;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.IsFullCubeEvent;
+import com.tangykiwi.kiwiclient.event.RenderBlockEvent;
 import com.tangykiwi.kiwiclient.modules.render.XRay;
 import net.minecraft.block.AbstractBlock.AbstractBlockState;
 import net.minecraft.block.Block;
@@ -41,11 +42,11 @@ public class AbstractBlockStateMixin extends State<Block, BlockState> {
     }
 
     @Inject(method = "isOpaque", at = @At("HEAD"), cancellable = true)
-    public void isOpaque(CallbackInfoReturnable<Boolean> cir) {
-        XRay xray = (XRay) KiwiClient.moduleManager.getModule(XRay.class);
+    public void isOpaque(CallbackInfoReturnable<Boolean> callback) {
+        RenderBlockEvent.Opaque event = new RenderBlockEvent.Opaque((BlockState) (Object) this);
+        KiwiClient.eventBus.post(event);
 
-        if(xray.isEnabled() && xray.getSetting(1).asToggle().state) {
-            cir.setReturnValue(true);
-        }
+        if (event.isOpaque() != null)
+            callback.setReturnValue(event.isOpaque());
     }
 }

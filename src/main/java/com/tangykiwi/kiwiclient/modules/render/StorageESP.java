@@ -20,6 +20,7 @@ import net.minecraft.block.enums.ChestType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,7 +33,7 @@ public class StorageESP extends Module {
     private Set<BlockPos> blacklist = new HashSet<>();
 
     public StorageESP() {
-        super("StorageESP","Highlights storage containers", KEY_UNBOUND, Category.RENDER,
+        super("StorageESP","Highlights storage containers", GLFW.GLFW_KEY_R, Category.RENDER,
             new ModeSetting("Mode", "Box+Fill", "Box", "Fill").withDesc("ESP Mode"),
             new SliderSetting("Box", 0.1, 4, 2, 1).withDesc("Box line thickness"),
             new SliderSetting("Fill", 0, 1, 0.3, 2).withDesc("Fill opacity"));

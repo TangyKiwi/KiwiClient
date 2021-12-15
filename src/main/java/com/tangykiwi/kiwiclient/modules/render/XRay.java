@@ -1,6 +1,9 @@
 package com.tangykiwi.kiwiclient.modules.render;
 
+import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
+import com.tangykiwi.kiwiclient.event.RenderBlockEvent;
+import com.tangykiwi.kiwiclient.event.RenderFluidEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
@@ -8,6 +11,9 @@ import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FernBlock;
+import net.minecraft.block.TallPlantBlock;
+import net.minecraft.client.render.RenderLayer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,7 +56,7 @@ public class XRay extends Module {
         super("XRay", "Shows ores", KEY_UNBOUND, Category.RENDER,
         new ToggleSetting("Fluids", true).withDesc("Show fluids, toggle xray to see changes"),
         new ToggleSetting("Opacity", false).withDesc("Changes opacity of non xray blocks").withChildren(
-                new SliderSetting("Value", 0, 255, 64, 0).withDesc("Opacity level")));
+                new SliderSetting("Value", 0, 255, 128, 0).withDesc("Opacity level")));
     }
 
     public boolean isVisible(Block block) {
@@ -68,15 +74,67 @@ public class XRay extends Module {
 
     @Override
     public void onDisable() {
+        mc.options.gamma = gamma;
         mc.chunkCullingEnabled = true;
         mc.worldRenderer.reload();
-        mc.options.gamma = gamma;
 
         super.onDisable();
     }
 
     @Subscribe
+    @AllowConcurrentEvents
     public void onTick(TickEvent e) {
         mc.options.gamma = 69;
+    }
+
+    @Subscribe
+    @AllowConcurrentEvents
+    public void onRenderBlockLight(RenderBlockEvent.Light event) {
+        event.setLight(1f);
+    }
+
+    @Subscribe
+    @AllowConcurrentEvents
+    public void onRenderBlockOpaque(RenderBlockEvent.Opaque event) {
+        event.setOpaque(true);
+    }
+
+    @Subscribe
+    @AllowConcurrentEvents
+    public void onRenderBlockDrawSide(RenderBlockEvent.ShouldDrawSide event) {
+        if (blocks.contains(event.getState().getBlock())) {
+            event.setDrawSide(true);
+        } else if (!getSetting(1).asToggle().state) {
+            event.setDrawSide(false);
+        }
+    }
+
+    @Subscribe
+    @AllowConcurrentEvents
+    public void onRenderBlockTesselate(RenderBlockEvent.Tesselate event) {
+        if (!blocks.contains(event.getState().getBlock())) {
+            if(getSetting(1).asToggle().state) {
+                event.getVertexConsumer().fixedColor(-1, -1, -1, getSetting(1).asToggle().getChild(0).asSlider().getValueInt());
+            }
+            else {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @Subscribe
+    @AllowConcurrentEvents
+    public void onRenderBlockLayer(RenderBlockEvent.Layer event) {
+        if (getSetting(1).asToggle().state && !blocks.contains(event.getState().getBlock())) {
+            event.setLayer(RenderLayer.getTranslucent());
+        }
+    }
+
+    @Subscribe
+    @AllowConcurrentEvents
+    public void onRenderFluid(RenderFluidEvent event) {
+        if (!getSetting(0).asToggle().state) {
+            event.setCancelled(true);
+        }
     }
 }

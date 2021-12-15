@@ -25,6 +25,7 @@ import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import org.apache.commons.io.IOUtils;
+import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -37,7 +38,7 @@ public class ESP extends Module {
     private boolean shaderUnloaded = true;
 
     public ESP() {
-        super("ESP", "Highlights entities", KEY_UNBOUND, Category.RENDER,
+        super("ESP", "Highlights entities", GLFW.GLFW_KEY_R, Category.RENDER,
             new ModeSetting("Mode", "Shader", "Box+Fill", "Box", "Fill").withDesc("ESP Mode"),
             new SliderSetting("Shader", 0, 6, 2, 0).withDesc("Shader outline thickness"),
             new SliderSetting("Box", 0.1, 4, 2, 1).withDesc("Box line thickness"),

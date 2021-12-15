@@ -1,0 +1,9 @@
+accessWidener    v1    named
+
+# ChunkBuilder
+# - For MixinChunkRebuildTask to overwrite the chunk building method
+accessible    field    net/minecraft/client/render/chunk/ChunkBuilder$ChunkData    nonEmptyLayers    Ljava/util/Set;
+accessible    field    net/minecraft/client/render/chunk/ChunkBuilder$ChunkData    initializedLayers    Ljava/util/Set;
+accessible    field    net/minecraft/client/render/chunk/ChunkBuilder$ChunkData    empty    Z
+accessible    field    net/minecraft/client/render/chunk/ChunkBuilder$ChunkData    occlusionGraph    Lnet/minecraft/client/render/chunk/ChunkOcclusionData;
+accessible    field    net/minecraft/client/render/chunk/ChunkBuilder$ChunkData    bufferState    Lnet/minecraft/client/render/BufferBuilder$State;

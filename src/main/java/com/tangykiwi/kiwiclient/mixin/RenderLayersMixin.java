@@ -1,7 +1,7 @@
 package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
-import com.tangykiwi.kiwiclient.modules.render.XRay;
+import com.tangykiwi.kiwiclient.event.RenderBlockEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderLayers;
@@ -12,13 +12,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(RenderLayers.class)
 public class RenderLayersMixin {
-
     @Inject(method = "getBlockLayer", at = @At("HEAD"), cancellable = true)
-    private static void getBlockLayer(BlockState state, CallbackInfoReturnable<RenderLayer> cir) {
-        XRay xray = (XRay) KiwiClient.moduleManager.getModule(XRay.class);
+    private static void getBlockLayer(BlockState state, CallbackInfoReturnable<RenderLayer> callback) {
+        RenderBlockEvent.Layer event = new RenderBlockEvent.Layer(state);
+        KiwiClient.eventBus.post(event);
 
-        if (xray.isEnabled() /*&& xray.getSetting(1).asToggle().state && !xray.isVisible(state.getBlock())*/) {
-            cir.setReturnValue(RenderLayer.getTranslucent());
-        }
+        if (event.getLayer() != null)
+            callback.setReturnValue(event.getLayer());
     }
 }

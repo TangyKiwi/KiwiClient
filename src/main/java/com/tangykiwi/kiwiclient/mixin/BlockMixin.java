@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.event.RenderBlockEvent;
 import com.tangykiwi.kiwiclient.modules.render.XRay;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,17 +16,12 @@ import net.minecraft.world.BlockView;
 
 @Mixin(Block.class)
 public class BlockMixin {
-
     @Inject(method = "shouldDrawSide", at = @At("HEAD"), cancellable = true)
     private static void shouldDrawSide(BlockState state, BlockView world, BlockPos pos, Direction side, BlockPos blockPos, CallbackInfoReturnable<Boolean> callback) {
-        XRay xray = (XRay) KiwiClient.moduleManager.getModule(XRay.class);
+        RenderBlockEvent.ShouldDrawSide event = new RenderBlockEvent.ShouldDrawSide(state);
+        KiwiClient.eventBus.post(event);
 
-        if (xray.isEnabled()) {
-            if (!xray.getSetting(1).asToggle().state) {
-                callback.setReturnValue(xray.isVisible(state.getBlock()));
-            } else if (xray.isVisible(state.getBlock())) {
-                callback.setReturnValue(true);
-            }
-        }
+        if (event.shouldDrawSide() != null)
+            callback.setReturnValue(event.shouldDrawSide());
     }
 }

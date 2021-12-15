@@ -8,9 +8,6 @@ import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.BufferVertexConsumer;
 import net.minecraft.client.render.FixedColorVertexConsumer;
 
-/**
- * BufferBuilder patch that allows the color to be temporarily fixed even when the VertexFormatElement isn't COLOR
- */
 @Mixin(value = BufferBuilder.class, priority = 1010 /* TODO: iris compatibility */)
 public abstract class BufferBuilderMixin extends FixedColorVertexConsumer implements BufferVertexConsumer {
 
