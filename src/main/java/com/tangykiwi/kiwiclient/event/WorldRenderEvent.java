@@ -12,6 +12,11 @@ public class WorldRenderEvent extends Event {
             this.partialTicks = partialTicks;
         }
 
+        public Pre(float partialTicks, MatrixStack matrixStack) {
+            this.partialTicks = partialTicks;
+            this.matrixStack = matrixStack;
+        }
+
     }
 
     public static class Post extends WorldRenderEvent {

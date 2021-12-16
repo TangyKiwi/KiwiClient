@@ -30,6 +30,7 @@
     "ItemEntityRendererMixin",
     "ItemMixin",
     "ItemStackMixin",
+    "JsonEffectGlShaderMixin",
     "KeyboardMixin",
     "LivingEntityRendererMixin",
     "MinecraftClientMixin",
@@ -41,6 +42,7 @@
     "PlayerMoveC2SPacketAccessor",
     "RenderLayersMixin",
     "ScreenMixin",
+    "ShaderMixin",
     "ShulkerBoxBlockMixin",
     "SplashScreenMixin",
     "TitleScreenMixin",
@@ -48,6 +50,7 @@
     "WorldRendererAccessor",
     "WorldRendererMixin"
   ],
+  "mixinPriority" : 899,
   "injectors": {
     "defaultRequire": 1
   }

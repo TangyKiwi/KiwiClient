@@ -12,30 +12,24 @@ import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
 import com.tangykiwi.kiwiclient.util.EntityUtils;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import com.tangykiwi.kiwiclient.util.render.color.QuadColor;
-import com.tangykiwi.kiwiclient.util.render.shader.OutlineShaderManager;
-import com.tangykiwi.kiwiclient.util.render.shader.ShaderEffectLoader;
+import com.tangykiwi.kiwiclient.util.shader.ColorVertexConsumerProvider;
+import com.tangykiwi.kiwiclient.util.shader.ShaderCore;
+import com.tangykiwi.kiwiclient.util.shader.ShaderEffectWrapper;
 import net.minecraft.client.gl.ShaderEffect;
-import net.minecraft.client.render.BufferBuilderStorage;
-import net.minecraft.client.render.OutlineVertexConsumerProvider;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
-import org.apache.commons.io.IOUtils;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Locale;
 
 public class ESP extends Module {
-    private int lastWidth = -1;
-    private int lastHeight = -1;
-    private double lastShaderWidth;
-    private boolean shaderUnloaded = true;
+    private ShaderEffectWrapper shader;
+    private ColorVertexConsumerProvider colorVertexer;
 
     public ESP() {
         super("ESP", "Highlights entities", GLFW.GLFW_KEY_R, Category.RENDER,
@@ -45,70 +39,77 @@ public class ESP extends Module {
             new SliderSetting("Fill", 0, 1, 0.3, 2).withDesc("Fill opacity"));
     }
 
-    @Subscribe
-    @AllowConcurrentEvents
-    public void onEntityRenderPre(EntityRenderEvent.PreAll event) {
-        if (getSetting(0).asMode().mode <= 1) {
-            if (mc.getWindow().getFramebufferWidth() != lastWidth || mc.getWindow().getFramebufferHeight() != lastHeight
-                    || lastShaderWidth != getSetting(1).asSlider().getValue() || shaderUnloaded) {
-                try {
-                    ShaderEffect shader = ShaderEffectLoader.load(mc.getFramebuffer(), "esp-shader",
-                        String.format(
-                            Locale.ENGLISH,
-                            IOUtils.toString(getClass().getResource("/assets/kiwiclient/shaders/mc_outline.ujson"), StandardCharsets.UTF_8),
-                            getSetting(1).asSlider().getValue() / 2,
-                            getSetting(1).asSlider().getValue() / 4));
+    @Override
+    public void onEnable() {
+        super.onEnable();
 
-                    shader.setupDimensions(mc.getWindow().getFramebufferWidth(), mc.getWindow().getFramebufferHeight());
-                    lastWidth = mc.getWindow().getFramebufferWidth();
-                    lastHeight = mc.getWindow().getFramebufferHeight();
-                    lastShaderWidth = getSetting(1).asSlider().getValue();
-                    shaderUnloaded = false;
+        try {
+            shader = new ShaderEffectWrapper(
+                    new ShaderEffect(mc.getTextureManager(), mc.getResourceManager(), mc.getFramebuffer(), new Identifier("kiwiclient", "shaders/post/entity_outline.json")));
 
-                    OutlineShaderManager.loadShader(shader);
-                } catch (JsonSyntaxException | IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else if (!shaderUnloaded) {
-            OutlineShaderManager.loadDefaultShader();
-            shaderUnloaded = true;
+            colorVertexer = new ColorVertexConsumerProvider(shader.getFramebuffer("main"), ShaderCore::getColorOverlayShader);
+        } catch (JsonSyntaxException | IOException e) {
+            e.printStackTrace();
+            super.onDisable();
         }
     }
 
     @Subscribe
     @AllowConcurrentEvents
-    public void onWorldRenderPost(WorldRenderEvent.Post event) {
-        for (Entity e: mc.world.getEntities()) {
-            if (e == mc.player || e == mc.player.getVehicle()) {
-                continue;
-            }
-
-            float[] color = getColorForEntity(e);
-            if (color != null) {
-
-                if (getSetting(0).asMode().mode == 1 || getSetting(0).asMode().mode == 3) {
-                    RenderUtils.drawBoxFill(e.getBoundingBox(), QuadColor.single(color[0], color[1], color[2], getSetting(3).asSlider().getValueFloat()));
-                }
-
-                if (getSetting(0).asMode().mode == 1 || getSetting(0).asMode().mode == 2) {
-                    RenderUtils.drawBoxOutline(e.getBoundingBox(), QuadColor.single(color[0], color[1], color[2], 1f), getSetting(2).asSlider().getValueFloat());
-                }
-            }
-        }
+    public void onWorldRender(WorldRenderEvent.Pre event) {
+        shader.prepare();
+        shader.clearFramebuffer("main");
     }
 
     @Subscribe
     @AllowConcurrentEvents
     public void onEntityRender(EntityRenderEvent.Single.Pre event) {
-        float[] color = getColorForEntity(event.getEntity());
+        if (getSetting(0).asMode().mode != 0)
+            return;
 
-        if (color != null && getSetting(0).asMode().mode == 0) {
-            event.setVertex(getOutline(mc.getBufferBuilders(), color[0], color[1], color[2]));
+        float[] color = getColor(event.getEntity());
+        color[0] = (int) (color[0] * 255);
+        color[1] = (int) (color[1] * 255);
+        color[2] = (int) (color[2] * 255);
+
+        if (color != null) {
+            event.setVertex(colorVertexer.createDualProvider(event.getVertex(), (int) color[0], (int) color[1], (int) color[2], getSetting(1).asSlider().getValueInt()));
         }
     }
 
-    private float[] getColorForEntity(Entity entity) {
+    @Subscribe
+    @AllowConcurrentEvents
+    public void onWorldRender(WorldRenderEvent.Post event) {
+        if (getSetting(0).asMode().mode == 0) {
+            colorVertexer.draw();
+            shader.render();
+            shader.drawFramebufferToMain("main");
+        } else {
+            float width = getSetting(2).asSlider().getValueFloat();
+            float fill = getSetting(3).asSlider().getValueFloat();
+
+            for (Entity e: mc.world.getEntities()) {
+
+                if (e == mc.player || e == mc.player.getVehicle()) {
+                    continue;
+                }
+
+                float[] color = getColor(e);
+
+                if (color != null) {
+                    if (width != 0 && (getSetting(0).asMode().mode == 1 || getSetting(0).asMode().mode == 2)) {
+                        RenderUtils.drawBoxOutline(e.getBoundingBox(), QuadColor.single(color[0], color[1], color[2], 1f), width);
+                    }
+
+                    if (fill != 0 && (getSetting(0).asMode().mode == 1 || getSetting(0).asMode().mode == 3)) {
+                        RenderUtils.drawBoxFill(e.getBoundingBox(), QuadColor.single(color[0], color[1], color[2], fill));
+                    }
+                }
+            }
+        }
+    }
+
+    private float[] getColor(Entity entity) {
         if (EntityUtils.isPlayer(entity)) {
             return new float[] { 1.0F, 1.0F, 1.0F };
         } else if (EntityUtils.isMob(entity)) {
@@ -120,11 +121,5 @@ public class ESP extends Module {
         }
 
         return null;
-    }
-
-    private VertexConsumerProvider getOutline(BufferBuilderStorage buffers, float r, float g, float b) {
-        OutlineVertexConsumerProvider ovsp = buffers.getOutlineVertexConsumers();
-        ovsp.setColor((int) (r * 255), (int) (g * 255), (int) (b * 255), 255);
-        return ovsp;
     }
 }
