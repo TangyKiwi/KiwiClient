@@ -30,7 +30,7 @@ public class BetterChat extends Module {
             new ToggleSetting("Annoy", false).withDesc("MaKEs yOUr MeSSAgEs aNnOyInG"),
             new ToggleSetting("Fancy", false).withDesc("ᴍᴀᴋᴇꜱ ʏᴏᴜʀ ᴍᴇꜱꜱᴀɢᴇꜱ ғᴀɴᴄʏ!"),
             new ToggleSetting("Timestamps", true).withDesc("Adds timestamps to all messages in chat"),
-            new ToggleSetting("Player Heads", true).withDesc("Adds the player's head next to their messages"),
+            new ToggleSetting("Player Heads", false).withDesc("Adds the player's head next to their messages"),
             new ToggleSetting("Infinite Chat Box", true).withDesc("Bypasses the message character limit"),
             new ToggleSetting("Better History", true).withDesc("Let's you see more of chat history").withChildren(
                 new SliderSetting("# Lines", 100, 1000, 1000, 0).withDesc("Extended number of lines")

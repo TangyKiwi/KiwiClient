@@ -153,7 +153,7 @@ public class Nametags extends Module {
 
         if (!item.isEmpty() && item.getCount() != 1) {
             double w = IFont.CONSOLAS.getStringWidth("x" + item.getCount()) / 52d;
-            RenderUtils.drawWorldText("x" + item.getCount(), x, y, z, (offX - w) * scale, (offY - 0.07) * scale, scale * 1.75, false, 0x0000000, true);
+            RenderUtils.drawWorldText("x" + item.getCount(), x, y, z, (offX - w) * scale, (offY - 0.07) * scale, scale * 1.75, false, 0xFFFFFF, false);
         }
 
         if (item.isDamageable()) {
