@@ -84,6 +84,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - Nametags<br>
 - NoPortal<br>
 - NoRender<br>
+- SeedRay<br>
 - StorageESP<br>
 - TNTimer<br>
 - Tracers<br>
@@ -123,6 +124,7 @@ If you use **ANY** code from the source:
 **Clients**:  
 [Meteor Client](https://github.com/MeteorDevelopment/meteor-client)  
 [BleachHack](https://github.com/BleachDrinker420/BleachHack)  
+[Atomic](https://github.com/0x151/Atomic)  
 [JexClient](https://github.com/DustinRepo/JexClient)  
 [Wurst](https://github.com/Wurst-Imperium/Wurst7)  
 

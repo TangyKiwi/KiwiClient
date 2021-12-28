@@ -18,6 +18,7 @@
     "ClientPlayerEntityMixin",
     "ClientWorldMixin",
     "CommandSuggestorMixin",
+    "DimensionTypeMixin",
     "EntityAccessor",
     "EntityBucketItemAccessor",
     "EntityBucketItemMixin",

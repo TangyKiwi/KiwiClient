@@ -9,6 +9,7 @@ import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
 import com.tangykiwi.kiwiclient.modules.player.*;
 import com.tangykiwi.kiwiclient.modules.render.*;
+import com.tangykiwi.kiwiclient.modules.render.seedray.SeedRay;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
@@ -63,6 +64,7 @@ public class ModuleManager {
         moduleList.add(new Nametags());
         moduleList.add(new NoPortal());
         moduleList.add(new NoRender());
+        moduleList.add(new SeedRay());
         moduleList.add(new StorageESP());
         moduleList.add(new TNTimer());
         moduleList.add(new Tracers());
