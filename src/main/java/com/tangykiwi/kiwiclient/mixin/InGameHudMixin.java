@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import com.tangykiwi.kiwiclient.modules.client.MountHUD;
+import com.tangykiwi.kiwiclient.modules.client.NoScoreboard;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -11,6 +12,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.scoreboard.ScoreboardObjective;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -35,6 +37,16 @@ public class InGameHudMixin {
         KiwiClient.eventBus.post(event);
         if (event.isCancelled()) info.cancel();
     }
+
+    @Inject(method = "renderScoreboardSidebar", at = @At("HEAD"), cancellable = true)
+    private void renderScoreboardSidebar(MatrixStack matrices, ScoreboardObjective objective, CallbackInfo ci) {
+        if(KiwiClient.moduleManager.getModule(NoScoreboard.class).isEnabled()) {
+            ci.cancel();
+            return;
+        }
+    }
+
+
 
     @Shadow @Final private MinecraftClient client;
 

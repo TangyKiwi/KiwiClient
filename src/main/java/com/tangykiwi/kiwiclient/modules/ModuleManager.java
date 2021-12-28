@@ -33,6 +33,7 @@ public class ModuleManager {
         moduleList.add(new Compass(325, 325, 1, 2, true));
         moduleList.add(new HUD());
         moduleList.add(new MountHUD());
+        moduleList.add(new NoScoreboard());
         moduleList.add(new Time());
         moduleList.add(new Tooltips());
 

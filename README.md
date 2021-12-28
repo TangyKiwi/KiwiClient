@@ -46,6 +46,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - Compass<br>
 - HUD<br>
 - MountHUD<br>  
+- NoScoreboard<br>
 - Time<br>
 - Tooltips<br>
 </details>
