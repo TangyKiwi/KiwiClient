@@ -58,7 +58,7 @@ public class MinecraftClientMixin {
         info.setReturnValue(stringBuilder.toString());
     }
 
-    @Inject(at = @At("HEAD"), method = "setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", cancellable = true)
+    @Inject(at = @At("HEAD"), method = "setScreen", cancellable = true)
     public void openScreen(Screen screen, CallbackInfo info) {
         OpenScreenEvent event = new OpenScreenEvent(screen);
         KiwiClient.eventBus.post(event);

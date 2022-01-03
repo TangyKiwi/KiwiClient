@@ -74,7 +74,8 @@ public class KiwiClient implements ModInitializer {
 		discordRPC = new DiscordRP();
 		discordRPC.start();
 
-		EChestMemory.init();
+		EChestMemory eChestMemory = new EChestMemory();
+		eventBus.register(eChestMemory);
 		eventBus.register(moduleManager);
 
 		ClickGui.clickGui.initWindows();

@@ -33,9 +33,6 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     @Shadow
     protected MinecraftClient client;
 
-    @Shadow
-    protected abstract boolean isCamera();
-
     private boolean ignoreChatMessage;
 
     @Shadow public abstract void sendChatMessage(String string);

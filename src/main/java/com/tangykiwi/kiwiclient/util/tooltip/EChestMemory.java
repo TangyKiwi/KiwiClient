@@ -14,17 +14,19 @@ import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.util.collection.DefaultedList;
 
 public class EChestMemory {
-    public static final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(27, ItemStack.EMPTY);
-    private static int echestOpenedState;
+    public static DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(27, ItemStack.EMPTY);
+    private static int echestOpenedState = -1;
 
-    public static void init() {
-        KiwiClient.eventBus.register(EChestMemory.class);
+    public EChestMemory() {
+
     }
 
     @Subscribe
     @AllowConcurrentEvents
     private static void onBlockActivate(BlockActivateEvent event) {
-        if (event.blockState.getBlock() instanceof EnderChestBlock && echestOpenedState == 0) echestOpenedState = 1;
+        if (event.blockState.getBlock() instanceof EnderChestBlock && echestOpenedState == 0) {
+            echestOpenedState = 1;
+        }
     }
 
     @Subscribe
