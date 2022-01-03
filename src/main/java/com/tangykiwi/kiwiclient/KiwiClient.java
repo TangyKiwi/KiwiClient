@@ -32,7 +32,7 @@ import org.lwjgl.glfw.GLFW;
 public class KiwiClient implements ModInitializer {
 
 	public static final String MOD_ID = "kiwiclient";
-	public static String name = "KiwiClient 1.18.1", version = "5.7.22";
+	public static String name = "KiwiClient 1.18.1", version = "5.8.22";
 	private MinecraftClient mc;
 
 	public static DiscordRP discordRPC;
@@ -48,13 +48,6 @@ public class KiwiClient implements ModInitializer {
 	public static Identifier MENU = new Identifier("kiwiclient:background.jpg");
 	public static Identifier MENU2 = new Identifier("kiwiclient:background1.jpg");
 	public static Identifier MENU3 = new Identifier("kiwiclient:background2.jpg");
-
-	/**
-	 * menu1.ogg : Time - Inception
-	 * menu2.ogg : First Step - Interstellar
-	 * menu3.ogg : No Time for Caution - Interstellar
-	 * menu4.ogg : Default Minecraft main menu
-	 */
 
 	public static KeyBinding zoomKey = new KeyBinding("kiwiclient.zoom", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_5, "KiwiClient");
 

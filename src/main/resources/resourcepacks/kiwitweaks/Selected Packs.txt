@@ -27,7 +27,6 @@ Packs:
 	NoteblockBanners
 	TransparentSpyglassOverlay
 	NoVignette
-	3DBookshelves
 	3DChains
 	3DPointedDripstone
 	3DTiles
@@ -42,13 +41,12 @@ Packs:
 	3DVines
 	3DGlowLichen
 	3DStonecutters
+	3DBookshelves
 	RainbowExperience
 	WitherHearts
 	PingColorIndicator
 	NumberedHotbar
 	FullAgeCropMarker
 	DifferentStems
-	VariatedBookshelves
-	ConnectedBookshelves
 	FullAgeAmethystMarker
 	3DAmethyst
