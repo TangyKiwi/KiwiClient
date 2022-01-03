@@ -3,10 +3,12 @@ package com.tangykiwi.kiwiclient.mixin;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.commands.Dupe;
 import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
+import com.tangykiwi.kiwiclient.gui.mainmenu.MainMenu;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.resource.language.I18n;
+import org.lwjgl.system.CallbackI;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -32,22 +34,22 @@ public class MinecraftClientMixin {
     private void getWindowTitle(final CallbackInfoReturnable<String> info) {
         MinecraftClient client = (MinecraftClient) (Object) this;
 
-        StringBuilder stringBuilder = new StringBuilder(KiwiClient.name + " v" + KiwiClient.version);
+        String title = KiwiClient.name + " v" + KiwiClient.version;
 
         ClientPlayNetworkHandler clientPlayNetworkHandler = client.getNetworkHandler();
         if (clientPlayNetworkHandler != null && clientPlayNetworkHandler.getConnection().isOpen()) {
-            stringBuilder.append(" - ");
+            title += " - ";
             if (client.getServer() != null && !client.getServer().isRemote()) {
-                stringBuilder.append(I18n.translate("title.singleplayer"));
+                title += I18n.translate("title.singleplayer");
                 discordRPC.update("Playing", "Singleplayer");
             } else if (client.isConnectedToRealms()) {
-                stringBuilder.append(I18n.translate("title.multiplayer.realms"));
+                title += I18n.translate("title.multiplayer.realms");
                 discordRPC.update("Playing", "Realms");
             } else if (client.getServer() == null && (client.getCurrentServerEntry() == null || !client.getCurrentServerEntry().isLocal())) {
-                stringBuilder.append(I18n.translate("title.multiplayer.other"));
+                title += I18n.translate("title.multiplayer.other");
                 discordRPC.update("Playing", client.getCurrentServerEntry().address);
             } else {
-                stringBuilder.append(I18n.translate("title.multiplayer.lan"));
+                title += I18n.translate("title.multiplayer.lan");
                 discordRPC.update("Playing", "LAN Server");
             }
         }
@@ -55,7 +57,7 @@ public class MinecraftClientMixin {
             discordRPC.update("Idle", "Main Menu");
         }
 
-        info.setReturnValue(stringBuilder.toString());
+        info.setReturnValue(title);
     }
 
     @Inject(at = @At("HEAD"), method = "setScreen", cancellable = true)
