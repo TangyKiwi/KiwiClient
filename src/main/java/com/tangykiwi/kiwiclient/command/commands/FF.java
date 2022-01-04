@@ -18,7 +18,7 @@ public class FF extends Command {
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.executes(context -> {
-            Utils.mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("I'm gonna FF"));
+            Utils.mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket("I'm gonna FF, gg go next."));
             Utils.mc.player.networkHandler.getConnection().disconnect(new LiteralText("Literally just FFed."));
             return SINGLE_SUCCESS;
         });
