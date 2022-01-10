@@ -53,6 +53,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 
 <details>
 <summary>Combat</summary>
+- BowBomb<br>
 - Criticals<br>
 - TriggerBot<br>
 </details>
