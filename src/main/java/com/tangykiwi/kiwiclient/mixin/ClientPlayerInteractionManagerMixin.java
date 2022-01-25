@@ -25,9 +25,9 @@ public class ClientPlayerInteractionManagerMixin {
 
             Utils.mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(Utils.mc.player, ClientCommandC2SPacket.Mode.START_SPRINTING));
 
-            for(int i = 0; i < 100; ++i) {
-                Utils.mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(Utils.mc.player.getX(), Utils.mc.player.getY() - 1.0E-9D, Utils.mc.player.getZ(), true));
-                Utils.mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(Utils.mc.player.getX(), Utils.mc.player.getY() + 1.0E-9D, Utils.mc.player.getZ(), false));
+            for(int i = 0; i < 100; i++) {
+                Utils.mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(Utils.mc.player.getX(), Utils.mc.player.getY() - 0.000000001, Utils.mc.player.getZ(), true));
+                Utils.mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(Utils.mc.player.getX(), Utils.mc.player.getY() + 0.000000001, Utils.mc.player.getZ(), false));
             }
 
         }
