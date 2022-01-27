@@ -15,7 +15,6 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Style;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -23,7 +22,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,18 +31,8 @@ public class HUD extends Module {
     private double tps = 20;
     private double bps = 0;
     private int fps = 0;
-    private long lastPacked = 0;
-    private long timer = 0;
     private int ping = 0;
     private String ip = "";
-
-    private int defaultColor = 0xFFAA00;
-
-    private MatrixStack matrixStack = new MatrixStack();
-
-    private static Style CUSTOM_STYLE = Style.EMPTY.withFont(new Identifier("kiwiclient", "product_sans"));
-    
-    public List<String> info = new ArrayList<>();
     
     public HUD() {
         super("HUD", "Shows info as an overlay", KEY_UNBOUND, Category.CLIENT,
@@ -56,7 +44,6 @@ public class HUD extends Module {
             new ToggleSetting("Coords", true).withDesc("Shows Player Position").withValue(5),
             new ToggleSetting("Nether Coords", true).withDesc("Shows Nether/Overworld Position").withValue(6),
             new ToggleSetting("Armor", true).withDesc("Shows Armor Status")
-            //new ToggleSetting("Watermark", true).withDesc("KiwiClient Watermark")
         );
         super.toggle();
     }
@@ -64,10 +51,7 @@ public class HUD extends Module {
     @Subscribe
     public void onDrawOverlay(DrawOverlayEvent e) {
         if(!mc.options.debugEnabled) {
-            //net.minecraft.client.font.TextRenderer textRenderer = mc.textRenderer;
             GlyphPageFontRenderer textRenderer = IFont.CONSOLAS;
-            //TextRenderer textRenderer = TextRenderer.get();
-            //TextRenderer textRenderer = new TextRenderer((id) -> new FontStorage(mc.getTextureManager(), new Identifier("kiwiclient:fonts/product_sans.json")));
 
             List<Settings> settings = getSettings();
             int counter = 0;
@@ -75,7 +59,6 @@ public class HUD extends Module {
                 if(settings.get(i).asToggle().state) {
                     counter++;
                     drawSetting(textRenderer, e.getMatrix(), settings.get(i).asToggle().getValue(), (counter) * 8 + 2);
-                    //drawSetting(textRenderer, e.getMatrix(), settings.get(i).asToggle().getValue(), (counter) * 10);
                 }
             }
 
@@ -191,9 +174,6 @@ public class HUD extends Module {
                 }
                 if (nether) textRenderer.drawString(m, String.format("(Overworld) X: %.1f Y: %.1f Z: %.1f", altx, vec2.y, altz), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
                 else textRenderer.drawString(m, String.format("(Nether) X: %.1f Y: %.1f Z: %.1f", altx, vec2.y, altz), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
-                break;
-            case 7:
-                textRenderer.drawString(m, String.format("%s v%s", KiwiClient.name, KiwiClient.version), 0.3, mc.getWindow().getScaledHeight() - offset, ColorUtil.getRainbow(3, 0.8f, 1));
                 break;
         }
     }
