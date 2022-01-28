@@ -2,11 +2,13 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.commands.Dupe;
+import com.tangykiwi.kiwiclient.event.ReceivePacketEvent;
 import com.tangykiwi.kiwiclient.event.SendPacketEvent;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.Packet;
+import net.minecraft.network.listener.PacketListener;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,5 +36,13 @@ public class ClientConnectionMixin {
     )
     private void send(Packet<?> packet, CallbackInfo ci) {
         Dupe.packetSent(packet);
+    }
+
+    @Inject(method = "handlePacket", at = @At("HEAD"), cancellable = true)
+    private static <T extends PacketListener> void onHandlePacket(Packet<T> packet, PacketListener listener, CallbackInfo info) {
+        ReceivePacketEvent event = new ReceivePacketEvent(packet);
+        KiwiClient.eventBus.post(event);
+
+        if (event.isCancelled()) info.cancel();
     }
 }

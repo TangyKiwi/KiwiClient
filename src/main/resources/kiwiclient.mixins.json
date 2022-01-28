@@ -17,6 +17,7 @@
     "ClientConnectionMixin",
     "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerMixin",
+    "ClientPlayNetworkHandlerMixin",
     "ClientWorldMixin",
     "CommandSuggestorMixin",
     "DimensionTypeMixin",

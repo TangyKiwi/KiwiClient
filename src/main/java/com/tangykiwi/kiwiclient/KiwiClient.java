@@ -32,7 +32,7 @@ import org.lwjgl.glfw.GLFW;
 public class KiwiClient implements ModInitializer {
 
 	public static final String MOD_ID = "kiwiclient";
-	public static String name = "KiwiClient 1.18.1", version = "5.9.22";
+	public static String name = "KiwiClient 1.18.1", version = "5.9.23";
 	private MinecraftClient mc;
 
 	public static DiscordRP discordRPC;
@@ -68,7 +68,9 @@ public class KiwiClient implements ModInitializer {
 		discordRPC.start();
 
 		EChestMemory eChestMemory = new EChestMemory();
+		TickRate tickRate = new TickRate();
 		eventBus.register(eChestMemory);
+		eventBus.register(tickRate);
 		eventBus.register(moduleManager);
 
 		ClickGui.clickGui.initWindows();
