@@ -10,13 +10,13 @@ import java.util.Arrays;
 
 public class TickRate {
     private static final float[] tickRates = new float[20];
-    private int nextIndex = 0;
-    private long timeLastTimeUpdate = -1;
+    private static int nextIndex = 0;
+    private static long timeLastTimeUpdate = -1;
     private static long timeGameJoined;
 
     @Subscribe
     @AllowConcurrentEvents
-    private void onReceivePacket(ReceivePacketEvent event) {
+    private static void onReceivePacket(ReceivePacketEvent event) {
         if (event.packet instanceof WorldTimeUpdateS2CPacket) {
             long now = System.currentTimeMillis();
             float timeElapsed = (float) (now - timeLastTimeUpdate) / 1000.0F;
@@ -28,13 +28,13 @@ public class TickRate {
 
     @Subscribe
     @AllowConcurrentEvents
-    private void onGameJoin(GameJoinEvent event) {
+    private static void onGameJoin(GameJoinEvent event) {
         Arrays.fill(tickRates, 0);
         nextIndex = 0;
         timeGameJoined = timeLastTimeUpdate = System.currentTimeMillis();
     }
 
-    public float clamp(float value, float min, float max) {
+    public static float clamp(float value, float min, float max) {
         if (value < min) return min;
         return Math.min(value, max);
     }

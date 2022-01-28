@@ -125,7 +125,7 @@ public class HUD extends Module {
                 break;
             case 2:
                 this.tps = TickRate.getTickRate();
-                textRenderer.drawString(m, "TPS: " + String.format("%.1f", tps).replace(",", "."), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
+                textRenderer.drawString(m, "TPS: " + String.format("%.1f", tps), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
                 break;
             case 3:
                 this.ip = "IP: Singleplayer";
