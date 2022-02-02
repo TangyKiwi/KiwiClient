@@ -2,13 +2,16 @@ package com.tangykiwi.kiwiclient.modules.settings;
 
 import com.tangykiwi.kiwiclient.gui.clickgui.window.ModuleWindow;
 import com.tangykiwi.kiwiclient.gui.clickgui.window.Window;
+import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
+import org.lwjgl.glfw.GLFW;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -84,12 +87,12 @@ public class SliderSetting extends Settings {
                 setValue(round(percent * ((max - min) / 100) + min, decimals));
             }
 
-//            if (window.mwScroll != 0) {
-//                double units = 1 / (Math.pow(10, decimals));
-//
-//                setValue(MathHelper.clamp(getValue() + units * window.mwScroll, min, max));
-//                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
-//            }
+            if (window.mwScroll != 0 && InputUtil.isKeyPressed(Utils.mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
+                double units = 1 / (Math.pow(10, decimals));
+
+                setValue(MathHelper.clamp(getValue() + units * window.mwScroll, min, max));
+                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
+            }
         }
 
         return index;

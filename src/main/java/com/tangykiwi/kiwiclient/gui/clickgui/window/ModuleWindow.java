@@ -2,16 +2,19 @@ package com.tangykiwi.kiwiclient.gui.clickgui.window;
 
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.Settings;
+import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import org.apache.commons.lang3.tuple.Triple;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -59,7 +62,7 @@ public class ModuleWindow extends ClickGuiWindow {
 		x2 = x + len + 1;
 		y2 = hiding ? y1 + 13 : y1 + 13 + getHeight();
 
-		if (mwScroll != 0 && mouseOver(x, y, x2, y2)) {
+		if (mwScroll != 0 && mouseOver(x, y, x2, y2) && !InputUtil.isKeyPressed(Utils.mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
 			start = MathHelper.clamp(start - mwScroll, 0, lines - numMods);
 		}
 

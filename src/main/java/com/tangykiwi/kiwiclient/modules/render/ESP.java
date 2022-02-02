@@ -64,7 +64,7 @@ public class ESP extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onEntityRender(EntityRenderEvent.Single.Pre event) {
-        if (getSetting(0).asMode().mode != 0)
+        if (getSetting(0).asMode().mode != 0 || event.getEntity() == null)
             return;
 
         float[] color = getColor(event.getEntity());
