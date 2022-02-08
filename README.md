@@ -129,6 +129,7 @@ If you use **ANY** code from the source:
 [Atomic](https://github.com/0x151/Atomic)  
 [JexClient](https://github.com/DustinRepo/JexClient)  
 [Wurst](https://github.com/Wurst-Imperium/Wurst7)  
+[Font Renderer](https://github.com/SprayDown/CustomFont-Rendering)
 
 **Resource Pack**:  
 [Vanilla Tweaks](https://vanillatweaks.net/picker/resource-packs/)  
