@@ -35,7 +35,7 @@ public class NoFall extends Module {
 
     @Subscribe
     public void onSendPacket(SendPacketEvent event) {
-        if (getSetting(0).asMode().mode == 1) {
+        if (getSetting(0).asMode().mode == 1 && event.packet instanceof PlayerMoveC2SPacket) {
             if ((mc.player.isFallFlying() || KiwiClient.moduleManager.getModule(Fly.class).isEnabled()) && mc.player.getVelocity().y < 1) {
                 BlockHitResult result = mc.world.raycast(new RaycastContext(
                     mc.player.getPos(),
