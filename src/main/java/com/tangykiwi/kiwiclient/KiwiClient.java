@@ -32,7 +32,7 @@ import org.lwjgl.glfw.GLFW;
 public class KiwiClient implements ModInitializer {
 
 	public static final String MOD_ID = "kiwiclient";
-	public static String name = "KiwiClient 1.18.1", version = "5.9.24";
+	public static String name = "KiwiClient 1.18.1", version = "5.9.25";
 	private MinecraftClient mc;
 
 	public static DiscordRP discordRPC;
