@@ -51,8 +51,8 @@ public class SeedRay extends Module {
     @AllowConcurrentEvents
     public void onWorldRender(WorldRenderEvent.Post event) {
         if (worldSeed != null) {
-            int chunkX = Utils.mc.player.getChunkPos().x;
-            int chunkZ = Utils.mc.player.getChunkPos().z;
+            int chunkX = mc.player.getChunkPos().x;
+            int chunkZ = mc.player.getChunkPos().z;
 
             int rangeVal = getSetting(10).asSlider().getValueInt();
             for (int range = 0; range <= rangeVal; range++) {
@@ -89,12 +89,12 @@ public class SeedRay extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onTick(TickEvent event) {
-        if (Utils.mc.player == null || Utils.mc.world == null) {
+        if (mc.player == null || mc.world == null) {
             return;
         }
-        long chunkX = Utils.mc.player.getChunkPos().x;
-        long chunkZ = Utils.mc.player.getChunkPos().z;
-        ClientWorld world = Utils.mc.world;
+        long chunkX = mc.player.getChunkPos().x;
+        long chunkZ = mc.player.getChunkPos().z;
+        ClientWorld world = mc.world;
         int renderdistance = MinecraftClient.getInstance().options.viewDistance;
 
         int chunkCounter = 5;
@@ -125,7 +125,7 @@ public class SeedRay extends Module {
         super.onEnable();
 
         if (worldSeed == null) {
-            Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Please input a seed using ,seedray <seed>"));
+            mc.inGameHud.getChatHud().addMessage(new LiteralText("Please input a seed using ,seedray <seed>"));
             setToggled(false);
         }
 
@@ -143,11 +143,11 @@ public class SeedRay extends Module {
     private void loadVisibleChunks() {
         int renderdistance = MinecraftClient.getInstance().options.viewDistance;
 
-        if (Utils.mc.player == null) {
+        if (mc.player == null) {
             return;
         }
-        int playerChunkX = Utils.mc.player.getChunkPos().x;
-        int playerChunkZ = Utils.mc.player.getChunkPos().z;
+        int playerChunkX = mc.player.getChunkPos().x;
+        int playerChunkZ = mc.player.getChunkPos().z;
 
         for (int i = playerChunkX - renderdistance; i < playerChunkX + renderdistance; i++) {
             for (int j = playerChunkZ - renderdistance; j < playerChunkZ + renderdistance; j++) {
@@ -163,7 +163,7 @@ public class SeedRay extends Module {
         }
         long chunkKey = (long) chunkX + ((long) chunkZ << 32);
 
-        ClientWorld world = Utils.mc.world;
+        ClientWorld world = mc.world;
 
         if (chunkRenderers.containsKey(chunkKey) || world == null) {
             return;
@@ -185,7 +185,7 @@ public class SeedRay extends Module {
 
         Identifier id = world.getRegistryManager().get(Registry.BIOME_KEY).getId(world.getBiomeAccess().getBiomeForNoiseGen(new BlockPos(chunkX, 0, chunkZ)));
         if (id == null) {
-            Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Unable to calculate ore positions, there may be mods affecting world generation"));
+            mc.inGameHud.getChatHud().addMessage(new LiteralText("Unable to calculate ore positions, there may be mods affecting world generation"));
             setToggled(false);
             return;
         }

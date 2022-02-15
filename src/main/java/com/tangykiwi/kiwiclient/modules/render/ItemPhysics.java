@@ -63,10 +63,10 @@ public class ItemPhysics extends Module {
             return;
         matrixStack.translate(0, itemEntity.getHeight() / 1.5f, 0);
 
-        BakedModel bakedModel = Utils.mc.getItemRenderer().getModel(itemEntity.getStack(), itemEntity.world, null, itemEntity.getId());
-        float roll = MathHelper.lerp(Utils.mc.getTickDelta(), prevItemRotationsRoll.get(itemEntity), itemRotationsRoll.get(itemEntity));
-        float pitch = MathHelper.lerp(Utils.mc.getTickDelta(), prevItemRotationsPitch.get(itemEntity), itemRotationsPitch.get(itemEntity));
-        float yaw = MathHelper.lerp(Utils.mc.getTickDelta(), prevItemRotationsYaw.get(itemEntity), itemRotationsYaw.get(itemEntity));
+        BakedModel bakedModel = mc.getItemRenderer().getModel(itemEntity.getStack(), itemEntity.world, null, itemEntity.getId());
+        float roll = MathHelper.lerp(mc.getTickDelta(), prevItemRotationsRoll.get(itemEntity), itemRotationsRoll.get(itemEntity));
+        float pitch = MathHelper.lerp(mc.getTickDelta(), prevItemRotationsPitch.get(itemEntity), itemRotationsPitch.get(itemEntity));
+        float yaw = MathHelper.lerp(mc.getTickDelta(), prevItemRotationsYaw.get(itemEntity), itemRotationsYaw.get(itemEntity));
 
         if (itemEntity.isOnGround())
             matrixStack.translate(0, bakedModel.hasDepth() ? -0.04 : -0.151f, 0);
@@ -86,8 +86,8 @@ public class ItemPhysics extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onTick(TickEvent event) {
-        if (Utils.mc.world != null)
-            Utils.mc.world.getEntities().forEach(entity -> {
+        if (mc.world != null)
+            mc.world.getEntities().forEach(entity -> {
                 if (entity instanceof ItemEntity itemEntity) {
                     if (!itemRotationsRoll.containsKey(itemEntity)) {
                         Random r = new Random();
