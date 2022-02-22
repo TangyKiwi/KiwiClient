@@ -1,7 +1,7 @@
 package com.tangykiwi.kiwiclient.util;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
-import com.tangykiwi.kiwiclient.modules.player.Cape;
+import com.tangykiwi.kiwiclient.modules.other.Cape;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;

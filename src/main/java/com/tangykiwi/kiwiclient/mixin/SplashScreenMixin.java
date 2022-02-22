@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.mixin;
 
+import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.LoadingScreen;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.MinecraftClient;
@@ -21,8 +22,9 @@ public class SplashScreenMixin {
 
     @Inject(method = "init(Lnet/minecraft/client/MinecraftClient;)V", at = @At("TAIL"), cancellable=true)
     private static void init(MinecraftClient client, CallbackInfo ci) {
-        Utils.mc.getWindow().setIcon(SplashScreenMixin.class.getResourceAsStream("/assets/kiwiclient/icon64.png"), SplashScreenMixin.class.getResourceAsStream("/assets/kiwiclient/icon.png"));
-        client.getTextureManager().registerTexture(LOGO, new LoadingScreen(LOGO));
-        //ci.cancel();
+        if(KiwiClient.moduleManager.getModule(com.tangykiwi.kiwiclient.modules.other.LoadingScreen.class).isEnabled()) {
+            Utils.mc.getWindow().setIcon(SplashScreenMixin.class.getResourceAsStream("/assets/kiwiclient/icon64.png"), SplashScreenMixin.class.getResourceAsStream("/assets/kiwiclient/icon.png"));
+            client.getTextureManager().registerTexture(LOGO, new LoadingScreen(LOGO));
+        }
     }
 }

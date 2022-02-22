@@ -1,4 +1,4 @@
-package com.tangykiwi.kiwiclient.modules.player;
+package com.tangykiwi.kiwiclient.modules.other;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.Category;
@@ -13,7 +13,7 @@ public class Cape extends Module {
     private int capeInterval = 100;
 
     public Cape() {
-        super("Cape", "Gives you a custom cape", KEY_UNBOUND, Category.PLAYER,
+        super("Cape", "Gives you a custom cape", KEY_UNBOUND, Category.OTHER,
             new ModeSetting("Style", "Default", "Animated", "Gura").withDesc("Cape to display"),
             new ToggleSetting("Glint", true).withDesc("Makes your cape enchanted"));
         super.toggle();

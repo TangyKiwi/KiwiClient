@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.mixin;
 
+import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.mainmenu.MainMenu;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -20,7 +21,10 @@ public class TitleScreenMixin extends Screen {
 
     @Inject(method = "init()V", at = @At("HEAD"))
     private void init(CallbackInfo info) {
-        this.client.setScreen(new MainMenu());
+        if(KiwiClient.moduleManager.getModule(com.tangykiwi.kiwiclient.modules.other.MainMenu.class).isEnabled()) {
+            this.client.setScreen(new MainMenu());
+        }
+
         discordRPC.update("Idle", "Main Menu");
     }
 }

@@ -54,6 +54,9 @@ public class ModuleClickGuiScreen extends ClickGuiScreen {
 		i += len + 5;
 		addWindow(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.CLIENT), i, 18, len,
 				StringUtils.capitalize(StringUtils.lowerCase(Category.CLIENT.toString())), new ItemStack(Items.GLASS_PANE)));
+		i += len + 5;
+		addWindow(new ModuleWindow(KiwiClient.moduleManager.getModulesInCat(Category.OTHER), i, 18, len,
+				StringUtils.capitalize(StringUtils.lowerCase(Category.OTHER.toString())), new ItemStack(Items.COMMAND_BLOCK)));
 
 		for (Window w: getWindows()) {
 			if (w instanceof ClickGuiWindow) {

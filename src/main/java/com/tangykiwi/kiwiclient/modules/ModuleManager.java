@@ -8,6 +8,7 @@ import com.tangykiwi.kiwiclient.modules.combat.BowBomb;
 import com.tangykiwi.kiwiclient.modules.combat.Criticals;
 import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
+import com.tangykiwi.kiwiclient.modules.other.*;
 import com.tangykiwi.kiwiclient.modules.player.*;
 import com.tangykiwi.kiwiclient.modules.render.*;
 import com.tangykiwi.kiwiclient.modules.render.seedray.SeedRay;
@@ -52,12 +53,17 @@ public class ModuleManager {
         moduleList.add(new SafeWalk());
         moduleList.add(new Speed());
 
+        //other
+        moduleList.add(new Background());
+        moduleList.add(new Cape());
+        moduleList.add(new Deadmau5Ears());
+        moduleList.add(new LoadingScreen());
+        moduleList.add(new MainMenu());
+
         //player
         moduleList.add(new AntiHunger());
         moduleList.add(new ArmorSwap());
         moduleList.add(new AutoTool());
-        moduleList.add(new Cape());
-        moduleList.add(new Deadmau5Ears());
         moduleList.add(new InventoryViewer());
 
         //render
