@@ -14,18 +14,37 @@ import net.minecraft.util.math.BlockPos;
 import java.util.Objects;
 
 public class AutoTool extends Module {
+
+    boolean prevState = true;
+    int slot = 0;
+
     public AutoTool() {
         super("AutoTool", "Autoswaps to best possible tool in your hotbar", KEY_UNBOUND, Category.PLAYER);
+    }
+
+    @Override
+    public void onEnable() {
+        slot = mc.player.getInventory().selectedSlot;
+
+        super.onEnable();
     }
 
     @Subscribe
     public void onTick(TickEvent event) {
         ClientPlayerInteractionManager interactionManager = mc.interactionManager;
+
+        if(prevState == true && !interactionManager.isBreakingBlock()) {
+            mc.player.getInventory().selectedSlot = slot;
+        }
+        else if(prevState != interactionManager.isBreakingBlock()) {
+            slot = mc.player.getInventory().selectedSlot;
+        }
         if(interactionManager.isBreakingBlock()) {
             BlockPos blockPos = ((ClientPlayerInteractionManagerAccessor) interactionManager).getCurrentBreakingPos();
             BlockState blockState = mc.world.getBlockState(blockPos);
             swap(blockState);
         }
+        prevState = interactionManager.isBreakingBlock();
     }
 
     public void swap(BlockState state) {
