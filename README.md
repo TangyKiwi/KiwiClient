@@ -73,8 +73,6 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - AntiHunger<br>
 - ArmorSwap<br>
 - AutoTool<br>
-- Cape<br>
-- Deadmau5Ears<br>
 - InventoryViewer<br>
 </details>
 
@@ -92,6 +90,15 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - Tracers<br>
 - XRay<br>
 - Zoom<br>
+</details>
+
+<details>
+<summary>Other</summary>
+- Background<br>
+- Cape<br>
+- Deadmau5Ears<br>
+- LoadingScreen<br>
+- MainMenu<br>
 </details>
 
 ### Commands
