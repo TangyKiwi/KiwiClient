@@ -22,8 +22,8 @@ public class SplashScreenMixin {
 
     @Inject(method = "init(Lnet/minecraft/client/MinecraftClient;)V", at = @At("TAIL"), cancellable=true)
     private static void init(MinecraftClient client, CallbackInfo ci) {
+        Utils.mc.getWindow().setIcon(SplashScreenMixin.class.getResourceAsStream("/assets/kiwiclient/icon64.png"), SplashScreenMixin.class.getResourceAsStream("/assets/kiwiclient/icon.png"));
         if(KiwiClient.moduleManager.getModule(com.tangykiwi.kiwiclient.modules.other.LoadingScreen.class).isEnabled()) {
-            Utils.mc.getWindow().setIcon(SplashScreenMixin.class.getResourceAsStream("/assets/kiwiclient/icon64.png"), SplashScreenMixin.class.getResourceAsStream("/assets/kiwiclient/icon.png"));
             client.getTextureManager().registerTexture(LOGO, new LoadingScreen(LOGO));
         }
     }
