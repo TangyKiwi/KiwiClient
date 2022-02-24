@@ -17,7 +17,7 @@ public class LoadingScreen extends ResourceTexture {
 
     protected TextureData loadTextureData(ResourceManager resourceManager) {
         try {
-            InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("logo.png");
+            InputStream input = LoadingScreen.class.getResourceAsStream("/assets/kiwiclient/logo.png");
             TextureData texture = null;
 
             if( input != null ) {
