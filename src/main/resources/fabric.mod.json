@@ -14,7 +14,7 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "icon128.png",
+  "icon": "/assets/kiwiclient/icon128.png",
 
   "environment": "*",
   "entrypoints": {
