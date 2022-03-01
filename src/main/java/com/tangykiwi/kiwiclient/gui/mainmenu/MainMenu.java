@@ -11,6 +11,7 @@ import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
+import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
@@ -73,7 +74,7 @@ public class MainMenu extends Screen {
 
         particles.render(matrixStack, mouseX, mouseY);
 
-        String version = "v" + KiwiClient.version + " - MC 1.18.1";
+        String version = "v" + KiwiClient.version + " - MC " + SharedConstants.getGameVersion().getName();
         DrawableHelper.fill(matrixStack, 0, 0, IFont.CONSOLAS.getStringWidth(version) + 4, IFont.CONSOLAS.getFontHeight() + 2, 0x90000000);
         IFont.CONSOLAS.drawString(matrixStack, version, 1, 2, 0xFFFFFF);
 

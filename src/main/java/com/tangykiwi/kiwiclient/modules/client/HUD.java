@@ -139,7 +139,7 @@ public class HUD extends Module {
                 break;
             case 4:
                 String biome = "";
-                Identifier id = mc.world.getRegistryManager().get(Registry.BIOME_KEY).getId(mc.world.getBiome(new BlockPos.Mutable().set(mc.player.getX(), mc.player.getY(), mc.player.getZ())));
+                Identifier id = mc.world.getRegistryManager().get(Registry.BIOME_KEY).getId(mc.world.getBiome(new BlockPos.Mutable().set(mc.player.getX(), mc.player.getY(), mc.player.getZ())).value());
                 if (id == null) biome = "Unknown";
                 else biome = Arrays.stream(id.getPath().split("_")).map(StringUtils::capitalize).collect(Collectors.joining(" "));
                 textRenderer.drawString(m, "Biome: " + biome, 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);

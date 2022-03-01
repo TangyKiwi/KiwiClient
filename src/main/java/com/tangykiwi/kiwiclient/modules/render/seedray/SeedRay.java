@@ -11,9 +11,11 @@ import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import com.tangykiwi.kiwiclient.util.render.color.QuadColor;
+import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.tag.TagKey;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
@@ -183,14 +185,14 @@ public class SeedRay extends Module {
 
         long populationSeed = random.setPopulationSeed(worldSeed, chunkX, chunkZ);
 
-        Identifier id = world.getRegistryManager().get(Registry.BIOME_KEY).getId(world.getBiomeAccess().getBiomeForNoiseGen(new BlockPos(chunkX, 0, chunkZ)));
+        Identifier id = world.getRegistryManager().get(Registry.BIOME_KEY).getId(world.getBiomeAccess().getBiomeForNoiseGen(new BlockPos(chunkX, 0, chunkZ)).value());
         if (id == null) {
             mc.inGameHud.getChatHud().addMessage(new LiteralText("Unable to calculate ore positions, there may be mods affecting world generation"));
             setToggled(false);
             return;
         }
         String biomeName = id.getPath();
-        String dimensionName = ((DimensionTypeCaller) world.getDimension()).getInfiniburn().getPath();
+        String dimensionName = ((DimensionTypeCaller) world.getDimension()).getInfiniburn().id().getPath();
 
         for (Ore ore : oreConfig) {
 
@@ -399,6 +401,6 @@ public class SeedRay extends Module {
     }
 
     public interface DimensionTypeCaller {
-        Identifier getInfiniburn();
+        TagKey<Block> getInfiniburn();
     }
 }

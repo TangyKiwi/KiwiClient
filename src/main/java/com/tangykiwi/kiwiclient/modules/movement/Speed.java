@@ -20,7 +20,7 @@ public class Speed extends Module {
 
     @Subscribe
     public void onTick(TickEvent e) {
-        if (mc.options.keySneak.isPressed())
+        if (mc.options.sneakKey.isPressed())
             return;
 
         if ((mc.player.forwardSpeed != 0 || mc.player.sidewaysSpeed != 0)) {

@@ -31,9 +31,9 @@ public class NoClip extends Module {
         float speed = 0.2F;
         player.speed = speed;
 
-        if(mc.options.keyJump.isPressed())
+        if(mc.options.jumpKey.isPressed())
             player.addVelocity(0, speed, 0);
-        if(mc.options.keySneak.isPressed())
+        if(mc.options.sneakKey.isPressed())
             player.addVelocity(0, -speed, 0);
     }
 

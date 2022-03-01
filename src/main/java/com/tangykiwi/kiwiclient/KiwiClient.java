@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.option.KeyBinding;
@@ -31,9 +32,11 @@ import org.lwjgl.glfw.GLFW;
 
 public class KiwiClient implements ModInitializer {
 
-	public static final String MOD_ID = "kiwiclient";
-	public static String name = "KiwiClient 1.18.1", version = "5.10.27";
 	private MinecraftClient mc;
+
+	public static final String MOD_ID = "kiwiclient";
+	public static String name = "KiwiClient " + SharedConstants.getGameVersion().getName(), version = "5.11.27";
+
 
 	public static DiscordRP discordRPC;
 	public static ModuleManager moduleManager;
