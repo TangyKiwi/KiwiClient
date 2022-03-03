@@ -8,11 +8,18 @@ import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
 
 import java.util.Arrays;
 
+import static java.lang.Float.NaN;
+
 public class TickRate {
     private static final float[] tickRates = new float[20];
     private static int nextIndex = 0;
     private static long timeLastTimeUpdate = -1;
     private static long timeGameJoined;
+    private static float lastTickRate;
+
+    public TickRate() {
+        lastTickRate = 20;
+    }
 
     @Subscribe
     @AllowConcurrentEvents
@@ -52,6 +59,11 @@ public class TickRate {
             }
         }
 
-        return sumTickRates / numTicks;
+        float tps = sumTickRates / numTicks;
+        if(tps == NaN) {
+            return lastTickRate;
+        }
+        lastTickRate = tps;
+        return tps;
     }
 }
