@@ -60,7 +60,7 @@ public class TickRate {
         }
 
         float tps = sumTickRates / numTicks;
-        if(tps == NaN) {
+        if(Float.isNaN(tps)) {
             return lastTickRate;
         }
         lastTickRate = tps;
