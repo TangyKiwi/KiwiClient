@@ -39,6 +39,7 @@ public class ModuleManager {
         moduleList.add(new NoScoreboard());
         moduleList.add(new Time());
         moduleList.add(new Tooltips());
+        moduleList.add(new VanillaSpoof());
 
         //combat
         moduleList.add(new BowBomb());

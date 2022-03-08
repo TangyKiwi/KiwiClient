@@ -21,6 +21,7 @@
     "ClientPlayNetworkHandlerMixin",
     "ClientWorldMixin",
     "CommandSuggestorMixin",
+    "CustomPayloadC2SPacketAccessor",
     "DimensionTypeMixin",
     "EntityAccessor",
     "EntityBucketItemAccessor",
