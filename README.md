@@ -106,9 +106,12 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - ,dupe
 - ,enchant [type/enchantment] [level]
 - ,ez
+- ,ff
 - ,gamemode [gamemode]
 - ,give [item{nbt}] [count]
 - ,say [message]
+- ,server
+- ,seedray [seed]
 - ,toggle [module]
 - ,unbind [module]
 - ,vclip [blocks]
@@ -134,7 +137,7 @@ If you use **ANY** code from the source:
 **Clients**:  
 [Meteor Client](https://github.com/MeteorDevelopment/meteor-client)  
 [BleachHack](https://github.com/BleachDrinker420/BleachHack)  
-[Atomic](https://github.com/0x151/Atomic)  
+[Atomic](https://gitlab.com/0x151/atomic)  
 [JexClient](https://github.com/DustinRepo/JexClient)  
 [Wurst](https://github.com/Wurst-Imperium/Wurst7)  
 [Font Renderer](https://github.com/SprayDown/CustomFont-Rendering)
