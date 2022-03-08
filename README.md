@@ -49,6 +49,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - NoScoreboard<br>
 - Time<br>
 - Tooltips<br>
+- VanillaSpoof<br>
 </details>
 
 <details>
