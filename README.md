@@ -119,7 +119,6 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 
 ### TODO
 - Config system
-- TPS tracker
 
 ## Disclaimer
 
