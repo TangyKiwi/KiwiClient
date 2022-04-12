@@ -13,6 +13,7 @@ import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,60 +52,32 @@ public class ActiveMods extends Module {
             int count = 0;
             ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods();
 
-            boolean changed = false;
             if(!firstDraw && enabledMods.size() > currModules.size()) {
-                for(int i = 0; i < currModules.size(); i++) {
-                    Module curMod = currModules.get(i);
-                    Module enaMod = enabledMods.get(i);
-                    if(!curMod.equals(enaMod)) {
-                        changed = true;
-                        if(disablingMods.containsKey(enaMod)) {
-                            enablingMods.put(enaMod, disablingMods.get(enaMod));
-                            disablingMods.remove(enaMod);
-                        }
-                        else {
-                            enablingMods.put(enaMod, -textRenderer.getStringWidth(enaMod.getName()));
-                        }
-                        break;
-                    }
-                }
-                if(!changed) {
-                    Module lastMod = enabledMods.get(currModules.size());
-                    if(disablingMods.containsKey(lastMod)) {
-                        enablingMods.put(lastMod, disablingMods.get(lastMod));
-                        disablingMods.remove(lastMod);
+                ArrayList<Module> difference = new ArrayList<>(enabledMods);
+                difference.removeAll(currModules);
+
+                for(Module m : difference) {
+                    if(disablingMods.containsKey(m)) {
+                        enablingMods.put(m, disablingMods.get(m));
+                        disablingMods.remove(m);
                     }
                     else {
-                        enablingMods.put(enabledMods.get(currModules.size()), -textRenderer.getStringWidth(enabledMods.get(currModules.size()).getName()));
+                        enablingMods.put(m, -textRenderer.getStringWidth(m.getName()));
                     }
                 }
             }
 
-            changed = false;
             if(enabledMods.size() < currModules.size()) {
-                for(int i = 0; i < enabledMods.size(); i++) {
-                    Module curMod = currModules.get(i);
-                    Module enaMod = enabledMods.get(i);
-                    if(!curMod.equals(enaMod)) {
-                        changed = true;
-                        if(enablingMods.containsKey(curMod)) {
-                            disablingMods.put(curMod, enablingMods.get(curMod));
-                            enablingMods.remove(curMod);
-                        }
-                        else {
-                            disablingMods.put(curMod, 0);
-                        }
-                        break;
-                    }
-                }
-                if(!changed) {
-                    Module lastMod = currModules.get(enabledMods.size());
-                    if(enablingMods.containsKey(lastMod)) {
-                        disablingMods.put(lastMod, enablingMods.get(lastMod));
-                        enablingMods.remove(lastMod);
+                ArrayList<Module> difference = new ArrayList<>(currModules);
+                difference.removeAll(enabledMods);
+
+                for(Module m : difference) {
+                    if(enablingMods.containsKey(m)) {
+                        disablingMods.put(m, enablingMods.get(m));
+                        enablingMods.remove(m);
                     }
                     else {
-                        disablingMods.put(currModules.get(enabledMods.size()), 0);
+                        disablingMods.put(m, 0);
                     }
                 }
             }
