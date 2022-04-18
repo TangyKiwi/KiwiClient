@@ -14,7 +14,7 @@ public class Cape extends Module {
 
     public Cape() {
         super("Cape", "Gives you a custom cape", KEY_UNBOUND, Category.OTHER,
-            new ModeSetting("Style", "Default", "Animated", "Gura").withDesc("Cape to display"),
+            new ModeSetting("Style", "Default", "Animated", "Gura", "AhriR34").withDesc("Cape to display"),
             new ToggleSetting("Glint", true).withDesc("Makes your cape enchanted"));
         super.toggle();
     }
@@ -24,8 +24,10 @@ public class Cape extends Module {
             return KiwiClient.CAPE;
         } else if (getSetting(0).asMode().mode == 1) {
             return getFrame();
+        } else if (getSetting(0).asMode().mode == 2) {
+            return KiwiClient.CAPE2;
         }
-        return KiwiClient.CAPE2;
+        return KiwiClient.CAPE3;
     }
 
     private Identifier getFrame() {

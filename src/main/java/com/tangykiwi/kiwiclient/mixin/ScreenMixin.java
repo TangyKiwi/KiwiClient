@@ -9,6 +9,7 @@ import com.tangykiwi.kiwiclient.modules.other.Background;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.SplashOverlay;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -69,7 +70,7 @@ public abstract class ScreenMixin {
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if(keyCode == GLFW.GLFW_KEY_SEMICOLON) {
+        if(keyCode == GLFW.GLFW_KEY_SEMICOLON && !(this.client.currentScreen instanceof ChatScreen)) {
             Utils.mc.setScreen(ClickGui.clickGui);
         }
     }
