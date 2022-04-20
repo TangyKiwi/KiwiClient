@@ -3,7 +3,7 @@ package com.tangykiwi.kiwiclient.modules;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.settings.BindSetting;
-import com.tangykiwi.kiwiclient.modules.settings.Settings;
+import com.tangykiwi.kiwiclient.modules.settings.Setting;
 import net.minecraft.client.MinecraftClient;
 
 import java.lang.reflect.Method;
@@ -20,7 +20,7 @@ public class Module {
     private String description;
     private int keyCode;
     private boolean enabled = false;
-    private List<Settings> settings = new ArrayList<>();
+    private List<Setting<?>> settings = new ArrayList<>();
 
     public Module(String name, String description, int keyCode, Category category) {
         this.name = name;
@@ -30,8 +30,7 @@ public class Module {
         this.settings.add(new BindSetting(this));
     }
 
-    public Module(String name, String description, int keyCode, Category category, Settings... s) {
-        // new Module(name, description, keyCode, category);
+    public Module(String name, String description, int keyCode, Category category, Setting<?>... s) {
         this.name = name;
         this.description = description;
         this.keyCode = keyCode;
@@ -102,22 +101,11 @@ public class Module {
 
     public void setToggled(boolean toggle) {enabled = toggle;}
 
-    public List<Settings> getSettings() {
+    public List<Setting<?>> getSettings() {
         return this.settings;
     }
 
-    public List<Settings> getToggledSettings() {
-        List<Settings> toggledSettings = new ArrayList<Settings>();
-        for(Settings s : settings) {
-            if(s.asToggle().state) {
-                toggledSettings.add(s);
-            }
-        }
-
-        return toggledSettings;
-    }
-
-    public Settings getSetting(int setting) {
+    public Setting getSetting(int setting) {
         return settings.get(setting);
     }
 }

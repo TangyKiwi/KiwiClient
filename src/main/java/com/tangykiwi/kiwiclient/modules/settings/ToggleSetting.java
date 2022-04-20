@@ -1,5 +1,7 @@
 package com.tangykiwi.kiwiclient.modules.settings;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.tangykiwi.kiwiclient.gui.clickgui.window.ModuleWindow;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
@@ -8,14 +10,14 @@ import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
 import org.apache.commons.lang3.tuple.Triple;
-import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
-public class ToggleSetting extends Settings {
+public class ToggleSetting extends Setting<Boolean> {
 
     public boolean state;
     public String text;
@@ -24,7 +26,7 @@ public class ToggleSetting extends Settings {
 
     protected boolean defaultState;
 
-    protected List<Settings> children = new ArrayList<>();
+    protected List<Setting> children = new ArrayList<>();
     protected boolean expanded = false;
 
     public ToggleSetting(String text, boolean state) {
@@ -32,6 +34,9 @@ public class ToggleSetting extends Settings {
         this.text = text;
 
         defaultState = state;
+
+        this.setDataValue(this.state);
+        this.setHandler(SettingDataHandler.BOOLEAN);
     }
 
     public String getName() {
@@ -57,7 +62,7 @@ public class ToggleSetting extends Settings {
                 DrawableHelper.fill(matrices, x + 2, y + 12, x + 3, y + getHeight(len) - 1, 0xff8070b0);
 
                 int h = y + 12;
-                for (Settings s : children) {
+                for (Setting s : children) {
                     s.render(window, matrices, x + 2, h, len - 2, index, max);
                     index++;
 
@@ -82,6 +87,7 @@ public class ToggleSetting extends Settings {
 
         if (window.mouseOver(x, y, x + len, y + 12) && window.lmDown) {
             state = !state;
+            this.setDataValue(state);
             MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
         }
 
@@ -93,7 +99,7 @@ public class ToggleSetting extends Settings {
 
         if (expanded) {
             h += 1;
-            for (Settings s : children)
+            for (Setting s : children)
                 h += s.getHeight(len - 2);
                 index++;
                 if(index == max) return h;
@@ -102,11 +108,11 @@ public class ToggleSetting extends Settings {
         return h;
     }
 
-    public Settings getChild(int c) {
+    public Setting getChild(int c) {
         return children.get(c);
     }
 
-    public ToggleSetting withChildren(Settings... children) {
+    public ToggleSetting withChildren(Setting... children) {
         this.children.addAll(Arrays.asList(children));
         return this;
     }
@@ -128,7 +134,7 @@ public class ToggleSetting extends Settings {
         Triple<Integer, Integer, String> triple = null;
 
         int h = y + 12;
-        for (Settings s : children) {
+        for (Setting s : children) {
             if (window.mouseOver(x + 2, h, x + len, h + s.getHeight(len))) {
                 triple = s.getGuiDesc(window, x + 2, h, len - 2);
             }
@@ -139,7 +145,7 @@ public class ToggleSetting extends Settings {
         return triple;
     }
 
-    public List<Settings> getChildren() {
+    public List<Setting> getChildren() {
         return children;
     }
 
@@ -148,4 +154,49 @@ public class ToggleSetting extends Settings {
     }
 
     public int getValue() { return this.value; }
+
+    @Override
+    public void read(JsonElement json) {
+        if (json.isJsonObject()) {
+            JsonObject jo = json.getAsJsonObject();
+            if (jo.has("toggled")) {
+                super.read(jo.get("toggled"));
+            }
+
+            for (Map.Entry<String, JsonElement> e : jo.get("children").getAsJsonObject().entrySet()) {
+                for (Setting<?> s : children) {
+                    if (s.getName().equals(e.getKey())) {
+                        s.read(e.getValue());
+                        break;
+                    }
+                }
+            }
+        } else {
+            super.read(json);
+        }
+    }
+
+    @Override
+    public JsonElement write() {
+        if (children.isEmpty()) {
+            return super.write();
+        }
+
+        JsonObject jo = new JsonObject();
+        jo.add("toggled", super.write());
+
+        JsonObject subJo = new JsonObject();
+        for (Setting<?> s : children) {
+            subJo.add(s.getName(), s.write());
+        }
+
+        jo.add("children", subJo);
+        return jo;
+    }
+
+    @Override
+    public void setDataValue(Boolean value) {
+        this.state = value;
+        super.setDataValue(value);
+    }
 }

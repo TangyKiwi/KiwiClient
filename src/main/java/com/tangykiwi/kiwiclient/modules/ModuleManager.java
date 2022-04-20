@@ -24,7 +24,7 @@ import java.util.Comparator;
 
 public class ModuleManager {
 
-    public static ArrayList<Module> moduleList = new ArrayList<Module>();
+    public ArrayList<Module> moduleList = new ArrayList<Module>();
     public static MinecraftClient mc = MinecraftClient.getInstance();
 
     public void init() {
@@ -97,7 +97,7 @@ public class ModuleManager {
         return enabledMods;
     }
 
-    public static Module getModule(Class<? extends Module> c) {
+    public Module getModule(Class<? extends Module> c) {
         for (Module m : moduleList) {
             if (m.getClass().equals(c)) {
                 return m;
@@ -115,7 +115,7 @@ public class ModuleManager {
         return null;
     }
 
-    public static ArrayList<Module> getModulesInCat(Category cat) {
+    public ArrayList<Module> getModulesInCat(Category cat) {
         ArrayList<Module> modulesInCat = new ArrayList<Module>();
         for(Module m : moduleList) {
             if(m.getCategory().equals(cat)) modulesInCat.add(m);
@@ -147,7 +147,7 @@ public class ModuleManager {
     }
 
     @Subscribe
-    public static void handleKeyPress(KeyPressEvent e) {
+    public void handleKeyPress(KeyPressEvent e) {
         if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) return;
 
         if(InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_COMMA)) {

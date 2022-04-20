@@ -16,7 +16,7 @@ import org.lwjgl.glfw.GLFW;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class SliderSetting extends Settings {
+public class SliderSetting extends Setting<Double> {
 
     public double min;
     public double max;
@@ -34,6 +34,9 @@ public class SliderSetting extends Settings {
         this.text = text;
 
         defaultValue = value;
+
+        this.setDataValue(value);
+        this.setHandler(SettingDataHandler.DOUBLE);
     }
 
     public double getValue() {
@@ -93,6 +96,8 @@ public class SliderSetting extends Settings {
                 setValue(MathHelper.clamp(getValue() + units * window.mwScroll, min, max));
                 MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
             }
+
+            this.setDataValue(value);
         }
 
         return index;
@@ -105,5 +110,14 @@ public class SliderSetting extends Settings {
 
     public int getHeight(int len) {
         return 12;
+    }
+
+    @Override
+    public void setDataValue(Double value) {
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(decimals, RoundingMode.HALF_UP);
+
+        this.value = bd.doubleValue();
+        super.setDataValue(bd.doubleValue());
     }
 }

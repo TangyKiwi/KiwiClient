@@ -6,7 +6,7 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
-import com.tangykiwi.kiwiclient.modules.settings.Settings;
+import com.tangykiwi.kiwiclient.modules.settings.Setting;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
 import com.tangykiwi.kiwiclient.util.ColorUtil;
 import com.tangykiwi.kiwiclient.util.TickRate;
@@ -55,7 +55,7 @@ public class HUD extends Module {
         if(!mc.options.debugEnabled) {
             GlyphPageFontRenderer textRenderer = IFont.CONSOLAS;
 
-            List<Settings> settings = getSettings();
+            List<Setting<?>> settings = getSettings();
             int counter = 0;
             for(int i = settings.size() - 3; i >= 0; i--) {
                 if(settings.get(i).asToggle().state) {

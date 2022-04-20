@@ -6,6 +6,7 @@ import com.tangykiwi.kiwiclient.modules.ModuleManager;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.modules.player.ArmorSwap;
 import com.tangykiwi.kiwiclient.util.*;
+import com.tangykiwi.kiwiclient.util.config.ConfigManager;
 import com.tangykiwi.kiwiclient.util.tooltip.EChestMemory;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -76,6 +77,10 @@ public class KiwiClient implements ModInitializer {
 		eventBus.register(moduleManager);
 
 		ClickGui.clickGui.initWindows();
+
+		ConfigManager.init();
+		ConfigManager.loadModules();
+		ConfigManager.loadClickGui();
 
 		FabricLoader.getInstance().getModContainer("kiwiclient").ifPresent(modContainer -> {
 			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("kiwiclient:kiwitweaks"), "resourcepacks/kiwitweaks", modContainer, true);

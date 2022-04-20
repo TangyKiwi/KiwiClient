@@ -4,6 +4,7 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.commands.Dupe;
 import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
 import com.tangykiwi.kiwiclient.gui.mainmenu.MainMenu;
+import com.tangykiwi.kiwiclient.util.config.ConfigManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -70,5 +71,7 @@ public class MinecraftClientMixin {
     @Inject(method = "stop", at = @At("HEAD"))
     public void shutdown(CallbackInfo info) {
         discordRPC.shutdown();
+        ConfigManager.saveModules();
+        ConfigManager.saveClickGui();
     }
 }

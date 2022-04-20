@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.modules.settings;
 
+import com.google.gson.JsonElement;
 import com.tangykiwi.kiwiclient.gui.clickgui.window.ModuleWindow;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
@@ -7,8 +8,9 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 
-public class ModeSetting extends Settings {
+public class ModeSetting extends Setting<Integer> {
     public String[] modes;
     public int mode;
     public String text;
@@ -16,6 +18,8 @@ public class ModeSetting extends Settings {
     public ModeSetting(String text, String... modes) {
         this.modes = modes;
         this.text = text;
+        this.setDataValue(0);
+        this.setHandler(SettingDataHandler.INTEGER);
     }
 
     public int getNextMode() {
@@ -43,6 +47,7 @@ public class ModeSetting extends Settings {
 
         if (window.mouseOver(x, y, x + len, y + 12) && window.lmDown) {
             mode = getNextMode();
+            this.setDataValue(mode);
             MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
         }
 
@@ -52,5 +57,14 @@ public class ModeSetting extends Settings {
     public ModeSetting withDesc(String desc) {
         description = desc;
         return this;
+    }
+
+    @Override
+    public void read(JsonElement json) {
+        Integer val = getHandler().readOrNull(json);
+        if (val != null) {
+            mode = MathHelper.clamp(val, 0, modes.length - 1);
+            super.setDataValue(mode);
+        }
     }
 }

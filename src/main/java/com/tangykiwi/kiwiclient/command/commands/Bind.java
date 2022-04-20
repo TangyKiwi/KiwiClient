@@ -87,6 +87,7 @@ public class Bind extends Command {
 
                 Module m = ModuleArgumentType.getModule(context, "module");
                 m.setKeyCode(key);
+                m.getSetting(m.getSettings().size() - 1).setDataValue(m.getKeyCode());
                 Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Bound " + m.getName() + " to " + keycode + " (KEY" + key + ")"));
                 return SINGLE_SUCCESS;
             }))

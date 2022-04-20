@@ -1,11 +1,15 @@
 package com.tangykiwi.kiwiclient.modules.settings;
 
+import com.google.gson.JsonElement;
 import com.tangykiwi.kiwiclient.gui.clickgui.window.ModuleWindow;
 import net.minecraft.client.util.math.MatrixStack;
 import org.apache.commons.lang3.tuple.Triple;
 
-public abstract class Settings {
-    
+public abstract class Setting<T> {
+
+    private T value;
+    private SettingDataHandler<T> handler;
+
     protected String description = "";
 
     public ModeSetting asMode() {
@@ -44,5 +48,31 @@ public abstract class Settings {
 
     public String getDesc() {
         return description;
+    }
+
+    public SettingDataHandler<T> getHandler() {
+        return this.handler;
+    }
+
+    public void setHandler(SettingDataHandler<T> handler) {
+        this.handler = handler;
+    }
+
+    public T getDataValue() {
+        return value;
+    }
+
+    public void setDataValue(T value) {
+        this.value = value;
+    }
+
+    public JsonElement write() {
+        return getHandler().write(getDataValue());
+    }
+
+    public void read(JsonElement json) {
+        T val = getHandler().readOrNull(json);
+        if (val != null)
+            setDataValue(val);
     }
 }

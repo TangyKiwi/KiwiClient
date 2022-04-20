@@ -1,11 +1,10 @@
 package com.tangykiwi.kiwiclient.gui.clickgui.window;
 
 import com.tangykiwi.kiwiclient.modules.Module;
-import com.tangykiwi.kiwiclient.modules.settings.Settings;
+import com.tangykiwi.kiwiclient.modules.settings.Setting;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import com.tangykiwi.kiwiclient.util.font.IFont;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.InputUtil;
@@ -128,7 +127,7 @@ public class ModuleWindow extends ClickGuiWindow {
 
 			// draw settings
 			if (m.getValue()) {
-				for (Settings s : m.getKey().getSettings()) {
+				for (Setting s : m.getKey().getSettings()) {
 					if(index >= start) {
 						index = s.render(this, matrices, x + 1, y + curY, len - 1, index, max);
 
@@ -178,7 +177,7 @@ public class ModuleWindow extends ClickGuiWindow {
 			lines++;
 
 			if (e.getValue()) {
-				for (Settings s : e.getKey().getSettings()) {
+				for (Setting s : e.getKey().getSettings()) {
 					lines++;
 					try {
 						if(s.asToggle().isExpanded()) {
@@ -209,7 +208,7 @@ public class ModuleWindow extends ClickGuiWindow {
 			}
 
 			if (e.getValue()) {
-				for (Settings s : e.getKey().getSettings()) {
+				for (Setting s : e.getKey().getSettings()) {
 					if (count >= start) {
 						h += s.getHeight(len);
 					}

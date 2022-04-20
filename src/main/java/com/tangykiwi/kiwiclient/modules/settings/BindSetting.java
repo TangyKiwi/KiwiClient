@@ -12,12 +12,14 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
 
-public class BindSetting extends Settings {
+public class BindSetting extends Setting<Integer> {
 
     private Module mod;
 
     public BindSetting(Module mod) {
         this.mod = mod;
+        this.setDataValue(mod.getKeyCode());
+        this.setHandler(SettingDataHandler.INTEGER);
     }
 
     public String getName() {
@@ -32,6 +34,7 @@ public class BindSetting extends Settings {
 
         if (window.keyDown >= 0 && window.keyDown != GLFW.GLFW_KEY_ESCAPE && window.mouseOver(x, y, x + len, y + 12)) {
             mod.setKeyCode(window.keyDown == GLFW.GLFW_KEY_DELETE ? Module.KEY_UNBOUND : window.keyDown);
+            this.setDataValue(mod.getKeyCode());
             MinecraftClient.getInstance().getSoundManager().play(
                 PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
         }
@@ -55,5 +58,11 @@ public class BindSetting extends Settings {
     @Override
     public int getHeight(int len) {
         return 12;
+    }
+
+    @Override
+    public void setDataValue(Integer value) {
+        this.mod.setKeyCode(value);
+        super.setDataValue(value);
     }
 }
