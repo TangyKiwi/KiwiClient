@@ -79,8 +79,8 @@ public class KiwiClient implements ModInitializer {
 		ClickGui.clickGui.initWindows();
 
 		ConfigManager.init();
-		ConfigManager.loadModules();
-		ConfigManager.loadClickGui();
+		ConfigManager.loadModules("default");
+		ConfigManager.loadClickGui("default");
 
 		FabricLoader.getInstance().getModContainer("kiwiclient").ifPresent(modContainer -> {
 			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("kiwiclient:kiwitweaks"), "resourcepacks/kiwitweaks", modContainer, true);

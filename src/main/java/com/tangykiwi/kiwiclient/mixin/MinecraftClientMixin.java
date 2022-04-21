@@ -69,7 +69,7 @@ public class MinecraftClientMixin {
     @Inject(method = "stop", at = @At("HEAD"))
     public void shutdown(CallbackInfo info) {
         discordRPC.shutdown();
-        ConfigManager.saveModules();
-        ConfigManager.saveClickGui();
+        ConfigManager.saveModules("default");
+        ConfigManager.saveClickGui("default");
     }
 }

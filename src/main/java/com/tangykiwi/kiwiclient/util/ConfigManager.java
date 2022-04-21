@@ -96,8 +96,8 @@ public class ConfigManager {
         }
     }
 
-    public static void loadModules() {
-        JsonObject jo = readJsonFile("modules.json");
+    public static void loadModules(String config) {
+        JsonObject jo = readJsonFile("modules_" + config +".json");
 
         if (jo == null)
             return;
@@ -146,7 +146,7 @@ public class ConfigManager {
         }
     }
 
-    public static void saveModules() {
+    public static void saveModules(String config) {
         JsonObject json = new JsonObject();
 
         for (Module mod : KiwiClient.moduleManager.moduleList) {
@@ -167,7 +167,7 @@ public class ConfigManager {
                 json.add(mod.getName(), modjson);
         }
 
-        setJsonFile("modules.json", json);
+        setJsonFile("modules_" + config + ".json", json);
     }
 
     private static Map<String, Setting<?>> getSettingMap(Collection<Setting<?>> settings) {
@@ -184,8 +184,8 @@ public class ConfigManager {
         return settingMap;
     }
 
-    public static void loadClickGui() {
-        JsonObject jo = readJsonFile("clickgui.json");
+    public static void loadClickGui(String config) {
+        JsonObject jo = readJsonFile("clickgui_" + config + ".json");
 
         if (jo == null)
             return;
@@ -213,7 +213,7 @@ public class ConfigManager {
         }
     }
 
-    public static void saveClickGui() {
+    public static void saveClickGui(String config) {
         JsonObject jo = new JsonObject();
 
         for (Window w : ClickGui.clickGui.getWindows()) {
@@ -228,7 +228,7 @@ public class ConfigManager {
             jo.add(w.title, jw);
         }
 
-        setJsonFile("clickgui.json", jo);
+        setJsonFile("clickgui_" + config + ".json", jo);
     }
 
     public static void setJsonFile(String path, JsonObject element) {
