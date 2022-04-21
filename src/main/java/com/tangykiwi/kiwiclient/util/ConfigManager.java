@@ -1,8 +1,6 @@
-package com.tangykiwi.kiwiclient.util.config;
+package com.tangykiwi.kiwiclient.util;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.*;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.clickgui.window.ClickGuiWindow;
 import com.tangykiwi.kiwiclient.gui.clickgui.window.Window;
@@ -20,6 +18,7 @@ import java.util.*;
 
 public class ConfigManager {
     private static Path dir;
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public static void init() {
         dir = Paths.get(MinecraftClient.getInstance().runDirectory.getPath(), "kiwiclient/");
@@ -98,7 +97,7 @@ public class ConfigManager {
     }
 
     public static void loadModules() {
-        JsonObject jo = JsonHelper.readJsonFile("modules.json");
+        JsonObject jo = readJsonFile("modules.json");
 
         if (jo == null)
             return;
@@ -168,7 +167,7 @@ public class ConfigManager {
                 json.add(mod.getName(), modjson);
         }
 
-        JsonHelper.setJsonFile("modules.json", json);
+        setJsonFile("modules.json", json);
     }
 
     private static Map<String, Setting<?>> getSettingMap(Collection<Setting<?>> settings) {
@@ -186,7 +185,7 @@ public class ConfigManager {
     }
 
     public static void loadClickGui() {
-        JsonObject jo = JsonHelper.readJsonFile("clickgui.json");
+        JsonObject jo = readJsonFile("clickgui.json");
 
         if (jo == null)
             return;
@@ -229,6 +228,27 @@ public class ConfigManager {
             jo.add(w.title, jw);
         }
 
-        JsonHelper.setJsonFile("clickgui.json", jo);
+        setJsonFile("clickgui.json", jo);
+    }
+
+    public static void setJsonFile(String path, JsonObject element) {
+        createEmptyFile(path);
+        appendFile(path, GSON.toJson(element));
+    }
+
+    public static JsonObject readJsonFile(String path) {
+        String content = readFile(path);
+
+        if (content.isEmpty())
+            return null;
+
+        try {
+            return JsonParser.parseString(content).getAsJsonObject();
+        } catch (JsonParseException | IllegalStateException e) {
+            System.out.println("Error trying to read json file \"" + path + "\", Deleting file!");
+
+            deleteFile(path);
+            return null;
+        }
     }
 }
