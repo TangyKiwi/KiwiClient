@@ -1,4 +1,4 @@
-package com.tangykiwi.kiwiclient.util;
+package com.tangykiwi.kiwiclient.util.cosmetics;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.mainmenu.MainMenu;

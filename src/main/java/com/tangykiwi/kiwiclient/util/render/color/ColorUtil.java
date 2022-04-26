@@ -1,4 +1,4 @@
-package com.tangykiwi.kiwiclient.util;
+package com.tangykiwi.kiwiclient.util.render.color;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.BufferBuilder;

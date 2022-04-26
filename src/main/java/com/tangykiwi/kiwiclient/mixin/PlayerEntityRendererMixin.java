@@ -1,10 +1,10 @@
 package com.tangykiwi.kiwiclient.mixin;
 
-import com.tangykiwi.kiwiclient.util.CapeRenderer;
-import com.tangykiwi.kiwiclient.util.Deadmau5EarsRenderer;
-import com.tangykiwi.kiwiclient.util.ElytraRenderer;
+import com.tangykiwi.kiwiclient.util.cosmetics.CapeRenderer;
+import com.tangykiwi.kiwiclient.util.cosmetics.Deadmau5EarsRenderer;
+import com.tangykiwi.kiwiclient.util.cosmetics.ElytraRenderer;
+import com.tangykiwi.kiwiclient.util.cosmetics.HumanoidItemLayer;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
@@ -15,8 +15,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.ListIterator;
 
 @Mixin(PlayerEntityRenderer.class)
 public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
@@ -34,11 +32,15 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
         this.addFeature(new Deadmau5EarsRenderer(this));
         this.addFeature(new ElytraRenderer(this, ctm.getModelLoader()));
 
-        this.features.removeIf((modelFeature) -> {
-            return modelFeature instanceof ElytraFeatureRenderer;
-        });
-        this.features.removeIf((modelFeature) -> {
-            return modelFeature instanceof CapeFeatureRenderer;
-        });
+        this.features.removeIf((modelFeature) -> modelFeature instanceof ElytraFeatureRenderer);
+        this.features.removeIf((modelFeature) -> modelFeature instanceof CapeFeatureRenderer);
     }
+
+//    @Inject(
+//            at = {@At("TAIL")},
+//            method = {"<init>"}
+//    )
+//    public void PlayerEntityRenderer(EntityRendererFactory.Context ctx, boolean slim, CallbackInfo ci) {
+//        this.addFeature(new HumanoidItemLayer(this));
+//    }
 }

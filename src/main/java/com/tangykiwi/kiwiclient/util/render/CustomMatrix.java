@@ -1,4 +1,4 @@
-package com.tangykiwi.kiwiclient.util;
+package com.tangykiwi.kiwiclient.util.render;
 
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Matrix4f;

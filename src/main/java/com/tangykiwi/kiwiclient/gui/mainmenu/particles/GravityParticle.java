@@ -1,6 +1,6 @@
 package com.tangykiwi.kiwiclient.gui.mainmenu.particles;
 
-import com.tangykiwi.kiwiclient.util.CustomColor;
+import com.tangykiwi.kiwiclient.util.render.color.CustomColor;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import net.minecraft.client.util.math.MatrixStack;
 

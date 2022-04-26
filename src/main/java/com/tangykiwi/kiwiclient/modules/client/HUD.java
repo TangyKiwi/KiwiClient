@@ -8,7 +8,7 @@ import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.Setting;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
-import com.tangykiwi.kiwiclient.util.ColorUtil;
+import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
 import com.tangykiwi.kiwiclient.util.TickRate;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import com.tangykiwi.kiwiclient.util.font.IFont;

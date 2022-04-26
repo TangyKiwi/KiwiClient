@@ -2,13 +2,12 @@ package com.tangykiwi.kiwiclient.gui.mainmenu;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.mainmenu.dummy.DummyClientPlayerEntity;
 import com.tangykiwi.kiwiclient.gui.mainmenu.particles.ParticleManager;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
-import com.tangykiwi.kiwiclient.util.ColorUtil;
+import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.SharedConstants;

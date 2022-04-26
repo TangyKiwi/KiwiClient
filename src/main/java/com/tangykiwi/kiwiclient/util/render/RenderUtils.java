@@ -1,9 +1,7 @@
 package com.tangykiwi.kiwiclient.util.render;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.tangykiwi.kiwiclient.util.ColorUtil;
-import com.tangykiwi.kiwiclient.util.CustomColor;
+import com.tangykiwi.kiwiclient.util.render.color.CustomColor;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import com.tangykiwi.kiwiclient.util.render.color.LineColor;
@@ -15,10 +13,8 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.*;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.logging.log4j.core.appender.rolling.action.IfNot;
 import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.Field;

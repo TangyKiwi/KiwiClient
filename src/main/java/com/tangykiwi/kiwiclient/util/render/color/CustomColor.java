@@ -1,5 +1,6 @@
-package com.tangykiwi.kiwiclient.util;
+package com.tangykiwi.kiwiclient.util.render.color;
 
+import com.tangykiwi.kiwiclient.util.ISerializable;
 import net.minecraft.nbt.NbtCompound;
 
 public class CustomColor implements ISerializable<CustomColor> {

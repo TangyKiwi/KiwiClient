@@ -1,8 +1,7 @@
 package com.tangykiwi.kiwiclient.gui.mainmenu;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.tangykiwi.kiwiclient.util.ColorUtil;
-import com.tangykiwi.kiwiclient.util.Utils;
+import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;

@@ -60,6 +60,7 @@ public class ModuleManager {
         moduleList.add(new Deadmau5Ears());
         moduleList.add(new LoadingScreen());
         moduleList.add(new MainMenu());
+        //moduleList.add(new WeaponMaster());
 
         //player
         moduleList.add(new AntiHunger());

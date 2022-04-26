@@ -1,4 +1,4 @@
-package com.tangykiwi.kiwiclient.util;
+package com.tangykiwi.kiwiclient.util.render;
 
 import org.lwjgl.opengl.GL11;
 
