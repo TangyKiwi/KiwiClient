@@ -49,6 +49,7 @@
     "ScreenMixin",
     "ShaderMixin",
     "ShulkerBoxBlockMixin",
+    "SodiumBlockOcclusionCacheMixin",
     "SplashScreenMixin",
     "TitleScreenMixin",
     "TntEntityRendererMixin",
