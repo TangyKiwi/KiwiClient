@@ -42,7 +42,7 @@ public class GuiButton {
             index--;
         }
 
-        IFont.CONSOLAS.drawCenteredString(matrixStack, buttonText, x, (int) (y + getPosition(index)) + 55, hovered ? ColorUtil.getRainbow(3, 0.8f, 1) : -1);
+        IFont.CONSOLAS.drawCenteredString(matrixStack, buttonText, x, (int) (y + getPosition(index)) + 55, hovered ? ColorUtil.getRainbow(3, 0.8f, 1) : -1, 1);
 
         RenderSystem.enableBlend();
         RenderSystem.setShaderTexture(0, icon);

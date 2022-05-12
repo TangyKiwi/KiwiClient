@@ -106,7 +106,7 @@ public class ActiveMods extends Module {
                     int displace = enablingMods.get(m);
                     DrawableHelper.fill(e.getMatrix(), textRenderer.getStringWidth(m.getName()) + 3 + displace, 62 + offset, textRenderer.getStringWidth(m.getName()) + 5 + displace, 62 + 8 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
                     DrawableHelper.fill(e.getMatrix(), displace, 62 + offset, textRenderer.getStringWidth(m.getName()) + 3 + displace, 62 + 8 + offset, 0x90000000);
-                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2 + displace, 62.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2 + displace, 62.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 1);
                     if(displace + 1 >= 0) {
                         enablingMods.remove(m);
                     }
@@ -118,7 +118,7 @@ public class ActiveMods extends Module {
                     int displace = disablingMods.get(m);
                     DrawableHelper.fill(e.getMatrix(), textRenderer.getStringWidth(m.getName()) + 3 + displace, 62 + offset, textRenderer.getStringWidth(m.getName()) + 5 + displace, 62 + 8 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
                     DrawableHelper.fill(e.getMatrix(), displace, 62 + offset, textRenderer.getStringWidth(m.getName()) + 3 + displace, 62 + 8 + offset, 0x90000000);
-                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2 + displace, 62.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2 + displace, 62.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 1);
                     if(displace - 2 <= -textRenderer.getStringWidth(m.getName())) {
                         disablingMods.remove(m);
                     }
@@ -129,7 +129,7 @@ public class ActiveMods extends Module {
                 else{
                     DrawableHelper.fill(e.getMatrix(), textRenderer.getStringWidth(m.getName()) + 3, 62 + offset, textRenderer.getStringWidth(m.getName()) + 5, 62 + 8 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
                     DrawableHelper.fill(e.getMatrix(), 0, 62 + offset, textRenderer.getStringWidth(m.getName()) + 3, 62 + 8 + offset, 0x90000000);
-                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2, 62.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2, 62.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 1);
                 }
 
                 count++;

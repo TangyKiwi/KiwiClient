@@ -81,7 +81,7 @@ public class SliderSetting extends Setting<Double> {
 
         IFont.CONSOLAS.drawStringWithShadow(matrices,
                 text + ": " + (decimals == 0 ? Integer.toString((int) getValue()) : getValue()),
-                x + 3, y + 2, 0xcfe0cf);
+                x + 3, y + 2, 0xcfe0cf, 1);
 
         if (window.mouseOver(x + 1, y, x + len, y + 12)) {
             if (window.lmHeld) {

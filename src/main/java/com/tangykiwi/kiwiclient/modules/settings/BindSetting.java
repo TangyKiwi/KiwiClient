@@ -45,7 +45,7 @@ public class BindSetting extends Setting<Integer> {
         else if (name.isEmpty())
             name = "NONE";
 
-        IFont.CONSOLAS.drawStringWithShadow(matrices, "Bind: " + name + (window.mouseOver(x, y, x + len, y + 12) ? "..." : ""), x + 3, y + 2, 0xcfe0cf);
+        IFont.CONSOLAS.drawStringWithShadow(matrices, "Bind: " + name + (window.mouseOver(x, y, x + len, y + 12) ? "..." : ""), x + 3, y + 2, 0xcfe0cf, 1);
 
         return index;
     }

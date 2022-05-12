@@ -43,7 +43,7 @@ public class ModeSetting extends Setting<Integer> {
             DrawableHelper.fill(matrices, x + 1, y, x + len, y + 12, 0x70303070);
         }
 
-        IFont.CONSOLAS.drawStringWithShadow(matrices, text + ": " + modes[mode], x + 3, y + 2, 0xcfe0cf);
+        IFont.CONSOLAS.drawStringWithShadow(matrices, text + ": " + modes[mode], x + 3, y + 2, 0xcfe0cf, 1);
 
         if (window.mouseOver(x, y, x + len, y + 12) && window.lmDown) {
             mode = getNextMode();

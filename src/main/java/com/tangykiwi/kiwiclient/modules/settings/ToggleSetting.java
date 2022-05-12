@@ -75,15 +75,15 @@ public class ToggleSetting extends Setting<Boolean> {
             if (expanded) {
                 IFont.CONSOLAS.drawString(matrices,
                         color2 + "v",
-                        x + len - 8, y + 2, -1);
+                        x + len - 8, y + 2, -1, 1);
             } else {
                 IFont.CONSOLAS.drawStringWithShadow(matrices,
                         color2 + "\u00a7l>",
-                        x + len - 8, y + 2, -1);
+                        x + len - 8, y + 2, -1, 1);
             }
         }
 
-        IFont.CONSOLAS.drawStringWithShadow(matrices, color2 + text, x + 3, y + 2, 0xffffff);
+        IFont.CONSOLAS.drawStringWithShadow(matrices, color2 + text, x + 3, y + 2, 0xffffff, 1);
 
         if (window.mouseOver(x, y, x + len, y + 12) && window.lmDown) {
             state = !state;

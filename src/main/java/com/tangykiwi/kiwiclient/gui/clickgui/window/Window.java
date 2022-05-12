@@ -90,7 +90,7 @@ public class Window {
 			RenderSystem.applyModelViewMatrix();
 		}
 
-		textRend.drawStringWithShadow(matrices, title, x1 + (icon == null || icon.getItem() == Items.AIR ? 4 : (blockItem ? 15 : 14)), y1 + 3, -1);
+		textRend.drawStringWithShadow(matrices, title, x1 + (icon == null || icon.getItem() == Items.AIR ? 4 : (blockItem ? 15 : 14)), y1 + 3, -1, 1);
 	}
 
 	protected void drawBar(MatrixStack matrices, int mouseX, int mouseY, GlyphPageFontRenderer textRend) {
@@ -107,12 +107,12 @@ public class Window {
 
 		/* buttons */
 		//fillGrey(matrix, x2 - 12, y1 + 3, x2 - 4, y1 + 11);
-		textRend.drawString(matrices, "x", x2 - 10, y1 + 3, 0);
-		textRend.drawString(matrices, "x", x2 - 11, y1 + 2, -1);
+		textRend.drawString(matrices, "x", x2 - 10, y1 + 3, 0, 1);
+		textRend.drawString(matrices, "x", x2 - 11, y1 + 2, -1, 1);
 
 		//fillGrey(matrix, x2 - 22, y1 + 3, x2 - 14, y1 + 11);
-		textRend.drawString(matrices, "_", x2 - 21, y1 + 2, 0);
-		textRend.drawString(matrices, "_", x2 - 22, y1 + 1, -1);
+		textRend.drawString(matrices, "_", x2 - 21, y1 + 2, 0, 1);
+		textRend.drawString(matrices, "_", x2 - 22, y1 + 1, -1, 1);
 	}
 
 	public boolean shouldClose(int mouseX, int mouseY) {

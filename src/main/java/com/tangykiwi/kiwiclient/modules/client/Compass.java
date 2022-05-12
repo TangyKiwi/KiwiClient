@@ -88,16 +88,16 @@ public class Compass extends Module {
             String print = opacity == 0 ? "" : d.text;
 
             if(d.type == 1 && opacity != 16777215){
-                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 100, opacity);
+                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 100, opacity, 1);
             }
 
             if(d.type == 2 && opacity != 16777215){
                 DrawableHelper.fill(e.getMatrix(), (int) (location - 1), -90 + 100 + 4, (int) (location + 1), -90 + 105 + 4, opacity);
-                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 105 + 3.5f + 4, opacity);
+                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 105 + 3.5f + 4, opacity, 1);
             }
 
             if(d.type == 3 && opacity != 16777215){
-                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 100 + IFont.CONSOLAS.getFontHeight()/2 - IFont.CONSOLAS.getFontHeight()/2, opacity);
+                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 100 + IFont.CONSOLAS.getFontHeight()/2 - IFont.CONSOLAS.getFontHeight()/2, opacity, 1);
             }
 
             count++;
@@ -111,16 +111,16 @@ public class Compass extends Module {
             String print = opacity == 0 ? "" : d.text;
 
             if(d.type == 1){
-                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 100, opacity);
+                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 100, opacity, 1);
             }
 
             if(d.type == 2){
                 DrawableHelper.fill(e.getMatrix(), (int) (location - 1), -90 + 100 + 4, (int) (location + 1), -90 + 105 + 4, opacity);
-                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 105 + 3.5f + 4, opacity);
+                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 105 + 3.5f + 4, opacity, 1);
             }
 
             if(d.type == 3){
-                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 100 + IFont.CONSOLAS.getFontHeight()/2 - IFont.CONSOLAS.getFontHeight()/2, opacity);
+                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 100 + IFont.CONSOLAS.getFontHeight()/2 - IFont.CONSOLAS.getFontHeight()/2, opacity, 1);
             }
 
             count++;
@@ -134,16 +134,16 @@ public class Compass extends Module {
             String print = opacity == 0 ? "" : d.text;
 
             if(d.type == 1){
-                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 100, opacity);
+                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 100, opacity, 1);
             }
 
             if(d.type == 2){
                 DrawableHelper.fill(e.getMatrix(), (int) (location - 1), -90 + 100 + 4, (int) (location + 1), -90 + 105 + 4, opacity);
-                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 105 + 3.5f + 4, opacity);
+                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 105 + 3.5f + 4, opacity, 1);
             }
 
             if(d.type == 3){
-                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 100 + IFont.CONSOLAS.getFontHeight()/2 - IFont.CONSOLAS.getFontHeight()/2, opacity);
+                IFont.CONSOLAS.drawString(e.getMatrix(), print, completeLocation, -90 + 100 + IFont.CONSOLAS.getFontHeight()/2 - IFont.CONSOLAS.getFontHeight()/2, opacity, 1);
             }
 
             count++;

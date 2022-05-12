@@ -197,42 +197,42 @@ public class GlyphPageFontRenderer {
         return new GlyphPageFontRenderer(regularPage, boldPage, italicPage, boldItalicPage);
     }
 
-    public int drawStringWithShadow(MatrixStack matrices, String text, float x, float y, int color) {
-        return drawString(matrices, text, x, y, color, true);
+    public int drawStringWithShadow(MatrixStack matrices, String text, float x, float y, int color, float scale) {
+        return drawString(matrices, text, x, y, color, true, scale);
     }
 
-    public int drawStringWithShadow(MatrixStack matrices, String text, double x, double y, int color) {
-        return drawString(matrices, text, (float) x, (float) y, color, true);
+    public int drawStringWithShadow(MatrixStack matrices, String text, double x, double y, int color, float scale) {
+        return drawString(matrices, text, (float) x, (float) y, color, true, scale);
     }
 
-    public int drawString(MatrixStack matrices, String text, float x, float y, int color) {
-        return drawString(matrices, text, x, y, color, false);
+    public int drawString(MatrixStack matrices, String text, float x, float y, int color, float scale) {
+        return drawString(matrices, text, x, y, color, false, scale);
     }
 
-    public int drawString(MatrixStack matrices, String text, double x, double y, int color) {
-        return drawString(matrices, text, (float) x, (float) y, color, false);
+    public int drawString(MatrixStack matrices, String text, double x, double y, int color, float scale) {
+        return drawString(matrices, text, (float) x, (float) y, color, false, scale);
     }
 
-    public int drawCenteredString(MatrixStack matrices, String text, double x, double y, int color) {
-        return drawString(matrices, text, (float) x - getStringWidth(text) / 2, (float) y, color, false);
+    public int drawCenteredString(MatrixStack matrices, String text, double x, double y, int color, float scale) {
+        return drawString(matrices, text, (float) x - getStringWidth(text) / 2, (float) y, color, false, scale);
     }
 
-    public int drawCenteredStringWidthShadow(MatrixStack matrices, String text, double x, double y, int color) {
-        return drawString(matrices, text, (float) x - getStringWidth(text) / 2, (float) y, color, true);
+    public int drawCenteredStringWidthShadow(MatrixStack matrices, String text, double x, double y, int color, float scale) {
+        return drawString(matrices, text, (float) x - getStringWidth(text) / 2, (float) y, color, true, scale);
     }
 
     /**
      * Draws the specified string.
      */
-    public int drawString(MatrixStack matrices, String text, float x, float y, int color, boolean dropShadow) {
+    public int drawString(MatrixStack matrices, String text, float x, float y, int color, boolean dropShadow, float scale) {
         this.resetStyles();
         int i;
 
         if (dropShadow) {
-            i = this.renderString(matrices, text, x + 1.0F, y + 1.0F, color, true);
-            i = Math.max(i, this.renderString(matrices, text, x, y, color, false));
+            i = this.renderString(matrices, text, x + 1.0F, y + 1.0F, color, true, scale);
+            i = Math.max(i, this.renderString(matrices, text, x, y, color, false, scale));
         } else {
-            i = this.renderString(matrices, text, x, y, color, false);
+            i = this.renderString(matrices, text, x, y, color, false, scale);
         }
 
         return i;
@@ -242,7 +242,7 @@ public class GlyphPageFontRenderer {
      * Render single line string by setting GL color, current (posX,posY), and
      * calling renderStringAtPos()
      */
-    private int renderString(MatrixStack matrices, String text, float x, float y, int color, boolean dropShadow) {
+    private int renderString(MatrixStack matrices, String text, float x, float y, int color, boolean dropShadow, float scale) {
         if (text == null) {
             return 0;
         } else {
@@ -256,7 +256,7 @@ public class GlyphPageFontRenderer {
             }
             this.posX = x * 2.0f;
             this.posY = y * 2.0f;
-            this.renderStringAtPos(matrices, text, dropShadow, color);
+            this.renderStringAtPos(matrices, text, dropShadow, color, scale);
             return (int) (this.posX / 4.0f);
         }
     }
@@ -264,7 +264,7 @@ public class GlyphPageFontRenderer {
     /**
      * Render a single line string at the current (posX,posY) and update posX
      */
-    private void renderStringAtPos(MatrixStack matrices, String text, boolean shadow, int color) {
+    private void renderStringAtPos(MatrixStack matrices, String text, boolean shadow, int color, float scale) {
         GlyphPage glyphPage = getCurrentGlyphPage();
         float alpha = (float) (color >> 24 & 255) / 255.0F;
 
@@ -277,7 +277,9 @@ public class GlyphPageFontRenderer {
 
         matrices.push();
 
-        matrices.scale(0.5F, 0.5F, 0.5F);
+        matrices.scale(0.5F * scale, 0.5F * scale, 0.5F * scale);
+        posX *= 1 / scale;
+        posY *= 1 / scale;
 
         GlStateManager._enableBlend();
         GlStateManager._blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

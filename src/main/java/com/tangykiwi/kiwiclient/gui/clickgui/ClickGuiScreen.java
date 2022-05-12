@@ -78,7 +78,7 @@ public abstract class ClickGuiScreen extends WindowScreen {
 										tooltip.getLeft() + IFont.CONSOLAS.getStringWidth(lines.get(l)) + 5,
 										start + (l * 10) + 9, 0xff000000);
 
-								IFont.CONSOLAS.drawStringWithShadow(matrices, lines.get(l), tooltip.getLeft() + 2, start + (l * 10), -1);
+								IFont.CONSOLAS.drawStringWithShadow(matrices, lines.get(l), tooltip.getLeft() + 2, start + (l * 10), -1, 1);
 							}
 						}
 

@@ -46,8 +46,8 @@ public abstract class ClickGuiWindow extends Window {
 		horizontalGradient(matrices, x1 + 1, y1 + 1, x2 - 1, y1 + 12, 0xff6060b0, 0xff8070b0);
 
 		/* +/- text */
-		textRend.drawString(matrices, hiding ? "+" : "_", x2 - 10, y1 + (hiding ? 4 : 2), 0x000000);
-		textRend.drawString(matrices, hiding ? "+" : "_", x2 - 11, y1 + (hiding ? 3 : 1), 0xffffff);
+		textRend.drawString(matrices, hiding ? "+" : "_", x2 - 10, y1 + (hiding ? 4 : 2), 0x000000, 1);
+		textRend.drawString(matrices, hiding ? "+" : "_", x2 - 11, y1 + (hiding ? 3 : 1), 0xffffff, 1);
 	}
 
 	public void render(MatrixStack matrices, int mouseX, int mouseY) {

@@ -89,18 +89,18 @@ public class ModuleWindow extends ClickGuiWindow {
 				}
 
 				textRend.drawStringWithShadow(matrices, textRend.trimStringToWidth(m.getKey().getName(), len),
-						x + 2, y + 2 + curY, m.getKey().isEnabled() ? 0x70efe0 : 0xc0c0c0);
+						x + 2, y + 2 + curY, m.getKey().isEnabled() ? 0x70efe0 : 0xc0c0c0, 1);
 
 				String color2 = m.getValue() ? "\u00a7a" : "\u00a7c";
 				if(!m.getKey().getSettings().isEmpty()) {
 					if (m.getValue()) {
 						IFont.CONSOLAS.drawString(matrices,
 								color2 + "v",
-								x + len - 8, y + 2 + curY, -1);
+								x + len - 8, y + 2 + curY, -1, 1);
 					} else if (m.getKey().getSettings().size() > 1){
 						IFont.CONSOLAS.drawStringWithShadow(matrices,
 								color2 + "\u00a7l>",
-								x + len - 8, y + 2 + curY, -1);
+								x + len - 8, y + 2 + curY, -1, 1);
 					}
 				}
 

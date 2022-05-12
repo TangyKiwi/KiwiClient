@@ -242,7 +242,7 @@ public class RenderUtils {
 		if(shadow) {
 			matrices.push();
 			matrices.translate(1, 1, 0);
-			IFont.CONSOLAS.drawString(matrices, text, -halfWidth, 0f, 0x202020);
+			IFont.CONSOLAS.drawString(matrices, text, -halfWidth, 0f, 0x202020, 1);
 			immediate.draw();
 			matrices.pop();
 		}
@@ -254,7 +254,7 @@ public class RenderUtils {
 			int xF = -IFont.CONSOLAS.getStringWidth(text) / 2;
 			DrawableHelper.fill(matrices, xF - 1, -2, IFont.CONSOLAS.getStringWidth(text) / 2 + 3, IFont.CONSOLAS.getFontHeight() + 1, backgroundColor);
 		}
-		IFont.CONSOLAS.drawString(matrices, text, -halfWidth, 0f, color);
+		IFont.CONSOLAS.drawString(matrices, text, -halfWidth, 0f, color, 1);
 		immediate.draw();
 
 		RenderSystem.disableBlend();
@@ -298,7 +298,7 @@ public class RenderUtils {
 		m.push();
 		m.scale(size, size, 1);
 		if(color != CustomColor.fromRGBA(255, 255, 255, 0)) {
-			IFont.CONSOLAS.drawString(m, ".", x, y, color);
+			IFont.CONSOLAS.drawString(m, ".", x, y, color, 1);
 		}
 		m.pop();
 	}

@@ -60,7 +60,7 @@ public class HUD extends Module {
             for(int i = settings.size() - 3; i >= 0; i--) {
                 if(settings.get(i).asToggle().state) {
                     counter++;
-                    drawSetting(textRenderer, e.getMatrix(), settings.get(i).asToggle().getValue(), (counter) * 8 + 2);
+                    drawSetting(textRenderer, e.getMatrix(), settings.get(i).asToggle().getValue(), (counter) * 6 + 2);
                 }
             }
 
@@ -116,16 +116,16 @@ public class HUD extends Module {
         switch(i) {
             case 0:
                 this.fps = (mc.fpsDebugString.equals("")) ? 0 : Integer.parseInt(mc.fpsDebugString.replaceAll("[^\\d]", " ").trim().replaceAll(" +", " ").split(" ")[0]);
-                textRenderer.drawString(m, String.format("FPS: %d", fps), 0.3, mc.getWindow().getScaledHeight() - offset, ColorUtil.getColorString(fps, 80, 60, 30, 15, 10, false));
+                textRenderer.drawString(m, String.format("FPS: %d", fps), 0.3, mc.getWindow().getScaledHeight() - offset, ColorUtil.getColorString(fps, 80, 60, 30, 15, 10, false), 0.75F);
                 break;
             case 1:
                 PlayerListEntry playerEntry = mc.player.networkHandler.getPlayerListEntry(mc.player.getGameProfile().getId());
                 this.ping = playerEntry == null ? 0 : playerEntry.getLatency();
-                textRenderer.drawString(m, String.format("Ping: %d", ping), 0.3, mc.getWindow().getScaledHeight() - offset, ColorUtil.getColorString(ping, 10, 20, 50, 75, 100, true));
+                textRenderer.drawString(m, String.format("Ping: %d", ping), 0.3, mc.getWindow().getScaledHeight() - offset, ColorUtil.getColorString(ping, 10, 20, 50, 75, 100, true), 0.75F);
                 break;
             case 2:
                 this.tps = TickRate.getTickRate();
-                textRenderer.drawString(m, "TPS: " + String.format("%.1f", tps), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
+                textRenderer.drawString(m, "TPS: " + String.format("%.1f", tps), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00, 0.75F);
                 break;
             case 3:
                 this.ip = "IP: Singleplayer";
@@ -135,14 +135,14 @@ public class HUD extends Module {
                     }
                     else this.ip = "IP: " + mc.getCurrentServerEntry().address;
                 }
-                textRenderer.drawString(m, ip, 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
+                textRenderer.drawString(m, ip, 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00, 0.75F);
                 break;
             case 4:
                 String biome = "";
                 Identifier id = mc.world.getRegistryManager().get(Registry.BIOME_KEY).getId(mc.world.getBiome(new BlockPos.Mutable().set(mc.player.getX(), mc.player.getY(), mc.player.getZ())).value());
                 if (id == null) biome = "Unknown";
                 else biome = Arrays.stream(id.getPath().split("_")).map(StringUtils::capitalize).collect(Collectors.joining(" "));
-                textRenderer.drawString(m, "Biome: " + biome, 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
+                textRenderer.drawString(m, "Biome: " + biome, 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00, 0.75F);
                 break;
             case 5:
                 double tX = Math.abs(mc.player.getX() - mc.player.prevX);
@@ -150,7 +150,7 @@ public class HUD extends Module {
                 double length = Math.sqrt(tX * tX + tZ * tZ);
 
                 this.bps = length * 20;
-                textRenderer.drawString(m, String.format("Speed: %.1f b/s", bps), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
+                textRenderer.drawString(m, String.format("Speed: %.1f b/s", bps), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00, 0.75F);
                 break;
             case 6:
                 Vec3d vec = mc.player.getPos();
@@ -166,7 +166,7 @@ public class HUD extends Module {
                 else if(yaw >= -157.5) dir = "NE +X, -Z";
                 else dir = "N -Z";
 
-                textRenderer.drawString(m, String.format("X: %.1f Y: %.1f Z: %.1f " + dir, vec.x, vec.y, vec.z), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
+                textRenderer.drawString(m, String.format("X: %.1f Y: %.1f Z: %.1f " + dir, vec.x, vec.y, vec.z), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00, 0.75F);
                 break;
             case 7:
                 Boolean nether = mc.world.getRegistryKey().getValue().getPath().contains("nether");
@@ -178,8 +178,8 @@ public class HUD extends Module {
                     altx = vec2.x * 8;
                     altz = vec2.z * 8;
                 }
-                if (nether) textRenderer.drawString(m, String.format("(Overworld) X: %.1f Y: %.1f Z: %.1f", altx, vec2.y, altz), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
-                else textRenderer.drawString(m, String.format("(Nether) X: %.1f Y: %.1f Z: %.1f", altx, vec2.y, altz), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00);
+                if (nether) textRenderer.drawString(m, String.format("(Overworld) X: %.1f Y: %.1f Z: %.1f", altx, vec2.y, altz), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00, 0.75F);
+                else textRenderer.drawString(m, String.format("(Nether) X: %.1f Y: %.1f Z: %.1f", altx, vec2.y, altz), 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00, 0.75F);
                 break;
         }
     }
