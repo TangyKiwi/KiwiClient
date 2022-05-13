@@ -32,20 +32,6 @@ public class ActiveMods extends Module {
         if(!mc.options.debugEnabled) {
             GlyphPageFontRenderer textRenderer = IFont.CONSOLAS;
 
-            //TextRenderer textRenderer = mc.textRenderer;
-
-//            DrawableHelper.fill(e.getMatrix(), 0, 60, textRenderer.getWidth(enabledMods.get(0).getName()) + 5, 62, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-//            for (Module m : enabledMods) {
-//
-//                int offset = count * (textRenderer.fontHeight + 1);
-//
-//                DrawableHelper.fill(e.getMatrix(), textRenderer.getWidth(m.getName()) + 3, 62 + offset, textRenderer.getWidth(m.getName()) + 5, 63 + textRenderer.fontHeight + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-//                DrawableHelper.fill(e.getMatrix(), 0, 62 + offset, textRenderer.getWidth(m.getName()) + 3, 63 + textRenderer.fontHeight + offset, 0x90000000);
-//                textRenderer.draw(e.getMatrix(), m.getName(), 2, 63 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-//
-//                count++;
-//            }
-
             int count = 0;
             ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods();
 
@@ -59,7 +45,7 @@ public class ActiveMods extends Module {
                         disablingMods.remove(m);
                     }
                     else {
-                        enablingMods.put(m, -textRenderer.getStringWidth(m.getName()));
+                        enablingMods.put(m, -textRenderer.getStringWidth(m.getName()) * 3 / 4);
                     }
                 }
             }
@@ -88,25 +74,25 @@ public class ActiveMods extends Module {
             Module firstMod = display.get(0);
             if(!firstDraw && enablingMods.containsKey(firstMod)) {
                 int displace = enablingMods.get(firstMod);
-                DrawableHelper.fill(e.getMatrix(), displace, 60, textRenderer.getStringWidth(firstMod.getName()) + 5 + displace, 62, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                DrawableHelper.fill(e.getMatrix(), displace, 60, (textRenderer.getStringWidth(firstMod.getName()) + 3) * 3 / 4 + 1 +displace, 61, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
             }
             else if(disablingMods.containsKey(firstMod)) {
                 int displace = disablingMods.get(firstMod);
-                DrawableHelper.fill(e.getMatrix(), displace, 60, textRenderer.getStringWidth(firstMod.getName()) + 5 + displace, 62, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                DrawableHelper.fill(e.getMatrix(), displace, 60, (textRenderer.getStringWidth(firstMod.getName()) + 3) * 3 / 4 + 1 + displace, 61, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
             }
             else {
-                DrawableHelper.fill(e.getMatrix(), 0, 60, textRenderer.getStringWidth(firstMod.getName()) + 5, 62, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                DrawableHelper.fill(e.getMatrix(), 0, 60, (textRenderer.getStringWidth(firstMod.getName()) + 3) * 3 / 4 + 1, 61, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
             }
 
             for (Module m : display) {
 
-                int offset = count * 8;
+                int offset = count * 6;
 
                 if(!firstDraw && enablingMods.containsKey(m)) {
                     int displace = enablingMods.get(m);
-                    DrawableHelper.fill(e.getMatrix(), textRenderer.getStringWidth(m.getName()) + 3 + displace, 62 + offset, textRenderer.getStringWidth(m.getName()) + 5 + displace, 62 + 8 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-                    DrawableHelper.fill(e.getMatrix(), displace, 62 + offset, textRenderer.getStringWidth(m.getName()) + 3 + displace, 62 + 8 + offset, 0x90000000);
-                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2 + displace, 62.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 1);
+                    DrawableHelper.fill(e.getMatrix(), (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + 1 + displace, 61 + 8 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                    DrawableHelper.fill(e.getMatrix(), displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + 8 + offset, 0x90000000);
+                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2 + displace, 61.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 0.75F);
                     if(displace + 1 >= 0) {
                         enablingMods.remove(m);
                     }
@@ -116,9 +102,9 @@ public class ActiveMods extends Module {
                 }
                 else if(disablingMods.containsKey(m)) {
                     int displace = disablingMods.get(m);
-                    DrawableHelper.fill(e.getMatrix(), textRenderer.getStringWidth(m.getName()) + 3 + displace, 62 + offset, textRenderer.getStringWidth(m.getName()) + 5 + displace, 62 + 8 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-                    DrawableHelper.fill(e.getMatrix(), displace, 62 + offset, textRenderer.getStringWidth(m.getName()) + 3 + displace, 62 + 8 + offset, 0x90000000);
-                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2 + displace, 62.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 1);
+                    DrawableHelper.fill(e.getMatrix(), (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + 1 + displace, 61 + 6 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                    DrawableHelper.fill(e.getMatrix(), displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + 6 + offset, 0x90000000);
+                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2 + displace, 61.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 0.75F);
                     if(displace - 2 <= -textRenderer.getStringWidth(m.getName())) {
                         disablingMods.remove(m);
                     }
@@ -127,9 +113,9 @@ public class ActiveMods extends Module {
                     }
                 }
                 else{
-                    DrawableHelper.fill(e.getMatrix(), textRenderer.getStringWidth(m.getName()) + 3, 62 + offset, textRenderer.getStringWidth(m.getName()) + 5, 62 + 8 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-                    DrawableHelper.fill(e.getMatrix(), 0, 62 + offset, textRenderer.getStringWidth(m.getName()) + 3, 62 + 8 + offset, 0x90000000);
-                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2, 62.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 1);
+                    DrawableHelper.fill(e.getMatrix(), (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + 1, 61 + 6 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                    DrawableHelper.fill(e.getMatrix(), 0, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4, 61 + 6 + offset, 0x90000000);
+                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2, 61.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 0.75F);
                 }
 
                 count++;
