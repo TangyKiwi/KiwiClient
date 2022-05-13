@@ -64,25 +64,25 @@ public abstract class ClickGuiScreen extends WindowScreen {
 						if (lines.isEmpty())
 							lines.add(s);
 
-						int start = tooltipY - lines.size() * 10;
+						int start = tooltipY + 1;
 						for (int l = 0; l < lines.size(); l++) {
 							if(lines.get(l).equals("ᴍᴀᴋᴇꜱ ʏᴏᴜʀ ᴍᴇꜱꜱᴀɢᴇꜱ ғᴀɴᴄʏ!")) {
 								fill(matrices, tooltip.getLeft(), start + (l * 10) - 1,
 										tooltip.getLeft() + textRenderer.getWidth(lines.get(l)) + 3,
-										start + (l * 10) + 9, 0xff000000);
+										start + (l * 10) + 11, 0xff000000);
 
-								textRenderer.drawWithShadow(matrices, lines.get(l), tooltip.getLeft() + 2, start + (l * 10), -1);
+								textRenderer.draw(matrices, lines.get(l), tooltip.getLeft() + 2, start + (l * 10) + 1, -1);
 							}
 							else {
 								fill(matrices, tooltip.getLeft(), start + (l * 10) - 1,
 										tooltip.getLeft() + IFont.CONSOLAS.getStringWidth(lines.get(l)) + 5,
-										start + (l * 10) + 9, 0xff000000);
+										start + (l * 10) + 11, 0xff000000);
 
-								IFont.CONSOLAS.drawStringWithShadow(matrices, lines.get(l), tooltip.getLeft() + 2, start + (l * 10), -1, 1);
+								IFont.CONSOLAS.drawString(matrices, lines.get(l), tooltip.getLeft() + 1.5, start + (l * 10) + 1.5, -1, 1);
 							}
 						}
 
-						tooltipY -= lines.size() * 10;
+						tooltipY += lines.size() * 10;
 					}
 				}
 			}
