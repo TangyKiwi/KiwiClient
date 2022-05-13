@@ -6,20 +6,25 @@ import com.tangykiwi.kiwiclient.event.ItemStackTooltipEvent;
 import com.tangykiwi.kiwiclient.event.TooltipDataEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
+import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
+import com.tangykiwi.kiwiclient.util.tooltip.BannerTooltipComponent;
 import com.tangykiwi.kiwiclient.util.tooltip.ContainerTooltipComponent;
 import com.tangykiwi.kiwiclient.util.tooltip.EChestMemory;
+import com.tangykiwi.kiwiclient.util.tooltip.MapTooltipComponent;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShulkerBoxBlock;
+import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
@@ -38,11 +43,14 @@ public class Tooltips extends Module {
     public Tooltips() {
         super("Tooltips", "Displays even more advanced tooltips", KEY_UNBOUND, Category.CLIENT,
             new ToggleSetting("Suspicious Stew", true).withDesc("Shows effect and duration of suspicious stew"),
-            new ToggleSetting("Bees", true).withDesc("Shows honey level and number of bees in hive/nest"),
+            new ToggleSetting("Bee Hives", true).withDesc("Shows honey level and number of bees in hive/nest"),
             new ToggleSetting("Fish", true).withDesc("Shows what mob is in a water bucket"),
             new ToggleSetting("Shulker Boxes", true).withDesc("Shows what is inside a shulkerbox when hovered over"),
-            new ToggleSetting("Ender Chests", true).withDesc("Shows what is inside your enderchest when hovered over")
-        );
+            new ToggleSetting("Ender Chests", true).withDesc("Shows what is inside your enderchest when hovered over"),
+            new ToggleSetting("Maps", true).withDesc("Shows the map details when hovered over").withChildren(
+                new SliderSetting("Scale", 0.1, 1, 1, 1).withDesc("Scale of map")
+            ),
+            new ToggleSetting("Banner", true).withDesc("Shows a banner preview when hovered over"));
         super.toggle();
     }
 
@@ -117,6 +125,24 @@ public class Tooltips extends Module {
         else if (event.itemStack.getItem() == Items.ENDER_CHEST && getSetting(4).asToggle().state) {
             event.tooltipData = new ContainerTooltipComponent(EChestMemory.ITEMS, new Color(0, 50, 50));
         }
+
+        // Map
+        else if (event.itemStack.getItem() == Items.FILLED_MAP && getSetting(5).asToggle().state) {
+            Integer mapId = FilledMapItem.getMapId(event.itemStack);
+            if (mapId != null) event.tooltipData = new MapTooltipComponent(mapId);
+        }
+
+        // Banner
+        else if (event.itemStack.getItem() instanceof BannerItem && getSetting(6).asToggle().state) {
+            event.tooltipData = new BannerTooltipComponent(event.itemStack);
+        }
+        else if (event.itemStack.getItem() instanceof BannerPatternItem patternItem && getSetting(6).asToggle().state) {
+            event.tooltipData = new BannerTooltipComponent(createBannerFromPattern(patternItem.getPattern()));
+        }
+        else if (event.itemStack.getItem() == Items.SHIELD && getSetting(6).asToggle().state) {
+            ItemStack banner = createBannerFromShield(event.itemStack);
+            if (banner != null) event.tooltipData = new BannerTooltipComponent(banner);
+        }
     }
 
     private MutableText getStatusText(StatusEffectInstance effect) {
@@ -148,5 +174,29 @@ public class Tooltips extends Module {
     public boolean hasItems(ItemStack itemStack) {
         NbtCompound compoundTag = itemStack.getSubNbt("BlockEntityTag");
         return compoundTag != null && compoundTag.contains("Items", 9);
+    }
+
+    private ItemStack createBannerFromPattern(BannerPattern pattern) {
+        ItemStack itemStack = new ItemStack(Items.GRAY_BANNER);
+        NbtCompound nbt = itemStack.getOrCreateSubNbt("BlockEntityTag");
+        NbtList listNbt = (new BannerPattern.Patterns()).add(BannerPattern.BASE, DyeColor.BLACK).add(pattern, DyeColor.WHITE).toNbt();
+        nbt.put("Patterns", listNbt);
+        return itemStack;
+    }
+
+    private ItemStack createBannerFromShield(ItemStack item) {
+        if (!item.hasNbt()
+                || !item.getNbt().contains("BlockEntityTag")
+                || !item.getNbt().getCompound("BlockEntityTag").contains("Base"))
+            return null;
+        NbtList listNbt = new BannerPattern.Patterns().add(BannerPattern.BASE, ShieldItem.getColor(item)).toNbt();
+        NbtCompound nbt = item.getOrCreateSubNbt("BlockEntityTag");
+        ItemStack bannerItem = new ItemStack(Items.GRAY_BANNER);
+        NbtCompound bannerTag = bannerItem.getOrCreateSubNbt("BlockEntityTag");
+        bannerTag.put("Patterns", listNbt);
+        if (!nbt.contains("Patterns")) return bannerItem;
+        NbtList shieldPatterns = nbt.getList("Patterns", NbtElement.COMPOUND_TYPE);
+        listNbt.addAll(shieldPatterns);
+        return bannerItem;
     }
 }

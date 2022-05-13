@@ -21,7 +21,6 @@ public class ShulkerBoxBlockMixin {
         Tooltips tooltips = (Tooltips) KiwiClient.moduleManager.getModule(Tooltips.class);
         if (tooltips.isEnabled() && tooltips.getSetting(3).asToggle().state ) {
             info.cancel();
-            //tooltips.applyCompactShulkerTooltip(stack, tooltip);
         }
     }
 }
