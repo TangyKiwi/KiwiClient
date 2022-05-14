@@ -34,8 +34,7 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation 'com.github.Vatuu:discord-rpc:1.6.2'
-	include 'com.github.Vatuu:discord-rpc:1.6.2'
+	implementation 'com.github.Vatuu:discord-rpc:1.6.2'
 }
 
 processResources {
