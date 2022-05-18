@@ -16,12 +16,18 @@
 </div>
 
 
-## Usage
-- Requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files) to launch
+## Installation
+### Standalone Vanilla Installer
+- Download the [installer](https://github.com/TangyKiwi/KiwiClient-Installer/releases)
+- Select version & install location (default 1.18.2 / .minecraft folder)
+- Hit install, a new profile called KiwiClient for X.X.X will be created in your launcher
+- Place additional mods in the .minecraft/kiwiclient-mods folder
+### Manual
+- Download [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files)
 - Build the mod yourself (See Setup below), or get the latest [release](https://github.com/TangyKiwi/KiwiClient/releases)
 - If you want the most up-to-date version, please build the client yourself or ask me for the jar, I do not update releases often
-- **Vanilla**: Place the jar (build/libs/KiwiClient-X.X.X.jar) in your mods folder
-- **Aristois**: Place the jar (build/libs/KiwiClient-X.X.X.jar) in libaries/me/deftware/EMC-F-v2/latest-1.18.X
+- **Vanilla**: Place the Fabric API jar and KiwiClient jar (build/libs/KiwiClient-X.X.X.jar) in your mods folder
+- **Aristois**: Place the Fabric API jar and KiwiClient jar (build/libs/KiwiClient-X.X.X.jar) in libaries/me/deftware/EMC-F-v2/latest-1.18.X
 
 ## Setup
 
