@@ -11,4 +11,3 @@ public interface ClientPlayerInteractionManagerAccessor {
     @Accessor("currentBreakingPos")
     BlockPos getCurrentBreakingPos();
 }
-

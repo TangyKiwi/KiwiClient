@@ -5,6 +5,7 @@ import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.AddMessageEvent;
 import com.tangykiwi.kiwiclient.event.SendChatMessageEvent;
 import com.tangykiwi.kiwiclient.mixin.ChatHudAccessor;
+import com.tangykiwi.kiwiclient.mixin.ChatHudMixin;
 import com.tangykiwi.kiwiclient.mixininterface.IChatHUD;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;

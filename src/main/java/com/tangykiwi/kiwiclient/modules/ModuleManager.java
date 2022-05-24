@@ -4,7 +4,6 @@ import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.gui.clickgui.ClickGuiScreen;
 import com.tangykiwi.kiwiclient.modules.client.*;
-import com.tangykiwi.kiwiclient.modules.combat.BowBomb;
 import com.tangykiwi.kiwiclient.modules.combat.Criticals;
 import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
@@ -42,7 +41,6 @@ public class ModuleManager {
         moduleList.add(new VanillaSpoof());
 
         //combat
-        moduleList.add(new BowBomb());
         moduleList.add(new Criticals());
         moduleList.add(new TriggerBot());
 

@@ -1,12 +1,22 @@
 package com.tangykiwi.kiwiclient.command.commands;
 
+import com.google.common.eventbus.AllowConcurrentEvents;
+import com.google.common.eventbus.Subscribe;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.suggestion.Suggestion;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.Command;
+import com.tangykiwi.kiwiclient.event.ReceivePacketEvent;
+import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.util.Utils;
+import joptsimple.internal.Strings;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.command.CommandSource;
+import net.minecraft.network.packet.c2s.play.RequestCommandCompletionsC2SPacket;
+import net.minecraft.network.packet.s2c.play.CommandSuggestionsS2CPacket;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.HoverEvent;
 import net.minecraft.text.LiteralText;
@@ -16,10 +26,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.*;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 
 public class Server extends Command {
+    private static final List<String> ANTICHEAT_LIST = Arrays.asList("nocheatplus", "negativity", "warden", "horizon", "illegalstack", "coreprotect", "exploitsx", "vulcan", "abc", "spartan", "kauri", "anticheatreloaded", "witherac", "godseye", "matrix", "wraith");
+    private static final String completionStarts = "/:abcdefghijklmnopqrstuvwxyz0123456789-";
+    private int ticks = 0;
+    private List<String> plugins = new ArrayList<>();
+
     public Server() {
         super("server", "Displays information about the server");
     }
@@ -44,6 +60,7 @@ public class Server extends Command {
             Utils.mc.inGameHud.getChatHud().addMessage(createText("Permission Level", getPerms()));
             Utils.mc.inGameHud.getChatHud().addMessage(createText("Protocol", getProtocol(sp)));
             Utils.mc.inGameHud.getChatHud().addMessage(createText("Version", getVersion(sp)));
+            //getPlugins();
 
             return SINGLE_SUCCESS;
         });
@@ -127,5 +144,87 @@ public class Server extends Command {
             return SharedConstants.getGameVersion().getName();
 
         return Utils.mc.getCurrentServerEntry().version != null ? Utils.mc.getCurrentServerEntry().version.getString() : "Unknown (" + SharedConstants.getGameVersion().getName() + ")";
+    }
+
+    public void getPlugins() {
+        ticks = 0;
+        plugins.clear();
+        KiwiClient.eventBus.register(this);
+        (new Thread(() -> {
+            Random random = new Random();
+            completionStarts.chars().forEach(i -> {
+                Utils.mc.player.networkHandler.sendPacket(new RequestCommandCompletionsC2SPacket(random.nextInt(200), Character.toString(i)));
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+        })).start();
+    }
+
+    @Subscribe
+    @AllowConcurrentEvents
+    private void onTick(TickEvent event) {
+        ticks++;
+
+        if (ticks >= 100) {
+            Collections.sort(plugins);
+
+            for (int i = 0; i < plugins.size(); i++) {
+                plugins.set(i, formatName(plugins.get(i)));
+            }
+
+            if (!plugins.isEmpty()) {
+                String plugin_list = "Plugins (" + plugins.size() + "): " + Strings.join(plugins.toArray(new String[0]), ", ");
+                Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText(plugin_list));
+            } else {
+                Utils.mc.inGameHud.getChatHud().addMessage(createText("Plugins", "None"));
+            }
+
+            ticks = 0;
+            plugins.clear();
+            KiwiClient.eventBus.unregister(this);
+        }
+    }
+
+    @Subscribe
+    @AllowConcurrentEvents
+    private void onReadPacket(ReceivePacketEvent event) {
+        try {
+            if (event.packet instanceof CommandSuggestionsS2CPacket packet) {
+
+                Suggestions matches = packet.getSuggestions();
+
+                if (matches == null) {
+                    System.out.println("Invalid packet when testing for plugins");
+                    return;
+                }
+
+                for (Suggestion suggestion : matches.getList()) {
+                    String[] command = suggestion.getText().split(":");
+                    if (command.length > 1) {
+                        String pluginName = command[0].replace("/", "");
+
+                        if (!plugins.contains(pluginName)) {
+                            plugins.add(pluginName);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("An error occured while trying to find plugins."));
+        }
+    }
+
+    private String formatName(String name) {
+        if (ANTICHEAT_LIST.contains(name)) {
+            return String.format("%s%s(default)", Formatting.RED, name);
+        }
+        else if (name.contains("exploit") || name.contains("cheat") || name.contains("illegal")) {
+            return String.format("%s%s(default)", Formatting.RED, name);
+        }
+
+        return String.format("(highlight)%s(default)", name);
     }
 }
