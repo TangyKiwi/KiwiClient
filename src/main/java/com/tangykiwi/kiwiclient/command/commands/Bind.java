@@ -2,10 +2,11 @@ package com.tangykiwi.kiwiclient.command.commands;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.command.argument.ModuleArgumentType;
+import com.tangykiwi.kiwiclient.gui.BindScreen;
 import com.tangykiwi.kiwiclient.modules.Module;
-import com.tangykiwi.kiwiclient.modules.ModuleManager;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.command.CommandSource;
@@ -21,10 +22,15 @@ public class Bind extends Command {
 
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        builder.then(argument("module", ModuleArgumentType.module())
+        builder.then(argument("module", ModuleArgumentType.module()).executes(context -> {
+                Module m = ModuleArgumentType.getModule(context, "module");
+                KiwiClient.moduleManager.module = m;
+                return SINGLE_SUCCESS;
+            })
             .then(argument("key", StringArgumentType.greedyString()).executes(context -> {
                 int key = -1;
                 String keycode = context.getArgument("key", String.class);
+
                 try {
                     key = InputUtil.fromTranslationKey("key.keyboard." + keycode.toLowerCase()).getCode();
                 } catch (IllegalArgumentException e) {

@@ -1,7 +1,11 @@
 package com.tangykiwi.kiwiclient.modules;
 
+import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
+import com.tangykiwi.kiwiclient.command.commands.Bind;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
+import com.tangykiwi.kiwiclient.event.TickEvent;
+import com.tangykiwi.kiwiclient.gui.BindScreen;
 import com.tangykiwi.kiwiclient.gui.clickgui.ClickGuiScreen;
 import com.tangykiwi.kiwiclient.modules.client.*;
 import com.tangykiwi.kiwiclient.modules.combat.Criticals;
@@ -25,6 +29,7 @@ public class ModuleManager {
 
     public ArrayList<Module> moduleList = new ArrayList<Module>();
     public static MinecraftClient mc = MinecraftClient.getInstance();
+    public Module module = null;
 
     public void init() {
         //client
@@ -146,6 +151,7 @@ public class ModuleManager {
     }
 
     @Subscribe
+    @AllowConcurrentEvents
     public void handleKeyPress(KeyPressEvent e) {
         if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) return;
 
@@ -156,6 +162,15 @@ public class ModuleManager {
 
         for(Module m : moduleList) {
             if(m.getKeyCode() == e.getKeyCode()) m.toggle();
+        }
+    }
+
+    @Subscribe
+    @AllowConcurrentEvents
+    public void onTick(TickEvent e) {
+        if(module != null) {
+            mc.setScreen(new BindScreen(module));
+            module = null;
         }
     }
 
