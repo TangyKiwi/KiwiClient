@@ -12,6 +12,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.EnchantmentArgumentType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.registry.Registry;
 
@@ -70,13 +71,24 @@ public class Enchant extends Command {
             return SINGLE_SUCCESS;
         }));
 
-        builder.then(literal("remove").then(argument("enchantment", EnchantmentArgumentType.enchantment()).executes(context -> {
-            ItemStack itemStack = tryGetItemStack();
-            Utils.removeEnchantment(itemStack, context.getArgument("enchantment", Enchantment.class));
+        builder.then(literal("remove")
+            .then(argument("enchantment", EnchantmentArgumentType.enchantment()).executes(context -> {
+                ItemStack itemStack = tryGetItemStack();
+                Utils.removeEnchantment(itemStack, context.getArgument("enchantment", Enchantment.class));
 
-            syncItem();
-            return SINGLE_SUCCESS;
-        })));
+                syncItem();
+                return SINGLE_SUCCESS;
+            }))
+            .then(literal("all").executes(context -> {
+                ItemStack itemStack = tryGetItemStack();
+                for(Enchantment enchantment : Registry.ENCHANTMENT) {
+                    Utils.removeEnchantment(itemStack, enchantment);
+                }
+
+                syncItem();
+                return SINGLE_SUCCESS;
+            }))
+        );
     }
 
     private void one(CommandContext<CommandSource> context, Function<Enchantment, Integer> level) throws CommandSyntaxException {
