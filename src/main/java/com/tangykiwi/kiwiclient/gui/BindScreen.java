@@ -5,7 +5,6 @@ import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.boss.BossBar;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
