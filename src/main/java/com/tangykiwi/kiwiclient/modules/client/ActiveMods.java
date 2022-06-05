@@ -90,8 +90,8 @@ public class ActiveMods extends Module {
 
                 if(!firstDraw && enablingMods.containsKey(m)) {
                     int displace = enablingMods.get(m);
-                    DrawableHelper.fill(e.getMatrix(), (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + 1 + displace, 61 + 8 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-                    DrawableHelper.fill(e.getMatrix(), displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + 8 + offset, 0x90000000);
+                    DrawableHelper.fill(e.getMatrix(), (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + 1 + displace, 61 + 6 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                    DrawableHelper.fill(e.getMatrix(), displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + 6 + offset, 0x90000000);
                     textRenderer.drawString(e.getMatrix(), m.getName(), 0.2 + displace, 61.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 0.75F);
                     if(displace + 1 >= 0) {
                         enablingMods.remove(m);
