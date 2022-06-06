@@ -67,6 +67,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 
 <details>
 <summary>Movement</summary>
+- BoatPhase<br>
 - FastBridge<br>
 - Fly<br>
 - NoClip (not working)<br>
