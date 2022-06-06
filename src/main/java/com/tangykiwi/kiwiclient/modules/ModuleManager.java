@@ -50,6 +50,7 @@ public class ModuleManager {
         moduleList.add(new TriggerBot());
 
         //movement
+        moduleList.add(new BoatPhase());
         moduleList.add(new FastBridge());
         moduleList.add(new Fly());
         moduleList.add(new NoClip());
