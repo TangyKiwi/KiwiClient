@@ -31,8 +31,7 @@ public class Freecam extends Module {
 
     public Freecam() {
         super("Freecam", "Detaches your camera", GLFW.GLFW_KEY_U, Category.RENDER,
-            new SliderSetting("Speed", 0.1, 1.5, 0.5, 1),
-            new SliderSetting("Vertical Speed", 0.1, 1.5, 0.5, 1));
+            new SliderSetting("Speed", 0.1, 1.5, 0.5, 1));
     }
 
     @Override
@@ -117,11 +116,11 @@ public class Freecam extends Module {
             }
 
             if (this.up) {
-                velY += getSetting(1).asSlider().getValue();
+                velY += getSetting(0).asSlider().getValue();
             }
 
             if (this.down) {
-                velY -= getSetting(1).asSlider().getValue();
+                velY -= getSetting(0).asSlider().getValue();
             }
 
             this.prevPos = this.pos;
