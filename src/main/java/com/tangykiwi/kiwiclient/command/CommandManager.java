@@ -25,6 +25,7 @@ public class CommandManager {
         add(new FF());
         add(new Gamemode());
         add(new Give());
+        add(new LookAt());
         add(new ResetClickGui());
         add(new Say());
         add(new Server());

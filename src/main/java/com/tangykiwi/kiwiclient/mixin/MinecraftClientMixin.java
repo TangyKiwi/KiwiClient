@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.mixin;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.commands.Dupe;
 import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
+import com.tangykiwi.kiwiclient.modules.render.Freecam;
 import com.tangykiwi.kiwiclient.util.ConfigManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -69,6 +70,7 @@ public class MinecraftClientMixin {
     @Inject(method = "stop", at = @At("HEAD"))
     public void shutdown(CallbackInfo info) {
         discordRPC.shutdown();
+        KiwiClient.moduleManager.getModule(Freecam.class).setToggled(false);
         ConfigManager.saveModules("default");
         ConfigManager.saveClickGui("default");
     }

@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.modules.movement;
 
+import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
@@ -13,6 +14,7 @@ public class BoatPhase extends Module {
     }
 
     @Subscribe
+    @AllowConcurrentEvents
     public void onTick(TickEvent event) {
         if(!(mc.player.getVehicle() instanceof BoatEntity)) {
             mc.inGameHud.getChatHud().addMessage(new LiteralText("You need a boat"));

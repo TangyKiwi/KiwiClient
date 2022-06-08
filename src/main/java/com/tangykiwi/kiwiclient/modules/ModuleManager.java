@@ -74,6 +74,7 @@ public class ModuleManager {
 
         //render
         moduleList.add(new ESP());
+        moduleList.add(new Freecam());
         moduleList.add(new FullBright());
         moduleList.add(new ItemPhysics());
         moduleList.add(new Nametags());
@@ -154,6 +155,8 @@ public class ModuleManager {
     @Subscribe
     @AllowConcurrentEvents
     public void handleKeyPress(KeyPressEvent e) {
+        if(mc.currentScreen != null) return;
+
         if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) return;
 
         if(InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_COMMA)) {
@@ -162,7 +165,7 @@ public class ModuleManager {
         }
 
         for(Module m : moduleList) {
-            if(m.getKeyCode() == e.getKeyCode()) m.toggle();
+            if(e.getAction() == 1 && m.getKeyCode() == e.getKeyCode()) m.toggle();
         }
     }
 

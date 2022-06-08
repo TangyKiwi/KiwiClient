@@ -8,6 +8,7 @@
     "BlockMixin",
     "BlockStateMixin",
     "BufferBuilderMixin",
+    "CameraMixin",
     "CapabilityTrackerMixin",
     "ChatHudAccessor",
     "ChatHudMixin",
@@ -52,6 +53,7 @@
     "SplashScreenMixin",
     "TitleScreenMixin",
     "TntEntityRendererMixin",
+    "Vec3dMixin",
     "WorldRendererAccessor",
     "WorldRendererMixin"
   ],
