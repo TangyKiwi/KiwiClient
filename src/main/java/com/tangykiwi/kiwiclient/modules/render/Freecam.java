@@ -116,11 +116,11 @@ public class Freecam extends Module {
             }
 
             if (this.up) {
-                velY += getSetting(0).asSlider().getValue();
+                velY += speed;
             }
 
             if (this.down) {
-                velY -= getSetting(0).asSlider().getValue();
+                velY -= speed;
             }
 
             this.prevPos = this.pos;

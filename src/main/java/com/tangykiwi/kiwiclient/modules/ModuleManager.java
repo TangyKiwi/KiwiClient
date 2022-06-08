@@ -53,6 +53,7 @@ public class ModuleManager {
         moduleList.add(new BoatPhase());
         moduleList.add(new FastBridge());
         moduleList.add(new Fly());
+        moduleList.add(new InvMove());
         moduleList.add(new NoClip());
         moduleList.add(new NoFall());
         moduleList.add(new SafeWalk());
