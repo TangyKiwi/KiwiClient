@@ -70,7 +70,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - BoatPhase<br>
 - FastBridge<br>
 - Fly<br>
-- NoClip (not working)<br>
+- InvMove<br>
 - NoFall<br>
 - SafeWalk<br>
 - Speed<br>
