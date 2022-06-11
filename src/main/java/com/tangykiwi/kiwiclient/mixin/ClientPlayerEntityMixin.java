@@ -3,8 +3,6 @@ package com.tangykiwi.kiwiclient.mixin;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.tangykiwi.kiwiclient.KiwiClient;
-import com.tangykiwi.kiwiclient.command.Command;
-import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.event.OnMoveEvent;
 import com.tangykiwi.kiwiclient.event.SendChatMessageEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
@@ -18,6 +16,7 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.MovementType;
+import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,6 +25,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import javax.annotation.Nullable;
 
 @Mixin(ClientPlayerEntity.class)
 public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implements IClientPlayerEntity {
@@ -36,9 +37,9 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Shadow public abstract void sendChatMessage(String string);
 
-    public ClientPlayerEntityMixin(ClientWorld world, GameProfile gameProfile)
+    public ClientPlayerEntityMixin(ClientWorld world, GameProfile gameProfile, @Nullable PlayerPublicKey publicKey)
     {
-        super(world, gameProfile, Utils.mc.player.getPublicKey());
+        super(world, gameProfile, publicKey);
     }
 
     @Inject(method = "tick()V", at = @At("RETURN"), cancellable = true)
@@ -58,8 +59,8 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         KiwiClient.eventBus.post(event);
     }
 
-    @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
-    public void onChatMessage(String message, CallbackInfo callbackInfo) {
+    @Inject(method = "sendChatMessage(Ljava/lang/String;Lnet/minecraft/text/Text;)V", at = @At("HEAD"), cancellable = true)
+    private void onSendChatMessage(String message, Text preview, CallbackInfo callbackInfo) {
         if (ignoreChatMessage) return;
 
         if (!message.startsWith(KiwiClient.PREFIX) && !message.startsWith("/")) {
@@ -84,12 +85,6 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
             }
             callbackInfo.cancel();
         }
-    }
-
-    @Override
-    public void setNoClip(boolean noClip)
-    {
-        this.noClip = noClip;
     }
 
     @Override

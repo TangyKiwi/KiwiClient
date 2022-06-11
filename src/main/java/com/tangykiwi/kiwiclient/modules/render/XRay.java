@@ -5,6 +5,7 @@ import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.RenderBlockEvent;
 import com.tangykiwi.kiwiclient.event.RenderFluidEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
+import com.tangykiwi.kiwiclient.mixininterface.ISimpleOption;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
@@ -13,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FernBlock;
 import net.minecraft.block.TallPlantBlock;
+import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.render.RenderLayer;
 
 import java.util.ArrayList;
@@ -74,7 +76,10 @@ public class XRay extends Module {
 
     @Override
     public void onDisable() {
-        mc.options.getGamma().setValue(gamma);
+        SimpleOption<Double> gammaOption = mc.options.getGamma();
+        @SuppressWarnings("unchecked")
+        ISimpleOption<Double> gammaOption2 = (ISimpleOption<Double>)(Object)gammaOption;
+        gammaOption2.forceSetValue(gamma);
         mc.chunkCullingEnabled = true;
         mc.worldRenderer.reload();
 
@@ -84,7 +89,10 @@ public class XRay extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onTick(TickEvent e) {
-        mc.options.getGamma().setValue(69.420);
+        SimpleOption<Double> gammaOption = mc.options.getGamma();
+        @SuppressWarnings("unchecked")
+        ISimpleOption<Double> gammaOption2 = (ISimpleOption<Double>)(Object)gammaOption;
+        gammaOption2.forceSetValue(16.0);
     }
 
     @Subscribe
