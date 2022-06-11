@@ -4,8 +4,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.ItemEntity;
-
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 public class RenderItemEntityEvent extends Event {
     public ItemEntity itemEntity;

@@ -25,7 +25,7 @@ import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
@@ -39,7 +39,7 @@ public class MainMenu extends Screen {
     public ParticleManager particles;
 
     public MainMenu() {
-        super(new TranslatableText("narrator.screen.title"));
+        super(Text.translatable("narrator.screen.title"));
     }
 
     public void init() {

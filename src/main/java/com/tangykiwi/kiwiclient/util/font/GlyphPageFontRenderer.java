@@ -353,16 +353,15 @@ public class GlyphPageFontRenderer {
             GlStateManager._disableTexture();
             bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
             bufferBuilder
-                    .vertex((double) this.posX, (double) (this.posY + (float) (glyphPage.getMaxFontHeight() / 2)), 0.0D)
+                    .vertex(this.posX, this.posY + (float) (glyphPage.getMaxFontHeight() / 2), 0.0D)
                     .next();
-            bufferBuilder.vertex((double) (this.posX + f),
-                    (double) (this.posY + (float) (glyphPage.getMaxFontHeight() / 2)), 0.0D).next();
-            bufferBuilder.vertex((double) (this.posX + f),
-                    (double) (this.posY + (float) (glyphPage.getMaxFontHeight() / 2) - 1.0F), 0.0D).next();
-            bufferBuilder.vertex((double) this.posX,
-                    (double) (this.posY + (float) (glyphPage.getMaxFontHeight() / 2) - 1.0F), 0.0D).next();
-            bufferBuilder.end();
-            BufferRenderer.draw(bufferBuilder);
+            bufferBuilder.vertex(this.posX + f,
+                    this.posY + (float) (glyphPage.getMaxFontHeight() / 2), 0.0D).next();
+            bufferBuilder.vertex(this.posX + f,
+                    this.posY + (float) (glyphPage.getMaxFontHeight() / 2) - 1.0F, 0.0D).next();
+            bufferBuilder.vertex(this.posX,
+                    this.posY + (float) (glyphPage.getMaxFontHeight() / 2) - 1.0F, 0.0D).next();
+            BufferRenderer.drawWithShader(bufferBuilder.end());
             GlStateManager._enableTexture();
         }
 
@@ -371,17 +370,16 @@ public class GlyphPageFontRenderer {
             GlStateManager._disableTexture();
             bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
             int l = this.underlineStyle ? -1 : 0;
-            bufferBuilder.vertex((double) (this.posX + (float) l),
-                    (double) (this.posY + (float) glyphPage.getMaxFontHeight()), 0.0D).next();
+            bufferBuilder.vertex(this.posX + (float) l,
+                    this.posY + (float) glyphPage.getMaxFontHeight(), 0.0D).next();
             bufferBuilder
-                    .vertex((double) (this.posX + f), (double) (this.posY + (float) glyphPage.getMaxFontHeight()), 0.0D)
+                    .vertex(this.posX + f, this.posY + (float) glyphPage.getMaxFontHeight(), 0.0D)
                     .next();
-            bufferBuilder.vertex((double) (this.posX + f),
-                    (double) (this.posY + (float) glyphPage.getMaxFontHeight() - 1.0F), 0.0D).next();
-            bufferBuilder.vertex((double) (this.posX + (float) l),
-                    (double) (this.posY + (float) glyphPage.getMaxFontHeight() - 1.0F), 0.0D).next();
-            bufferBuilder.end();
-            BufferRenderer.draw(bufferBuilder);
+            bufferBuilder.vertex(this.posX + f,
+                    this.posY + (float) glyphPage.getMaxFontHeight() - 1.0F, 0.0D).next();
+            bufferBuilder.vertex(this.posX + (float) l,
+                    this.posY + (float) glyphPage.getMaxFontHeight() - 1.0F, 0.0D).next();
+            BufferRenderer.drawWithShader(bufferBuilder.end());
             GlStateManager._enableTexture();
         }
 

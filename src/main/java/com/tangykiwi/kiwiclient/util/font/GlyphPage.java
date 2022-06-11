@@ -183,9 +183,7 @@ public class GlyphPage {
                 .texture(pageX + pageWidth, pageY).next();
         bufferBuilder.vertex(stack.peek().getPositionMatrix(), x, y, 0).color(red, green, blue, alpha).texture(pageX, pageY)
                 .next();
-        bufferBuilder.end();
-
-        BufferRenderer.draw(bufferBuilder);
+        BufferRenderer.drawWithShader(bufferBuilder.end());
 
         return width - 8;
     }

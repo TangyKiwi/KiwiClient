@@ -19,7 +19,6 @@ public class CommandManager {
 
     public void init() {
         add(new Bind());
-        add(new Dupe());
         add(new Enchant());
         add(new Ez());
         add(new FF());

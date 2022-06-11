@@ -5,7 +5,6 @@ import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
@@ -25,7 +24,7 @@ public class BetterTab extends Module {
         Color color = null;
 
         name = playerListEntry.getDisplayName();
-        if (name == null) name = new LiteralText(playerListEntry.getProfile().getName());
+        if (name == null) name = Text.literal(playerListEntry.getProfile().getName());
 
         if (color != null) {
             String nameString = name.getString();
@@ -34,7 +33,7 @@ public class BetterTab extends Module {
                 if (format.isColor()) nameString = nameString.replace(format.toString(), "");
             }
 
-            name = new LiteralText(nameString).setStyle(name.getStyle().withColor(TextColor.fromRgb(color.getRGB())));
+            name = Text.literal(nameString).setStyle(name.getStyle().withColor(TextColor.fromRgb(color.getRGB())));
         }
 
         return name;

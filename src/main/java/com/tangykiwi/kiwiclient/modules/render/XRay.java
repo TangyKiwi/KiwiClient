@@ -69,12 +69,12 @@ public class XRay extends Module {
 
         mc.chunkCullingEnabled = false;
         mc.worldRenderer.reload();
-        gamma = mc.options.gamma;
+        gamma = mc.options.getGamma().getValue();
     }
 
     @Override
     public void onDisable() {
-        mc.options.gamma = gamma;
+        mc.options.getGamma().setValue(gamma);
         mc.chunkCullingEnabled = true;
         mc.worldRenderer.reload();
 
@@ -84,7 +84,7 @@ public class XRay extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onTick(TickEvent e) {
-        mc.options.gamma = 69;
+        mc.options.getGamma().setValue(69.420);
     }
 
     @Subscribe

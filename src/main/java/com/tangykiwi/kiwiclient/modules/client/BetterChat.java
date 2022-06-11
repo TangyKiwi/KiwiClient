@@ -13,7 +13,6 @@ import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
 import it.unimi.dsi.fastutil.chars.Char2CharArrayMap;
 import it.unimi.dsi.fastutil.chars.Char2CharMap;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -56,14 +55,14 @@ public class BetterChat extends Module {
             Matcher matcher = Pattern.compile("^(<[0-9]{2}:[0-9]{2}:[0-9]{2}>\\s)").matcher(message.getString());
             if (matcher.matches()) message.getSiblings().subList(0, 8).clear();
 
-            Text timestamp = new LiteralText("[" + dateFormat.format(new Date()) + "] ").formatted(Formatting.GRAY);
+            Text timestamp = Text.literal("[" + dateFormat.format(new Date()) + "] ").formatted(Formatting.GRAY);
 
-            message = new LiteralText("").append(timestamp).append(message);
+            message = Text.literal("").append(timestamp).append(message);
         }
 
         // Player Heads
         if (getSetting(3).asToggle().state) {
-            message = new LiteralText("   ").append(message);
+            message = Text.literal("   ").append(message);
         }
 
         event.setCancelled(true);

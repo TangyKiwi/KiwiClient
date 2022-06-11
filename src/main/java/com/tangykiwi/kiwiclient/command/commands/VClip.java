@@ -4,11 +4,10 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.util.Utils;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.Entity;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 
@@ -29,7 +28,7 @@ public class VClip extends Command {
                 vehicle.setPosition(vehicle.getX(), vehicle.getY() + blocks, vehicle.getZ());
             }
             player.setPosition(player.getX(), player.getY() + blocks, player.getZ());
-            Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Vclipped " + blocks + " blocks"));
+            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Vclipped " + blocks + " blocks"));
 
             return SINGLE_SUCCESS;
         }));

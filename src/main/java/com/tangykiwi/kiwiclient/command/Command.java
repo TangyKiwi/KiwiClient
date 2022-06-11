@@ -72,32 +72,4 @@ public abstract class Command {
 
         return base.toString();
     }
-
-//    public void info(Text message) {
-//        ChatUtils.sendMsg(title, message);
-//    }
-//
-//    public void info(String message, Object... args) {
-//        ChatUtils.info(title, message, args);
-//    }
-//
-//    public void warning(String message, Object... args) {
-//        ChatUtils.warning(title, message, args);
-//    }
-//
-//    public void error(String message, Object... args) {
-//        ChatUtils.error(title, message, args);
-//    }
-//    public static String PREFIX = ",";
-//    public static int KEY = GLFW.GLFW_KEY_COMMA;
-//
-//    protected MinecraftClient mc = MinecraftClient.getInstance();
-//
-//    public abstract String[] getAliases();
-//
-//    public abstract String getDescription();
-//
-//    public abstract String getSyntax();
-//
-//    public abstract void onCommand(String command, String[] args) throws Exception;
 }

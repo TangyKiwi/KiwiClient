@@ -18,6 +18,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.entity.BannerPattern;
+import net.minecraft.block.entity.BannerPatterns;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
@@ -26,17 +27,16 @@ import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.text.LiteralText;
+import net.minecraft.tag.TagKey;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 
 import java.awt.*;
-import java.util.Comparator;
-import java.util.List;
 
 public class Tooltips extends Module {
 
@@ -93,13 +93,13 @@ public class Tooltips extends Module {
                     NbtCompound blockStateTag = tag.getCompound("BlockStateTag");
                     if (blockStateTag != null) {
                         int level = blockStateTag.getInt("honey_level");
-                        event.list.add(1, new LiteralText(String.format("%sHoney Level: %s%d%s",
+                        event.list.add(1, Text.literal(String.format("%sHoney Level: %s%d%s",
                                 Formatting.GRAY, Formatting.YELLOW, level, Formatting.GRAY)));
                     }
                     NbtCompound blockEntityTag = tag.getCompound("BlockEntityTag");
                     if (blockEntityTag != null) {
                         NbtList beesTag = blockEntityTag.getList("Bees", 10);
-                        event.list.add(1, new LiteralText(String.format("%sBees: %s%d%s",
+                        event.list.add(1, Text.literal(String.format("%sBees: %s%d%s",
                                 Formatting.GRAY, Formatting.YELLOW, beesTag.size(), Formatting.GRAY)));
                     }
                 }
@@ -137,7 +137,7 @@ public class Tooltips extends Module {
             event.tooltipData = new BannerTooltipComponent(event.itemStack);
         }
         else if (event.itemStack.getItem() instanceof BannerPatternItem patternItem && getSetting(6).asToggle().state) {
-            event.tooltipData = new BannerTooltipComponent(createBannerFromPattern(patternItem.getPattern()));
+            event.tooltipData = new BannerTooltipComponent(createBannerFromPattern(RegistryKey.of(patternItem.getPattern().registry(), patternItem.getPattern().id())));
         }
         else if (event.itemStack.getItem() == Items.SHIELD && getSetting(6).asToggle().state) {
             ItemStack banner = createBannerFromShield(event.itemStack);
@@ -146,7 +146,7 @@ public class Tooltips extends Module {
     }
 
     private MutableText getStatusText(StatusEffectInstance effect) {
-        MutableText text = new TranslatableText(effect.getTranslationKey());
+        MutableText text = Text.translatable(effect.getTranslationKey());
         if (effect.getAmplifier() != 0) {
             text.append(String.format(" %d (%s)", effect.getAmplifier() + 1, StatusEffectUtil.durationToString(effect, 1)));
         } else {
@@ -176,10 +176,10 @@ public class Tooltips extends Module {
         return compoundTag != null && compoundTag.contains("Items", 9);
     }
 
-    private ItemStack createBannerFromPattern(BannerPattern pattern) {
+    private ItemStack createBannerFromPattern(RegistryKey<BannerPattern> pattern) {
         ItemStack itemStack = new ItemStack(Items.GRAY_BANNER);
         NbtCompound nbt = itemStack.getOrCreateSubNbt("BlockEntityTag");
-        NbtList listNbt = (new BannerPattern.Patterns()).add(BannerPattern.BASE, DyeColor.BLACK).add(pattern, DyeColor.WHITE).toNbt();
+        NbtList listNbt = (new BannerPattern.Patterns()).add(BannerPatterns.BASE, DyeColor.BLACK).add(pattern, DyeColor.WHITE).toNbt();
         nbt.put("Patterns", listNbt);
         return itemStack;
     }
@@ -189,7 +189,7 @@ public class Tooltips extends Module {
                 || !item.getNbt().contains("BlockEntityTag")
                 || !item.getNbt().getCompound("BlockEntityTag").contains("Base"))
             return null;
-        NbtList listNbt = new BannerPattern.Patterns().add(BannerPattern.BASE, ShieldItem.getColor(item)).toNbt();
+        NbtList listNbt = new BannerPattern.Patterns().add(BannerPatterns.BASE, ShieldItem.getColor(item)).toNbt();
         NbtCompound nbt = item.getOrCreateSubNbt("BlockEntityTag");
         ItemStack bannerItem = new ItemStack(Items.GRAY_BANNER);
         NbtCompound bannerTag = bannerItem.getOrCreateSubNbt("BlockEntityTag");

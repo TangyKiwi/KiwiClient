@@ -12,8 +12,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.EnchantmentArgumentType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.registry.Registry;
 
 import java.util.function.Function;
@@ -21,8 +20,8 @@ import java.util.function.Function;
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 
 public class Enchant extends Command {
-    private final static SimpleCommandExceptionType NOT_IN_CREATIVE = new SimpleCommandExceptionType(new LiteralText("You must be in creative mode."));
-    private final static SimpleCommandExceptionType NOT_HOLDING_ITEM = new SimpleCommandExceptionType(new LiteralText("You must be holding an item."));
+    private final static SimpleCommandExceptionType NOT_IN_CREATIVE = new SimpleCommandExceptionType(Text.literal("You must be in creative mode."));
+    private final static SimpleCommandExceptionType NOT_HOLDING_ITEM = new SimpleCommandExceptionType(Text.literal("You must be holding an item."));
 
     public Enchant() {
         super("enchant", "Enchants the item in your hand, REQUIRES Creative mode");

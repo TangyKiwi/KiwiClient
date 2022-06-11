@@ -13,7 +13,7 @@ public class WorldUtils {
     public static List<WorldChunk> getLoadedChunks() {
         List<WorldChunk> chunks = new ArrayList<>();
 
-        int viewDist = mc.options.viewDistance;
+        int viewDist = mc.options.getViewDistance().getValue();
 
         for (int x = -viewDist; x <= viewDist; x++) {
             for (int z = -viewDist; z <= viewDist; z++) {

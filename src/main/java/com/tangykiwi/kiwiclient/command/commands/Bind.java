@@ -5,12 +5,11 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.command.argument.ModuleArgumentType;
-import com.tangykiwi.kiwiclient.gui.BindScreen;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.command.CommandSource;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
@@ -38,28 +37,28 @@ public class Bind extends Command {
                         try {
                             key = InputUtil.fromTranslationKey("key.keyboard." + keycode.replaceFirst("right", "right.")).getCode();
                         } catch (IllegalArgumentException e1) {
-                            Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("right", "right.")));
+                            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("right", "right.")));
                             return SINGLE_SUCCESS;
                         }
                     } else if (keycode.toLowerCase().startsWith("r")) {
                         try {
                             key = InputUtil.fromTranslationKey("key.keyboard." + keycode.toLowerCase().replaceFirst("r", "right.")).getCode();
                         } catch (IllegalArgumentException e1) {
-                            Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("r", "right.")));
+                            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("r", "right.")));
                             return SINGLE_SUCCESS;
                         }
                     } else if (keycode.toLowerCase().startsWith("left")) {
                         try {
                             key = InputUtil.fromTranslationKey("key.keyboard." + keycode.replaceFirst("left", "left.")).getCode();
                         } catch (IllegalArgumentException e1) {
-                            Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("left", "left.")));
+                            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("left", "left.")));
                             return SINGLE_SUCCESS;
                         }
                     } else if (keycode.toLowerCase().startsWith("l")) {
                         try {
                             key = InputUtil.fromTranslationKey("key.keyboard." + keycode.toLowerCase().replaceFirst("l", "left.")).getCode();
                         } catch (IllegalArgumentException e1) {
-                            Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("l", "left.")));
+                            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("l", "left.")));
                             return SINGLE_SUCCESS;
                         }
                     }
@@ -86,7 +85,7 @@ public class Bind extends Command {
                     } else if (keycode.equals("/") || keycode.equals("?")) {
                         key = GLFW.GLFW_KEY_SLASH;
                     } else {
-                        Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Unknown key: " + keycode));
+                        Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Unknown key: " + keycode));
                         return SINGLE_SUCCESS;
                     }
                 }
@@ -94,7 +93,7 @@ public class Bind extends Command {
                 Module m = ModuleArgumentType.getModule(context, "module");
                 m.setKeyCode(key);
                 m.getSetting(m.getSettings().size() - 1).setDataValue(m.getKeyCode());
-                Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Bound " + m.getName() + " to " + keycode + " (KEY" + key + ")"));
+                Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Bound " + m.getName() + " to " + keycode + " (KEY" + key + ")"));
                 return SINGLE_SUCCESS;
             }))
         );

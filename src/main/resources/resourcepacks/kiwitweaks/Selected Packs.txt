@@ -1,8 +1,30 @@
 Vanilla Tweaks Resource Pack
-Version: 1.18
+Version: 1.19
 Packs:
-	CircularSunandMoon
-	ClearerWater
+	AnimatedCampfireItem
+	NumberedHotbar
+	RainbowExperience
+	WitherHearts
+	PingColorIndicator
+	3DChains
+	3DPointedDripstone
+	3DBookshelves
+	3DLadders
+	3DRails
+	3DSugarcane
+	3DIronBars
+	3DLilyPads
+	3DDoors
+	3DStonecutters
+	3DGlowLichen
+	3DVines
+	3DMushrooms
+	3DTrapdoors
+	3DTiles
+	TransparentSpyglassOverlay
+	NoVignette
+	TransparentPumpkin
+	CleanerWorldBorder
 	BuddingAmethystBorders
 	OreBorders
 	VisualInfestedStoneItems
@@ -14,8 +36,6 @@ Packs:
 	DirectionalHoppers
 	DirectionalDispensersDroppers
 	BetterObservers
-	CleanRedstoneDust
-	RedstonePowerLevels
 	GroovyLevers
 	VisibleTripwires
 	CompassLodestone
@@ -25,28 +45,13 @@ Packs:
 	VisualComposterStages
 	VisualSaplingGrowth
 	NoteblockBanners
-	TransparentSpyglassOverlay
-	NoVignette
-	3DChains
-	3DPointedDripstone
-	3DTiles
-	3DLadders
-	3DRails
-	3DSugarcane
-	3DIronBars
-	3DLilyPads
-	3DDoors
-	3DTrapdoors
-	3DMushrooms
-	3DVines
-	3DGlowLichen
-	3DStonecutters
-	3DBookshelves
-	RainbowExperience
-	WitherHearts
-	PingColorIndicator
-	NumberedHotbar
+	CircularSunandMoon
+	CircleLogTops
+	ClearerWater
 	FullAgeCropMarker
 	DifferentStems
 	FullAgeAmethystMarker
 	3DAmethyst
+	RedstonePowerLevels
+	CleanRedstoneDust
+	3DRedstoneWire

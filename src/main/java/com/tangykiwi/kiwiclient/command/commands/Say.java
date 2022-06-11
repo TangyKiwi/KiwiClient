@@ -18,7 +18,7 @@ public class Say extends Command {
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(argument("message", StringArgumentType.greedyString()).executes(context -> {
             String msg = context.getArgument("message", String.class);
-            Utils.mc.getNetworkHandler().sendPacket(new ChatMessageC2SPacket(msg));
+            Utils.mc.player.sendChatMessage(msg);
 
             return SINGLE_SUCCESS;
         }));

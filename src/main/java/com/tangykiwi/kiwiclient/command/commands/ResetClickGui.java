@@ -7,7 +7,7 @@ import com.tangykiwi.kiwiclient.gui.clickgui.window.Window;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.command.CommandSource;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 
@@ -29,7 +29,7 @@ public class ResetClickGui extends Command {
                     ((ClickGuiWindow) w).hiding = false;
                 }
             }
-            Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Reset ClickGUI"));
+            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Reset ClickGUI"));
             return SINGLE_SUCCESS;
         });
     }

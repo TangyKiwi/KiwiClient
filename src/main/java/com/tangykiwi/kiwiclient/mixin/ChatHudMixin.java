@@ -54,12 +54,12 @@ public abstract class ChatHudMixin implements IChatHUD {
     private void onRender(MatrixStack matrices, int tickDelta, CallbackInfo ci) {
         BetterChat betterChat = (BetterChat) KiwiClient.moduleManager.getModule(BetterChat.class);
         if(betterChat.isEnabled() && betterChat.getSetting(3).asToggle().state) {
-            if (mc.options.chatVisibility == ChatVisibility.HIDDEN) return;
+            if (mc.options.getChatVisibility().getValue() == ChatVisibility.HIDDEN) return;
             int maxLineCount = mc.inGameHud.getChatHud().getVisibleLineCount();
 
-            double d = mc.options.chatOpacity * 0.8999999761581421D + 0.10000000149011612D;
-            double g = 9.0D * (mc.options.chatLineSpacing + 1.0D);
-            double h = -8.0D * (mc.options.chatLineSpacing + 1.0D) + 4.0D * mc.options.chatLineSpacing + 8.0D;
+            double d = mc.options.getChtOpacity().getValue() * 0.8999999761581421D + 0.10000000149011612D;
+            double g = 9.0D * (mc.options.getChatLineSpacing().getValue() + 1.0D);
+            double h = -8.0D * (mc.options.getChatLineSpacing().getValue() + 1.0D) + 4.0D * mc.options.getChatLineSpacing().getValue() + 8.0D;
 
             matrices.push();
             matrices.translate(2, -0.1f, 10);

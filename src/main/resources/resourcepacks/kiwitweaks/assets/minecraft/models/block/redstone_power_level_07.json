@@ -1,0 +1,91 @@
+{
+	"credit": "Created by Stridey",
+	"ambientocclusion": false,
+	"textures": {
+		"level": "block/redstone_power_level_07"
+	},
+	"elements": [
+		{
+			"name": "number",
+			"from": [4, 0.525, 4],
+			"to": [12, 0.525, 12],
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#level"}
+			}
+		},
+		{
+			"name": "outline",
+			"from": [5, 0, 5],
+			"to": [6, 0.5, 6],
+			"faces": {
+				"north": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"south": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"west": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"up": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"down": {"uv": [4, 2, 6, 4], "texture": "#level", "cullface": "down", "tintindex": 0}
+			}
+		},
+		{
+			"name": "outline",
+			"from": [7, 0, 11],
+			"to": [8, 0.5, 12],
+			"faces": {
+				"east": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"south": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"west": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"up": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"down": {"uv": [4, 2, 6, 4], "texture": "#level", "cullface": "down", "tintindex": 0}
+			}
+		},
+		{
+			"name": "outline",
+			"from": [7, 0, 7],
+			"to": [10, 0.5, 8],
+			"faces": {
+				"east": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"south": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"west": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"up": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"down": {"uv": [4, 2, 6, 4], "texture": "#level", "cullface": "down", "tintindex": 0}
+			}
+		},
+		{
+			"name": "outline",
+			"from": [6, 0, 8],
+			"to": [9, 0.5, 11],
+			"faces": {
+				"north": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"east": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"south": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"west": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"up": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"down": {"uv": [4, 2, 6, 4], "texture": "#level", "cullface": "down", "tintindex": 0}
+			}
+		},
+		{
+			"name": "outline",
+			"from": [10, 0, 5],
+			"to": [11, 0.5, 7],
+			"faces": {
+				"north": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"east": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"south": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"up": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"down": {"uv": [4, 2, 6, 4], "texture": "#level", "cullface": "down", "tintindex": 0}
+			}
+		},
+		{
+			"name": "outline",
+			"from": [6, 0, 4],
+			"to": [10, 0.5, 7],
+			"faces": {
+				"north": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"east": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"south": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"west": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"up": {"uv": [4, 2, 6, 4], "texture": "#level", "tintindex": 0},
+				"down": {"uv": [4, 2, 6, 4], "texture": "#level", "cullface": "down", "tintindex": 0}
+			}
+		}
+	]
+}

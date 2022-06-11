@@ -18,8 +18,7 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.MovementType;
-import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -39,7 +38,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     public ClientPlayerEntityMixin(ClientWorld world, GameProfile gameProfile)
     {
-        super(world, gameProfile);
+        super(world, gameProfile, Utils.mc.player.getPublicKey());
     }
 
     @Inject(method = "tick()V", at = @At("RETURN"), cancellable = true)
@@ -81,7 +80,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
             try {
                 KiwiClient.commandManager.dispatch(message.substring(KiwiClient.PREFIX.length()));
             } catch (CommandSyntaxException e) {
-                Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText(e.getMessage()));
+                Utils.mc.inGameHud.getChatHud().addMessage(Text.literal(e.getMessage()));
             }
             callbackInfo.cancel();
         }

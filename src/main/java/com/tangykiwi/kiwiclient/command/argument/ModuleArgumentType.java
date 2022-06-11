@@ -10,7 +10,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.Module;
 import net.minecraft.command.CommandSource;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
@@ -24,7 +24,7 @@ public class ModuleArgumentType implements ArgumentType<Module> {
         .collect(Collectors.toList());
 
     private static final DynamicCommandExceptionType NO_SUCH_MODULE = new DynamicCommandExceptionType(o ->
-        new LiteralText("Module with name " + o + " doesn't exist."));
+        Text.literal("Module with name " + o + " doesn't exist."));
 
     public static ModuleArgumentType module() {
         return new ModuleArgumentType();

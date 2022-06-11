@@ -6,7 +6,7 @@ import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 public class BoatPhase extends Module {
     public BoatPhase() {
@@ -17,7 +17,7 @@ public class BoatPhase extends Module {
     @AllowConcurrentEvents
     public void onTick(TickEvent event) {
         if(!(mc.player.getVehicle() instanceof BoatEntity)) {
-            mc.inGameHud.getChatHud().addMessage(new LiteralText("You need a boat"));
+            mc.inGameHud.getChatHud().addMessage(Text.literal("You need a boat"));
             setToggled(false);
             return;
         }

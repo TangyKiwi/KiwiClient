@@ -12,14 +12,12 @@ import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.util.Utils;
 import joptsimple.internal.Strings;
 import net.minecraft.SharedConstants;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.command.CommandSource;
 import net.minecraft.network.packet.c2s.play.RequestCommandCompletionsC2SPacket;
 import net.minecraft.network.packet.s2c.play.CommandSuggestionsS2CPacket;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.HoverEvent;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.apache.commons.lang3.StringUtils;
@@ -45,11 +43,11 @@ public class Server extends Command {
         builder.executes(context -> {
             boolean sp = Utils.mc.isIntegratedServerRunning();
             if (!sp && Utils.mc.getCurrentServerEntry() == null) {
-                Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Error getting server info."));
+                Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Error getting server info."));
                 return SINGLE_SUCCESS;
             }
 
-            Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("\u00a77" + "------ Server Info ------"));
+            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("\u00a77" + "------ Server Info ------"));
             Utils.mc.inGameHud.getChatHud().addMessage(createText("Address", getAddress(sp)));
             Utils.mc.inGameHud.getChatHud().addMessage(createText("Brand", getBrand(sp)));
             Utils.mc.inGameHud.getChatHud().addMessage(createText("Day", getDay()));
@@ -68,8 +66,8 @@ public class Server extends Command {
 
     public Text createText(String name, String value) {
         boolean newlines = value.contains("\n");
-        return new LiteralText("\u00a77" + name + "\u00a7f:" + (newlines ? "\n" : " " ) + "\u00a7a" + value).styled(style -> style
-            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new LiteralText("Click to copy to clipboard")))
+        return Text.literal("\u00a77" + name + "\u00a7f:" + (newlines ? "\n" : " " ) + "\u00a7a" + value).styled(style -> style
+            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal("Click to copy to clipboard")))
             .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, Formatting.strip(value))));
     }
 
@@ -177,7 +175,7 @@ public class Server extends Command {
 
             if (!plugins.isEmpty()) {
                 String plugin_list = "Plugins (" + plugins.size() + "): " + Strings.join(plugins.toArray(new String[0]), ", ");
-                Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText(plugin_list));
+                Utils.mc.inGameHud.getChatHud().addMessage(Text.literal(plugin_list));
             } else {
                 Utils.mc.inGameHud.getChatHud().addMessage(createText("Plugins", "None"));
             }
@@ -213,7 +211,7 @@ public class Server extends Command {
                 }
             }
         } catch (Exception e) {
-            Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("An error occured while trying to find plugins."));
+            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("An error occured while trying to find plugins."));
         }
     }
 

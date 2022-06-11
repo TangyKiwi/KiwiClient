@@ -6,7 +6,7 @@ import com.tangykiwi.kiwiclient.command.argument.ModuleArgumentType;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.command.CommandSource;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 
@@ -21,7 +21,7 @@ public class Unbind extends Command {
             .executes(context -> {
                 Module m = ModuleArgumentType.getModule(context, "module");
                 m.setKeyCode(Module.KEY_UNBOUND);
-                Utils.mc.inGameHud.getChatHud().addMessage(new LiteralText("Unbound " + m.getName()));
+                Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Unbound " + m.getName()));
                 return SINGLE_SUCCESS;
             })
         );

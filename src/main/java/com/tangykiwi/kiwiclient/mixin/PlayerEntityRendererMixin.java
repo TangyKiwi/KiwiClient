@@ -3,7 +3,6 @@ package com.tangykiwi.kiwiclient.mixin;
 import com.tangykiwi.kiwiclient.util.cosmetics.CapeRenderer;
 import com.tangykiwi.kiwiclient.util.cosmetics.Deadmau5EarsRenderer;
 import com.tangykiwi.kiwiclient.util.cosmetics.ElytraRenderer;
-import com.tangykiwi.kiwiclient.util.cosmetics.HumanoidItemLayer;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
@@ -35,12 +34,4 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
         this.features.removeIf((modelFeature) -> modelFeature instanceof ElytraFeatureRenderer);
         this.features.removeIf((modelFeature) -> modelFeature instanceof CapeFeatureRenderer);
     }
-
-//    @Inject(
-//            at = {@At("TAIL")},
-//            method = {"<init>"}
-//    )
-//    public void PlayerEntityRenderer(EntityRendererFactory.Context ctx, boolean slim, CallbackInfo ci) {
-//        this.addFeature(new HumanoidItemLayer(this));
-//    }
 }

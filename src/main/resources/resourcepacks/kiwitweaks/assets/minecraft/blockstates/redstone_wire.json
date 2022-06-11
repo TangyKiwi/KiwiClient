@@ -145,7 +145,7 @@
                 "power": 0
             },
             "apply": {
-                "model": "block/powerlevel00"
+                "model": "block/redstone_power_level_00"
             }
         },
         {
@@ -153,7 +153,7 @@
                 "power": 1
             },
             "apply": {
-                "model": "block/powerlevel01"
+                "model": "block/redstone_power_level_01"
             }
         },
         {
@@ -161,7 +161,7 @@
                 "power": 2
             },
             "apply": {
-                "model": "block/powerlevel02"
+                "model": "block/redstone_power_level_02"
             }
         },
         {
@@ -169,7 +169,7 @@
                 "power": 3
             },
             "apply": {
-                "model": "block/powerlevel03"
+                "model": "block/redstone_power_level_03"
             }
         },
         {
@@ -177,7 +177,7 @@
                 "power": 4
             },
             "apply": {
-                "model": "block/powerlevel04"
+                "model": "block/redstone_power_level_04"
             }
         },
         {
@@ -185,7 +185,7 @@
                 "power": 5
             },
             "apply": {
-                "model": "block/powerlevel05"
+                "model": "block/redstone_power_level_05"
             }
         },
         {
@@ -193,7 +193,7 @@
                 "power": 6
             },
             "apply": {
-                "model": "block/powerlevel06"
+                "model": "block/redstone_power_level_06"
             }
         },
         {
@@ -201,7 +201,7 @@
                 "power": 7
             },
             "apply": {
-                "model": "block/powerlevel07"
+                "model": "block/redstone_power_level_07"
             }
         },
         {
@@ -209,7 +209,7 @@
                 "power": 8
             },
             "apply": {
-                "model": "block/powerlevel08"
+                "model": "block/redstone_power_level_08"
             }
         },
         {
@@ -217,7 +217,7 @@
                 "power": 9
             },
             "apply": {
-                "model": "block/powerlevelover9000"
+                "model": "block/redstone_power_level_09"
             }
         },
         {
@@ -225,7 +225,7 @@
                 "power": 10
             },
             "apply": {
-                "model": "block/powerlevel10"
+                "model": "block/redstone_power_level_10"
             }
         },
         {
@@ -233,7 +233,7 @@
                 "power": 11
             },
             "apply": {
-                "model": "block/powerlevel11"
+                "model": "block/redstone_power_level_11"
             }
         },
         {
@@ -241,7 +241,7 @@
                 "power": 12
             },
             "apply": {
-                "model": "block/powerlevel12"
+                "model": "block/redstone_power_level_12"
             }
         },
         {
@@ -249,7 +249,7 @@
                 "power": 13
             },
             "apply": {
-                "model": "block/powerlevel13"
+                "model": "block/redstone_power_level_13"
             }
         },
         {
@@ -257,7 +257,7 @@
                 "power": 14
             },
             "apply": {
-                "model": "block/powerlevel14"
+                "model": "block/redstone_power_level_14"
             }
         },
         {
@@ -265,7 +265,7 @@
                 "power": 15
             },
             "apply": {
-                "model": "block/powerlevel15"
+                "model": "block/redstone_power_level_15"
             }
         }
     ]

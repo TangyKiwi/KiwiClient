@@ -8,7 +8,6 @@ import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
-import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import com.tangykiwi.kiwiclient.util.render.color.QuadColor;
 import net.minecraft.block.Block;
@@ -16,13 +15,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.tag.TagKey;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
+import net.minecraft.util.math.random.ChunkRandom;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraft.world.gen.random.ChunkRandom;
 
 import java.awt.*;
 import java.util.*;
@@ -97,7 +96,7 @@ public class SeedRay extends Module {
         long chunkX = mc.player.getChunkPos().x;
         long chunkZ = mc.player.getChunkPos().z;
         ClientWorld world = mc.world;
-        int renderdistance = MinecraftClient.getInstance().options.viewDistance;
+        int renderdistance = MinecraftClient.getInstance().options.getViewDistance().getValue();
 
         int chunkCounter = 5;
 
@@ -127,7 +126,7 @@ public class SeedRay extends Module {
         super.onEnable();
 
         if (worldSeed == null) {
-            mc.inGameHud.getChatHud().addMessage(new LiteralText("Please input a seed using ,seedray <seed>"));
+            mc.inGameHud.getChatHud().addMessage(Text.literal("Please input a seed using ,seedray <seed>"));
             setToggled(false);
         }
 
@@ -143,7 +142,7 @@ public class SeedRay extends Module {
     }
 
     private void loadVisibleChunks() {
-        int renderdistance = MinecraftClient.getInstance().options.viewDistance;
+        int renderdistance = MinecraftClient.getInstance().options.getViewDistance().getValue();
 
         if (mc.player == null) {
             return;
@@ -187,12 +186,12 @@ public class SeedRay extends Module {
 
         Identifier id = world.getRegistryManager().get(Registry.BIOME_KEY).getId(world.getBiomeAccess().getBiomeForNoiseGen(new BlockPos(chunkX, 0, chunkZ)).value());
         if (id == null) {
-            mc.inGameHud.getChatHud().addMessage(new LiteralText("Unable to calculate ore positions, there may be mods affecting world generation"));
+            mc.inGameHud.getChatHud().addMessage(Text.literal("Unable to calculate ore positions, there may be mods affecting world generation"));
             setToggled(false);
             return;
         }
         String biomeName = id.getPath();
-        String dimensionName = ((DimensionTypeCaller) world.getDimension()).getInfiniburn().id().getPath();
+        String dimensionName = world.getDimension().infiniburn().id().getPath();
 
         for (Ore ore : oreConfig) {
 
@@ -245,7 +244,7 @@ public class SeedRay extends Module {
     // Mojang code
     // ====================================
 
-    private ArrayList<Vec3d> generateNormal(ClientWorld world, Random random, BlockPos blockPos, int veinSize, float discardOnAir) {
+    private ArrayList<Vec3d> generateNormal(ClientWorld world, ChunkRandom random, BlockPos blockPos, int veinSize, float discardOnAir) {
         float f = random.nextFloat() * 3.1415927F;
         float g = (float) veinSize / 8.0F;
         int i = MathHelper.ceil(((float) veinSize / 16.0F * 2.0F + 1.0F) / 2.0F);
@@ -272,7 +271,7 @@ public class SeedRay extends Module {
         return new ArrayList<>();
     }
 
-    private ArrayList<Vec3d> generateVeinPart(ClientWorld world, Random random, int veinSize, double startX, double endX, double startZ, double endZ, double startY, double endY, int x, int y, int z, int size, int i, float discardOnAir) {
+    private ArrayList<Vec3d> generateVeinPart(ClientWorld world, ChunkRandom random, int veinSize, double startX, double endX, double startZ, double endZ, double startY, double endY, int x, int y, int z, int size, int i, float discardOnAir) {
 
         BitSet bitSet = new BitSet(size * i * size);
         BlockPos.Mutable mutable = new BlockPos.Mutable();
@@ -362,7 +361,7 @@ public class SeedRay extends Module {
         return poses;
     }
 
-    private boolean shouldPlace(ClientWorld world, BlockPos orePos, float discardOnAir, Random random) {
+    private boolean shouldPlace(ClientWorld world, BlockPos orePos, float discardOnAir, ChunkRandom random) {
         if (discardOnAir == 0F || (discardOnAir != 1F && random.nextFloat() >= discardOnAir)) {
             return true;
         }
@@ -375,7 +374,7 @@ public class SeedRay extends Module {
         return true;
     }
 
-    private ArrayList<Vec3d> generateHidden(ClientWorld world, Random random, BlockPos blockPos, int size) {
+    private ArrayList<Vec3d> generateHidden(ClientWorld world, ChunkRandom random, BlockPos blockPos, int size) {
 
         ArrayList<Vec3d> poses = new ArrayList<>();
 
@@ -396,7 +395,7 @@ public class SeedRay extends Module {
         return poses;
     }
 
-    private int randomCoord(Random random, int size) {
+    private int randomCoord(ChunkRandom random, int size) {
         return Math.round((random.nextFloat() - random.nextFloat()) * (float) size);
     }
 

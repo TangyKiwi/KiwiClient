@@ -6,6 +6,7 @@ import com.tangykiwi.kiwiclient.modules.render.Freecam;
 import com.tangykiwi.kiwiclient.modules.render.Zoom;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 import org.objectweb.asm.Opcodes;
@@ -16,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = GameRenderer.class, priority = 1001)
 public abstract class GameRendererMixin
@@ -28,15 +30,14 @@ public abstract class GameRendererMixin
 
     private boolean freecamSet = false;
 
-    @Redirect(
-            at = @At(value = "FIELD",
-                    target = "Lnet/minecraft/client/option/GameOptions;fov:D",
-                    opcode = Opcodes.GETFIELD,
-                    ordinal = 0),
-            method = {"getFov(Lnet/minecraft/client/render/Camera;FZ)D"})
-    private double getFov(GameOptions options)
+    @Inject(at = @At(value = "RETURN", ordinal = 1),
+            method = {"getFov(Lnet/minecraft/client/render/Camera;FZ)D"},
+            cancellable = true)
+    private void onGetFov(Camera camera, float tickDelta, boolean changingFov,
+                          CallbackInfoReturnable<Double> cir)
     {
-        return ((Zoom) KiwiClient.moduleManager.getModule(Zoom.class)).changeFovBasedOnZoom(options.fov);
+        cir.setReturnValue(
+                ((Zoom) KiwiClient.moduleManager.getModule(Zoom.class)).changeFovBasedOnZoom(cir.getReturnValueD()));
     }
 
     @Inject(

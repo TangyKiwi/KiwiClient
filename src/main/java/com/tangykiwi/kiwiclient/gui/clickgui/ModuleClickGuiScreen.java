@@ -10,7 +10,7 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
@@ -22,13 +22,13 @@ public class ModuleClickGuiScreen extends ClickGuiScreen {
 	private TextFieldWidget searchField;
 
 	public ModuleClickGuiScreen() {
-		super(new LiteralText("ClickGui"));
+		super(Text.literal("ClickGui"));
 	}
 
 	public void init() {
 		super.init();
 
-		searchField = new TextFieldWidget(textRenderer, 2, 2, 100, 12, LiteralText.EMPTY);
+		searchField = new TextFieldWidget(textRenderer, 2, 2, 100, 12, Text.empty());
 		searchField.visible = false;
 		searchField.setMaxLength(20);
 		searchField.setSuggestion("Search here");
