@@ -1,4 +1,4 @@
-package com.tangykiwi.kiwiclient.util.shader;
+package com.tangykiwi.kiwiclient.util.render.shader;
 
 import java.io.IOException;
 

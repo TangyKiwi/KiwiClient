@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.modules.player;
 
+import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.mixin.ClientPlayerInteractionManagerAccessor;
@@ -30,6 +31,7 @@ public class AutoTool extends Module {
     }
 
     @Subscribe
+    @AllowConcurrentEvents
     public void onTick(TickEvent event) {
         ClientPlayerInteractionManager interactionManager = mc.interactionManager;
 
