@@ -60,7 +60,6 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 
 <details>
 <summary>Combat</summary>
-- BowBomb<br>
 - Criticals<br>
 - TriggerBot<br>
 </details>
@@ -87,6 +86,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 <details>
 <summary>Render</summary>
 - ESP<br>
+- Freecam<br>
 - Fullbright<br>
 - ItemPhysics<br>
 - Nametags<br>
