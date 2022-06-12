@@ -23,7 +23,6 @@
     "ClientWorldMixin",
     "CommandSuggestorMixin",
     "CustomPayloadC2SPacketAccessor",
-    "DimensionTypeMixin",
     "EntityAccessor",
     "EntityBucketItemAccessor",
     "EntityBucketItemMixin",

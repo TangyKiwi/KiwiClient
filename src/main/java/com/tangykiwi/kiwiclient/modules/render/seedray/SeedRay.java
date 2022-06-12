@@ -398,8 +398,4 @@ public class SeedRay extends Module {
     private int randomCoord(ChunkRandom random, int size) {
         return Math.round((random.nextFloat() - random.nextFloat()) * (float) size);
     }
-
-    public interface DimensionTypeCaller {
-        TagKey<Block> getInfiniburn();
-    }
 }
