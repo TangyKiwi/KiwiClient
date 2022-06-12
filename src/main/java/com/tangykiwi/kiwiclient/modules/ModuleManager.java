@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.modules;
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.command.commands.Bind;
+import com.tangykiwi.kiwiclient.event.GameJoinEvent;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.gui.BindScreen;
@@ -174,6 +175,14 @@ public class ModuleManager {
         if(module != null) {
             mc.setScreen(new BindScreen(module));
             module = null;
+        }
+    }
+
+    @Subscribe
+    @AllowConcurrentEvents
+    public void onGameJoin(GameJoinEvent e) {
+        for(Module m : getEnabledMods()) {
+            m.onEnable();
         }
     }
 
