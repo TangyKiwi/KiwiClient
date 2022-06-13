@@ -48,7 +48,7 @@ public abstract class CameraMixin {
             )
     )
     private void modifyCameraDistance(Args args) {
-        if (((Freecam) KiwiClient.moduleManager.getModule(Freecam.class)).target) {
+        if (KiwiClient.moduleManager.getModule(Freecam.class).isEnabled()) {
             args.set(0, -this.clipToSpace(0.0D));
         }
     }

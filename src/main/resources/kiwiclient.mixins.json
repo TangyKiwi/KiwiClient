@@ -28,6 +28,7 @@
     "EntityBucketItemMixin",
     "EntityRendererMixin",
     "FrustrumAccessor",
+    "GameOptionsMixin",
     "GameRendererMixin",
     "InGameHudMixin",
     "InGameOverlayRendererMixin",

@@ -8,6 +8,7 @@ import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
+import net.minecraft.client.option.Perspective;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.MathHelper;
@@ -28,6 +29,7 @@ public class Freecam extends Module {
     private boolean left;
     private boolean up;
     private boolean down;
+    private Perspective perspective;
 
     public Freecam() {
         super("Freecam", "Detaches your camera", GLFW.GLFW_KEY_U, Category.RENDER,
@@ -46,6 +48,7 @@ public class Freecam extends Module {
             this.prevPos = mc.gameRenderer.getCamera().getPos();
             this.prevYaw = this.yaw;
             this.prevPitch = this.pitch;
+            this.perspective = mc.options.getPerspective();
             this.unpress();
             super.onEnable();
         }
@@ -54,6 +57,7 @@ public class Freecam extends Module {
     @Override
     public void onDisable() {
         mc.chunkCullingEnabled = true;
+        mc.options.setPerspective(perspective);
         this.repress();
         super.onDisable();
     }
@@ -63,6 +67,9 @@ public class Freecam extends Module {
     public void onTick(TickEvent event) {
         if (mc.cameraEntity.isInsideWall()) {
             mc.getCameraEntity().noClip = true;
+        }
+        if (!perspective.isFirstPerson()) {
+            mc.options.setPerspective(Perspective.FIRST_PERSON);
         }
 
         if (mc.currentScreen == null) {
@@ -142,7 +149,6 @@ public class Freecam extends Module {
         pitch = pitch * 180.0 / Math.PI;
         yaw = yaw * 180.0 / Math.PI;
         yaw += 90f;
-
         mc.player.setYaw((float) yaw);
         mc.player.setPitch((float) pitch);
     }
@@ -178,6 +184,7 @@ public class Freecam extends Module {
     @AllowConcurrentEvents
     private void onKey(KeyPressEvent event) {
         int keyCode = event.getKeyCode();
+        boolean cancel = true;
         if (mc.options.forwardKey.matchesKey(keyCode, 0)) {
             this.forward = event.getAction() != 0;
         } else if (mc.options.backKey.matchesKey(keyCode, 0)) {
@@ -188,15 +195,15 @@ public class Freecam extends Module {
             this.left = event.getAction() != 0;
         } else if (mc.options.jumpKey.matchesKey(keyCode, 0)) {
             this.up = event.getAction() != 0;
-        } else {
-            if (!mc.options.sneakKey.matchesKey(keyCode, 0)) {
-                return;
-            }
-
+        } else if (mc.options.sneakKey.matchesKey(keyCode, 0)) {
             this.down = event.getAction() != 0;
+        } else {
+            cancel = false;
         }
 
-        event.setCancelled(true);
+        if(cancel) {
+            event.setCancelled(true);
+        }
     }
 
     public void changeLookDirection(double deltaX, double deltaY) {
