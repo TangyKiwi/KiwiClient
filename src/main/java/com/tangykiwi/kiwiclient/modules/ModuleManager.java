@@ -69,6 +69,7 @@ public class ModuleManager {
         //player
         moduleList.add(new AntiHunger());
         moduleList.add(new ArmorSwap());
+        moduleList.add(new AutoContainer());
         moduleList.add(new AutoTool());
         moduleList.add(new InventoryViewer());
 
