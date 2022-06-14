@@ -34,6 +34,7 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 
 import java.awt.*;
@@ -137,7 +138,7 @@ public class Tooltips extends Module {
             event.tooltipData = new BannerTooltipComponent(event.itemStack);
         }
         else if (event.itemStack.getItem() instanceof BannerPatternItem patternItem && getSetting(6).asToggle().state) {
-            event.tooltipData = new BannerTooltipComponent(createBannerFromPattern(RegistryKey.of(patternItem.getPattern().registry(), patternItem.getPattern().id())));
+            event.tooltipData = new BannerTooltipComponent(createBannerFromPattern(Registry.BANNER_PATTERN.getEntryList(patternItem.getPattern()).get().get(0)));
         }
         else if (event.itemStack.getItem() == Items.SHIELD && getSetting(6).asToggle().state) {
             ItemStack banner = createBannerFromShield(event.itemStack);
@@ -176,10 +177,10 @@ public class Tooltips extends Module {
         return compoundTag != null && compoundTag.contains("Items", 9);
     }
 
-    private ItemStack createBannerFromPattern(RegistryKey<BannerPattern> pattern) {
+    private ItemStack createBannerFromPattern(RegistryEntry<BannerPattern> pattern) {
         ItemStack itemStack = new ItemStack(Items.GRAY_BANNER);
         NbtCompound nbt = itemStack.getOrCreateSubNbt("BlockEntityTag");
-        NbtList listNbt = (new BannerPattern.Patterns()).add(BannerPatterns.BASE, DyeColor.BLACK).add(pattern, DyeColor.WHITE).toNbt();
+        NbtList listNbt = new BannerPattern.Patterns().add(BannerPatterns.BASE, DyeColor.BLACK).add(pattern, DyeColor.WHITE).toNbt();
         nbt.put("Patterns", listNbt);
         return itemStack;
     }
