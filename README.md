@@ -79,6 +79,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 <summary>Player</summary>
 - AntiHunger<br>
 - ArmorSwap<br>
+- AutoContainer<br>
 - AutoTool<br>
 - InventoryViewer<br>
 </details>
