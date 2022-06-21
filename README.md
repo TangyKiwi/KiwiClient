@@ -67,6 +67,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 <details>
 <summary>Movement</summary>
 - BoatPhase<br>
+- ElytraFly<br>
 - FastBridge<br>
 - Fly<br>
 - InvMove<br>
