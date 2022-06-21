@@ -35,6 +35,8 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     private boolean ignoreChatMessage;
 
+    @Shadow protected void autoJump(float dx, float dz) {}
+
     @Shadow public abstract void sendChatMessage(String string);
 
     public ClientPlayerEntityMixin(ClientWorld world, GameProfile gameProfile, @Nullable PlayerPublicKey publicKey)
@@ -50,13 +52,20 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
             info.cancel();
     }
 
-    @Inject(at = {@At("HEAD")},
-            method = {
-                    "move(Lnet/minecraft/entity/MovementType;Lnet/minecraft/util/math/Vec3d;)V"})
+    @Inject(method = "move", at = @At("HEAD"), cancellable = true)
     private void onMove(MovementType type, Vec3d offset, CallbackInfo callbackInfo)
     {
-        OnMoveEvent event = new OnMoveEvent(this);
+        OnMoveEvent event = new OnMoveEvent(type, offset);
         KiwiClient.eventBus.post(event);
+        if (event.isCancelled()) {
+            callbackInfo.cancel();
+        } else if (!type.equals(event.getType()) || !offset.equals(event.getVec())) {
+            double double_1 = this.getX();
+            double double_2 = this.getZ();
+            super.move(event.getType(), event.getVec());
+            this.autoJump((float) (this.getX() - double_1), (float) (this.getZ() - double_2));
+            callbackInfo.cancel();
+        }
     }
 
     @Inject(method = "sendChatMessage(Ljava/lang/String;Lnet/minecraft/text/Text;)V", at = @At("HEAD"), cancellable = true)
