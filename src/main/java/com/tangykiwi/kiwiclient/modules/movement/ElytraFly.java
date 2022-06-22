@@ -51,6 +51,8 @@ public class ElytraFly extends Module {
                     mc.player.addVelocity(MathHelper.sin(radianYaw) * -boost, 0, MathHelper.cos(radianYaw) * boost);
                 } else if (mc.options.backKey.isPressed()) {
                     mc.player.addVelocity(MathHelper.sin(radianYaw) * boost, 0, MathHelper.cos(radianYaw) * -boost);
+                } else if (mc.options.jumpKey.isPressed()) {
+                    mc.player.addVelocity(0, boost, 0);
                 }
             }
         }
