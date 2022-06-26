@@ -51,8 +51,10 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - ClickGui<br>
 - Compass<br>
 - HUD<br>
+- InventoryViewer<br>
 - MountHUD<br>  
 - NoScoreboard<br>
+- PotionTimers<br>
 - Time<br>
 - Tooltips<br>
 - VanillaSpoof<br>
@@ -82,7 +84,6 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - ArmorSwap<br>
 - AutoContainer<br>
 - AutoTool<br>
-- InventoryViewer<br>
 </details>
 
 <details>
