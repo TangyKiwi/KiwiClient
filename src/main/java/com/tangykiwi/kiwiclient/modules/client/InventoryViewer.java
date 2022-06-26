@@ -1,18 +1,22 @@
-package com.tangykiwi.kiwiclient.modules.player;
+package com.tangykiwi.kiwiclient.modules.client;
 
 import com.google.common.eventbus.Subscribe;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 
 public class InventoryViewer extends Module {
     public InventoryViewer() {
-        super("InventoryViewer", "Allows you to see what's in your inventory", KEY_UNBOUND, Category.PLAYER);
+        super("InventoryViewer", "Allows you to see what's in your inventory", KEY_UNBOUND, Category.CLIENT);
         super.toggle();
     }
 
@@ -24,17 +28,19 @@ public class InventoryViewer extends Module {
         int scaledWidth = mc.getWindow().getScaledWidth();
         int scaledHeight = mc.getWindow().getScaledHeight();
 
-        ColorUtil.fillGradient(new MatrixStack(), scaledWidth - (9 * 18 + 4), scaledHeight - (3 * 18 + 4), scaledWidth, scaledHeight, -1072689136, -804253680);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, new Identifier("kiwiclient", "textures/inv_bg.png"));
+        mc.inGameHud.drawTexture(e.getMatrix(), scaledWidth - (9 * 18 + 2), scaledHeight - (3 * 18 + 3), 0, 0, 164, 56, 164, 56);
 
-        for(int i = 1; i <= 4; i++) {
+        for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 9; j++) {
-                int slot = i * 9 + j;
+                int slot = (i + 1) * 9 + j;
                 ItemStack itemStack = player.getInventory().getStack(slot);
                 boolean isEmpty = itemStack.isEmpty();
 
                 if(!isEmpty) {
-                    int x = scaledWidth - (9 * 18 + 4) + j * 18 + 2;
-                    int y = scaledHeight - (3 * 18 + 4) + (i - 1) * 18 + 2;
+                    int x = scaledWidth - (9 * 18 + 4) + j * 18 + 4;
+                    int y = scaledHeight - (3 * 18 + 4) + i * 18 + 2;
                     itemRenderer.renderGuiItemIcon(itemStack, x, y);
                     itemRenderer.renderGuiItemOverlay(mc.textRenderer, itemStack, x, y);
                 }

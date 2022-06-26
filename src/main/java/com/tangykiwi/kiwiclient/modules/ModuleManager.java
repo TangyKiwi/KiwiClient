@@ -2,7 +2,6 @@ package com.tangykiwi.kiwiclient.modules;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
-import com.tangykiwi.kiwiclient.command.commands.Bind;
 import com.tangykiwi.kiwiclient.event.GameJoinEvent;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
@@ -40,8 +39,10 @@ public class ModuleManager {
         moduleList.add(new ClickGui());
         moduleList.add(new Compass(325, 325, 1, 2, true));
         moduleList.add(new HUD());
+        moduleList.add(new InventoryViewer());
         moduleList.add(new MountHUD());
         moduleList.add(new NoScoreboard());
+        moduleList.add(new PotionTimers());
         moduleList.add(new Time());
         moduleList.add(new Tooltips());
         moduleList.add(new VanillaSpoof());
@@ -72,7 +73,6 @@ public class ModuleManager {
         moduleList.add(new ArmorSwap());
         moduleList.add(new AutoContainer());
         moduleList.add(new AutoTool());
-        moduleList.add(new InventoryViewer());
 
         //render
         moduleList.add(new ESP());

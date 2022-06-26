@@ -1,23 +1,33 @@
 package com.tangykiwi.kiwiclient.mixin;
 
+import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import com.tangykiwi.kiwiclient.modules.client.MountHUD;
 import com.tangykiwi.kiwiclient.modules.client.NoScoreboard;
+import com.tangykiwi.kiwiclient.modules.client.PotionTimers;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.scoreboard.ScoreboardObjective;
+import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Collection;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
@@ -45,8 +55,6 @@ public class InGameHudMixin {
             return;
         }
     }
-
-
 
     @Shadow @Final private MinecraftClient client;
 
@@ -86,5 +94,65 @@ public class InGameHudMixin {
     private boolean switchBar(ClientPlayerEntity player) {
         if (!client.interactionManager.hasExperienceBar() || !KiwiClient.moduleManager.getModule(MountHUD.class).isEnabled()) return player.hasJumpingMount();
         return player.hasJumpingMount() && client.options.jumpKey.isPressed() || player.getMountJumpStrength() > 0;
+    }
+
+    @Inject(method = "renderStatusEffectOverlay", at = @At("TAIL"))
+    private void renderDurationOverlay(MatrixStack matrices, CallbackInfo c) {
+        if(!KiwiClient.moduleManager.getModule(PotionTimers.class).isEnabled()) return;
+        Collection<StatusEffectInstance> collection = this.client.player.getStatusEffects();
+        if (!collection.isEmpty()) {
+            // Replicate vanilla placement algorithm to get the duration
+            // labels to line up exactly right.
+
+            int beneficialCount = 0;
+            int nonBeneficialCount = 0;
+            for (StatusEffectInstance statusEffectInstance : Ordering.natural().reverse().sortedCopy(collection)) {
+                StatusEffect statusEffect = statusEffectInstance.getEffectType();
+                if (statusEffectInstance.shouldShowIcon()) {
+                    int x = this.client.getWindow().getScaledWidth();
+                    int y = 1;
+
+                    if (this.client.isDemo()) {
+                        y += 15;
+                    }
+
+                    if (statusEffect.isBeneficial()) {
+                        beneficialCount++;
+                        x -= 25 * beneficialCount;
+                    } else {
+                        nonBeneficialCount++;
+                        x -= 25 * nonBeneficialCount;
+                        y += 26;
+                    }
+
+                    String duration = getDurationAsString(statusEffectInstance);
+                    int durationLength = client.textRenderer.getWidth(duration);
+                    DrawableHelper.drawStringWithShadow(matrices, client.textRenderer, duration, x + 13 - (durationLength / 2), y + 14, 0x99FFFFFF);
+
+                    int amplifier = statusEffectInstance.getAmplifier();
+                    if (amplifier > 0) {
+                        // Most langages has "translations" for amplifier 1-5, converting to roman numerals
+                        String amplifierString = (amplifier < 6) ? I18n.translate("potion.potency." + amplifier) : "**";
+                        int amplifierLength = client.textRenderer.getWidth(amplifierString);
+                        DrawableHelper.drawStringWithShadow(matrices, client.textRenderer, amplifierString, x + 22 - amplifierLength, y + 3, 0x99FFFFFF);
+                    }
+                }
+            }
+        }
+    }
+
+    @NotNull
+    private String getDurationAsString(StatusEffectInstance statusEffectInstance) {
+        int ticks = MathHelper.floor((float) statusEffectInstance.getDuration());
+        int seconds = ticks / 20;
+
+        if (ticks > 32147) {
+            // Vanilla considers everything above this to be infinite
+            return "**";
+        } else if (seconds > 60) {
+            return seconds / 60 + ":" + (seconds % 60 < 10 ? "0" : "") + seconds % 60;
+        } else {
+            return String.valueOf(seconds);
+        }
     }
 }
