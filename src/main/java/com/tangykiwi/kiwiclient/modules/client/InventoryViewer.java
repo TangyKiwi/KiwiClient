@@ -30,7 +30,7 @@ public class InventoryViewer extends Module {
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, new Identifier("kiwiclient", "textures/inv_bg.png"));
-        mc.inGameHud.drawTexture(e.getMatrix(), scaledWidth - (9 * 18 + 2), scaledHeight - (3 * 18 + 3), 0, 0, 164, 56, 164, 56);
+        mc.inGameHud.drawTexture(e.getMatrix(), scaledWidth - 164, scaledHeight - 56, 0, 0, 164, 56, 164, 56);
 
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 9; j++) {
