@@ -5,6 +5,7 @@
   "client": [
     "AbstractBlockMixin",
     "AbstractBlockStateMixin",
+    "BackgroundRendererMixin",
     "BlockMixin",
     "BlockStateMixin",
     "BufferBuilderMixin",

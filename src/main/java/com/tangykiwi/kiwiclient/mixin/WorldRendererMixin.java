@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.mixin;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.EntityRenderEvent;
 import com.tangykiwi.kiwiclient.event.WorldRenderEvent;
+import com.tangykiwi.kiwiclient.modules.render.NoRender;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,6 +27,10 @@ import net.minecraft.util.profiler.Profiler;
 
 @Mixin(WorldRenderer.class)
 public class WorldRendererMixin {
+    @Inject(method = "renderWeather", at = @At("HEAD"), cancellable = true)
+    private void onRenderWeather(LightmapTextureManager manager, float f, double d, double e, double g, CallbackInfo info) {
+        if (KiwiClient.moduleManager.getModule(NoRender.class).isEnabled() && KiwiClient.moduleManager.getModule(NoRender.class).getSetting(1).asToggle().state) info.cancel();
+    }
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V"))
     private void render_swap(Profiler profiler, String string) {
