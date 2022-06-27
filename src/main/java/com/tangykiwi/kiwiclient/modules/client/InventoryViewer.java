@@ -40,7 +40,7 @@ public class InventoryViewer extends Module {
 
                 if(!isEmpty) {
                     int x = scaledWidth - 164 + j * 18 + 2;
-                    int y = scaledHeight - 56 + i * 18 + 1;
+                    int y = scaledHeight - 56 + i * 18 + 2;
                     itemRenderer.renderGuiItemIcon(itemStack, x, y);
                     itemRenderer.renderGuiItemOverlay(mc.textRenderer, itemStack, x, y);
                 }
