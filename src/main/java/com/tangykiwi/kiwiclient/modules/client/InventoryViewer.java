@@ -39,8 +39,8 @@ public class InventoryViewer extends Module {
                 boolean isEmpty = itemStack.isEmpty();
 
                 if(!isEmpty) {
-                    int x = scaledWidth - (9 * 18 + 4) + j * 18 + 4;
-                    int y = scaledHeight - (3 * 18 + 4) + i * 18 + 2;
+                    int x = scaledWidth - 164 + j * 18 + 2;
+                    int y = scaledHeight - 56 + i * 18 + 1;
                     itemRenderer.renderGuiItemIcon(itemStack, x, y);
                     itemRenderer.renderGuiItemOverlay(mc.textRenderer, itemStack, x, y);
                 }
