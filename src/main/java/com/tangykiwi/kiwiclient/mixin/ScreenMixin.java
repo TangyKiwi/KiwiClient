@@ -9,10 +9,8 @@ import com.tangykiwi.kiwiclient.modules.other.Background;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.SplashOverlay;
-import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.gui.screen.*;
+import net.minecraft.client.gui.screen.ingame.CommandBlockScreen;
 import net.minecraft.client.gui.screen.multiplayer.SocialInteractionsScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.screen.pack.PackScreen;
@@ -70,7 +68,10 @@ public abstract class ScreenMixin {
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if(keyCode == GLFW.GLFW_KEY_SEMICOLON && !(this.client.currentScreen instanceof ChatScreen)) {
+        if(keyCode == GLFW.GLFW_KEY_SEMICOLON
+                && !(this.client.currentScreen instanceof ChatScreen)
+                && !(this.client.currentScreen instanceof CommandBlockScreen)
+                && !(this.client.currentScreen instanceof AddServerScreen)) {
             Utils.mc.setScreen(ClickGui.clickGui);
         }
     }
