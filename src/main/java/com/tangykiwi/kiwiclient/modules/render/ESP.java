@@ -15,6 +15,7 @@ import com.tangykiwi.kiwiclient.util.render.color.QuadColor;
 import com.tangykiwi.kiwiclient.util.render.shader.ColorVertexConsumerProvider;
 import com.tangykiwi.kiwiclient.util.render.shader.ShaderCore;
 import com.tangykiwi.kiwiclient.util.render.shader.ShaderEffectWrapper;
+import com.tangykiwi.kiwiclient.util.render.shader.ShaderLoader;
 import net.minecraft.client.gl.ShaderEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -45,8 +46,7 @@ public class ESP extends Module {
 
         try {
             shader = new ShaderEffectWrapper(
-                    new ShaderEffect(mc.getTextureManager(), mc.getResourceManager(), mc.getFramebuffer(), new Identifier("kiwiclient", "shaders/post/entity_outline.json")));
-
+                    ShaderLoader.loadEffect(mc.getFramebuffer(), new Identifier("kiwiclient", "shaders/post/entity_outline.json")));
             colorVertexer = new ColorVertexConsumerProvider(shader.getFramebuffer("main"), ShaderCore::getColorOverlayShader);
         } catch (JsonSyntaxException | IOException e) {
             e.printStackTrace();

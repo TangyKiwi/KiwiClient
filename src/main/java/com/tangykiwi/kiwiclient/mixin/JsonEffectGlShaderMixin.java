@@ -1,10 +1,14 @@
 package com.tangykiwi.kiwiclient.mixin;
 
+import net.minecraft.client.gl.Program;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import net.minecraft.client.gl.JsonEffectGlShader;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(JsonEffectGlShader.class)
 public class JsonEffectGlShaderMixin {

@@ -70,7 +70,7 @@ public class ShaderEffectWrapper {
         bufferBuilder.vertex(w, h, 0).texture(ws, 0f).color(255, 255, 255, 255).next();
         bufferBuilder.vertex(w, 0, 0).texture(ws, hs).color(255, 255, 255, 255).next();
         bufferBuilder.vertex(0, 0, 0).texture(0f, hs).color(255, 255, 255, 255).next();
-        BufferRenderer.drawWithShader(bufferBuilder.end());
+        BufferRenderer.drawWithoutShader(bufferBuilder.end());
         blitshader.unbind();
 
         GlStateManager._depthMask(true);
