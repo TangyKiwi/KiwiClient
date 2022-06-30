@@ -69,9 +69,7 @@ public abstract class ScreenMixin {
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         if(keyCode == GLFW.GLFW_KEY_SEMICOLON
-                && !(this.client.currentScreen instanceof ChatScreen)
-                && !(this.client.currentScreen instanceof CommandBlockScreen)
-                && !(this.client.currentScreen instanceof AddServerScreen)) {
+                && this.client.currentScreen instanceof MainMenu || this.client.currentScreen instanceof TitleScreen) {
             Utils.mc.setScreen(ClickGui.clickGui);
         }
     }
