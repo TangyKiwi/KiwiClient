@@ -1,6 +1,5 @@
 package com.tangykiwi.kiwiclient.mixin;
 
-import java.lang.reflect.Constructor;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -8,10 +7,10 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.RenderBlockEvent;
 import com.tangykiwi.kiwiclient.event.RenderFluidEvent;
 import it.unimi.dsi.fastutil.objects.ReferenceArraySet;
-import net.minecraft.util.math.random.Random;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 import net.minecraft.block.BlockRenderType;
@@ -33,22 +32,20 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
 
-@Mixin(targets = "net.minecraft.client.render.chunk.ChunkBuilder$BuiltChunk$RebuildTask")
+@Mixin(ChunkBuilder.BuiltChunk.RebuildTask.class)
 public class ChunkRebuildTaskMixin {
-    @Shadow(remap = false) private ChunkBuilder.BuiltChunk field_20839;
-    @Shadow protected ChunkRendererRegion region;
 
-    @Shadow private <E extends BlockEntity> void addBlockEntity(ChunkBuilder.BuiltChunk.RebuildTask.RenderData blockEntities, E blockEntity) {}
+    @Shadow private /* outer */ ChunkBuilder.BuiltChunk field_20839;
+    @Shadow private ChunkRendererRegion region;
 
-    @Redirect(method = "run", require = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask;render(FFFLnet/minecraft/client/render/chunk/BlockBufferBuilderStorage;)Lnet/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask$RenderData;"))
-    private ChunkBuilder.BuiltChunk.RebuildTask.RenderData run_render(ChunkBuilder.BuiltChunk.RebuildTask rebuildTask, float cameraX, float cameraY, float cameraZ, BlockBufferBuilderStorage buffers) throws Exception {
-        return newRender2(cameraX, cameraY, cameraZ, buffers);
+    @Shadow private <E extends BlockEntity> void addBlockEntity(ChunkBuilder.BuiltChunk.RebuildTask.RenderData renderData, E blockEntity) {}
+    @Redirect(method = "run", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask;render(FFFLnet/minecraft/client/render/chunk/BlockBufferBuilderStorage;)Lnet/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask$RenderData;"))
+    private ChunkBuilder.BuiltChunk.RebuildTask.RenderData run_render(@Coerce Object thisObject, float cameraX, float cameraY, float cameraZ, BlockBufferBuilderStorage buffers) {
+        return newRender(cameraX, cameraY, cameraZ, buffers);
     }
 
-    private ChunkBuilder.BuiltChunk.RebuildTask.RenderData newRender2(float cameraX, float cameraY, float cameraZ, BlockBufferBuilderStorage buffers) throws Exception {
-        Constructor<ChunkBuilder.BuiltChunk.RebuildTask.RenderData> constructor = ChunkBuilder.BuiltChunk.RebuildTask.RenderData.class.getDeclaredConstructor();
-        constructor.setAccessible(true);
-        ChunkBuilder.BuiltChunk.RebuildTask.RenderData renderData = constructor.newInstance();
+    private ChunkBuilder.BuiltChunk.RebuildTask.RenderData newRender(float cameraX, float cameraY, float cameraZ, BlockBufferBuilderStorage buffers) {
+        ChunkBuilder.BuiltChunk.RebuildTask.RenderData renderData = new ChunkBuilder.BuiltChunk.RebuildTask.RenderData();
         BlockPos blockPos = field_20839.getOrigin().toImmutable();
         BlockPos blockPos2 = blockPos.add(15, 15, 15);
         ChunkOcclusionDataBuilder chunkOcclusionDataBuilder = new ChunkOcclusionDataBuilder();
@@ -58,7 +55,7 @@ public class ChunkRebuildTaskMixin {
         if (chunkRendererRegion != null) {
             BlockModelRenderer.enableBrightnessCache();
             Set<RenderLayer> set = new ReferenceArraySet(RenderLayer.getBlockLayers().size());
-            Random random = Random.create();
+            net.minecraft.util.math.random.Random random = net.minecraft.util.math.random.Random.create();
             BlockRenderManager blockRenderManager = MinecraftClient.getInstance().getBlockRenderManager();
             Iterator var15 = BlockPos.iterate(blockPos, blockPos2).iterator();
 
@@ -83,15 +80,16 @@ public class ChunkRebuildTaskMixin {
                 if (!fluidState.isEmpty()) {
                     renderLayer = RenderLayers.getFluidLayer(fluidState);
                     bufferBuilder = buffers.get(renderLayer);
-                    if (set.add(renderLayer)) {
-                        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL);
-                    }
 
                     RenderFluidEvent event = new RenderFluidEvent(fluidState, blockPos3, bufferBuilder);
                     KiwiClient.eventBus.post(event);
 
                     if (event.isCancelled())
                         continue;
+
+                    if (set.add(renderLayer)) {
+                        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL);
+                    }
 
                     blockRenderManager.renderFluid(blockPos3, chunkRendererRegion, bufferBuilder, blockState2, fluidState);
                 }
