@@ -65,7 +65,7 @@ public class Compass extends Module {
     public void onDrawOverlay(DrawOverlayEvent e) {
         if(shadow){
             RenderSystem.enableBlend();
-            RenderSystem.setShaderTexture(0, new Identifier("kiwiclient:textures/shadow.png"));
+            RenderSystem.setShaderTexture(0, new Identifier("kiwiclient:textures/hud/shadow.png"));
             mc.currentScreen.drawTexture(e.getMatrix(), (int) (mc.getWindow().getScaledWidth() * 0.1), 0, 0.0F, 0.0F, (int) (mc.getWindow().getScaledWidth() * 0.8), 40, (int) (mc.getWindow().getScaledWidth() * 0.8), 40);
             RenderSystem.disableBlend();
         }
