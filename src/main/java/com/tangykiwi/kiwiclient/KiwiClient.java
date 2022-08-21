@@ -36,7 +36,7 @@ public class KiwiClient implements ModInitializer {
 
 	private MinecraftClient mc;
 
-	public static String name = "KiwiClient " + SharedConstants.getGameVersion().getName(), version = "6.12.37";
+	public static String name = "KiwiClient " + SharedConstants.getGameVersion().getName(), version = "6.12.38";
 
 	public static DiscordRP discordRPC;
 	public static ModuleManager moduleManager;

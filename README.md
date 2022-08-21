@@ -113,7 +113,6 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 
 ### Commands
 - ,bind [module] [key]
-- ,dupe
 - ,enchant [type/enchantment] [level]
 - ,ez
 - ,ff
