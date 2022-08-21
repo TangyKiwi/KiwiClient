@@ -40,7 +40,7 @@ public class InGameHudMixin {
             MatrixStack matrixStack = new MatrixStack();
 
             RenderSystem.setShaderTexture(0, KiwiClient.DUCK);
-            client.inGameHud.drawTexture(matrixStack, 0, 0, 0, 0, 130, 130);
+            client.inGameHud.drawTexture(matrixStack, 0, 0, 0, 0, 53, 59, 53, 59);
         }
 
         DrawOverlayEvent event = new DrawOverlayEvent(new MatrixStack());
