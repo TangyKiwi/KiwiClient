@@ -35,12 +35,14 @@ public class InGameHudMixin {
     private void render(CallbackInfo info){
         if(!MinecraftClient.getInstance().options.debugEnabled) {
             MinecraftClient client = MinecraftClient.getInstance();
-            TextRenderer textRenderer = client.textRenderer;
-            TextureManager textureManager = client.getTextureManager();
             MatrixStack matrixStack = new MatrixStack();
 
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShaderTexture(0, KiwiClient.DUCK);
             client.inGameHud.drawTexture(matrixStack, 0, 0, 0, 0, 53, 59, 53, 59);
+            RenderSystem.disableBlend();
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
 
         DrawOverlayEvent event = new DrawOverlayEvent(new MatrixStack());
