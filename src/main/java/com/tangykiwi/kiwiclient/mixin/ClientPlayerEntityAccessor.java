@@ -1,14 +1,15 @@
 package com.tangykiwi.kiwiclient.mixin;
 
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.network.message.ChatMessageSigner;
-import net.minecraft.network.message.MessageSignature;
-import net.minecraft.text.Text;
+import net.minecraft.network.message.DecoratedContents;
+import net.minecraft.network.message.LastSeenMessageList;
+import net.minecraft.network.message.MessageMetadata;
+import net.minecraft.network.message.MessageSignatureData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(ClientPlayerEntity.class)
 public interface ClientPlayerEntityAccessor {
     @Invoker("signChatMessage")
-    MessageSignature _signChatMessage(ChatMessageSigner signer, Text message);
+    MessageSignatureData _signChatMessage(MessageMetadata metadata, DecoratedContents content, LastSeenMessageList lastSeenMessages);
 }

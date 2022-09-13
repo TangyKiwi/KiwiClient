@@ -37,7 +37,8 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Shadow protected void autoJump(float dx, float dz) {}
 
-    @Shadow public abstract void sendChatMessage(String string);
+    @Shadow
+    public abstract void sendChatMessage(String message, @Nullable Text preview);
 
     public ClientPlayerEntityMixin(ClientWorld world, GameProfile gameProfile, @Nullable PlayerPublicKey publicKey)
     {
@@ -78,7 +79,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
             if (!event.isCancelled()) {
                 ignoreChatMessage = true;
-                sendChatMessage(event.message);
+                sendChatMessage(event.message, preview);
                 ignoreChatMessage = false;
             }
 

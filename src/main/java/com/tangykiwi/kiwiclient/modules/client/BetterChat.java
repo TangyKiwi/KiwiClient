@@ -45,9 +45,6 @@ public class BetterChat extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onMessageRecieve(AddMessageEvent event) {
-        ((ChatHudAccessor) mc.inGameHud.getChatHud()).getVisibleMessages().removeIf((message) -> message.getId() == event.id && event.id != 0);
-        ((ChatHudAccessor) mc.inGameHud.getChatHud()).getMessages().removeIf((message) -> message.getId() == event.id && event.id != 0);
-
         Text message = event.message;
 
         // Timestamps
@@ -65,8 +62,8 @@ public class BetterChat extends Module {
             message = Text.literal("   ").append(message);
         }
 
-        event.setCancelled(true);
-        ((IChatHUD) mc.inGameHud.getChatHud()).add(message, event.id, mc.inGameHud.getTicks(), false);
+        event.message = message;
+        event.modified = true;
     }
 
     @Subscribe
