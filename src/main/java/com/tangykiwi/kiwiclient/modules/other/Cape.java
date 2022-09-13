@@ -36,9 +36,9 @@ public class Cape extends Module {
             int currentFrameNo = this.lastFrame + 1 > 32 ? 1 : this.lastFrame + 1;
             this.lastFrame = currentFrameNo;
             this.lastFrameTime = time;
-            return new Identifier(String.format("kiwiclient:textures/cosmetic/cape/cape%d.png", currentFrameNo));
+            return new Identifier(String.format("kiwiclient:textures/cosmetic/cape/gif/cape%d.png", currentFrameNo));
         } else {
-            return new Identifier(String.format("kiwiclient:textures/cosmetic/cape/cape%d.png", this.lastFrame));
+            return new Identifier(String.format("kiwiclient:textures/cosmetic/cape/gif/cape%d.png", this.lastFrame));
         }
     }
 }

@@ -36,7 +36,8 @@ dependencies {
 			"fabric-item-groups-v0",
 			"fabric-resource-loader-v0",
 			"fabric-events-interaction-v0",
-			"fabric-key-binding-api-v1"
+			"fabric-key-binding-api-v1",
+			"fabric-lifecycle-events-v1"
 	]
 	// Add each module as a dependency
 	apiModules.forEach {
