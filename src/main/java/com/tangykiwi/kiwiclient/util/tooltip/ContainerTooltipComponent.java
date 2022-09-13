@@ -15,7 +15,7 @@ import net.minecraft.util.collection.DefaultedList;
 import java.awt.*;
 
 public class ContainerTooltipComponent implements TooltipComponent, ITooltipData {
-    private static final Identifier TEXTURE_CONTAINER_BACKGROUND = new Identifier("kiwiclient", "textures/container.png");
+    private static final Identifier TEXTURE_CONTAINER_BACKGROUND = new Identifier("kiwiclient", "textures/hud/container.png");
 
     private final DefaultedList<ItemStack> items;
     private final Color color;
