@@ -55,7 +55,11 @@ public class ModeSetting extends Setting<Integer> {
     }
 
     public ModeSetting withDesc(String desc) {
-        description = desc;
+        description = "\nModes:\n" + desc;
+        for (String mode : modes) {
+            description = "\n" + mode + description;
+        }
+        description = description.strip();
         return this;
     }
 
