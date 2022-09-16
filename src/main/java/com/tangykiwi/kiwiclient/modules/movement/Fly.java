@@ -18,7 +18,7 @@ public class Fly extends Module {
     public Fly() {
         super("Fly", "Fly like in Creative", KEY_UNBOUND, Category.MOVEMENT,
             new ModeSetting("Antikick", "None", "Packet").withDesc("Antikick mode"),
-            new SliderSetting("Speed", 0, 5, 1, 1));
+            new SliderSetting("Speed", 0.1, 5, 1, 1));
     }
 
     @Subscribe

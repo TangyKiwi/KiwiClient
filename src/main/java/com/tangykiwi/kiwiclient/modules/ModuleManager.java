@@ -54,6 +54,7 @@ public class ModuleManager {
         //movement
         moduleList.add(new BoatPhase());
         moduleList.add(new ElytraFly());
+        moduleList.add(new EntityFly());
         moduleList.add(new FastBridge());
         moduleList.add(new Fly());
         moduleList.add(new InvMove());
