@@ -19,6 +19,7 @@ import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.entity.passive.AnimalEntity;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -63,6 +64,7 @@ public class ModuleManager {
         moduleList.add(new Speed());
 
         //other
+        moduleList.add(new AntiHuman());
         moduleList.add(new Background());
         moduleList.add(new Cape());
         moduleList.add(new Deadmau5Ears());
