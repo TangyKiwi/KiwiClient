@@ -148,12 +148,12 @@ public class ModuleManager {
 //        }
         @Override
         public int compare(Module a, Module b) {
-            if(IFont.CONSOLAS.getStringWidth(a.getName()) >
-                    IFont.CONSOLAS.getStringWidth(b.getName()))
-                return -1;
-            else if(IFont.CONSOLAS.getStringWidth(a.getName()) <
-                    IFont.CONSOLAS.getStringWidth(b.getName()))
-                return 1;
+            int aWidth = IFont.CONSOLAS.getStringWidth(a.getName());
+            int bWidth = IFont.CONSOLAS.getStringWidth(b.getName());
+            if(aWidth > bWidth) return -1;
+            else if(aWidth < bWidth) return 1;
+            else if(aWidth == bWidth && a.getName().compareTo(b.getName()) < 0) return -1;
+            else if(aWidth == bWidth && a.getName().compareTo(b.getName()) > 0) return 1;
             return 0;
         }
     }
