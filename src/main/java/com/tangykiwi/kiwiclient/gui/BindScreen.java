@@ -1,9 +1,11 @@
 package com.tangykiwi.kiwiclient.gui;
 
+import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
@@ -68,6 +70,12 @@ public class BindScreen extends Screen {
     @Override
     public void tick() {
         if (closeAt != -1 && closeAt < System.currentTimeMillis()) {
+            String prefix = "§a[§6KiwiClient§a]§r";
+            String text = "Unbound §d" + module.getName();
+            if(module.getKeyCode() != -2) {
+                text = "Bound §d" + module.getName() + "§r to §a" + InputUtil.fromKeyCode(module.getKeyCode(), -1).getLocalizedText().getString() + " (KEY" + module.getKeyCode() + ")";
+            }
+            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal(prefix + " " + text));
             close();
         }
         super.tick();

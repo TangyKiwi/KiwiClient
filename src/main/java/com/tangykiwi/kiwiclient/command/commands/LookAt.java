@@ -45,6 +45,7 @@ public class LookAt extends Command {
 
         mc.player.setPitch((float) pitch);
         mc.player.setYaw((float) yaw);
+        addMessage("Forced player to look at §b[§a" + pos.x + ", " + pos.y + ", " + pos.z + "§b] §rwith pitch §a" + pitch + " §rand yaw §a" + yaw);
         //mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY(), player.getZ(), (float) yaw, (float) pitch, player.isOnGround()));
     }
 }

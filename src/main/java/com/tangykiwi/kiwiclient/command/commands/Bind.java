@@ -37,28 +37,28 @@ public class Bind extends Command {
                         try {
                             key = InputUtil.fromTranslationKey("key.keyboard." + keycode.replaceFirst("right", "right.")).getCode();
                         } catch (IllegalArgumentException e1) {
-                            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("right", "right.")));
+                            addMessage("Unknown key: §c" + keycode + " / " + keycode.toLowerCase().replaceFirst("right", "right."));
                             return SINGLE_SUCCESS;
                         }
                     } else if (keycode.toLowerCase().startsWith("r")) {
                         try {
                             key = InputUtil.fromTranslationKey("key.keyboard." + keycode.toLowerCase().replaceFirst("r", "right.")).getCode();
                         } catch (IllegalArgumentException e1) {
-                            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("r", "right.")));
+                            addMessage("Unknown key: §c" + keycode + " / " + keycode.toLowerCase().replaceFirst("r", "right."));
                             return SINGLE_SUCCESS;
                         }
                     } else if (keycode.toLowerCase().startsWith("left")) {
                         try {
                             key = InputUtil.fromTranslationKey("key.keyboard." + keycode.replaceFirst("left", "left.")).getCode();
                         } catch (IllegalArgumentException e1) {
-                            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("left", "left.")));
+                            addMessage("Unknown key: §c" + keycode + " / " + keycode.toLowerCase().replaceFirst("left", "left."));
                             return SINGLE_SUCCESS;
                         }
                     } else if (keycode.toLowerCase().startsWith("l")) {
                         try {
                             key = InputUtil.fromTranslationKey("key.keyboard." + keycode.toLowerCase().replaceFirst("l", "left.")).getCode();
                         } catch (IllegalArgumentException e1) {
-                            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Unknown key: " + keycode + " / " + keycode.toLowerCase().replaceFirst("l", "left.")));
+                            addMessage("Unknown key: §c" + keycode + " / " + keycode.toLowerCase().replaceFirst("l", "left."));
                             return SINGLE_SUCCESS;
                         }
                     }
@@ -85,7 +85,7 @@ public class Bind extends Command {
                     } else if (keycode.equals("/") || keycode.equals("?")) {
                         key = GLFW.GLFW_KEY_SLASH;
                     } else {
-                        Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Unknown key: " + keycode));
+                        addMessage("Unknown key: §c" + keycode);
                         return SINGLE_SUCCESS;
                     }
                 }
@@ -93,7 +93,7 @@ public class Bind extends Command {
                 Module m = ModuleArgumentType.getModule(context, "module");
                 m.setKeyCode(key);
                 m.getSetting(m.getSettings().size() - 1).setDataValue(m.getKeyCode());
-                Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Bound " + m.getName() + " to " + keycode + " (KEY" + key + ")"));
+                addMessage("Bound §d" + m.getName() + "§r to §a" + keycode + " (KEY" + key + ")");
                 return SINGLE_SUCCESS;
             }))
         );

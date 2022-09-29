@@ -29,7 +29,7 @@ public class ResetClickGui extends Command {
                     ((ClickGuiWindow) w).hiding = false;
                 }
             }
-            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Reset ClickGUI"));
+            addMessage("Reset ClickGUI");
             return SINGLE_SUCCESS;
         });
     }

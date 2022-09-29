@@ -28,7 +28,7 @@ public class VClip extends Command {
                 vehicle.setPosition(vehicle.getX(), vehicle.getY() + blocks, vehicle.getZ());
             }
             player.setPosition(player.getX(), player.getY() + blocks, player.getZ());
-            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Vclipped " + blocks + " blocks"));
+            addMessage("Vclipped §a" + Math.abs(blocks) + "§r blocks" + (blocks >= 0 ? "up" : "down"));
 
             return SINGLE_SUCCESS;
         }));

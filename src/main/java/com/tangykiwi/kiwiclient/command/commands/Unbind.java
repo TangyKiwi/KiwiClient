@@ -21,7 +21,7 @@ public class Unbind extends Command {
             .executes(context -> {
                 Module m = ModuleArgumentType.getModule(context, "module");
                 m.setKeyCode(Module.KEY_UNBOUND);
-                Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Unbound " + m.getName()));
+                addMessage("Unbound §d" + m.getName());
                 return SINGLE_SUCCESS;
             })
         );

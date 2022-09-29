@@ -20,6 +20,7 @@ public class Toggle extends Command {
             .executes(context -> {
                 Module m = ModuleArgumentType.getModule(context, "module");
                 m.toggle();
+                addMessage("Toggled §d" + m.getName() + " §a" + (m.isEnabled() ? "ON" : "OFF"));
                 return SINGLE_SUCCESS;
             })
         );

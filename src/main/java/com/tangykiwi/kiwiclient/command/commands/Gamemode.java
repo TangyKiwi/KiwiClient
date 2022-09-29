@@ -18,6 +18,7 @@ public class Gamemode extends Command {
         for (GameMode gameMode : GameMode.values()) {
             builder.then(literal(gameMode.getName()).executes(context -> {
                 Utils.mc.interactionManager.setGameMode(gameMode);
+                addMessage("Set clientside gamemode to §d" + gameMode.getName().toUpperCase());
 
                 return SINGLE_SUCCESS;
             }));

@@ -25,7 +25,7 @@ public class SetSeedRay extends Command {
             } catch (Exception e) {
                 seed = context.getArgument("seed", String.class).hashCode();
             }
-            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Set SeedRay seed to " + seed));
+            addMessage("Set SeedRay seed to §a" + seed);
             ((SeedRay) KiwiClient.moduleManager.getModule(SeedRay.class)).worldSeed = seed;
 
             return SINGLE_SUCCESS;

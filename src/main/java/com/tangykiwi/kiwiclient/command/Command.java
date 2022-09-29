@@ -72,4 +72,9 @@ public abstract class Command {
 
         return base.toString();
     }
+
+    public void addMessage(String text) {
+        String prefix = "§a[§6KiwiClient§a]§r";
+        Utils.mc.inGameHud.getChatHud().addMessage(Text.literal(prefix + " " + text));
+    }
 }
