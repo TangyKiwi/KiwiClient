@@ -42,6 +42,7 @@
     "ItemStackMixin",
     "JsonEffectGlShaderMixin",
     "KeyboardMixin",
+    "LightmapTextureManagerMixin",
     "LivingEntityRendererMixin",
     "MinecraftClientMixin",
     "MouseMixin",

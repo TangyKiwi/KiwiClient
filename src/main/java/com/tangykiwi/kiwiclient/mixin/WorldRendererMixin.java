@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.mixin;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.EntityRenderEvent;
 import com.tangykiwi.kiwiclient.event.WorldRenderEvent;
+import com.tangykiwi.kiwiclient.modules.player.AntiBlind;
 import com.tangykiwi.kiwiclient.modules.render.NoRender;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,12 +25,18 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.profiler.Profiler;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(WorldRenderer.class)
 public class WorldRendererMixin {
     @Inject(method = "renderWeather", at = @At("HEAD"), cancellable = true)
     private void onRenderWeather(LightmapTextureManager manager, float f, double d, double e, double g, CallbackInfo info) {
         if (KiwiClient.moduleManager.getModule(NoRender.class).isEnabled() && KiwiClient.moduleManager.getModule(NoRender.class).getSetting(1).asToggle().state) info.cancel();
+    }
+
+    @Inject(method = "method_43788(Lnet/minecraft/client/render/Camera;)Z", at = @At("HEAD"), cancellable = true)
+    private void method_43788(Camera camera, CallbackInfoReturnable<Boolean> info) {
+        if (KiwiClient.moduleManager.getModule(AntiBlind.class).isEnabled()) info.setReturnValue(null);
     }
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V"))
