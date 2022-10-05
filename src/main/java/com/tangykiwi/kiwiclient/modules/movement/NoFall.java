@@ -27,31 +27,17 @@ public class NoFall extends Module {
     @Subscribe
     public void onTick(TickEvent e) {
         if (mc.player.fallDistance > 2.5f && getSetting(0).asMode().mode == 0) {
-            if (mc.player.isFallFlying())
-                return;
+            if (mc.player.isFallFlying()) return;
             mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true));
         }
-    }
 
-    @Subscribe
-    public void onSendPacket(SendPacketEvent event) {
-        if (getSetting(0).asMode().mode == 1 && event.packet instanceof PlayerMoveC2SPacket) {
-            if ((mc.player.isFallFlying() || KiwiClient.moduleManager.getModule(Fly.class).isEnabled()) && mc.player.getVelocity().y < 1) {
-                BlockHitResult result = mc.world.raycast(new RaycastContext(
-                    mc.player.getPos(),
-                    mc.player.getPos().subtract(0, 0.5, 0),
-                    RaycastContext.ShapeType.OUTLINE,
-                    RaycastContext.FluidHandling.NONE,
-                    mc.player)
-                );
-
-                if (result != null && result.getType() == HitResult.Type.BLOCK) {
-                    ((PlayerMoveC2SPacketAccessor) event.packet).setOnGround(true);
-                }
-            }
-            else {
-                ((PlayerMoveC2SPacketAccessor) event.packet).setOnGround(true);
-            }
+        if (mc.player.fallDistance > 2.5f && getSetting(0).asMode().mode == 1 &&
+                mc.world.getBlockState(mc.player.getBlockPos().add(
+                        0, -1.5 + (mc.player.getVelocity().y * 0.1), 0)).getBlock() != Blocks.AIR) {
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(false));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(
+                    mc.player.getX(), mc.player.getY() - 420.69, mc.player.getZ(), true));
+            mc.player.fallDistance = 0;
         }
     }
 }
