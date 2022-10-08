@@ -173,7 +173,7 @@ public class Server extends Command {
             KiwiClient.eventBus.unregister(this);
 
             CommandSuggestionsS2CPacket packet = (CommandSuggestionsS2CPacket) event.getPacket();
-            List<String> plugins = packet.getSuggestions().getList().stream()
+            plugins = packet.getSuggestions().getList().stream()
                     .map(s -> {
                         String[] split = s.getText().split(":");
                         return split.length != 1 ? split[0].replace("/", "") : null;
