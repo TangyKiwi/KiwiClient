@@ -32,7 +32,6 @@ import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 public class Server extends Command {
     private static final List<String> ANTICHEAT_LIST = Arrays.asList("nocheatplus", "negativity", "warden", "horizon", "illegalstack", "coreprotect", "exploitsx", "vulcan", "abc", "spartan", "kauri", "anticheatreloaded", "witherac", "godseye", "matrix", "wraith");
     private static final String completionStarts = "/:abcdefghijklmnopqrstuvwxyz0123456789-";
-    private int ticks = 0;
     private List<String> plugins = new ArrayList<>();
 
     public Server() {
@@ -151,7 +150,6 @@ public class Server extends Command {
     }
 
     public void getPlugins() {
-        ticks = 0;
         plugins.clear();
         KiwiClient.eventBus.register(this);
         (new Thread(() -> {
