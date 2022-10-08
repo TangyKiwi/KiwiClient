@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 
@@ -58,7 +59,12 @@ public class Server extends Command {
             Utils.mc.inGameHud.getChatHud().addMessage(createText("Permission Level", getPerms()));
             Utils.mc.inGameHud.getChatHud().addMessage(createText("Protocol", getProtocol(sp)));
             Utils.mc.inGameHud.getChatHud().addMessage(createText("Version", getVersion(sp)));
-            //getPlugins();
+            getPlugins();
+            if (!plugins.isEmpty()) {
+                Utils.mc.inGameHud.getChatHud().addMessage(createText("Plugins \u00a7f(" + plugins.size() + ")", "\u00a7a" + String.join("\u00a7f, \u00a7a", plugins)));
+            } else {
+                Utils.mc.inGameHud.getChatHud().addMessage(createText("Plugins", "None"));
+            }
 
             return SINGLE_SUCCESS;
         });
@@ -162,56 +168,20 @@ public class Server extends Command {
     }
 
     @Subscribe
-    @AllowConcurrentEvents
-    private void onTick(TickEvent event) {
-        ticks++;
-
-        if (ticks >= 100) {
-            Collections.sort(plugins);
-
-            for (int i = 0; i < plugins.size(); i++) {
-                plugins.set(i, formatName(plugins.get(i)));
-            }
-
-            if (!plugins.isEmpty()) {
-                String plugin_list = "Plugins (" + plugins.size() + "): " + Strings.join(plugins.toArray(new String[0]), ", ");
-                Utils.mc.inGameHud.getChatHud().addMessage(Text.literal(plugin_list));
-            } else {
-                Utils.mc.inGameHud.getChatHud().addMessage(createText("Plugins", "None"));
-            }
-
-            ticks = 0;
-            plugins.clear();
+    public void onReadPacket(ReceivePacketEvent event) {
+        if (event.getPacket() instanceof CommandSuggestionsS2CPacket) {
             KiwiClient.eventBus.unregister(this);
-        }
-    }
 
-    @Subscribe
-    @AllowConcurrentEvents
-    private void onReadPacket(ReceivePacketEvent event) {
-        try {
-            if (event.packet instanceof CommandSuggestionsS2CPacket packet) {
-
-                Suggestions matches = packet.getSuggestions();
-
-                if (matches == null) {
-                    System.out.println("Invalid packet when testing for plugins");
-                    return;
-                }
-
-                for (Suggestion suggestion : matches.getList()) {
-                    String[] command = suggestion.getText().split(":");
-                    if (command.length > 1) {
-                        String pluginName = command[0].replace("/", "");
-
-                        if (!plugins.contains(pluginName)) {
-                            plugins.add(pluginName);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("An error occured while trying to find plugins."));
+            CommandSuggestionsS2CPacket packet = (CommandSuggestionsS2CPacket) event.getPacket();
+            List<String> plugins = packet.getSuggestions().getList().stream()
+                    .map(s -> {
+                        String[] split = s.getText().split(":");
+                        return split.length != 1 ? split[0].replace("/", "") : null;
+                    })
+                    .filter(Objects::nonNull)
+                    .distinct()
+                    .sorted()
+                    .collect(Collectors.toList());
         }
     }
 
