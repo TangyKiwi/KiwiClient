@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,7 @@ import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 public class Server extends Command {
     private static final List<String> ANTICHEAT_LIST = Arrays.asList("nocheatplus", "negativity", "warden", "horizon", "illegalstack", "coreprotect", "exploitsx", "vulcan", "abc", "spartan", "kauri", "anticheatreloaded", "witherac", "godseye", "matrix", "wraith");
     private static final String completionStarts = "/:abcdefghijklmnopqrstuvwxyz0123456789-";
+    private int ticks = 0;
     private List<String> plugins = new ArrayList<>();
 
     public Server() {
@@ -59,11 +61,6 @@ public class Server extends Command {
             Utils.mc.inGameHud.getChatHud().addMessage(createText("Protocol", getProtocol(sp)));
             Utils.mc.inGameHud.getChatHud().addMessage(createText("Version", getVersion(sp)));
             getPlugins();
-            if (!plugins.isEmpty()) {
-                Utils.mc.inGameHud.getChatHud().addMessage(createText("Plugins \u00a7f(" + plugins.size() + ")", "\u00a7a" + String.join("\u00a7f, \u00a7a", plugins)));
-            } else {
-                Utils.mc.inGameHud.getChatHud().addMessage(createText("Plugins", "None"));
-            }
 
             return SINGLE_SUCCESS;
         });
@@ -71,7 +68,7 @@ public class Server extends Command {
 
     public Text createText(String name, String value) {
         boolean newlines = value.contains("\n");
-        return Text.literal("\u00a77" + name + "\u00a7f:" + (newlines ? "\n" : " " ) + "\u00a7a" + value).styled(style -> style
+        return Text.literal("§7" + name + "§f:" + (newlines ? "\n" : " " ) + "§a" + value).styled(style -> style
             .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal("Click to copy to clipboard")))
             .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, Formatting.strip(value))));
     }
@@ -150,6 +147,7 @@ public class Server extends Command {
     }
 
     public void getPlugins() {
+        ticks = 0;
         plugins.clear();
         KiwiClient.eventBus.register(this);
         (new Thread(() -> {
@@ -166,31 +164,62 @@ public class Server extends Command {
     }
 
     @Subscribe
-    public void onReadPacket(ReceivePacketEvent event) {
-        if (event.getPacket() instanceof CommandSuggestionsS2CPacket) {
-            KiwiClient.eventBus.unregister(this);
+    public void onTick(TickEvent event) {
+        ticks++;
 
-            CommandSuggestionsS2CPacket packet = (CommandSuggestionsS2CPacket) event.getPacket();
-            plugins = packet.getSuggestions().getList().stream()
-                    .map(s -> {
-                        String[] split = s.getText().split(":");
-                        return split.length != 1 ? split[0].replace("/", "") : null;
-                    })
-                    .filter(Objects::nonNull)
-                    .distinct()
-                    .sorted()
-                    .collect(Collectors.toList());
+        if (ticks >= 100) {
+            Collections.sort(plugins);
+
+            for (int i = 0; i < plugins.size(); i++) {
+                plugins.set(i, formatName(plugins.get(i)));
+            }
+
+            if (!plugins.isEmpty()) {
+                Utils.mc.inGameHud.getChatHud().addMessage(createText("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Plugins §f(" + plugins.size() + ")", "§a" + String.join("§f, §a", plugins)));
+            } else {
+                Utils.mc.inGameHud.getChatHud().addMessage(createText("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Plugins", "None"));
+            }
+
+            ticks = 0;
+            plugins.clear();
+            KiwiClient.eventBus.unregister(this);
+        }
+    }
+
+    @Subscribe
+    public void onReadPacket(ReceivePacketEvent event) {
+        try {
+            if (event.packet instanceof CommandSuggestionsS2CPacket packet) {
+                Suggestions matches = packet.getSuggestions();
+                if (matches == null) {
+                    Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("Invalid Packet."));
+                    return;
+                }
+
+                for (Suggestion suggestion : matches.getList()) {
+                    String[] command = suggestion.getText().split(":");
+                    if (command.length > 1) {
+                        String pluginName = command[0].replace("/", "");
+
+                        if (!plugins.contains(pluginName)) {
+                            plugins.add(pluginName);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Utils.mc.inGameHud.getChatHud().addMessage(Text.literal("An error occurred while trying to find plugins"));
         }
     }
 
     private String formatName(String name) {
         if (ANTICHEAT_LIST.contains(name)) {
-            return String.format("%s%s(default)", Formatting.RED, name);
+            return String.format("%s%s", Formatting.RED, name);
         }
         else if (name.contains("exploit") || name.contains("cheat") || name.contains("illegal")) {
-            return String.format("%s%s(default)", Formatting.RED, name);
+            return String.format("%s%s", Formatting.RED, name);
         }
 
-        return String.format("(highlight)%s(default)", name);
+        return String.format("%s%s", Formatting.AQUA, name);
     }
 }
