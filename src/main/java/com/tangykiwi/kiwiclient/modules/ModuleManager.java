@@ -9,6 +9,7 @@ import com.tangykiwi.kiwiclient.gui.BindScreen;
 import com.tangykiwi.kiwiclient.gui.clickgui.ClickGuiScreen;
 import com.tangykiwi.kiwiclient.modules.client.*;
 import com.tangykiwi.kiwiclient.modules.combat.Criticals;
+import com.tangykiwi.kiwiclient.modules.combat.TargetHUD;
 import com.tangykiwi.kiwiclient.modules.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.modules.movement.*;
 import com.tangykiwi.kiwiclient.modules.other.*;
@@ -50,6 +51,7 @@ public class ModuleManager {
 
         //combat
         moduleList.add(new Criticals());
+        moduleList.add(new TargetHUD());
         moduleList.add(new TriggerBot());
 
         //movement
@@ -136,16 +138,6 @@ public class ModuleManager {
     }
 
     public static class ModuleComparator implements Comparator<Module> {
-//        @Override
-//        public int compare(Module a, Module b) {
-//            if(mc.textRenderer.getWidth(a.getName()) >
-//                    mc.textRenderer.getWidth(b.getName()))
-//                return -1;
-//            else if(mc.textRenderer.getWidth(a.getName()) <
-//                    mc.textRenderer.getWidth(b.getName()))
-//                return 1;
-//            return 0;
-//        }
         @Override
         public int compare(Module a, Module b) {
             int aWidth = IFont.CONSOLAS.getStringWidth(a.getName());

@@ -20,6 +20,11 @@ public class ModeSetting extends Setting<Integer> {
         this.text = text;
         this.setDataValue(0);
         this.setHandler(SettingDataHandler.INTEGER);
+        description = "\nModes:\n";
+        for (String mode : modes) {
+            description = "\n" + mode + description;
+        }
+        description = description.strip();
     }
 
     public int getNextMode() {
@@ -55,10 +60,7 @@ public class ModeSetting extends Setting<Integer> {
     }
 
     public ModeSetting withDesc(String desc) {
-        description = "\nModes:\n" + desc;
-        for (String mode : modes) {
-            description = "\n" + mode + description;
-        }
+        description = description + desc;
         description = description.strip();
         return this;
     }

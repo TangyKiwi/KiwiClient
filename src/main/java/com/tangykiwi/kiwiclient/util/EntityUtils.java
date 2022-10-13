@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.util;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.AmbientEntity;
@@ -42,5 +43,13 @@ public class EntityUtils {
             && !e.isConnectedThroughVehicle(MinecraftClient.getInstance().player)
             && !(e instanceof PlayerCopyEntity)
             && (!ignoreFriends);
+    }
+
+    public static int getPing(PlayerEntity player) {
+        if (Utils.mc.getNetworkHandler() == null) return 0;
+
+        PlayerListEntry playerListEntry = Utils.mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
+        if (playerListEntry == null) return 0;
+        return playerListEntry.getLatency();
     }
 }

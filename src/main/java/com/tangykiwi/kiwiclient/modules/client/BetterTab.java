@@ -38,4 +38,6 @@ public class BetterTab extends Module {
 
         return name;
     }
+
+    // handling done in PlayerListHudMixin
 }

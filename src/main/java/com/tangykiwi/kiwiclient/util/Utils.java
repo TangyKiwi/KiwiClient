@@ -1,19 +1,15 @@
 package com.tangykiwi.kiwiclient.util;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.registry.Registry;
-import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.stream.Collectors;
@@ -80,5 +76,49 @@ public class Utils {
                 break;
             }
         }
+    }
+
+    public static String getEnchantmentName(Enchantment enchantment) {
+        String text = I18n.translate(enchantment.getName(2).getString());
+        text = text.toLowerCase().substring(0, text.length() - 3);
+        if(text.contains("aqua")) return "AqAf";
+        if(text.contains("bane")) return "BnAr";
+        if(text.contains("blas")) return "BlPr";
+        if(text.contains("chan")) return "Chnl";
+        if(text.contains("bind")) return "CuBi";
+        if(text.contains("vani")) return "CuVa";
+        if(text.contains("dept")) return "DStr";
+        if(text.contains("effi")) return "Effi";
+        if(text.contains("feat")) return "FeFa";
+        if(text.contains("aspe")) return "FAsp";
+        if(text.contains("fire")) return "FiPr";
+        if(text.contains("flam")) return "Flme";
+        if(text.contains("fort")) return "Fort";
+        if(text.contains("fros")) return "FrWa";
+        if(text.contains("impa")) return "Impl";
+        if(text.contains("infi")) return "Infi";
+        if(text.contains("knoc")) return "KnBa";
+        if(text.contains("loot")) return "Loot";
+        if(text.contains("loya")) return "Llty";
+        if(text.contains("luck")) return "Luck";
+        if(text.contains("mend")) return "Mend";
+        if(text.contains("mult")) return "Mult";
+        if(text.contains("pier")) return "Pier";
+        if(text.contains("powe")) return "Powe";
+        if(text.contains("proj")) return "PrPr";
+        if(text.contains("prot")) return "Prot";
+        if(text.contains("punc")) return "Pnch";
+        if(text.contains("quic")) return "Chrg";
+        if(text.contains("resp")) return "Resp";
+        if(text.contains("ript")) return "Rptd";
+        if(text.contains("shar")) return "Shrp";
+        if(text.contains("silk")) return "Silk";
+        if(text.contains("smit")) return "Smte";
+        if(text.contains("soul")) return "SSpd";
+        if(text.contains("swee")) return "SwpE";
+        if(text.contains("swif")) return "SwSn";
+        if(text.contains("thor")) return "Thrn";
+        if(text.contains("unbr")) return "Unbr";
+        return "NaN";
     }
 }

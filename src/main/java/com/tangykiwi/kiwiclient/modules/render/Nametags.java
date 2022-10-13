@@ -7,6 +7,7 @@ import com.tangykiwi.kiwiclient.event.WorldRenderEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
+import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
 import com.tangykiwi.kiwiclient.util.EntityUtils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
@@ -139,7 +140,7 @@ public class Nametags extends Module {
         else if (health >= maxHealth * 0.4) {
             return 0xFFAA00;
         }
-        else if (health >= maxHealth * 0.1) {
+        else if (health >= maxHealth * 0.2) {
             return 0xFF5555;
         }
         return 0xAA0000;
@@ -165,14 +166,14 @@ public class Nametags extends Module {
 
         int c = item.isDamageable() ? -1 : 0;
         for (Map.Entry<Enchantment, Integer> m : EnchantmentHelper.get(item).entrySet()) {
-            String text = I18n.translate(m.getKey().getName(2).getString());
+//            String text = I18n.translate(m.getKey().getName(2).getString());
+//
+//            if (text.isEmpty())
+//                continue;
+//
+//            text = WordUtils.capitalizeFully(text.replaceFirst("Curse of (.)", "C$1"));
 
-            if (text.isEmpty())
-                continue;
-
-            text = WordUtils.capitalizeFully(text.replaceFirst("Curse of (.)", "C$1"));
-
-            String subText = text.substring(0, Math.min(text.length(), 2)) + m.getValue();
+            String subText = Utils.getEnchantmentName(m.getKey()) + m.getValue();
 
             RenderUtils.drawWorldText(subText, x, y, z, (offX + 0.055) * scale, (offY + 0.75 - c * 0.34) * scale, scale * 1.4, false, m.getKey().isCursed() ? 0xff5050 : 0xFFAA00, false);
             c--;
