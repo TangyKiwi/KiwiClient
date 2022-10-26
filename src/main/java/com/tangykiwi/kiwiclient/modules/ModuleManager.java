@@ -62,6 +62,7 @@ public class ModuleManager {
         moduleList.add(new Fly());
         moduleList.add(new InvMove());
         moduleList.add(new NoFall());
+        moduleList.add(new NoWorldBorder());
         moduleList.add(new SafeWalk());
         moduleList.add(new Speed());
 
@@ -72,6 +73,7 @@ public class ModuleManager {
         moduleList.add(new Deadmau5Ears());
         moduleList.add(new LoadingScreen());
         moduleList.add(new MainMenu());
+        moduleList.add(new NoLO());
 
         //player
         moduleList.add(new AntiBlind());

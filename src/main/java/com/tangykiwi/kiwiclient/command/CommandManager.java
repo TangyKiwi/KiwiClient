@@ -29,6 +29,7 @@ public class CommandManager {
         add(new Say());
         add(new Server());
         add(new SetSeedRay());
+        add(new SetTarget());
         add(new Toggle());
         add(new Unbind());
         add(new VClip());
