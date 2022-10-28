@@ -73,6 +73,7 @@ public class ModuleManager {
         moduleList.add(new Deadmau5Ears());
         moduleList.add(new LoadingScreen());
         moduleList.add(new MainMenu());
+        moduleList.add(new NoIP());
         moduleList.add(new NoLO());
 
         //player
