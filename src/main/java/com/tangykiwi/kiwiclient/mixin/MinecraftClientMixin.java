@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
+import com.tangykiwi.kiwiclient.modules.other.NoIP;
 import com.tangykiwi.kiwiclient.modules.render.Freecam;
 import com.tangykiwi.kiwiclient.util.ConfigManager;
 import net.minecraft.client.MinecraftClient;
@@ -40,7 +41,11 @@ public class MinecraftClientMixin {
                 discordRPC.update("Playing", "Realms");
             } else if (client.getServer() == null && (client.getCurrentServerEntry() == null || !client.getCurrentServerEntry().isLocal())) {
                 title += I18n.translate("title.multiplayer.other");
-                discordRPC.update("Playing", client.getCurrentServerEntry().address);
+                if(KiwiClient.moduleManager.getModule(NoIP.class).isEnabled()) {
+                    discordRPC.update("Playing", "Multiplayer");
+                } else {
+                    discordRPC.update("Playing", client.getCurrentServerEntry().address);
+                }
             } else {
                 title += I18n.translate("title.multiplayer.lan");
                 discordRPC.update("Playing", "LAN Server");

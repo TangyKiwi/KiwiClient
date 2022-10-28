@@ -11,6 +11,7 @@ import com.tangykiwi.kiwiclient.util.font.IFont;
 import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
@@ -19,12 +20,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class TargetHUD extends Module {
     PlayerEntity playerEntity;
     public TargetHUD() {
         super("TargetHUD", "Displays information about your nearest combatant", KEY_UNBOUND, Category.COMBAT);
+    }
+
+    public PlayerEntity getNearestPlayer() {
+        ArrayList<AbstractClientPlayerEntity> players = (ArrayList<AbstractClientPlayerEntity>) mc.world.getPlayers();
+
+        return playerEntity;
     }
 
     @Subscribe
