@@ -52,7 +52,6 @@ public class Tooltips extends Module {
                 new SliderSetting("Scale", 0.1, 1, 1, 1).withDesc("Scale of map")
             ),
             new ToggleSetting("Banner", true).withDesc("Shows a banner preview when hovered over"));
-        super.toggle();
     }
 
     @Subscribe

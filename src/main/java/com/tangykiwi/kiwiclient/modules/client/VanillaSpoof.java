@@ -16,7 +16,6 @@ public class VanillaSpoof extends Module {
     public VanillaSpoof() {
         super("VanillaSpoof", "Spoofs your client type to the server", KEY_UNBOUND, Category.CLIENT,
             new ModeSetting("Type","Vanilla", "KiwiClient"));
-        super.toggle();
     }
 
     @Subscribe

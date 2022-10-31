@@ -35,7 +35,6 @@ public class BetterChat extends Module {
             new ToggleSetting("Better History", true).withDesc("Let's you see more of chat history").withChildren(
                 new SliderSetting("# Lines", 100, 1000, 1000, 0).withDesc("Extended number of lines")
             ));
-        super.toggle();
 
         String[] a = "abcdefghijklmnopqrstuvwxyz".split("");
         String[] b = "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴩǫʀꜱᴛᴜᴠᴡxʏᴢ".split("");

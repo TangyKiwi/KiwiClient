@@ -6,6 +6,5 @@ import com.tangykiwi.kiwiclient.modules.Module;
 public class ArmorSwap extends Module {
     public ArmorSwap() {
         super("ArmorSwap", "Hotswaps your armor on right click", KEY_UNBOUND, Category.PLAYER);
-        super.toggle();
     }
 }

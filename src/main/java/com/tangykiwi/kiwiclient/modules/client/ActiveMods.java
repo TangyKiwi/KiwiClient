@@ -24,7 +24,6 @@ public class ActiveMods extends Module {
 
     public ActiveMods() {
         super("ActiveMods", "Display toggled modules", KEY_UNBOUND, Category.CLIENT);
-        super.toggle();
     }
 
     @Subscribe

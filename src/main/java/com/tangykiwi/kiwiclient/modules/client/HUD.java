@@ -47,7 +47,6 @@ public class HUD extends Module {
             new ToggleSetting("Nether Coords", true).withDesc("Shows Nether/Overworld Position").withValue(7),
             new ToggleSetting("Armor", true).withDesc("Shows Armor Status")
         );
-        super.toggle();
     }
     
     @Subscribe

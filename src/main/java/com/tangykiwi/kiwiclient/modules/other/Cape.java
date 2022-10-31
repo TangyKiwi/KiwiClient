@@ -16,7 +16,6 @@ public class Cape extends Module {
         super("Cape", "Gives you a custom cape", KEY_UNBOUND, Category.OTHER,
             new ModeSetting("Style", "Default", "Animated", "Gura", "AhriR34").withDesc("Cape to display"),
             new ToggleSetting("Glint", true).withDesc("Makes your cape enchanted"));
-        super.toggle();
     }
 
     public Identifier getCape() {
