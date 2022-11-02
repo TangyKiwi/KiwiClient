@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
+import com.tangykiwi.kiwiclient.modules.settings.ModeSetting;
 import com.tangykiwi.kiwiclient.util.EntityUtils;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
@@ -14,25 +15,49 @@ import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Map;
 
 public class TargetHUD extends Module {
     PlayerEntity playerEntity;
     public TargetHUD() {
-        super("TargetHUD", "Displays information about your nearest combatant", KEY_UNBOUND, Category.COMBAT);
+        super("TargetHUD", "Displays information about your nearest combatant", KEY_UNBOUND, Category.COMBAT,
+            new ModeSetting("Sort", "Distance", "Health", "Angle").withDesc("Target by closest distance, lowest health, or cursor angle"));
     }
 
     public PlayerEntity getNearestPlayer() {
         ArrayList<AbstractClientPlayerEntity> players = (ArrayList<AbstractClientPlayerEntity>) mc.world.getPlayers();
+        players.remove(mc.player);
+        if(getSetting(0).asMode().mode == 0) {
+            players.sort(Comparator.comparing(mc.player::distanceTo));
+        } else if(getSetting(0).asMode().mode == 1) {
+            players.sort(Comparator.comparing(LivingEntity::getHealth));
+        } else {
+            players.sort(Comparator.comparing(e -> {
+                Vec3d center = e.getBoundingBox().getCenter();
 
-        return playerEntity;
+                double diffX = center.x - mc.player.getX();
+                double diffY = center.y - mc.player.getEyeY();
+                double diffZ = center.z - mc.player.getZ();
+
+                double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
+
+                float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
+                float pitch = (float) -Math.toDegrees(Math.atan2(diffY, diffXZ));
+
+                return Math.abs(MathHelper.wrapDegrees(yaw - mc.player.getYaw())) + Math.abs(MathHelper.wrapDegrees(pitch - mc.player.getPitch()));
+            }));
+        }
+        return players.isEmpty() ? null : players.get(0);
     }
 
     @Subscribe
@@ -45,7 +70,8 @@ public class TargetHUD extends Module {
 
         DrawableHelper.fill(e.getMatrix(), x, y, scaledWidth, scaledHeight - 56, 0x90000000);
 
-        playerEntity = mc.player;
+        playerEntity = getNearestPlayer();
+        if(playerEntity == null) return;
         InventoryScreen.drawEntity(x + 26, y + 74, 30 , -MathHelper.wrapDegrees(playerEntity.prevYaw + (playerEntity.getYaw() - playerEntity.prevYaw) * mc.getTickDelta()), -playerEntity.getPitch(), playerEntity);
 
         // Health bar
