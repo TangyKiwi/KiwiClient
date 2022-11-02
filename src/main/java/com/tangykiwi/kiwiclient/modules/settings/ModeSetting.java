@@ -60,7 +60,7 @@ public class ModeSetting extends Setting<Integer> {
     }
 
     public ModeSetting withDesc(String desc) {
-        description = description + desc;
+        description = description + "\n" + desc;
         description = description.strip();
         return this;
     }
