@@ -13,6 +13,7 @@ import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -28,7 +29,7 @@ import java.util.Comparator;
 import java.util.Map;
 
 public class TargetHUD extends Module {
-    PlayerEntity playerEntity;
+    public PlayerEntity playerEntity;
     public TargetHUD() {
         super("TargetHUD", "Displays information about your nearest combatant", KEY_UNBOUND, Category.COMBAT,
             new ModeSetting("Sort", "Distance", "Health", "Angle").withDesc("Target by closest distance, lowest health, or cursor angle"));
@@ -72,7 +73,7 @@ public class TargetHUD extends Module {
 
         playerEntity = getNearestPlayer();
         if(playerEntity == null) return;
-        InventoryScreen.drawEntity(x + 26, y + 74, 30 , -MathHelper.wrapDegrees(playerEntity.prevYaw + (playerEntity.getYaw() - playerEntity.prevYaw) * mc.getTickDelta()), -playerEntity.getPitch(), playerEntity);
+        InventoryScreen.drawEntity(x + 26, y + 70, 30 , -MathHelper.wrapDegrees(playerEntity.prevYaw + (playerEntity.getYaw() - playerEntity.prevYaw) * mc.getTickDelta()), -playerEntity.getPitch(), playerEntity);
 
         // Health bar
         x = scaledWidth - 164;
