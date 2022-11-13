@@ -96,6 +96,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - Nametags<br>
 - NoPortal<br>
 - NoRender<br>
+- Search<br>
 - SeedRay<br>
 - StorageESP<br>
 - TNTimer<br>
@@ -121,6 +122,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - ,gamemode [gamemode]
 - ,give [item{nbt}] [count]
 - ,say [message]
+- ,searchblocks [add/rem/list] [block]
 - ,server
 - ,seedray [seed]
 - ,toggle [module]
