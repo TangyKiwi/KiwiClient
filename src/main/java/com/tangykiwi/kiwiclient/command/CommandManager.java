@@ -27,6 +27,7 @@ public class CommandManager {
         add(new LookAt());
         add(new ResetClickGui());
         add(new Say());
+        add(new SearchBlocks());
         add(new Server());
         add(new SetSeedRay());
         add(new SetTarget());

@@ -91,6 +91,7 @@ public class ModuleManager {
         moduleList.add(new Nametags());
         moduleList.add(new NoPortal());
         moduleList.add(new NoRender());
+        moduleList.add(new Search());
         moduleList.add(new SeedRay());
         moduleList.add(new StorageESP());
         moduleList.add(new TNTimer());
