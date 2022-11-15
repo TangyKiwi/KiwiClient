@@ -103,9 +103,6 @@ public class InGameHudMixin {
         if(!KiwiClient.moduleManager.getModule(PotionTimers.class).isEnabled()) return;
         Collection<StatusEffectInstance> collection = this.client.player.getStatusEffects();
         if (!collection.isEmpty()) {
-            // Replicate vanilla placement algorithm to get the duration
-            // labels to line up exactly right.
-
             int beneficialCount = 0;
             int nonBeneficialCount = 0;
             for (StatusEffectInstance statusEffectInstance : Ordering.natural().reverse().sortedCopy(collection)) {
@@ -113,10 +110,6 @@ public class InGameHudMixin {
                 if (statusEffectInstance.shouldShowIcon()) {
                     int x = this.client.getWindow().getScaledWidth();
                     int y = 1;
-
-                    if (this.client.isDemo()) {
-                        y += 15;
-                    }
 
                     if (statusEffect.isBeneficial()) {
                         beneficialCount++;
@@ -133,7 +126,6 @@ public class InGameHudMixin {
 
                     int amplifier = statusEffectInstance.getAmplifier();
                     if (amplifier > 0) {
-                        // Most langages has "translations" for amplifier 1-5, converting to roman numerals
                         String amplifierString = (amplifier < 6) ? I18n.translate("potion.potency." + amplifier) : "**";
                         int amplifierLength = client.textRenderer.getWidth(amplifierString);
                         DrawableHelper.drawStringWithShadow(matrices, client.textRenderer, amplifierString, x + 22 - amplifierLength, y + 3, 0x99FFFFFF);
@@ -149,7 +141,6 @@ public class InGameHudMixin {
         int seconds = ticks / 20;
 
         if (ticks > 32147) {
-            // Vanilla considers everything above this to be infinite
             return "**";
         } else if (seconds > 60) {
             return seconds / 60 + ":" + (seconds % 60 < 10 ? "0" : "") + seconds % 60;
