@@ -1,13 +1,15 @@
-package com.tangykiwi.kiwiclient.gui.clickgui.window.widget;
+package com.tangykiwi.kiwiclient.gui.window.widget;
 
+import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
+import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
-
-import java.util.function.Consumer;
+import net.minecraft.text.Text;
 
 public abstract class WindowWidget {
 
 	protected static MinecraftClient mc = MinecraftClient.getInstance();
+	public GlyphPageFontRenderer textRenderer = IFont.CONSOLAS;
 
 	public int x1;
 	public int y1;
@@ -18,10 +20,10 @@ public abstract class WindowWidget {
 	public boolean cullX;
 	public boolean cullY;
 
-	protected Consumer<WindowWidget> renderEvent;
-	protected Consumer<WindowWidget> hoverEvent;
-	protected Consumer<WindowWidget> clickEvent;
-	protected Consumer<WindowWidget> releaseEvent;
+	protected RenderEvent renderEvent;
+	protected RenderEvent hoverEvent;
+	protected MouseEvent clickEvent;
+	protected MouseEvent releaseEvent;
 
 	public WindowWidget(int x1, int y1, int x2, int y2) {
 		this.x1 = x1;
@@ -32,23 +34,23 @@ public abstract class WindowWidget {
 
 	public void render(MatrixStack matrices, int windowX, int windowY, int mouseX, int mouseY) {
 		if (renderEvent != null) {
-			renderEvent.accept(this);
+			renderEvent.accept(this, matrices, windowX, windowY);
 		}
 
 		if (hoverEvent != null && isInBounds(windowX, windowY, mouseX, mouseY)) {
-			hoverEvent.accept(this);
+			hoverEvent.accept(this, matrices, windowX, windowY);
 		}
 	}
 
 	public void mouseClicked(int windowX, int windowY, int mouseX, int mouseY, int button) {
 		if (clickEvent != null && isInBounds(windowX, windowY, mouseX, mouseY)) {
-			clickEvent.accept(this);
+			clickEvent.accept(this, mouseX, mouseY, windowX, windowY);
 		}
 	}
 
 	public void mouseReleased(int windowX, int windowY, int mouseX, int mouseY, int button) {
 		if (releaseEvent != null && isInBounds(windowX, windowY, mouseX, mouseY)) {
-			releaseEvent.accept(this);
+			releaseEvent.accept(this, mouseX, mouseY, windowX, windowY);
 		}
 	}
 
@@ -61,7 +63,7 @@ public abstract class WindowWidget {
 	public void keyPressed(int keyCode, int scanCode, int modifiers) {
 	}
 
-	protected boolean isInBounds(int windowX, int windowY, int x, int y) {
+	public boolean isInBounds(int windowX, int windowY, int x, int y) {
 		return x >= windowX + x1 && y >= windowY + y1 && x <= windowX + x2 && y <= windowY + y2;
 	}
 
@@ -69,23 +71,18 @@ public abstract class WindowWidget {
 		return visible && (!cullX || (x1 >= 0 && x2 <= windowX2 - windowX1)) && (!cullY || (y1 >= 12 && y2 <= windowY2 - windowY1 + 1));
 	}
 
-	public WindowWidget withRenderEvent(Consumer<WindowWidget> consumer) {
-		renderEvent = renderEvent == null ? renderEvent = consumer : renderEvent.andThen(consumer);
+	public WindowWidget withRenderEvent(RenderEvent event) {
+		renderEvent = event;
 		return this;
 	}
-
-	public WindowWidget withHoverEvent(Consumer<WindowWidget> consumer) {
-		hoverEvent = hoverEvent == null ? hoverEvent = consumer : hoverEvent.andThen(consumer);
-		return this;
+	
+	@FunctionalInterface
+	public interface RenderEvent {
+		void accept(WindowWidget widget, MatrixStack matrices, int wx, int wy);
 	}
-
-	public WindowWidget withClickEvent(Consumer<WindowWidget> consumer) {
-		clickEvent = clickEvent == null ? clickEvent = consumer : clickEvent.andThen(consumer);
-		return this;
-	}
-
-	public WindowWidget withReleaseEvent(Consumer<WindowWidget> consumer) {
-		releaseEvent = releaseEvent == null ? releaseEvent = consumer : releaseEvent.andThen(consumer);
-		return this;
+	
+	@FunctionalInterface
+	public interface MouseEvent {
+		void accept(WindowWidget widget, int mx, int my, int wx, int wy);
 	}
 }

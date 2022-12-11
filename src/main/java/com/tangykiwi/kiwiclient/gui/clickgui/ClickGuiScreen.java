@@ -1,8 +1,8 @@
 package com.tangykiwi.kiwiclient.gui.clickgui;
 
 import com.tangykiwi.kiwiclient.gui.clickgui.window.ClickGuiWindow;
-import com.tangykiwi.kiwiclient.gui.clickgui.window.Window;
-import com.tangykiwi.kiwiclient.gui.clickgui.window.WindowScreen;
+import com.tangykiwi.kiwiclient.gui.window.Window;
+import com.tangykiwi.kiwiclient.gui.window.WindowScreen;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -26,7 +26,13 @@ public abstract class ClickGuiScreen extends WindowScreen {
 		super(title);
 	}
 
-	public boolean isPauseScreen() {
+	@Override
+	public void init() {
+
+	}
+
+	@Override
+	public boolean shouldPause() {
 		return false;
 	}
 

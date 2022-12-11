@@ -54,6 +54,7 @@
     "PlayerListHudMixin",
     "PlayerMoveC2SPacketAccessor",
     "RenderLayersMixin",
+    "ScreenAccessor",
     "ScreenMixin",
     "ShaderMixin",
     "ShulkerBoxBlockMixin",

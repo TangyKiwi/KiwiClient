@@ -3,7 +3,7 @@ package com.tangykiwi.kiwiclient.gui.clickgui;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.clickgui.window.ClickGuiWindow;
 import com.tangykiwi.kiwiclient.gui.clickgui.window.ModuleWindow;
-import com.tangykiwi.kiwiclient.gui.clickgui.window.Window;
+import com.tangykiwi.kiwiclient.gui.window.Window;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import net.minecraft.client.gui.widget.TextFieldWidget;

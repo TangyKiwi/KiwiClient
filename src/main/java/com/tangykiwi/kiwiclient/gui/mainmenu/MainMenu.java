@@ -4,6 +4,8 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.gui.AccountButtonWidget;
+import com.tangykiwi.kiwiclient.gui.AccountManagerScreen;
 import com.tangykiwi.kiwiclient.gui.mainmenu.dummy.DummyClientPlayerEntity;
 import com.tangykiwi.kiwiclient.gui.mainmenu.particles.ParticleManager;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
@@ -20,6 +22,8 @@ import net.minecraft.client.gui.screen.multiplayer.MultiplayerWarningScreen;
 import net.minecraft.client.gui.screen.option.LanguageOptionsScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.sound.PositionedSoundInstance;
@@ -62,6 +66,9 @@ public class MainMenu extends Screen {
                 skin = identifier;
             }
         }, false);
+
+        this.addDrawableChild(new AccountButtonWidget(this, this.width - 20, this.height - 20, btn -> client.setScreen(new AccountManagerScreen())));
+
     }
 
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {
@@ -99,6 +106,7 @@ public class MainMenu extends Screen {
             ClientPlayerEntity player = DummyClientPlayerEntity.getInstance();
             int height = this.height - 7;
             int playerX = 20;
+            RenderSystem.setShaderTexture(0, player.getSkinTexture());
             InventoryScreen.drawEntity(playerX, height, 30, -mouseX + playerX, -mouseY + height - 30, player);
             IFont.CONSOLAS.drawString(matrixStack, this.client.getSession().getUsername(), 35, this.height - IFont.CONSOLAS.getFontHeight() - 4, ColorUtil.getRainbow(4, 0.8f, 1), 1);
         }

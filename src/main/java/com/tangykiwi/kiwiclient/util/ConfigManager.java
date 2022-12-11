@@ -3,7 +3,7 @@ package com.tangykiwi.kiwiclient.util;
 import com.google.gson.*;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.clickgui.window.ClickGuiWindow;
-import com.tangykiwi.kiwiclient.gui.clickgui.window.Window;
+import com.tangykiwi.kiwiclient.gui.window.Window;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.modules.settings.Setting;
@@ -37,10 +37,22 @@ public class ConfigManager {
         } catch (NoSuchFileException ignored) {
 
         } catch (Exception e) {
-            System.out.println("Error Reading File: " + path);
+            System.out.println("Error Reading File: " + path + "\n" + e);
         }
 
         return "";
+    }
+
+    public static List<String> readFileLines(String path) {
+        try {
+            return Files.readAllLines(getDir().resolve(path));
+        } catch (NoSuchFileException ignored) {
+
+        } catch (Exception e) {
+            System.out.println("Error Reading File: " + path + "\n" + e);
+        }
+
+        return new ArrayList<>();
     }
 
     public static void createFile(String path) {
@@ -50,7 +62,7 @@ public class ConfigManager {
                 Files.createFile(getDir().resolve(path));
             }
         } catch (Exception e) {
-            System.out.println("Error Creating File: " + path);
+            System.out.println("Error Creating File: " + path + "\n" + e);
         }
     }
 
@@ -62,7 +74,7 @@ public class ConfigManager {
             writer.write("");
             writer.close();
         } catch (Exception e) {
-            System.out.println("Error Clearing/Creating File: " + path);
+            System.out.println("Error Clearing/Creating File: " + path + "\n" + e);
         }
     }
     
@@ -76,7 +88,7 @@ public class ConfigManager {
                             + (content.endsWith("\n") ? "" : "\n"));
             writer.close();
         } catch (Exception e) {
-            System.out.println("Error Appending File: " + path);
+            System.out.println("Error Appending File: " + path + "\n" + e);
         }
     }
 
@@ -92,7 +104,7 @@ public class ConfigManager {
         try {
             Files.deleteIfExists(getDir().resolve(path));
         } catch (Exception e) {
-            System.out.println("Error Deleting File: " + path);
+            System.out.println("Error Deleting File: " + path + "\n" + e);
         }
     }
 

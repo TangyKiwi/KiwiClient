@@ -1,8 +1,8 @@
 package com.tangykiwi.kiwiclient.gui.clickgui.window;
 
+import com.tangykiwi.kiwiclient.gui.window.Window;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;

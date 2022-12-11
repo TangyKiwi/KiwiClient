@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.mixin;
 
 import com.google.common.collect.Ordering;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
@@ -29,6 +30,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Collection;
 
+import static org.lwjgl.opengl.GL11.*;
+
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
     @Inject(method="render", at=@At(value="TAIL"), cancellable=true)
@@ -40,6 +43,7 @@ public class InGameHudMixin {
             RenderSystem.enableBlend();
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShaderTexture(0, KiwiClient.DUCK);
+            GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             client.inGameHud.drawTexture(matrixStack, 0, 0, 0, 0, 53, 59, 53, 59);
             RenderSystem.disableBlend();
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);

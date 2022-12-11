@@ -1,11 +1,5 @@
 package com.tangykiwi.kiwiclient.util.font;
 
-import static org.lwjgl.opengl.GL11.GL_LINEAR;
-import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
-
 import java.awt.Font;
 import java.util.Locale;
 import java.util.Random;
@@ -18,6 +12,9 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
+import org.lwjgl.opengl.GL;
+
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  *
@@ -217,7 +214,7 @@ public class GlyphPageFontRenderer {
         return drawString(matrices, text, (float) x - getStringWidth(text) / 2, (float) y, color, false, scale);
     }
 
-    public int drawCenteredStringWidthShadow(MatrixStack matrices, String text, double x, double y, int color, float scale) {
+    public int drawCenteredStringWithShadow(MatrixStack matrices, String text, double x, double y, int color, float scale) {
         return drawString(matrices, text, (float) x - getStringWidth(text) / 2, (float) y, color, true, scale);
     }
 
@@ -345,6 +342,8 @@ public class GlyphPageFontRenderer {
         glyphPage.unbindTexture();
         matrices.pop();
 
+        GlStateManager._disableBlend();
+        GlStateManager._disableTexture();
     }
 
     private void doDraw(float f, GlyphPage glyphPage) {

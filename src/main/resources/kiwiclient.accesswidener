@@ -23,3 +23,12 @@ accessible    method    net/minecraft/client/render/RenderPhase$TextureBase    g
 
 accessible    class    net/minecraft/client/render/RenderLayer$OutlineMode
 accessible    field    net/minecraft/client/render/RenderLayer$MultiPhaseParameters    outlineMode    Lnet/minecraft/client/render/RenderLayer$OutlineMode;
+
+# TextRenderer
+# - Making the font storage accessible so WindowPassTextFieldWidget can override the text renderer
+accessible    field    net/minecraft/client/font/TextRenderer    fontStorageAccessor    Ljava/util/function/Function;
+
+# MinecraftClient
+# - For AccountManager to change the session
+accessible    field    net/minecraft/client/MinecraftClient    session    Lnet/minecraft/client/util/Session;
+mutable       field    net/minecraft/client/MinecraftClient    session    Lnet/minecraft/client/util/Session;

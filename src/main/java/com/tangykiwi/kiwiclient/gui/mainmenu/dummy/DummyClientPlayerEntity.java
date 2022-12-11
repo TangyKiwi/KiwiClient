@@ -18,11 +18,13 @@ public class DummyClientPlayerEntity extends ClientPlayerEntity {
         return instance;
     }
 
+    public static void newInstance() {
+        instance = new DummyClientPlayerEntity();
+    }
+
     private DummyClientPlayerEntity() {
         super(MinecraftClient.getInstance(), DummyClientWorld.getInstance(), DummyClientPlayNetworkHandler.getInstance(), null, null,false, false);
-        MinecraftClient.getInstance().getSkinProvider().loadSkin(getGameProfile(), (type, identifier, texture) -> {
-            skinIdentifier = identifier;
-        }, true);
+        MinecraftClient.getInstance().getSkinProvider().loadSkin(getGameProfile(), (type, identifier, texture) -> skinIdentifier = identifier, true);
     }
 
     @Override

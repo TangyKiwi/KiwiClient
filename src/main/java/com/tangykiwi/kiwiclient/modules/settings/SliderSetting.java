@@ -1,7 +1,7 @@
 package com.tangykiwi.kiwiclient.modules.settings;
 
 import com.tangykiwi.kiwiclient.gui.clickgui.window.ModuleWindow;
-import com.tangykiwi.kiwiclient.gui.clickgui.window.Window;
+import com.tangykiwi.kiwiclient.gui.window.Window;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
