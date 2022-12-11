@@ -2,13 +2,15 @@ package com.tangykiwi.kiwiclient.gui.clickgui.window;
 
 import com.tangykiwi.kiwiclient.gui.window.Window;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
+import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvents;
 import org.apache.commons.lang3.tuple.Triple;
+
+import java.awt.*;
 
 public abstract class ClickGuiWindow extends Window {
 
@@ -35,15 +37,14 @@ public abstract class ClickGuiWindow extends Window {
 
 	protected void drawBar(MatrixStack matrices, int mouseX, int mouseY, GlyphPageFontRenderer textRend) {
 		/* background */
-		DrawableHelper.fill(matrices, x1, y1 + 1, x1 + 1, y2 - 1, 0xff6060b0);
-		horizontalGradient(matrices, x1 + 1, y1, x2 - 1, y1 + 1, 0xff6060b0, 0xff8070b0);
-		DrawableHelper.fill(matrices, x2 - 1, y1 + 1, x2, y2 - 1, 0xff8070b0);
-		horizontalGradient(matrices, x1 + 1, y2 - 1, x2 - 1, y2, 0xff6060b0, 0xff8070b0);
+		RenderUtils.renderRoundedQuad(matrices, new Color(0xff6060b0), x1, y1, x2, y2, 5, 20);
 
-		DrawableHelper.fill(matrices, x1 + 1, y1 + 12, x2 - 1, y2 - 1, 0x90606090);
+		if(!hiding) {
+			RenderUtils.renderRoundedQuad(matrices, new Color(0x90606090), x1 + 1, y1 + 12, x2 - 1, y2 - 1, 5, 20);
+		}
 
 		/* title bar */
-		horizontalGradient(matrices, x1 + 1, y1 + 1, x2 - 1, y1 + 12, 0xff6060b0, 0xff8070b0);
+		RenderUtils.renderRoundedQuad(matrices, new Color(0xff8070b0), x1 + 1, y1 + 1, x2 - 1, y1 + 12, 5, 20);
 
 		/* +/- text */
 		textRend.drawString(matrices, hiding ? "+" : "_", x2 - 10, y1 + (hiding ? 4 : 2), 0x000000, 1);

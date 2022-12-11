@@ -17,10 +17,53 @@ import net.minecraft.util.math.*;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
 import java.lang.reflect.Field;
 
 public class RenderUtils {
 	private static Field shaderLightField;
+
+	public static void renderRoundedQuad(MatrixStack matrices, Color c, double fromX, double fromY, double toX, double toY, double radC1, double radC2, double radC3, double radC4, double samples) {
+		int color = c.getRGB();
+		Matrix4f matrix = matrices.peek().getPositionMatrix();
+		float f = ((float) (color >> 24 & 255) / 255.0F);
+		float g = (float) (color >> 16 & 255) / 255.0F;
+		float h = (float) (color >> 8 & 255) / 255.0F;
+		float k = (float) (color & 255) / 255.0F;
+		RenderSystem.enableBlend();
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+		RenderSystem.setShader(GameRenderer::getPositionColorShader);
+		renderRoundedQuadInternal(matrix, g, h, k, f, fromX, fromY, toX, toY, radC1, radC2, radC3, radC4, samples);
+		RenderSystem.enableCull();
+		RenderSystem.disableBlend();
+	}
+
+	public static void renderRoundedQuad(MatrixStack stack, Color c, double x, double y, double x1, double y1, double rad, double samples) {
+		renderRoundedQuad(stack, c, x, y, x1, y1, rad, rad, rad, rad, samples);
+	}
+
+	public static void renderRoundedQuadInternal(Matrix4f matrix, float cr, float cg, float cb, float ca, double fromX, double fromY, double toX, double toY, double radC1, double radC2, double radC3, double radC4, double samples) {
+		BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+		bufferBuilder.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
+
+		double[][] map = new double[][] { new double[] { toX - radC4, toY - radC4, radC4 }, new double[] { toX - radC2, fromY + radC2, radC2 },
+				new double[] { fromX + radC1, fromY + radC1, radC1 }, new double[] { fromX + radC3, toY - radC3, radC3 } };
+		for (int i = 0; i < 4; i++) {
+			double[] current = map[i];
+			double rad = current[2];
+			for (double r = i * 90d; r < (360 / 4d + i * 90d); r += (90 / samples)) {
+				float rad1 = (float) Math.toRadians(r);
+				float sin = (float) (Math.sin(rad1) * rad);
+				float cos = (float) (Math.cos(rad1) * rad);
+				bufferBuilder.vertex(matrix, (float) current[0] + sin, (float) current[1] + cos, 0.0F).color(cr, cg, cb, ca).next();
+			}
+			float rad1 = (float) Math.toRadians((360 / 4d + i * 90d));
+			float sin = (float) (Math.sin(rad1) * rad);
+			float cos = (float) (Math.cos(rad1) * rad);
+			bufferBuilder.vertex(matrix, (float) current[0] + sin, (float) current[1] + cos, 0.0F).color(cr, cg, cb, ca).next();
+		}
+		BufferRenderer.drawWithShader(bufferBuilder.end());
+	}
 
 	// -------------------- Fill + Outline Boxes --------------------
 

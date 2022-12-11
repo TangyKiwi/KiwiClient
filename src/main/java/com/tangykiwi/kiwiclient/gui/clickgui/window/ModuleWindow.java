@@ -5,6 +5,7 @@ import com.tangykiwi.kiwiclient.modules.settings.Setting;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import com.tangykiwi.kiwiclient.util.font.IFont;
+import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.InputUtil;
@@ -154,7 +155,7 @@ public class ModuleWindow extends ClickGuiWindow {
 
 		if (scrollable) {
 			int scrollbarTop = y + (y2 - y - 2) * start / lines;
-			int scrollbarBottom = y + (y2 - y - 2) * max / lines;
+			int scrollbarBottom = y + (y2 - y - 2) * max / lines - 2;
 			DrawableHelper.fill(matrices, x2 - 2, scrollbarTop, x2 - 1, scrollbarBottom, Color.WHITE.getRGB());
 		}
 	}
