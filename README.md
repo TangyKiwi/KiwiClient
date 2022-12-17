@@ -6,8 +6,8 @@
 
 <div align="center">
     <img src="https://img.shields.io/github/last-commit/TangyKiwi/KiwiClient" alt="GitHub last commit"/>
-    <img src="https://img.shields.io/github/workflow/status/TangyKiwi/KiwiClient/build" alt="Build status"/>
-    <img src="https://img.shields.io/badge/MC-1.19.2-brightgreen.svg" alt="Minecraft"/>
+    <img src="https://img.shields.io/github/actions/workflow/status/TangyKiwi/KiwiClient/build.yml?branch=master" alt="Build status"/>
+    <img src="https://img.shields.io/badge/MC-1.19.3-brightgreen.svg" alt="Minecraft"/>
     <br>
     <img src="https://img.shields.io/github/v/release/TangyKiwi/KiwiClient.svg" alt="Release"/>
     <img src="https://img.shields.io/github/languages/code-size/TangyKiwi/KiwiClient" alt="GitHub code size in bytes"/>
@@ -62,6 +62,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 <details>
 <summary>Combat</summary>
 - Criticals<br>
+- TargetHUD<br>
 - TriggerBot<br>
 </details>
 
@@ -74,6 +75,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - Fly<br>
 - InvMove<br>
 - NoFall<br>
+- NoWorldBorder<br>
 - SafeWalk<br>
 - Speed<br>
 </details>
@@ -107,11 +109,14 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 
 <details>
 <summary>Other</summary>
+- AntiHuman<br>
 - Background<br>
 - Cape<br>
 - Deadmau5Ears<br>
 - LoadingScreen<br>
 - MainMenu<br>
+- NoIP<br>
+- NoLO<br>
 </details>
 
 ### Commands
@@ -121,10 +126,13 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - ,ff
 - ,gamemode [gamemode]
 - ,give [item{nbt}] [count]
+- ,lookat [x][y][z]
+- ,resetclickgui
 - ,say [message]
 - ,searchblocks [add/rem/list] [block]
 - ,server
 - ,seedray [seed]
+- ,target [name]
 - ,toggle [module]
 - ,unbind [module]
 - ,vclip [blocks]
