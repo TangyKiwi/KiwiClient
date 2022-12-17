@@ -138,8 +138,8 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - ,vclip [blocks]
 
 ### TODO
-- Config system, load / save different configs
-- Clean config setting data value variable
+- Fix alt manager Mojang/Microsoft login
+- Other bugs in [Issues](https://github.com/TangyKiwi/KiwiClient/issues)
 
 ## Disclaimer
 
