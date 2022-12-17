@@ -1,6 +1,5 @@
 package com.tangykiwi.kiwiclient.gui;
 
-import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
@@ -24,7 +23,6 @@ public class BindScreen extends Screen {
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        Utils.mc.keyboard.setRepeatEvents(true);
         this.renderBackground(matrices);
 
         IFont.CONSOLAS.drawCenteredString(matrices, "Press a Key", width / 2D, height / 2D - IFont.CONSOLAS.getFontHeight(), Color.WHITE.getRGB(), 1);

@@ -19,7 +19,7 @@ public class PlayerCopyEntity extends OtherClientPlayerEntity {
     }
 
     public PlayerCopyEntity(PlayerEntity player, double x, double y, double z) {
-        super(MinecraftClient.getInstance().world, player.getGameProfile(), MinecraftClient.getInstance().player.getPublicKey());
+        super(MinecraftClient.getInstance().world, player.getGameProfile());
 
         copyFrom(player);
 

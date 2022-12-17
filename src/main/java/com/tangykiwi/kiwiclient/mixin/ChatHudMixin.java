@@ -19,6 +19,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,7 +27,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 @Mixin(ChatHud.class)
@@ -94,7 +94,7 @@ public abstract class ChatHudMixin implements IChatHUD {
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void onRender(MatrixStack matrices, int tickDelta, CallbackInfo ci) {
+    private void onRender(MatrixStack matrices, int currentTick, int mouseX, int mouseY, CallbackInfo ci) {
         BetterChat betterChat = (BetterChat) KiwiClient.moduleManager.getModule(BetterChat.class);
         if(betterChat.isEnabled() && betterChat.getSetting(3).asToggle().state) {
             if (mc.options.getChatVisibility().getValue() == ChatVisibility.HIDDEN) return;
@@ -110,7 +110,7 @@ public abstract class ChatHudMixin implements IChatHUD {
             for(int m = 0; m + this.scrolledLines < this.visibleMessages.size() && m < maxLineCount; ++m) {
                 ChatHudLine.Visible chatHudLine = this.visibleMessages.get(m + this.scrolledLines);
                 if (chatHudLine != null) {
-                    int x = tickDelta - chatHudLine.addedTime();
+                    int x = currentTick - chatHudLine.addedTime();
                     if (x < 200 || isChatFocused()) {
                         double o = isChatFocused() ? 1.0D : getMessageOpacityMultiplier(x);
                         if (o * d > 0.01D) {

@@ -1,7 +1,7 @@
 package com.tangykiwi.kiwiclient.gui;
 
-import com.tangykiwi.kiwiclient.gui.window.widget.WindowWidget;
 import com.tangykiwi.kiwiclient.util.Utils;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +22,7 @@ public class AccountButtonWidget extends TexturedButtonWidget
 
     public AccountButtonWidget(Screen screen, int x, int y, PressAction pressAction)
     {
-        super(x, y, 20, 20, 0, 146, 20, ButtonWidget.WIDGETS_TEXTURE, 256, 256, pressAction, EMPTY, Text.literal("Account Manager"));
+        super(x, y, 20, 20, 0, 146, 20, ButtonWidget.WIDGETS_TEXTURE, 256, 256, pressAction, Text.literal("Account Manager"));
         this.screen = screen;
     }
 
@@ -47,6 +47,6 @@ public class AccountButtonWidget extends TexturedButtonWidget
                 }
             }
         }
-        drawTexture(matrices, x + width - 6, y - 1, u, 60, 8, 8, 128, 128);
+        drawTexture(matrices, getX() + width - 6, getY() - 1, u, 60, 8, 8, 128, 128);
     }
 }

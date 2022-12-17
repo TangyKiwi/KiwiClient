@@ -64,8 +64,8 @@ public class Ore {
         return map;
     }
 
-    private static java.util.List<Ore> V1_18() {
-        java.util.List<Ore> ores = new ArrayList<>();
+    private static List<Ore> V1_18() {
+        List<Ore> ores = new ArrayList<>();
 
         HashMap<String, Integer> extraGoldIndex = new HashMap<>();
         extraGoldIndex.put("default", -1);

@@ -2,19 +2,12 @@ package com.tangykiwi.kiwiclient.gui.mainmenu.dummy;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.tag.BlockTags;
-import net.minecraft.util.math.intprovider.ConstantIntProvider;
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.registry.*;
+
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionOptions;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.dimension.DimensionTypeRegistrar;
 import net.minecraft.world.dimension.DimensionTypes;
-
-import java.util.OptionalLong;
 
 public class DummyClientWorld extends ClientWorld {
 
@@ -26,6 +19,6 @@ public class DummyClientWorld extends ClientWorld {
     }
 
     private DummyClientWorld() {
-        super(DummyClientPlayNetworkHandler.getInstance(), new Properties(Difficulty.EASY, false, true), World.OVERWORLD, BuiltinRegistries.DIMENSION_TYPE.getEntry(DimensionTypes.OVERWORLD).get(), 0,0, MinecraftClient.getInstance()::getProfiler, MinecraftClient.getInstance().worldRenderer, false, 0);
+        super(DummyClientPlayNetworkHandler.getInstance(), new Properties(Difficulty.EASY, false, true), World.OVERWORLD, MinecraftClient.getInstance().world.getRegistryManager().get(RegistryKeys.DIMENSION_TYPE).getEntry(MinecraftClient.getInstance().world.getDimension()), 0,0, MinecraftClient.getInstance()::getProfiler, MinecraftClient.getInstance().worldRenderer, false, 0);
     }
 }

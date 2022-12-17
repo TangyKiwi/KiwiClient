@@ -55,7 +55,7 @@ public class ToggleSetting extends Setting<Boolean> {
         if (!children.isEmpty()) {
             if (window.rmDown && window.mouseOver(x, y, x + len, y + 12)) {
                 expanded = !expanded;
-                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
+                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
             }
 
             if (expanded) {
@@ -88,7 +88,7 @@ public class ToggleSetting extends Setting<Boolean> {
         if (window.mouseOver(x, y, x + len, y + 12) && window.lmDown) {
             state = !state;
             this.setDataValue(state);
-            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
+            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
         }
 
         return index;

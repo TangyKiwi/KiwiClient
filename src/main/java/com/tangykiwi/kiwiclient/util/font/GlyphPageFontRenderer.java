@@ -360,7 +360,7 @@ public class GlyphPageFontRenderer {
                     this.posY + (float) (glyphPage.getMaxFontHeight() / 2) - 1.0F, 0.0D).next();
             bufferBuilder.vertex(this.posX,
                     this.posY + (float) (glyphPage.getMaxFontHeight() / 2) - 1.0F, 0.0D).next();
-            BufferRenderer.drawWithShader(bufferBuilder.end());
+            BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
             GlStateManager._enableTexture();
         }
 
@@ -378,7 +378,7 @@ public class GlyphPageFontRenderer {
                     this.posY + (float) glyphPage.getMaxFontHeight() - 1.0F, 0.0D).next();
             bufferBuilder.vertex(this.posX + (float) l,
                     this.posY + (float) glyphPage.getMaxFontHeight() - 1.0F, 0.0D).next();
-            BufferRenderer.drawWithShader(bufferBuilder.end());
+            BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
             GlStateManager._enableTexture();
         }
 

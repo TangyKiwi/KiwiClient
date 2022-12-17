@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.util.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.tangykiwi.kiwiclient.mixin.WorldRendererAccessor;
 import com.tangykiwi.kiwiclient.util.render.color.CustomColor;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
@@ -15,6 +16,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.*;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -32,7 +35,7 @@ public class RenderUtils {
 		float k = (float) (color & 255) / 255.0F;
 		RenderSystem.enableBlend();
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-		RenderSystem.setShader(GameRenderer::getPositionColorShader);
+		RenderSystem.setShader(GameRenderer::getPositionColorProgram);
 		renderRoundedQuadInternal(matrix, g, h, k, f, fromX, fromY, toX, toY, radC1, radC2, radC3, radC4, samples);
 		RenderSystem.enableCull();
 		RenderSystem.disableBlend();
@@ -62,7 +65,7 @@ public class RenderUtils {
 			float cos = (float) (Math.cos(rad1) * rad);
 			bufferBuilder.vertex(matrix, (float) current[0] + sin, (float) current[1] + cos, 0.0F).color(cr, cg, cb, ca).next();
 		}
-		BufferRenderer.drawWithShader(bufferBuilder.end());
+		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 	}
 
 	// -------------------- Fill + Outline Boxes --------------------
@@ -87,6 +90,11 @@ public class RenderUtils {
 		drawBoxOutline(box, outlineColor, lineWidth, excludeDirs);
 	}
 
+	// -------------------- Frustum --------------------
+	public static Frustum getFrustum() {
+		return ((WorldRendererAccessor) MinecraftClient.getInstance().worldRenderer).getFrustum();
+	}
+
 	// -------------------- Fill Boxes --------------------
 
 	public static void drawBoxFill(BlockPos blockPos, QuadColor color, Direction... excludeDirs) {
@@ -94,7 +102,7 @@ public class RenderUtils {
 	}
 
 	public static void drawBoxFill(Box box, QuadColor color, Direction... excludeDirs) {
-		if (!FrustumUtils.isBoxVisible(box)) {
+		if (!getFrustum().isVisible(box)) {
 			return;
 		}
 
@@ -106,7 +114,7 @@ public class RenderUtils {
 		BufferBuilder buffer = tessellator.getBuffer();
 
 		// Fill
-		RenderSystem.setShader(GameRenderer::getPositionColorShader);
+		RenderSystem.setShader(GameRenderer::getPositionColorProgram);
 
 		buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 		Vertexer.vertexBoxQuads(matrices, buffer, Boxes.moveToZero(box), color, excludeDirs);
@@ -122,7 +130,7 @@ public class RenderUtils {
 	}
 
 	public static void drawBoxOutline(Box box, QuadColor color, float lineWidth, Direction... excludeDirs) {
-		if (!FrustumUtils.isBoxVisible(box)) {
+		if (!getFrustum().isVisible(box)) {
 			return;
 		}
 
@@ -135,7 +143,7 @@ public class RenderUtils {
 
 		// Outline
 		RenderSystem.disableCull();
-		RenderSystem.setShader(GameRenderer::getRenderTypeLinesShader);
+		RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
 		RenderSystem.lineWidth(lineWidth);
 
 		buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
@@ -147,71 +155,10 @@ public class RenderUtils {
 		cleanup();
 	}
 
-	// -------------------- Quads --------------------
-
-	public static void drawQuadFill(double x1, double y1, double z1, double x2, double y2, double z2, double x3, double y3, double z3, double x4, double y4, double z4, int cullMode, QuadColor color) {
-		if (!FrustumUtils.isPointVisible(x1, y1, z1) && !FrustumUtils.isPointVisible(x2, y2, z2)
-				&& !FrustumUtils.isPointVisible(x3, y3, z3) && !FrustumUtils.isPointVisible(x4, y4, z4)) {
-			return;
-		}
-
-		setup();
-
-		MatrixStack matrices = matrixFrom(x1, y1, z1);
-
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tessellator.getBuffer();
-
-		// Fill
-		RenderSystem.setShader(GameRenderer::getPositionColorShader);
-
-		buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-		Vertexer.vertexQuad(matrices, buffer,
-				0f, 0f, 0f,
-				(float) (x2 - x1), (float) (y2 - y1), (float) (z2 - z1),
-				(float) (x3 - x1), (float) (y3 - y1), (float) (z3 - z1),
-				(float) (x4 - x1), (float) (y4 - y1), (float) (z4 - z1),
-				cullMode, color);
-		tessellator.draw();
-
-		cleanup();
-	}
-
-	public static void drawQuadOutline(double x1, double y1, double z1, double x2, double y2, double z2, double x3, double y3, double z3, double x4, double y4, double z4, float lineWidth, QuadColor color) {
-		if (!FrustumUtils.isPointVisible(x1, y1, z1) && !FrustumUtils.isPointVisible(x2, y2, z2)
-				&& !FrustumUtils.isPointVisible(x3, y3, z3) && !FrustumUtils.isPointVisible(x4, y4, z4)) {
-			return;
-		}
-
-		setup();
-
-		MatrixStack matrices = matrixFrom(x1, y1, z1);
-
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tessellator.getBuffer();
-
-		int[] colors = color.getAllColors();
-
-		// Outline
-		RenderSystem.disableCull();
-		RenderSystem.setShader(GameRenderer::getRenderTypeLinesShader);
-		RenderSystem.lineWidth(lineWidth);
-
-		buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
-		Vertexer.vertexLine(matrices, buffer, 0f, 0f, 0f, (float) (x2 - x1), (float) (y2 - y1), (float) (z2 - z1), LineColor.gradient(colors[0], colors[1]));
-		Vertexer.vertexLine(matrices, buffer, (float) (x2 - x1), (float) (y2 - y1), (float) (z2 - z1), (float) (x3 - x1), (float) (y3 - y1), (float) (z3 - z1), LineColor.gradient(colors[1], colors[2]));
-		Vertexer.vertexLine(matrices, buffer, (float) (x3 - x1), (float) (y3 - y1), (float) (z3 - z1), (float) (x4 - x1), (float) (y4 - y1), (float) (z4 - z1), LineColor.gradient(colors[2], colors[3]));
-		Vertexer.vertexLine(matrices, buffer, (float) (x4 - x1), (float) (y4 - y1), (float) (z4 - z1), 0f, 0f, 0f, LineColor.gradient(colors[3], colors[0]));
-		tessellator.draw();
-
-		RenderSystem.enableCull();
-		cleanup();
-	}
-
 	// -------------------- Lines --------------------
 
 	public static void drawLine(double x1, double y1, double z1, double x2, double y2, double z2, LineColor color, float width) {
-		if (!FrustumUtils.isPointVisible(x1, y1, z1) && !FrustumUtils.isPointVisible(x2, y2, z2)) {
+		if (!getFrustum().isVisible(new Box(new BlockPos(x1, y1, z1))) && !getFrustum().isVisible(new Box(new BlockPos(x2, y2, z2)))) {
 			return;
 		}
 
@@ -225,7 +172,7 @@ public class RenderUtils {
 		// Line
 		RenderSystem.disableDepthTest();
 		RenderSystem.disableCull();
-		RenderSystem.setShader(GameRenderer::getRenderTypeLinesShader);
+		RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
 		RenderSystem.lineWidth(width);
 
 		buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
@@ -248,7 +195,7 @@ public class RenderUtils {
 		// Line
 		RenderSystem.disableDepthTest();
 		RenderSystem.disableCull();
-		RenderSystem.setShader(GameRenderer::getRenderTypeLinesShader);
+		RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
 		RenderSystem.lineWidth(width);
 
 		buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
@@ -270,8 +217,8 @@ public class RenderUtils {
 		MatrixStack matrices = matrixFrom(x, y, z);
 
 		Camera camera = Utils.mc.gameRenderer.getCamera();
-		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
-		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
+		matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
 
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
@@ -311,18 +258,18 @@ public class RenderUtils {
 		MatrixStack matrices = matrixFrom(x, y, z);
 
 		Camera camera = Utils.mc.gameRenderer.getCamera();
-		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
-		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
+		matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
 
 		matrices.translate(offX, offY, 0);
 		matrices.scale((float) scale, (float) scale, 0.001f);
 
-		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180f));
+		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180f));
 
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 
-		Vec3f[] currentLight = getCurrentLight();
+		Vector3f[] currentLight = getCurrentLight();
 		DiffuseLighting.disableGuiDepthLighting();
 
 		Utils.mc.getBufferBuilders().getEntityVertexConsumers().draw();
@@ -360,8 +307,8 @@ public class RenderUtils {
 		MatrixStack matrices = new MatrixStack();
 
 		Camera camera = MinecraftClient.getInstance().gameRenderer.getCamera();
-		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
-		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(camera.getYaw() + 180.0F));
+		matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));
 
 		matrices.translate(x - camera.getPos().x, y - camera.getPos().y, z - camera.getPos().z);
 
@@ -391,13 +338,13 @@ public class RenderUtils {
 		RenderSystem.enableTexture();
 	}
 
-	public static Vec3f[] getCurrentLight() {
+	public static Vector3f[] getCurrentLight() {
 		if (shaderLightField == null) {
 			shaderLightField = FieldUtils.getField(RenderSystem.class, "shaderLightDirections", true);
 		}
 
 		try {
-			return (Vec3f[]) shaderLightField.get(null);
+			return (Vector3f[]) shaderLightField.get(null);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

@@ -10,16 +10,14 @@ import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import com.tangykiwi.kiwiclient.util.render.color.QuadColor;
-import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.ChunkRandom;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.chunk.ChunkStatus;
 
@@ -184,7 +182,7 @@ public class SeedRay extends Module {
 
         long populationSeed = random.setPopulationSeed(worldSeed, chunkX, chunkZ);
 
-        Identifier id = world.getRegistryManager().get(Registry.BIOME_KEY).getId(world.getBiomeAccess().getBiomeForNoiseGen(new BlockPos(chunkX, 0, chunkZ)).value());
+        Identifier id = world.getRegistryManager().get(RegistryKeys.BIOME).getId(world.getBiomeAccess().getBiomeForNoiseGen(new BlockPos(chunkX, 0, chunkZ)).value());
         if (id == null) {
             mc.inGameHud.getChatHud().addMessage(Text.literal("Unable to calculate ore positions, there may be mods affecting world generation"));
             setToggled(false);

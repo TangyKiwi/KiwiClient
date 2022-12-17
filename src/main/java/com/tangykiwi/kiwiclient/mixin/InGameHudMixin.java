@@ -9,13 +9,12 @@ import com.tangykiwi.kiwiclient.modules.client.MountHUD;
 import com.tangykiwi.kiwiclient.modules.client.NoScoreboard;
 import com.tangykiwi.kiwiclient.modules.client.PotionTimers;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.JumpingMount;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -90,16 +89,17 @@ public class InGameHudMixin {
 
     @ModifyVariable(method = "renderStatusBars", at = @At(value = "STORE", ordinal = 1), ordinal = 10)
     private int moveAirUp(int y) {
-        if (KiwiClient.moduleManager.getModule(MountHUD.class).isEnabled() && client.player.hasJumpingMount()) {
+        if (KiwiClient.moduleManager.getModule(MountHUD.class).isEnabled() && client.player.getJumpingMount() != null) {
             y -= 10;
         }
         return y;
     }
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;hasJumpingMount()Z"))
-    private boolean switchBar(ClientPlayerEntity player) {
-        if (!client.interactionManager.hasExperienceBar() || !KiwiClient.moduleManager.getModule(MountHUD.class).isEnabled()) return player.hasJumpingMount();
-        return player.hasJumpingMount() && client.options.jumpKey.isPressed() || player.getMountJumpStrength() > 0;
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getJumpingMount()Lnet/minecraft/entity/JumpingMount;"))
+    private JumpingMount switchBar(ClientPlayerEntity player) {
+        if (!client.interactionManager.hasExperienceBar() || !KiwiClient.moduleManager.getModule(MountHUD.class).isEnabled()) return player.getJumpingMount();
+        if(client.options.jumpKey.isPressed() || player.getMountJumpStrength() > 0) return player.getJumpingMount();
+        return null;
     }
 
     @Inject(method = "renderStatusEffectOverlay", at = @At("TAIL"))

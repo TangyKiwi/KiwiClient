@@ -3,25 +3,25 @@ package com.tangykiwi.kiwiclient.command.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.Command;
+import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.modules.render.Search;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.BlockStateArgument;
 import net.minecraft.command.argument.BlockStateArgumentType;
-import net.minecraft.util.registry.DynamicRegistryManager;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 
 public class SearchBlocks extends Command {
-    CommandRegistryAccess commandRegistryAccess = new CommandRegistryAccess(DynamicRegistryManager.BUILTIN.get());
+
     public SearchBlocks() {
         super("searchblocks", "Add/Remove/List blocks to search module", "sb", "search", "blocks");
     }
 
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        builder.then(literal("add").then(argument("block", BlockStateArgumentType.blockState(commandRegistryAccess)).executes(context -> {
+        builder.then(literal("add").then(argument("block", BlockStateArgumentType.blockState(CommandManager.REGISTRY_ACCESS)).executes(context -> {
             Search search = (Search) KiwiClient.moduleManager.getModule(Search.class);
             Block block = context.getArgument("block", BlockStateArgument.class).getBlockState().getBlock();
             search.blocks.add(block);
@@ -29,7 +29,7 @@ public class SearchBlocks extends Command {
             return SINGLE_SUCCESS;
         })));
 
-        builder.then(literal("rem").then(argument("block", BlockStateArgumentType.blockState(commandRegistryAccess)).executes(context -> {
+        builder.then(literal("rem").then(argument("block", BlockStateArgumentType.blockState(CommandManager.REGISTRY_ACCESS)).executes(context -> {
             Search search = (Search) KiwiClient.moduleManager.getModule(Search.class);
             Block block = context.getArgument("block", BlockStateArgument.class).getBlockState().getBlock();
             search.blocks.remove(block);

@@ -4,13 +4,14 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.tangykiwi.kiwiclient.command.Command;
+import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.ItemStackArgumentType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.text.Text;
-import net.minecraft.util.registry.DynamicRegistryManager;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 
@@ -24,7 +25,7 @@ public class Give extends Command {
 
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        builder.then(argument("item", ItemStackArgumentType.itemStack(new CommandRegistryAccess(DynamicRegistryManager.BUILTIN.get()))).executes(context -> {
+        builder.then(argument("item", ItemStackArgumentType.itemStack(CommandManager.REGISTRY_ACCESS)).executes(context -> {
             if (!Utils.mc.player.getAbilities().creativeMode) throw NOT_IN_CREATIVE.create();
 
             ItemStack item = ItemStackArgumentType.getItemStackArgument(context, "item").createStack(1, false);

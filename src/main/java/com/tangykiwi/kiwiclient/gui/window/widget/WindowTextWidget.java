@@ -1,12 +1,8 @@
 package com.tangykiwi.kiwiclient.gui.window.widget;
 
-import com.tangykiwi.kiwiclient.mixin.ScreenAccessor;
 import com.tangykiwi.kiwiclient.util.font.IFont;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
 
 public class WindowTextWidget extends WindowWidget {
 
@@ -39,7 +35,7 @@ public class WindowTextWidget extends WindowWidget {
 		matrices.push();
 		matrices.scale(scale, scale, 1f);
 		matrices.translate((windowX + x1 - offset) / scale, (windowY + y1) / scale, 0);
-		matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(rotation));
+		matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(rotation));
 
 		IFont.CONSOLAS.drawString(matrices, text, 0, 0, color, scale);
 

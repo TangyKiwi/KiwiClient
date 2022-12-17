@@ -3,12 +3,14 @@ package com.tangykiwi.kiwiclient.mixin;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
 import com.tangykiwi.kiwiclient.modules.other.NoIP;
+import com.tangykiwi.kiwiclient.modules.render.ESP;
 import com.tangykiwi.kiwiclient.modules.render.Freecam;
 import com.tangykiwi.kiwiclient.util.ConfigManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -71,5 +73,13 @@ public class MinecraftClientMixin {
         KiwiClient.moduleManager.getModule(Freecam.class).setToggled(false);
         ConfigManager.saveModules("default");
         ConfigManager.saveClickGui("default");
+    }
+
+    @Inject(method = "hasOutline", at = @At("HEAD"), cancellable = true)
+    private void outlineEntities(Entity entity, CallbackInfoReturnable<Boolean> ci) {
+        ESP esp = (ESP) KiwiClient.moduleManager.getModule(ESP.class);
+        if(esp.isEnabled() && esp.getSetting(0).asMode().mode == 0) {
+            ci.setReturnValue(true);
+        }
     }
 }

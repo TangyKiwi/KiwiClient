@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -15,6 +17,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.resource.DirectoryResourcePack;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.ResourcePack;
@@ -45,12 +48,15 @@ public class OpenResourceManager implements ResourceManager {
         if ("minecraft".equals(id.getNamespace()))
             return parent.getResource(id);
 
-        if ("__url__".equals(id.getNamespace()))
-            return Optional.of(new Resource(id.getNamespace(), () -> parseURL(id.getPath())));
+        if ("__url__".equals(id.getNamespace())) {
+            DirectoryResourcePack dummy = new DirectoryResourcePack(id.getNamespace(), Paths.get(id.getNamespace()), true);
+            return Optional.of(new Resource(dummy, () -> parseURL(id.getPath())));
+        }
 
         // Scuffed resource loader
         Path path = FabricLoader.getInstance().getModContainer(id.getNamespace()).get().findPath("assets/" + id.getNamespace() + "/" + id.getPath()).get();
-        return Optional.of(new Resource(id.getNamespace(), () -> Files.newInputStream(path)));
+        DirectoryResourcePack dummy = new DirectoryResourcePack(id.getNamespace(), path.getRoot(), true);
+        return Optional.of(new Resource(dummy, () -> Files.newInputStream(path)));
     }
 
     @Override
@@ -85,3 +91,4 @@ public class OpenResourceManager implements ResourceManager {
     }
 
 }
+

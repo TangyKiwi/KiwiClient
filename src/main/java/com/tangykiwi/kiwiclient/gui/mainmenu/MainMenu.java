@@ -22,8 +22,6 @@ import net.minecraft.client.gui.screen.multiplayer.MultiplayerWarningScreen;
 import net.minecraft.client.gui.screen.option.LanguageOptionsScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.sound.PositionedSoundInstance;
@@ -39,7 +37,7 @@ public class MainMenu extends Screen {
 
     public final String[] BUTTONS = {"Singleplayer", "Multiplayer", "Realms", "Options", "Language", "Quit"};
     public final ArrayList<GuiButton> buttonList = new ArrayList<GuiButton>();
-    public Identifier skin = new Identifier("textures/entity/steve.png");
+    public Identifier skin = new Identifier("textures/entity/player/wide/steve.png");
     public ParticleManager particles;
 
     public MainMenu() {

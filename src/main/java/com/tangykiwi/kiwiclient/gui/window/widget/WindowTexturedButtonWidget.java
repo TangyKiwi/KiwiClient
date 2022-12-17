@@ -35,7 +35,7 @@ public class WindowTexturedButtonWidget extends WindowWidget {
             v += 20;
         }
 
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderTexture(0, texture);
         DrawableHelper.drawTexture(matrices, bx1, by1, loc, v, 20, 20, 128, 128);
     }

@@ -7,12 +7,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
 import org.apache.commons.lang3.StringUtils;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.stream.Collectors;
+
+import static org.joml.Math.cos;
+import static org.joml.Math.sin;
 
 public class Utils {
     public static MinecraftClient mc;
@@ -36,7 +41,7 @@ public class Utils {
             listTag = tag.getList("Enchantments", 10);
         }
 
-        String enchId = Registry.ENCHANTMENT.getId(enchantment).toString();
+        String enchId = Registries.ENCHANTMENT.getId(enchantment).toString();
 
         for (NbtElement _t : listTag) {
             NbtCompound t = (NbtCompound) _t;
@@ -66,7 +71,7 @@ public class Utils {
         if (!nbt.contains("Enchantments", 9)) return;
         NbtList list = nbt.getList("Enchantments", 10);
 
-        String enchId = Registry.ENCHANTMENT.getId(enchantment).toString();
+        String enchId = Registries.ENCHANTMENT.getId(enchantment).toString();
 
         for (Iterator<NbtElement> it = list.iterator(); it.hasNext();) {
             NbtCompound ench = (NbtCompound) it.next();
@@ -120,5 +125,40 @@ public class Utils {
         if(text.contains("thor")) return "Thrn";
         if(text.contains("unbr")) return "Unbr";
         return "NaN";
+    }
+
+    public static Quaternionf quaternionVector(Vector3f axis, float rotationAngle, boolean degrees) {
+        if (degrees) {
+            rotationAngle *= 0.017453292F;
+        }
+
+        float f = sin(rotationAngle / 2.0F);
+        float x = axis.x() * f;
+        float y = axis.y() * f;
+        float z = axis.z() * f;
+        float w = cos(rotationAngle / 2.0F);
+
+        return new Quaternionf(x, y, z, w);
+    }
+
+    public static Quaternionf quaternionf(float x, float y, float z, boolean degrees) {
+        if (degrees) {
+            x *= 0.017453292F;
+            y *= 0.017453292F;
+            z *= 0.017453292F;
+        }
+
+        float f = sin(0.5F * x);
+        float g = cos(0.5F * x);
+        float h = sin(0.5F * y);
+        float i = cos(0.5F * y);
+        float j = sin(0.5F * z);
+        float k = cos(0.5F * z);
+        float xf = f * i * k + g * h * j;
+        float yf = g * h * k - f * i * j;
+        float zf = f * h * k + g * i * j;
+        float wf = g * i * k - f * h * j;
+
+        return new Quaternionf(xf, yf, zf, wf);
     }
 }

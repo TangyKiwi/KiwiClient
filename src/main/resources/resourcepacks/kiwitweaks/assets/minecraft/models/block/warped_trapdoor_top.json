@@ -1,6 +1,6 @@
 {
 	"credit": "Created by Stridey",
-	"parent": "block/thin_block",
+	"parent": "item/trapdoor",
 	"textures": {
 		"0": "block/warped_trapdoor",
 		"particle": "block/warped_trapdoor"

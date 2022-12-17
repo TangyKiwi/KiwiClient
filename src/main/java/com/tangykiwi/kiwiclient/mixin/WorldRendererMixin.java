@@ -4,7 +4,10 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.EntityRenderEvent;
 import com.tangykiwi.kiwiclient.event.WorldRenderEvent;
 import com.tangykiwi.kiwiclient.modules.player.AntiBlind;
+import com.tangykiwi.kiwiclient.modules.render.ESP;
 import com.tangykiwi.kiwiclient.modules.render.NoRender;
+import net.minecraft.client.render.*;
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,15 +18,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.LightmapTextureManager;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.profiler.Profiler;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -77,6 +74,25 @@ public class WorldRendererMixin {
 
         if (!event.isCancelled()) {
             dispatcher.render(event.getEntity(), x, y, z, yaw, tickDelta, event.getMatrix(), event.getVertex(), light);
+        }
+    }
+
+    @Inject(method = "renderEntity", at = @At("HEAD"))
+    private void renderEntity(Entity entity, double cameraX, double cameraY, double cameraZ, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, CallbackInfo ci) {
+        ESP esp = (ESP) KiwiClient.moduleManager.getModule(ESP.class);
+        if(esp.isEnabled() && esp.getSetting(0).asMode().mode == 0) {
+            if(vertexConsumers instanceof OutlineVertexConsumerProvider) {
+                float[] color = esp.getColor(entity);
+                color[0] = (int) (color[0] * 255);
+                color[1] = (int) (color[1] * 255);
+                color[2] = (int) (color[2] * 255);
+
+                if (color != null) {
+                    OutlineVertexConsumerProvider outlineVertexConsumerProvider = (OutlineVertexConsumerProvider) vertexConsumers;
+                    outlineVertexConsumerProvider.setColor((int) color[0], (int) color[1], (int) color[2], 255);
+//            event.setVertex(colorVertexer.createDualProvider(event.getVertex(), (int) color[0], (int) color[1], (int) color[2], getSetting(1).asSlider().getValueInt()));
+                }
+            }
         }
     }
 }

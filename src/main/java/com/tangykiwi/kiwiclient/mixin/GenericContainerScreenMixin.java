@@ -34,11 +34,8 @@ public abstract class GenericContainerScreenMixin extends HandledScreen<GenericC
         if(!KiwiClient.moduleManager.getModule(AutoContainer.class).isEnabled())
             return;
 
-        addDrawableChild(new ButtonWidget(x + backgroundWidth + 10, y + 2,
-                50, 20, Text.literal("Steal"), b -> steal()));
-
-        addDrawableChild(new ButtonWidget(x + backgroundWidth + 10, y + 24,
-                50, 20, Text.literal("Store"), b -> store()));
+        addDrawableChild(new ButtonWidget.Builder(Text.of("Steal"), b -> steal()).dimensions(x + backgroundWidth + 10, y + 2, 50, 20).build());
+        addDrawableChild(new ButtonWidget.Builder(Text.of("Store"), b -> store()).dimensions(x + backgroundWidth + 10, y + 25, 50, 20).build());
     }
 
     private void steal()

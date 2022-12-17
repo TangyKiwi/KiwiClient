@@ -10,7 +10,6 @@ import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Bucketable;
 import net.minecraft.entity.Entity;
@@ -22,8 +21,8 @@ import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.entity.passive.TropicalFishEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.util.math.Quaternion;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
+import org.joml.Quaternionf;
 
 import java.util.Optional;
 
@@ -89,9 +88,9 @@ public class EntityTooltipComponent implements ITooltipData, TooltipComponent {
         matrices.scale(1f, 1f, -1);
         matrices.translate(0, 0, 1000);
         matrices.scale(size, size, size);
-        Quaternion quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(180.f);
-        Quaternion quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(-10.f);
-        quaternion.hamiltonProduct(quaternion2);
+        Quaternionf quaternion = RotationAxis.POSITIVE_Z.rotationDegrees(180.f);
+        Quaternionf quaternion2 = RotationAxis.POSITIVE_X.rotationDegrees(-10.f);
+        hamiltonProduct(quaternion, quaternion2);
         matrices.multiply(quaternion);
         setupAngles();
         EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
@@ -106,6 +105,21 @@ public class EntityTooltipComponent implements ITooltipData, TooltipComponent {
         entityRenderDispatcher.setRenderShadows(true);
         matrices.pop();
         DiffuseLighting.enableGuiDepthLighting();
+    }
+
+    public void hamiltonProduct(Quaternionf q, Quaternionf other) {
+        float f = q.x();
+        float g = q.y();
+        float h = q.z();
+        float i = q.w();
+        float j = other.x();
+        float k = other.y();
+        float l = other.z();
+        float m = other.w();
+        q.x = (((i * j) + (f * m)) + (g * l)) - (h * k);
+        q.y = ((i * k) - (f * l)) + (g * m) + (h * j);
+        q.z = (((i * l) + (f * k)) - (g * j)) + (h * m);
+        q.w = (((i * m) - (f * j)) - (g * k)) - (h * l);
     }
 
     protected void setupAngles() {
@@ -126,7 +140,7 @@ public class EntityTooltipComponent implements ITooltipData, TooltipComponent {
                 pufferfish.setPuffState(2);
             } else if (entity instanceof TropicalFishEntity tropicalFish) {
                 if (itemNbt.contains("BucketVariantTag", NbtElement.INT_TYPE)) {
-                    tropicalFish.setVariant(itemNbt.getInt("BucketVariantTag"));
+                    tropicalFish.setVariant(TropicalFishEntity.Variety.fromId(itemNbt.getInt("BucketVariantTag")));
                 }
             }
         }

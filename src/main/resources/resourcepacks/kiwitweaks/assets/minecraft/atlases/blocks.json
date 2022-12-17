@@ -1,0 +1,26 @@
+{
+    "sources": [
+        {
+            "type": "directory",
+            "source": "entity/chest_boat",
+            "prefix": "entity/chest_boat/"
+        },
+        {
+            "type": "directory",
+            "source": "entity/boat",
+            "prefix": "entity/boat/"
+        },
+        {
+            "type": "single",
+            "resource": "entity/chest/normal"
+        },
+        {
+            "type": "single",
+            "resource": "entity/minecart"
+        },
+        {
+            "type": "single",
+            "resource": "entity/trident"
+        }
+    ]
+}

@@ -1,8 +1,8 @@
 package com.tangykiwi.kiwiclient.modules.movement;
 
-import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.TickEvent;
+import com.tangykiwi.kiwiclient.mixin.CreativeInventoryScreenAccessor;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
@@ -11,7 +11,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.*;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemGroups;
 
 public class InvMove extends Module {
     public InvMove() {
@@ -47,6 +47,6 @@ public class InvMove extends Module {
                 || screen instanceof StructureBlockScreen
                 || screen instanceof AnvilScreen
                 || (screen instanceof CreativeInventoryScreen
-                && ((CreativeInventoryScreen) screen).getSelectedTab() == ItemGroup.SEARCH.getIndex()));
+                && (CreativeInventoryScreenAccessor.getSelectedTab() == ItemGroups.getSearchGroup())));
     }
 }

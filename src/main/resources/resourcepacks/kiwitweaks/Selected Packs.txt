@@ -1,14 +1,12 @@
 Vanilla Tweaks Resource Pack
 Version: 1.19
 Packs:
-	AnimatedCampfireItem
 	NumberedHotbar
 	RainbowExperience
 	WitherHearts
 	PingColorIndicator
 	3DChains
 	3DPointedDripstone
-	3DBookshelves
 	3DLadders
 	3DRails
 	3DSugarcane
@@ -21,6 +19,7 @@ Packs:
 	3DMushrooms
 	3DTrapdoors
 	3DTiles
+	3DBookshelves
 	TransparentSpyglassOverlay
 	NoVignette
 	TransparentPumpkin
@@ -48,6 +47,7 @@ Packs:
 	CircularSunandMoon
 	CircleLogTops
 	ClearerWater
+	TwinklingStars
 	FullAgeCropMarker
 	DifferentStems
 	FullAgeAmethystMarker
@@ -55,3 +55,8 @@ Packs:
 	RedstonePowerLevels
 	CleanRedstoneDust
 	3DRedstoneWire
+
+Combined packs:
+	3DRedstoneWire+CleanRedstoneDust+RedstonePowerLevels
+	3DAmethyst+FullAgeAmethystMarker
+	DifferentStems+FullAgeCropMarker

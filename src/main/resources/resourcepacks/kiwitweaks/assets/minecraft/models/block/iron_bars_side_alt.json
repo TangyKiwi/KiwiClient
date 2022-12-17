@@ -35,10 +35,9 @@
 			"from": [7.49944, -0.00025, 7.99931],
 			"to": [8.49944, 15.99975, 8.99931],
 			"faces": {
-				"north": {"uv": [2, 0, 3, 16], "texture": "#bars"},
 				"east": {"uv": [2, 0, 3, 16], "texture": "#bars"},
 				"south": {"uv": [2, 0, 3, 16], "texture": "#bars"},
-				"west": {"uv": [2, 0, 3, 16], "texture": "#bars"}
+				"west": {"uv": [3, 0, 4, 16], "texture": "#bars"}
 			}
 		},
 		{

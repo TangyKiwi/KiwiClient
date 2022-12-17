@@ -29,15 +29,15 @@ public abstract class InGameOverlayRendererMixin {
         method = "renderFireOverlay(Lnet/minecraft/client/MinecraftClient;Lnet/minecraft/client/util/math/MatrixStack;)V",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/util/math/MatrixStack;translate(DDD)V"
+            target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"
         ),
         index = 1
     )
-    private static double renderFireOverlay_translate(double y) {
+    private static float renderFireOverlay_translate(float y) {
         NoRender noRender = (NoRender) KiwiClient.moduleManager.getModule(NoRender.class);
         if(noRender.isEnabled() && noRender.getSetting(0).asToggle().state) {
-            return -1.0D + noRender.getSetting(0).asToggle().getChild(1).asSlider().getValue();
+            return -1.0F + noRender.getSetting(0).asToggle().getChild(1).asSlider().getValueFloat();
         }
-        return -0.3;
+        return -0.3F;
     }
 }

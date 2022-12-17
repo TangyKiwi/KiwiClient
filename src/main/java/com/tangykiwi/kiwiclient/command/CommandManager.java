@@ -7,7 +7,9 @@ import com.tangykiwi.kiwiclient.command.commands.*;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientCommandSource;
+import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.CommandSource;
+import net.minecraft.registry.BuiltinRegistries;
 
 import java.util.*;
 
@@ -16,6 +18,8 @@ public class CommandManager {
     private final CommandSource COMMAND_SOURCE = new ChatCommandSource(Utils.mc);
     private final List<Command> commands = new ArrayList<>();
     private final Map<Class<? extends Command>, Command> commandInstances = new HashMap<>();
+
+    public static final CommandRegistryAccess REGISTRY_ACCESS = net.minecraft.server.command.CommandManager.createRegistryAccess(BuiltinRegistries.createWrapperLookup());
 
     public void init() {
         add(new Bind());

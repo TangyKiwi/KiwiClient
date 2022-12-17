@@ -16,11 +16,14 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -71,7 +74,7 @@ public class HUD extends Module {
                 if (mc.player.isSubmergedInWater() || mc.player.getAir() < mc.player.getMaxAir()) offset += 10;
                 if (KiwiClient.moduleManager.getModule(MountHUD.class).isEnabled() && mc.player.getVehicle() != null && mc.player.getVehicle() instanceof LivingEntity) {
                     offset += 10;
-                    if(((LivingEntity) mc.player.getVehicle()).getHealth() > 20) offset += 10;
+                    if(((LivingEntity) mc.player.getVehicle()).getHealth() > 21) offset += 10;
                 }
                 int y = mc.getWindow().getScaledHeight() - offset;
                 for (ItemStack is : mc.player.getInventory().armor) {
@@ -138,7 +141,7 @@ public class HUD extends Module {
                 break;
             case 4:
                 String biome = "";
-                Identifier id = mc.world.getRegistryManager().get(Registry.BIOME_KEY).getId(mc.world.getBiome(new BlockPos.Mutable().set(mc.player.getX(), mc.player.getY(), mc.player.getZ())).value());
+                Identifier id = mc.world.getRegistryManager().get(RegistryKeys.BIOME).getId(mc.world.getBiome(new BlockPos.Mutable().set(mc.player.getX(), mc.player.getY(), mc.player.getZ())).value());
                 if (id == null) biome = "Unknown";
                 else biome = Arrays.stream(id.getPath().split("_")).map(StringUtils::capitalize).collect(Collectors.joining(" "));
                 textRenderer.drawString(m, "Biome: " + biome, 0.3, mc.getWindow().getScaledHeight() - offset, 0xFFAA00, 0.75F);

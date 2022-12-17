@@ -7,24 +7,15 @@ import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
-import com.tangykiwi.kiwiclient.util.IItemEntity;
 import com.tangykiwi.kiwiclient.util.Utils;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.SkullBlock;
-import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.AliasedBlockItem;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.*;
-import net.minecraft.util.shape.VoxelShape;
+import org.joml.Quaterniond;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -71,15 +62,15 @@ public class ItemPhysics extends Module {
         if (itemEntity.isOnGround())
             matrixStack.translate(0, bakedModel.hasDepth() ? -0.04 : -0.151f, 0);
 
-        matrixStack.multiply(new Quaternion(new Vec3f(itemPitchNeg.get(itemEntity) ? -1 : 1, 0, 0), pitch, true));
-        matrixStack.multiply(new Quaternion(new Vec3f(0, 0, itemRollNeg.get(itemEntity) ? -1 : 1), roll, true));
-        matrixStack.multiply(new Quaternion(new Vec3f(0, itemYawNeg.get(itemEntity) ? -1 : 1, 0), yaw, true));
+        matrixStack.multiply(Utils.quaternionVector(new Vector3f(itemPitchNeg.get(itemEntity) ? -1 : 1, 0, 0), pitch, true));
+        matrixStack.multiply(Utils.quaternionVector(new Vector3f(0, 0, itemRollNeg.get(itemEntity) ? -1 : 1), roll, true));
+        matrixStack.multiply(Utils.quaternionVector(new Vector3f(0, itemYawNeg.get(itemEntity) ? -1 : 1, 0), yaw, true));
 
         matrixStack.translate(0, -(itemEntity.getHeight() / 1.5f), 0);
 
-        matrixStack.multiply(Vec3f.NEGATIVE_Y.getRadialQuaternion(n));
+        matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotation(n));
         float l = MathHelper.sin(((float)itemEntity.getItemAge() + g) / 10.0F + itemEntity.uniqueOffset) * 0.1F + 0.1F;
-        float m = bakedModel.getTransformation().getTransformation(ModelTransformation.Mode.GROUND).scale.getY();
+        float m = bakedModel.getTransformation().getTransformation(ModelTransformation.Mode.GROUND).scale.y();
         matrixStack.translate(0.0D, -(l + 0.25F * m), 0.0D);
     }
     

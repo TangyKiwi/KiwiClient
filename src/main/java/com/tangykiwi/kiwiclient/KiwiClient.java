@@ -6,7 +6,6 @@ import com.tangykiwi.kiwiclient.modules.ModuleManager;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.modules.player.ArmorSwap;
 import com.tangykiwi.kiwiclient.util.*;
-import com.tangykiwi.kiwiclient.util.ConfigManager;
 import com.tangykiwi.kiwiclient.util.render.CustomMatrix;
 import com.tangykiwi.kiwiclient.util.tooltip.EChestMemory;
 import net.fabricmc.api.ModInitializer;

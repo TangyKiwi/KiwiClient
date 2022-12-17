@@ -36,7 +36,7 @@ public class BindSetting extends Setting<Integer> {
             mod.setKeyCode(window.keyDown == GLFW.GLFW_KEY_DELETE ? Module.KEY_UNBOUND : window.keyDown);
             this.setDataValue(mod.getKeyCode());
             MinecraftClient.getInstance().getSoundManager().play(
-                PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
+                PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
         }
 
         String name = mod.getKeyCode() < 0 ? "NONE" : InputUtil.fromKeyCode(mod.getKeyCode(), -1).getLocalizedText().getString();

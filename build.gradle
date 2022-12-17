@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.12-SNAPSHOT'
+	id 'fabric-loom' version '1.0-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -35,7 +35,7 @@ dependencies {
 
 	Set<String> apiModules = [
 			"fabric-api-base",
-			"fabric-item-groups-v0",
+			"fabric-item-group-api-v1",
 			"fabric-resource-loader-v0",
 			"fabric-events-interaction-v0",
 			"fabric-key-binding-api-v1",

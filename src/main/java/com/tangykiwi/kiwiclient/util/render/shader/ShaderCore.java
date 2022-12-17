@@ -2,16 +2,15 @@ package com.tangykiwi.kiwiclient.util.render.shader;
 
 import java.io.IOException;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.Shader;
+import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.util.Identifier;
 
 public class ShaderCore {
 
-    private static final Shader COLOR_OVERLAY_SHADER;
+    private static final ShaderProgram COLOR_OVERLAY_SHADER;
 
-    public static Shader getColorOverlayShader() {
+    public static ShaderProgram getColorOverlayShader() {
         return COLOR_OVERLAY_SHADER;
     }
 
@@ -19,7 +18,7 @@ public class ShaderCore {
         try {
             COLOR_OVERLAY_SHADER = ShaderLoader.load(VertexFormats.POSITION_COLOR_TEXTURE, new Identifier("kiwiclient", "color_overlay"));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to initilize KiwiClient core shaders");
+            throw new RuntimeException("Failed to initialize KiwiClient core shaders");
         }
     }
 }

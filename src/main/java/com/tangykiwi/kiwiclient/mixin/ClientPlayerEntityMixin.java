@@ -16,9 +16,9 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.MovementType;
-import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,23 +26,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.annotation.Nullable;
-
 @Mixin(ClientPlayerEntity.class)
 public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implements IClientPlayerEntity {
     @Shadow
     protected MinecraftClient client;
 
-    private boolean ignoreChatMessage;
-
     @Shadow protected void autoJump(float dx, float dz) {}
 
-    @Shadow
-    public abstract void sendChatMessage(String message, @Nullable Text preview);
-
-    public ClientPlayerEntityMixin(ClientWorld world, GameProfile gameProfile, @Nullable PlayerPublicKey publicKey)
+    public ClientPlayerEntityMixin(ClientWorld world, GameProfile gameProfile)
     {
-        super(world, gameProfile, publicKey);
+        super(world, gameProfile);
     }
 
     @Inject(method = "tick()V", at = @At("RETURN"), cancellable = true)
@@ -65,34 +58,6 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
             double double_2 = this.getZ();
             super.move(event.getType(), event.getVec());
             this.autoJump((float) (this.getX() - double_1), (float) (this.getZ() - double_2));
-            callbackInfo.cancel();
-        }
-    }
-
-    @Inject(method = "sendChatMessage(Ljava/lang/String;Lnet/minecraft/text/Text;)V", at = @At("HEAD"), cancellable = true)
-    private void onSendChatMessage(String message, Text preview, CallbackInfo callbackInfo) {
-        if (ignoreChatMessage) return;
-
-        if (!message.startsWith(KiwiClient.PREFIX) && !message.startsWith("/")) {
-            SendChatMessageEvent event = new SendChatMessageEvent(message);
-            KiwiClient.eventBus.post(event);
-
-            if (!event.isCancelled()) {
-                ignoreChatMessage = true;
-                sendChatMessage(event.message, preview);
-                ignoreChatMessage = false;
-            }
-
-            callbackInfo.cancel();
-            return;
-        }
-
-        if (message.startsWith(KiwiClient.PREFIX)) {
-            try {
-                KiwiClient.commandManager.dispatch(message.substring(KiwiClient.PREFIX.length()));
-            } catch (CommandSyntaxException e) {
-                Utils.mc.inGameHud.getChatHud().addMessage(Text.literal(e.getMessage()));
-            }
             callbackInfo.cancel();
         }
     }

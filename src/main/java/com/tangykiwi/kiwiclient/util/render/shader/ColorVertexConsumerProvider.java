@@ -3,8 +3,8 @@ package com.tangykiwi.kiwiclient.util.render.shader;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
+import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.*;
-import net.minecraft.client.render.RenderPhase.TextureBase;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
@@ -16,10 +16,10 @@ public class ColorVertexConsumerProvider {
 
     private final VertexConsumerProvider.Immediate plainDrawer = VertexConsumerProvider.immediate(new BufferBuilder(256));
 
-    private Supplier<Shader> shader;
-    private Function<TextureBase, RenderLayer> layerCreator;
+    private Supplier<ShaderProgram> shader;
+    private Function<RenderPhase.TextureBase, RenderLayer> layerCreator;
 
-    public ColorVertexConsumerProvider(Framebuffer framebuffer, Supplier<Shader> shader) {
+    public ColorVertexConsumerProvider(Framebuffer framebuffer, Supplier<ShaderProgram> shader) {
         this.shader = shader;
         setFramebuffer(framebuffer);
     }
@@ -66,11 +66,11 @@ public class ColorVertexConsumerProvider {
                 () -> MinecraftClient.getInstance().getFramebuffer().beginWrite(false)) {});
     }
 
-    private Function<TextureBase, RenderLayer> memoizeTexture(Function<TextureBase, RenderLayer> function) {
+    private Function<RenderPhase.TextureBase, RenderLayer> memoizeTexture(Function<RenderPhase.TextureBase, RenderLayer> function) {
         return new Function<>() {
             private final Map<Identifier, RenderLayer> cache = new HashMap<>();
 
-            public RenderLayer apply(TextureBase texture) {
+            public RenderLayer apply(RenderPhase.TextureBase texture) {
                 return this.cache.computeIfAbsent(texture.getId().get(), id -> function.apply(texture));
             }
         };

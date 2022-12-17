@@ -53,7 +53,7 @@ public class ModeSetting extends Setting<Integer> {
         if (window.mouseOver(x, y, x + len, y + 12) && window.lmDown) {
             mode = getNextMode();
             this.setDataValue(mode);
-            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F, 0.3F));
+            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
         }
 
         return index;

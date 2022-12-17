@@ -5,7 +5,6 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.ResourceTexture;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
-
 import java.io.IOException;
 import java.io.InputStream;
 

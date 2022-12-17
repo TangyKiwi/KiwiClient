@@ -1,8 +1,8 @@
 package com.tangykiwi.kiwiclient.util.render;
 
+import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Quaternion;
+import org.joml.Matrix4f;
 
 public class CustomMatrix {
     private static MatrixStack matrixStack;
@@ -20,7 +20,7 @@ public class CustomMatrix {
     }
 
     public static void rotate(double angle, double x, double y, double z) {
-        matrixStack.multiply(new Quaternion((float) (x * angle), (float) (y * angle), (float) (z * angle), true));
+        matrixStack.multiply(Utils.quaternionf((float) (x * angle), (float) (y * angle), (float) (z * angle), true));
     }
 
     public static void scale(double x, double y, double z) {

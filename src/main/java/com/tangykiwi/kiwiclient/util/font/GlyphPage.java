@@ -172,7 +172,7 @@ public class GlyphPage {
 
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
 
-        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorTexProgram);
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE);
 
         bufferBuilder.vertex(stack.peek().getPositionMatrix(), x, y + height, 0).color(red, green, blue, alpha)
@@ -183,7 +183,7 @@ public class GlyphPage {
                 .texture(pageX + pageWidth, pageY).next();
         bufferBuilder.vertex(stack.peek().getPositionMatrix(), x, y, 0).color(red, green, blue, alpha).texture(pageX, pageY)
                 .next();
-        BufferRenderer.drawWithShader(bufferBuilder.end());
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 
         return width - 8;
     }

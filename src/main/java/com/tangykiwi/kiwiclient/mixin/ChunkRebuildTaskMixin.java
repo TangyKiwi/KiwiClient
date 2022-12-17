@@ -118,7 +118,7 @@ public class ChunkRebuildTaskMixin {
                 BufferBuilder bufferBuilder2 = buffers.get(RenderLayer.getTranslucent());
                 if (!bufferBuilder2.isBatchEmpty()) {
                     bufferBuilder2.sortFrom(cameraX - (float)blockPos.getX(), cameraY - (float)blockPos.getY(), cameraZ - (float)blockPos.getZ());
-                    renderData.translucencySortingData = bufferBuilder2.popState();
+                    renderData.translucencySortingData = bufferBuilder2.getSortingData();
                 }
             }
 
