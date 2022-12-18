@@ -6,16 +6,23 @@ import com.tangykiwi.kiwiclient.modules.other.NoIP;
 import com.tangykiwi.kiwiclient.modules.render.ESP;
 import com.tangykiwi.kiwiclient.modules.render.Freecam;
 import com.tangykiwi.kiwiclient.util.ConfigManager;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.Window;
 import net.minecraft.entity.Entity;
+import net.minecraft.resource.InputSupplier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.io.InputStream;
+import java.nio.file.Files;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.discordRPC;
 
@@ -58,6 +65,11 @@ public class MinecraftClientMixin {
         }
 
         info.setReturnValue(title);
+    }
+
+    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setIcon(Lnet/minecraft/resource/InputSupplier;Lnet/minecraft/resource/InputSupplier;)V"))
+    public void setAlternativeWindowIcon(Window window, InputSupplier<InputStream> inputStream1, InputSupplier<InputStream> inputStream2) {
+        window.setIcon(() -> Files.newInputStream(FabricLoader.getInstance().getModContainer("kiwiclient").get().findPath("assets/kiwiclient/icon64.png").get()), () -> Files.newInputStream(FabricLoader.getInstance().getModContainer("kiwiclient").get().findPath("assets/kiwiclient/icon128.png").get()));
     }
 
     @Inject(at = @At("HEAD"), method = "setScreen", cancellable = true)
