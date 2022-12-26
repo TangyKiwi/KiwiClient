@@ -83,11 +83,12 @@ public class WorldRendererMixin {
         if(esp.isEnabled() && esp.getSetting(0).asMode().mode == 0) {
             if(vertexConsumers instanceof OutlineVertexConsumerProvider) {
                 float[] color = esp.getColor(entity);
-                color[0] = (int) (color[0] * 255);
-                color[1] = (int) (color[1] * 255);
-                color[2] = (int) (color[2] * 255);
 
                 if (color != null) {
+                    color[0] = (int) (color[0] * 255);
+                    color[1] = (int) (color[1] * 255);
+                    color[2] = (int) (color[2] * 255);
+
                     OutlineVertexConsumerProvider outlineVertexConsumerProvider = (OutlineVertexConsumerProvider) vertexConsumers;
                     outlineVertexConsumerProvider.setColor((int) color[0], (int) color[1], (int) color[2], 255);
 //            event.setVertex(colorVertexer.createDualProvider(event.getVertex(), (int) color[0], (int) color[1], (int) color[2], getSetting(1).asSlider().getValueInt()));
