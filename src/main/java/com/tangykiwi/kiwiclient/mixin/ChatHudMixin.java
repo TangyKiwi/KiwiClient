@@ -90,7 +90,7 @@ public abstract class ChatHudMixin implements IChatHUD {
     @Redirect(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/hud/ChatHud;visibleMessages:Ljava/util/List;")), at = @At(value = "INVOKE", target = "Ljava/util/List;size()I"))
     private int addMessageListSizeProxy(List<ChatHudLine> list) {
         BetterChat betterChat = (BetterChat) KiwiClient.moduleManager.getModule(BetterChat.class);
-        return betterChat.getSetting(5).asToggle().state && betterChat.getSetting(5).asToggle().getChild(0).asSlider().getValue() > 100 ? 1 : list.size();
+        return betterChat.getSetting(5).asToggle().state && betterChat.getSetting(5).asToggle().getChild(0).asSlider().getValue() >= 100 ? list.size() - betterChat.getSetting(5).asToggle().getChild(0).asSlider().getValueInt() : list.size();
     }
 
     @Inject(method = "render", at = @At("TAIL"))
