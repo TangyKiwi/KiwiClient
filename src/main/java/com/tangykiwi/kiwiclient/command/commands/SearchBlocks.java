@@ -51,6 +51,6 @@ public class SearchBlocks extends Command {
             search.blocks.clear();
             addMessage("Cleared all blocks from Search");
             return SINGLE_SUCCESS;
-        }))
+        }));
     }
 }
