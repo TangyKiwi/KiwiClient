@@ -40,7 +40,7 @@ public class SearchBlocks extends Command {
         builder.then(literal("list").executes(context -> {
             Search search = (Search) KiwiClient.moduleManager.getModule(Search.class);
             addMessage("Blocks in Search:");
-            for(Block block : search.blocks.stream().sorted().toList()) {
+            for(Block block : search.blocks.stream().toList()) {
                 addMessage(block.getName().getString());
             }
             return SINGLE_SUCCESS;

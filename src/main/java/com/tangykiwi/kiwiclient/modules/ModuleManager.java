@@ -88,6 +88,7 @@ public class ModuleManager {
         moduleList.add(new Freecam());
         moduleList.add(new FullBright());
         moduleList.add(new ItemPhysics());
+        moduleList.add(new LogoutSpots());
         moduleList.add(new Nametags());
         moduleList.add(new NoPortal());
         moduleList.add(new NoRender());
