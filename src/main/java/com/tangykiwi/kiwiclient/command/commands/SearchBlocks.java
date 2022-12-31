@@ -45,5 +45,12 @@ public class SearchBlocks extends Command {
             }
             return SINGLE_SUCCESS;
         }));
+
+        builder.then(literal("clear").executes(context -> {
+            Search search = (Search) KiwiClient.moduleManager.getModule(Search.class);
+            search.blocks.clear();
+            addMessage("Cleared all blocks from Search");
+            return SINGLE_SUCCESS;
+        }))
     }
 }
