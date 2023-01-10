@@ -95,6 +95,7 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - Freecam<br>
 - Fullbright<br>
 - ItemPhysics<br>
+- LogoutSpots<br>
 - Nametags<br>
 - NoPortal<br>
 - NoRender<br>
