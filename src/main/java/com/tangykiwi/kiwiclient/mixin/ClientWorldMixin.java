@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.event.EntityAddedEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.modules.client.Time;
 import net.fabricmc.api.EnvType;
@@ -20,7 +21,14 @@ public class ClientWorldMixin {
     @Shadow
     @Final
     private ClientWorld.Properties clientWorldProperties;
-    @Shadow @Final private MinecraftClient client;
+
+    @Inject(method = "addEntityPrivate", at = @At("TAIL"))
+    private void onAddEntityPrivate(int id, Entity entity, CallbackInfo info) {
+        if (entity != null) {
+            EntityAddedEvent event = new EntityAddedEvent(entity);
+            KiwiClient.eventBus.post(event);
+        }
+    }
 
     @Inject(at = @At("TAIL"), method = "setTimeOfDay", cancellable = true)
     @Environment(EnvType.CLIENT)

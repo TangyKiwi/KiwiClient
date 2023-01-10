@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.util;
 
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.world.chunk.WorldChunk;
+import com.tangykiwi.kiwiclient.util.Dimension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,5 +34,15 @@ public class WorldUtils {
         getLoadedChunks().forEach(c -> list.addAll(c.getBlockEntities().values()));
 
         return list;
+    }
+
+    public static Dimension getDimension() {
+        if (mc.world == null) return Dimension.Overworld;
+
+        return switch (mc.world.getRegistryKey().getValue().getPath()) {
+            case "the_nether" -> Dimension.Nether;
+            case "the_end" -> Dimension.End;
+            default -> Dimension.Overworld;
+        };
     }
 }

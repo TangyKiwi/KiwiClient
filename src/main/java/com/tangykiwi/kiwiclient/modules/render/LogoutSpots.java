@@ -2,75 +2,114 @@ package com.tangykiwi.kiwiclient.modules.render;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
-import com.tangykiwi.kiwiclient.event.EntityRenderEvent;
-import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
-import com.tangykiwi.kiwiclient.event.ReceivePacketEvent;
+import com.tangykiwi.kiwiclient.event.*;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
+import com.tangykiwi.kiwiclient.util.Dimension;
 import com.tangykiwi.kiwiclient.util.PlayerCopyEntity;
+import com.tangykiwi.kiwiclient.util.WorldUtils;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import net.minecraft.client.gui.screen.DisconnectedScreen;
+import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.packet.s2c.play.PlayerListS2CPacket;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.GameMode;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class LogoutSpots extends Module {
 
     private final Map<UUID, Pair<PlayerCopyEntity, Long>> players = new ConcurrentHashMap<>();
+    private final List<PlayerListEntry> lastPlayerList = new ArrayList<>();
+    private final List<PlayerEntity> lastPlayers = new ArrayList<>();
+    private int timer;
+    private Dimension lastDimension;
 
     public LogoutSpots() {
         super("LogoutSpots", "Shows logout locations of players near you", KEY_UNBOUND, Category.RENDER,
-            new ToggleSetting("Text", true).withDesc("Adds text next to players.").withChildren(
-                new ToggleSetting("Name", true).withDesc("Shows the name of the logged player."),
-                new ToggleSetting("Coords", false).withDesc("Shows the coords of the logged player."),
-                new ToggleSetting("Health", true).withDesc("Shows the health of the logged player."),
-                new ToggleSetting("Time", true).withDesc("Shows the time ago the player logged.")),
-            new ToggleSetting("Ghost", true).withDesc("Makes the logout spot players transparent."));
+            new ToggleSetting("Text", true).withDesc("Adds text next to players").withChildren(
+                new ToggleSetting("Name", true).withDesc("Shows the name of the logged player"),
+                new ToggleSetting("Coords", false).withDesc("Shows the coords of the logged player"),
+                new ToggleSetting("Health", true).withDesc("Shows the health of the logged player"),
+                new ToggleSetting("Time", true).withDesc("Shows the time ago the player logged")),
+            new ToggleSetting("Ghost", true).withDesc("Makes the logout spot players transparent"));
+    }
+
+    @Override
+    public void onEnable() {
+        lastPlayerList.addAll(mc.getNetworkHandler().getPlayerList());
+        updateLastPlayers();
+        timer = 10;
+        lastDimension = WorldUtils.getDimension();
+
+        super.onEnable();
     }
 
     @Override
     public void onDisable() {
         players.clear();
+        lastPlayerList.clear();
         super.onDisable();
+    }
+
+    private void updateLastPlayers() {
+        lastPlayers.clear();
+        for (Entity entity : mc.world.getEntities()) {
+            if (entity instanceof PlayerEntity) lastPlayers.add((PlayerEntity) entity);
+        }
     }
 
     @Subscribe
     @AllowConcurrentEvents
-    public void onReadPacket(ReceivePacketEvent event) {
-        if (!(event.getPacket() instanceof PlayerListS2CPacket) || mc.world == null) {
-            return;
-        }
+    public void onEntityAdded(EntityAddedEvent event) {
+        if (event.entity instanceof PlayerEntity) {
+            Pair<PlayerCopyEntity, Long> fakePlayer = players.remove(event.entity.getUuid());
 
-        PlayerListS2CPacket list = (PlayerListS2CPacket) event.getPacket();
-
-        // Spawns fake player when player leaves
-        if (list.getActions().contains(PlayerListS2CPacket.Action.UPDATE_LISTED)) {
-            for (PlayerListS2CPacket.Entry entry : list.getEntries()) {
-                // player leave
-                if (!entry.listed()) {
-                    PlayerEntity player = mc.world.getPlayerByUuid(entry.profileId());
-
-                    if (player != null && !mc.player.equals(player) && !players.containsKey(player.getUuid())) {
-                        PlayerCopyEntity copy = new PlayerCopyEntity(player);
-                        players.put(player.getUuid(), Pair.of(copy, System.currentTimeMillis()));
-                        copy.spawn();
-                    }
-                } else { // player join
-                    Pair<PlayerCopyEntity, Long> fakePlayer = players.remove(entry.profileId());
-
-                    if (fakePlayer != null && mc.world != null) {
-                        fakePlayer.getLeft().despawn();
-                    }
-                }
-
+            if (fakePlayer != null && mc.world != null) {
+                fakePlayer.getLeft().despawn();
             }
         }
+    }
+
+    @Subscribe
+    @AllowConcurrentEvents
+    public void onTick(TickEvent event) {
+        if (mc.getNetworkHandler().getPlayerList().size() != lastPlayerList.size()) {
+            for (PlayerListEntry entry : lastPlayerList) {
+                if (mc.getNetworkHandler().getPlayerList().stream().anyMatch(playerListEntry -> playerListEntry.getProfile().equals(entry.getProfile()))) continue;
+
+                for (PlayerEntity player : lastPlayers) {
+                    if (player.getUuid().equals(entry.getProfile().getId())) {
+                        if (player != null && !mc.player.equals(player) && !players.containsKey(player.getUuid())) {
+                            PlayerCopyEntity copy = new PlayerCopyEntity(player);
+                            players.put(player.getUuid(), Pair.of(copy, System.currentTimeMillis()));
+                            copy.spawn();
+                        }
+                    }
+                }
+            }
+
+            lastPlayerList.clear();
+            lastPlayerList.addAll(mc.getNetworkHandler().getPlayerList());
+            updateLastPlayers();
+        }
+
+        if (timer <= 0) {
+            updateLastPlayers();
+            timer = 10;
+        } else {
+            timer--;
+        }
+
+        Dimension dimension = WorldUtils.getDimension();
+        if (dimension != lastDimension) players.clear();
+        lastDimension = dimension;
+
+        players.values().forEach(e -> e.getLeft().setGhost(getSetting(1).asToggle().state));
     }
 
     @Subscribe
