@@ -210,10 +210,63 @@ public class RenderUtils {
 	// -------------------- World --------------------
 
 	public static void drawWorldText(String text, double x, double y, double z, double scale, int color, boolean background) {
-		drawWorldText(text, x, y, z, 0, 0, scale, false, color, background);
+		drawWorldText(text, text, 1, x, y, z, 0, 0, scale, false, color, background);
 	}
 
-	public static void drawWorldText(String text, double x, double y, double z, double offX, double offY, double scale, boolean shadow, int color, boolean background) {
+	public static void drawWorldText(String text, String line, int location, double x, double y, double z, double scale, int color, boolean background) {
+		drawWorldText(text, line, location, x, y, z, 0, 0, scale, false, color, background);
+	}
+
+	public static void drawWorldTextBackground(String text, double x, double y, double z, double scale) {
+		MatrixStack matrices = matrixFrom(x, y, z);
+
+		Camera camera = Utils.mc.gameRenderer.getCamera();
+		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
+		matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+
+		matrices.scale(-0.025f * (float) scale, -0.025f * (float) scale, 1);
+
+		VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+
+		float backgroundOpacity = MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25F);
+		int backgroundColor = (int) (backgroundOpacity * 255.0F) << 24;
+
+		int xF = -IFont.CONSOLAS.getStringWidth(text) / 2;
+		DrawableHelper.fill(matrices, xF - 1, -2, IFont.CONSOLAS.getStringWidth(text) / 2 + 3, IFont.CONSOLAS.getFontHeight() + 1, backgroundColor);
+
+		immediate.draw();
+		RenderSystem.disableBlend();
+	}
+
+	/**
+	 *
+	 * @param text Text to render
+	 * @param line Entire line of text if multicolored
+	 * @param location 0 for left / center, 1 for right
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param offX
+	 * @param offY
+	 * @param scale
+	 * @param shadow
+	 * @param color
+	 * @param background
+	 */
+
+	/**
+	 * reallylongname| |amount
+	 *          |
+	 *          rPos.x (world position) / halfLine width location in World
+	 * ---------- = halfLine width
+	 *
+	 * half position of name = rPos.x - (halfLine - halfName)
+	 * half position of amount = rPox.s + (halfLine - halfAmount)
+	 */
+	public static void drawWorldText(String text, String line, int location, double x, double y, double z, double offX, double offY, double scale, boolean shadow, int color, boolean background) {
 		MatrixStack matrices = matrixFrom(x, y, z);
 
 		Camera camera = Utils.mc.gameRenderer.getCamera();
@@ -226,13 +279,20 @@ public class RenderUtils {
 		matrices.translate(offX, offY, 0);
 		matrices.scale(-0.025f * (float) scale, -0.025f * (float) scale, 1);
 
-		int halfWidth = IFont.CONSOLAS.getStringWidth(text) / 2;
+		int halfWidth = IFont.CONSOLAS.getStringWidth(line) / 2;
+		int textLength = IFont.CONSOLAS.getStringWidth(text);
+		if(location == 0) {
+			halfWidth = -halfWidth;
+		} else {
+			halfWidth = halfWidth - textLength;
+		}
+
 		VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
 
 		if(shadow) {
 			matrices.push();
 			matrices.translate(1, 1, 0);
-			IFont.CONSOLAS.drawString(matrices, text, -halfWidth, 0f, 0x202020, 1);
+			IFont.CONSOLAS.drawString(matrices, text, halfWidth, 0f, 0x202020, 1);
 			immediate.draw();
 			matrices.pop();
 		}
@@ -244,7 +304,7 @@ public class RenderUtils {
 			int xF = -IFont.CONSOLAS.getStringWidth(text) / 2;
 			DrawableHelper.fill(matrices, xF - 1, -2, IFont.CONSOLAS.getStringWidth(text) / 2 + 3, IFont.CONSOLAS.getFontHeight() + 1, backgroundColor);
 		}
-		IFont.CONSOLAS.drawString(matrices, text, -halfWidth, 0f, color, 1);
+		IFont.CONSOLAS.drawString(matrices, text, halfWidth, 0f, color, 1);
 		immediate.draw();
 
 		RenderSystem.disableBlend();

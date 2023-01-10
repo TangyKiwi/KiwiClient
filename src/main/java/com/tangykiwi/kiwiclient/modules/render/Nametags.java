@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.modules.render;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.event.EntityRenderEvent;
 import com.tangykiwi.kiwiclient.event.WorldRenderEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
@@ -65,16 +66,22 @@ public class Nametags extends Module {
                     String name = itemEntity.getName().getString();
                     String customName = itemEntity.getStack().getName().getString();
                     String amount = "[x" + itemEntity.getStack().getCount() + "]";
+                    String line = name + " " + amount;
 
                     if(!customName.equals(name)) {
                         double up = 0.7 + 0.9 * (Math.sqrt(d / 4096));
-                        RenderUtils.drawWorldText(name + " " + getEmptyString(amount), rPos.x, rPos.y + up, rPos.z, scale, 0xFFAA00, true);
-                        RenderUtils.drawWorldText(getEmptyString(name) + " " + amount, rPos.x, rPos.y + up, rPos.z, scale, 0xFFFF55, true);
+                        RenderUtils.drawWorldTextBackground(line, rPos.x, rPos.y + up, rPos.z, scale);
+                        RenderUtils.drawWorldText(name, line, 0, rPos.x, rPos.y + up, rPos.z, scale, 0xFFAA00, false);
+                        RenderUtils.drawWorldText(amount, line, 1, rPos.x, rPos.y + up, rPos.z, scale, 0xFFFF55, false);
+//                        RenderUtils.drawWorldText(name + " " + getEmptyString(amount), rPos.x, rPos.y + up, rPos.z, scale, 0xFFAA00, true);
+//                        RenderUtils.drawWorldText(getEmptyString(name) + " " + amount, rPos.x, rPos.y + up, rPos.z, scale, 0xFFFF55, true);
                         RenderUtils.drawWorldText(customName, rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFAA00, true);
                     } else {
                         //RenderUtils.drawWorldText("\u00a76" + name + " " + "\u00a7e" + amount, rPos.x, rPos.y + 0.5, rPos.z, scale, -1, true);
-                        RenderUtils.drawWorldText(name + " " + getEmptyString(amount), rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFAA00, true);
-                        RenderUtils.drawWorldText(getEmptyString(name) + " " + amount, rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFFF55, true);
+                        RenderUtils.drawWorldText(name, line, 0, rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFAA00, false);
+                        RenderUtils.drawWorldText(amount, line, 1, rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFFF55, false);
+//                        RenderUtils.drawWorldText(name + " " + getEmptyString(amount), rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFAA00, true);
+//                        RenderUtils.drawWorldText(getEmptyString(name) + " " + amount, rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFFF55, true);
                     }
                 } else if (entity instanceof LivingEntity) {
                     if (entity == mc.player || entity.hasPassenger(mc.player) || mc.player.hasPassenger(entity)) {
@@ -88,9 +95,14 @@ public class Nametags extends Module {
                         LivingEntity livingEntity = (LivingEntity) entity;
                         String name = livingEntity.getName().getString();
                         String health = String.format("%.1f", livingEntity.getHealth());
+                        String line = name + " " + health;
 
-                        RenderUtils.drawWorldText(name + " " + getEmptyString(health), rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFFFFF, true);
-                        RenderUtils.drawWorldText(getEmptyString(name) + " " + health, rPos.x, rPos.y + 0.5, rPos.z, scale, getHealthColor(livingEntity), true);
+                        RenderUtils.drawWorldTextBackground(line, rPos.x, rPos.y + 0.5, rPos.z, scale);
+                        RenderUtils.drawWorldText(name, line, 0, rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFFFFF, false);
+                        RenderUtils.drawWorldText(health, line, 1, rPos.x, rPos.y + 0.5, rPos.z, scale, getHealthColor(livingEntity), false);
+
+//                        RenderUtils.drawWorldText(name + " " + getEmptyString(health), rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFFFFF, true);
+//                        RenderUtils.drawWorldText(getEmptyString(name) + " " + health, rPos.x, rPos.y + 0.5, rPos.z, scale, getHealthColor(livingEntity), true);
 
                         int armorAmount = 0;
                         for(ItemStack i : livingEntity.getArmorItems()) {
@@ -151,7 +163,7 @@ public class Nametags extends Module {
 
         if (!item.isEmpty() && item.getCount() != 1) {
             double w = IFont.CONSOLAS.getStringWidth("x" + item.getCount()) / 52d;
-            RenderUtils.drawWorldText("x" + item.getCount(), x, y, z, (offX - w) * scale, (offY - 0.07) * scale, scale * 1.75, false, 0xFFFFFF, false);
+            RenderUtils.drawWorldText("x" + item.getCount(), "x" + item.getCount(), 0, x, y, z, (offX - w) * scale, (offY - 0.07) * scale, scale * 1.75, false, 0xFFFFFF, false);
         }
 
         if (item.isDamageable()) {
@@ -161,21 +173,14 @@ public class Nametags extends Module {
                 durcolor = MathHelper.hsvToRgb(((float) (item.getMaxDamage() - item.getDamage()) / item.getMaxDamage()) / 3.0F, 1.0F, 1.0F);
             } catch (Exception exception) {
             }
-            RenderUtils.drawWorldText(dur, x, y, z, (offX + 0.055) * scale, (offY + 0.75) * scale, scale * 1.4, false, durcolor, false);
+            RenderUtils.drawWorldText(dur, dur, 0, x, y, z, (offX + 0.055) * scale, (offY + 0.75) * scale, scale * 1.4, false, durcolor, false);
         }
 
         int c = item.isDamageable() ? -1 : 0;
         for (Map.Entry<Enchantment, Integer> m : EnchantmentHelper.get(item).entrySet()) {
-//            String text = I18n.translate(m.getKey().getName(2).getString());
-//
-//            if (text.isEmpty())
-//                continue;
-//
-//            text = WordUtils.capitalizeFully(text.replaceFirst("Curse of (.)", "C$1"));
-
             String subText = Utils.getEnchantmentName(m.getKey()) + m.getValue();
 
-            RenderUtils.drawWorldText(subText, x, y, z, (offX + 0.055) * scale, (offY + 0.75 - c * 0.34) * scale, scale * 1.4, false, m.getKey().isCursed() ? 0xff5050 : 0xFFAA00, false);
+            RenderUtils.drawWorldText(subText, subText, 0, x, y, z, (offX + 0.055) * scale, (offY + 0.75 - c * 0.34) * scale, scale * 1.4, false, m.getKey().isCursed() ? 0xff5050 : 0xFFAA00, false);
             c--;
         }
         return c;
