@@ -15,10 +15,6 @@ public class PlayerCopyEntity extends OtherClientPlayerEntity {
     }
 
     public PlayerCopyEntity(PlayerEntity player) {
-        this(player, player.getX(), player.getY(), player.getZ());
-    }
-
-    public PlayerCopyEntity(PlayerEntity player, double x, double y, double z) {
         super(MinecraftClient.getInstance().world, player.getGameProfile());
 
         copyFrom(player);
@@ -45,11 +41,11 @@ public class PlayerCopyEntity extends OtherClientPlayerEntity {
 
     @Override
     public boolean isInvisible() {
-        return ghost ? true : super.isInvisible();
+        return ghost || super.isInvisible();
     }
 
     @Override
     public boolean isInvisibleTo(PlayerEntity player) {
-        return ghost ? false : super.isInvisibleTo(player);
+        return !ghost && super.isInvisibleTo(player);
     }
 }

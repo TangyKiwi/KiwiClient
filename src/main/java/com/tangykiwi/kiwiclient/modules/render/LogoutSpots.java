@@ -33,7 +33,7 @@ public class LogoutSpots extends Module {
         super("LogoutSpots", "Shows logout locations of players near you", KEY_UNBOUND, Category.RENDER,
             new ToggleSetting("Text", true).withDesc("Adds text next to players").withChildren(
                 new ToggleSetting("Name", true).withDesc("Shows the name of the logged player"),
-                new ToggleSetting("Coords", false).withDesc("Shows the coords of the logged player"),
+                new ToggleSetting("Coords", true).withDesc("Shows the coords of the logged player"),
                 new ToggleSetting("Health", true).withDesc("Shows the health of the logged player"),
                 new ToggleSetting("Time", true).withDesc("Shows the time ago the player logged")),
             new ToggleSetting("Ghost", true).withDesc("Makes the logout spot players transparent"));
@@ -136,7 +136,7 @@ public class LogoutSpots extends Module {
                     lines.add((int) player.getX() + " " + (int) player.getY() + " " + (int) player.getZ());
 
                 if (getSetting(0).asToggle().getChild(2).asToggle().state)
-                    lines.add((int) Math.ceil(player.getHealth() + player.getAbsorptionAmount()) + "hp");
+                    lines.add((int) Math.ceil(player.getHealth() + player.getAbsorptionAmount()) + " hp");
 
                 if (getSetting(0).asToggle().getChild(3).asToggle().state)
                     lines.add(getTimeElapsed(playerPair.getRight()));
