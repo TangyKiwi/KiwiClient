@@ -38,14 +38,6 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         super(world, gameProfile);
     }
 
-    @Inject(method = "tick()V", at = @At("RETURN"), cancellable = true)
-    public void tick(CallbackInfo info) {
-        TickEvent event = new TickEvent();
-        KiwiClient.eventBus.post(event);
-        if (event.isCancelled())
-            info.cancel();
-    }
-
     @Inject(method = "move", at = @At("HEAD"), cancellable = true)
     private void onMove(MovementType type, Vec3d offset, CallbackInfo callbackInfo)
     {

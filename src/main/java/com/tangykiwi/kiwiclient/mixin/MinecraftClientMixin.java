@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
+import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.modules.other.NoIP;
 import com.tangykiwi.kiwiclient.modules.render.ESP;
 import com.tangykiwi.kiwiclient.modules.render.Freecam;
@@ -32,6 +33,18 @@ public class MinecraftClientMixin {
 //    private void onInit(CallbackInfo info) {
 //        KiwiClient.INSTANCE.onInitialize();
 //    }
+
+    @Inject(at = @At("HEAD"), method = "tick")
+    public void onPreTick(CallbackInfo info) {
+        TickEvent.Pre event = new TickEvent.Pre();
+        KiwiClient.eventBus.post(event);
+    }
+
+    @Inject(at = @At("TAIL"), method = "tick")
+    public void onPostTick(CallbackInfo info) {
+        TickEvent.Post event = new TickEvent.Post();
+        KiwiClient.eventBus.post(event);
+    }
 
     @Inject(method="getWindowTitle", at=@At(value="TAIL"), cancellable=true)
     private void getWindowTitle(final CallbackInfoReturnable<String> info) {

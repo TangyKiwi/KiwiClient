@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.modules.movement;
 
+import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.SendPacketEvent;
@@ -25,19 +26,25 @@ public class NoFall extends Module {
     }
 
     @Subscribe
+    @AllowConcurrentEvents
     public void onTick(TickEvent e) {
-        if (mc.player.fallDistance > 2.5f && getSetting(0).asMode().mode == 0) {
+        if (mc.player != null && mc.player.fallDistance > 2.5f && getSetting(0).asMode().mode == 0) {
             if (mc.player.isFallFlying()) return;
             mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true));
         }
+    }
 
-        if (mc.player.fallDistance > 2.5f && getSetting(0).asMode().mode == 1 &&
-                mc.world.getBlockState(mc.player.getBlockPos().add(
-                        0, -1.5 + (mc.player.getVelocity().y * 0.1), 0)).getBlock() != Blocks.AIR) {
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(false));
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(
-                    mc.player.getX(), mc.player.getY() - 420.69, mc.player.getZ(), true));
-            mc.player.fallDistance = 0;
+    @Subscribe
+    @AllowConcurrentEvents
+    public void onPacketSend(SendPacketEvent event) {
+        if(getSetting(0).asMode().mode == 1 && event.packet instanceof PlayerMoveC2SPacket) {
+            if(KiwiClient.moduleManager.getModule(Fly.class).isEnabled()) {
+                if (mc.player.isFallFlying()) return;
+                if (mc.player.getVelocity().y > -0.5) return;
+                ((PlayerMoveC2SPacketAccessor) event.packet).setOnGround(true);
+            } else {
+                ((PlayerMoveC2SPacketAccessor) event.packet).setOnGround(true);
+            }
         }
     }
 }

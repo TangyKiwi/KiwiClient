@@ -19,6 +19,7 @@
     "ChunkOcclusionDataBuilderMixin",
     "ChunkRebuildTaskMixin",
     "ClientConnectionMixin",
+    "ClientPlayerEntityAccessor",
     "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerAccessor",
     "ClientPlayNetworkHandlerMixin",
