@@ -26,7 +26,6 @@
 - Build the mod yourself (See Setup below), or get the latest [release](https://github.com/TangyKiwi/KiwiClient/releases)
 - If you want the most up-to-date version, please build the client yourself or ask me for the jar, I do not update releases often
 - **Vanilla**: Place the KiwiClient jar (build/libs/KiwiClient-X.X.X.jar) in your mods folder
-- **Aristois**: Place the KiwiClient jar (build/libs/KiwiClient-X.X.X.jar) in libaries/me/deftware/EMC-F-v2/latest-1.18.X
 
 ## Setup
 
@@ -34,7 +33,7 @@ For instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tut
 
 ## Info
 
-Fabric Utility Mod, compatible with Aristois Client.
+Fabric Utility Mod.
 
 "_First I quacc, then I hacc._"
 
