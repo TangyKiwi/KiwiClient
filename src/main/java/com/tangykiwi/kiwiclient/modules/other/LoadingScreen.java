@@ -7,6 +7,7 @@ public class LoadingScreen extends Module {
     public LoadingScreen() {
         super("LoadingScreen", "Use the custom loading screen", KEY_UNBOUND, Category.OTHER);
         super.toggle();
+        super.runInMainMenu = true;
     }
 
     // handling done in SplashScreenMixin

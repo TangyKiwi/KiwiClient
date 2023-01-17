@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.GameJoinEvent;
+import com.tangykiwi.kiwiclient.event.GameLeftEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.world.ClientWorld;
@@ -31,9 +32,12 @@ public class ClientPlayNetworkHandlerMixin {
 
     @Inject(at = @At("TAIL"), method = "onGameJoin")
     private void onGameJoinTail(GameJoinS2CPacket packet, CallbackInfo info) {
-        GameJoinEvent event = new GameJoinEvent();
-        if(worldNotNull) return;
-
-        KiwiClient.eventBus.post(event);
+        if(worldNotNull) {
+            GameLeftEvent event = new GameLeftEvent();
+            KiwiClient.eventBus.post(event);
+        } else {
+            GameJoinEvent event = new GameJoinEvent();
+            KiwiClient.eventBus.post(event);
+        }
     }
 }

@@ -6,6 +6,7 @@ import com.tangykiwi.kiwiclient.modules.Module;
 public class NoIP extends Module {
     public NoIP() {
         super("NoIP", "Hides the ip of the server you're on in DiscordRPC", KEY_UNBOUND, Category.OTHER);
+        super.runInMainMenu = true;
     }
 
     // handling done in MinecraftClientMixin

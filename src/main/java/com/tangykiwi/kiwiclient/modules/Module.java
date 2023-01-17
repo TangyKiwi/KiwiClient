@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.settings.BindSetting;
 import com.tangykiwi.kiwiclient.modules.settings.Setting;
+import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.MinecraftClient;
 
 import java.lang.reflect.Method;
@@ -15,6 +16,8 @@ public class Module {
 
     public final static int KEY_UNBOUND = -2;
     public final MinecraftClient mc = MinecraftClient.getInstance();
+
+    public boolean runInMainMenu = false;
     private String name;
     private Category category;
     private String description;
@@ -59,8 +62,15 @@ public class Module {
 
     public void toggle() {
         enabled = !enabled;
-        if(enabled) onEnable();
-        else onDisable();
+        if(enabled) {
+            if(runInMainMenu || Utils.canUpdate()) {
+                onEnable();
+            }
+        } else {
+            if(runInMainMenu || Utils.canUpdate()) {
+                onDisable();
+            }
+        }
     }
 
     public void enable() {

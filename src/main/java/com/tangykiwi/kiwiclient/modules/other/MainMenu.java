@@ -9,6 +9,7 @@ public class MainMenu extends Module {
         super("MainMenu", "Use the custom main menu", KEY_UNBOUND, Category.OTHER,
             new ModeSetting("Player", "Head", "Model").withDesc("Player preview type"));
         super.toggle();
+        super.runInMainMenu = true;
     }
 
     // handling done in TitleScreenMixin & MainMenu

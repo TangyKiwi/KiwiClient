@@ -10,7 +10,8 @@ public class ClickGui extends Module {
     public static ModuleClickGuiScreen clickGui = new ModuleClickGuiScreen();
 
     public ClickGui() {
-    super("ClickGui", "Draws the ClickGui", GLFW.GLFW_KEY_SEMICOLON, Category.CLIENT);
+        super("ClickGui", "Draws the ClickGui", GLFW.GLFW_KEY_SEMICOLON, Category.CLIENT);
+        super.runInMainMenu = true;
     }
 
     @Override

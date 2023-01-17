@@ -7,6 +7,7 @@ public class Background extends Module {
     public Background() {
         super("Background", "Use custom backgrounds in menu screens", KEY_UNBOUND, Category.OTHER);
         super.toggle();
+        super.runInMainMenu = true;
     }
 
     // handling done in ScreenMixin
