@@ -51,6 +51,10 @@ public class AntiHunger extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onTick(TickEvent event) {
+        if (mc.player == null) {
+            return;
+        }
+
         if (mc.player.isOnGround() && !lastOnGround && !sendOnGroundTruePacket) sendOnGroundTruePacket = true;
 
         if (mc.player.isOnGround() && sendOnGroundTruePacket && getSetting(1).asToggle().state) {

@@ -78,6 +78,10 @@ public class LogoutSpots extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onTick(TickEvent event) {
+        if (mc.getNetworkHandler() == null) {
+            return;
+        }
+
         if (mc.getNetworkHandler().getPlayerList().size() != lastPlayerList.size()) {
             for (PlayerListEntry entry : lastPlayerList) {
                 if (mc.getNetworkHandler().getPlayerList().stream().anyMatch(playerListEntry -> playerListEntry.getProfile().equals(entry.getProfile()))) continue;

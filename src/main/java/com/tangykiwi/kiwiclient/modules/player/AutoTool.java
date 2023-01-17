@@ -35,7 +35,11 @@ public class AutoTool extends Module {
     public void onTick(TickEvent event) {
         ClientPlayerInteractionManager interactionManager = mc.interactionManager;
 
-        if(prevState == true && !interactionManager.isBreakingBlock()) {
+        if(interactionManager == null) {
+            return;
+        }
+
+        if(prevState && !interactionManager.isBreakingBlock()) {
             mc.player.getInventory().selectedSlot = slot;
         }
         else if(prevState != interactionManager.isBreakingBlock()) {
