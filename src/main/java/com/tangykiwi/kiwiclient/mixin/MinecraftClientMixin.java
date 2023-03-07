@@ -99,12 +99,4 @@ public class MinecraftClientMixin {
         ConfigManager.saveModules("default");
         ConfigManager.saveClickGui("default");
     }
-
-    @Inject(method = "hasOutline", at = @At("HEAD"), cancellable = true)
-    private void outlineEntities(Entity entity, CallbackInfoReturnable<Boolean> ci) {
-        ESP esp = (ESP) KiwiClient.moduleManager.getModule(ESP.class);
-        if(esp.isEnabled() && esp.getSetting(0).asMode().mode == 0) {
-            ci.setReturnValue(true);
-        }
-    }
 }

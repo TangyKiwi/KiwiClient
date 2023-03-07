@@ -41,7 +41,7 @@ public class ShaderEffectWrapper {
 
     public void clearFramebuffer(String framebuffer) {
         getFramebuffer(framebuffer).clear(MinecraftClient.IS_SYSTEM_MAC);
-        MinecraftClient.getInstance().getFramebuffer().beginWrite(false);
+        mc.getFramebuffer().beginWrite(false);
     }
 
     public void drawFramebufferToMain(String framebuffer) {
@@ -70,7 +70,7 @@ public class ShaderEffectWrapper {
         bufferBuilder.vertex(w, h, 0).texture(ws, 0f).color(255, 255, 255, 255).next();
         bufferBuilder.vertex(w, 0, 0).texture(ws, hs).color(255, 255, 255, 255).next();
         bufferBuilder.vertex(0, 0, 0).texture(0f, hs).color(255, 255, 255, 255).next();
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+        BufferRenderer.draw(bufferBuilder.end());
         blitshader.unbind();
 
         GlStateManager._depthMask(true);

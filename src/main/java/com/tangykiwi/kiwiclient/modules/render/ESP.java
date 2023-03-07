@@ -41,57 +41,50 @@ public class ESP extends Module {
             new SliderSetting("Fill", 0, 1, 0.3, 2).withDesc("Fill opacity"));
     }
 
-    // shader done in WorldRendererMixin & MinecraftClientMixin
-
     @Override
     public void onEnable() {
         super.onEnable();
 
-//        try {
-//            shader = new ShaderEffectWrapper(
-//                    ShaderLoader.loadEffect(mc.getFramebuffer(), new Identifier("kiwiclient", "shaders/post/entity_outline.json")));
-//            colorVertexer = new ColorVertexConsumerProvider(shader.getFramebuffer("main"), ShaderCore::getColorOverlayShader);
-//        } catch (JsonSyntaxException | IOException e) {
-//            e.printStackTrace();
-//            super.onDisable();
-//        }
+        try {
+            shader = new ShaderEffectWrapper(
+                    ShaderLoader.loadEffect(mc.getFramebuffer(), new Identifier("kiwiclient", "shaders/post/entity_outline.json")));
+            colorVertexer = new ColorVertexConsumerProvider(shader.getFramebuffer("main"), ShaderCore::getColorOverlayShader);
+        } catch (JsonSyntaxException | IOException e) {
+            e.printStackTrace();
+            super.onDisable();
+        }
     }
 
     @Subscribe
     @AllowConcurrentEvents
     public void onWorldRender(WorldRenderEvent.Pre event) {
-//        shader.prepare();
-//        shader.clearFramebuffer("main");
+        shader.prepare();
+        shader.clearFramebuffer("main");
     }
 
     @Subscribe
     @AllowConcurrentEvents
     public void onEntityRender(EntityRenderEvent.Single.Pre event) {
-//        if (getSetting(0).asMode().mode != 0 || event.getEntity() == null)
-//            return;
-//
-//        if(!(event.getVertex() instanceof OutlineVertexConsumerProvider)) return;
-//
-//        float[] color = getColor(event.getEntity());
-//        color[0] = (int) (color[0] * 255);
-//        color[1] = (int) (color[1] * 255);
-//        color[2] = (int) (color[2] * 255);
-//
-//        if (color != null) {
-//            OutlineVertexConsumerProvider outlineVertexConsumerProvider = (OutlineVertexConsumerProvider) event.getVertex();
-//            outlineVertexConsumerProvider.setColor((int) color[0], (int) color[1], (int) color[2], 255);
-//            event.setVertex(outlineVertexConsumerProvider);
-////            event.setVertex(colorVertexer.createDualProvider(event.getVertex(), (int) color[0], (int) color[1], (int) color[2], getSetting(1).asSlider().getValueInt()));
-//        }
+        if (getSetting(0).asMode().mode != 0 || event.getEntity() == null)
+            return;
+
+        float[] color = getColor(event.getEntity());
+        color[0] = (int) (color[0] * 255);
+        color[1] = (int) (color[1] * 255);
+        color[2] = (int) (color[2] * 255);
+
+        if (color != null) {
+            event.setVertex(colorVertexer.createDualProvider(event.getVertex(), (int) color[0], (int) color[1], (int) color[2], getSetting(1).asSlider().getValueInt()));
+        }
     }
 
     @Subscribe
     @AllowConcurrentEvents
     public void onWorldRender(WorldRenderEvent.Post event) {
         if (getSetting(0).asMode().mode == 0) {
-//            colorVertexer.draw();
-//            shader.render();
-//            shader.drawFramebufferToMain("main");
+            colorVertexer.draw();
+            shader.render();
+            shader.drawFramebufferToMain("main");
         } else {
             float width = getSetting(2).asSlider().getValueFloat();
             float fill = getSetting(3).asSlider().getValueFloat();

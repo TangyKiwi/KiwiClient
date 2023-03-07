@@ -76,24 +76,4 @@ public class WorldRendererMixin {
             dispatcher.render(event.getEntity(), x, y, z, yaw, tickDelta, event.getMatrix(), event.getVertex(), light);
         }
     }
-
-    @Inject(method = "renderEntity", at = @At("HEAD"))
-    private void renderEntity(Entity entity, double cameraX, double cameraY, double cameraZ, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, CallbackInfo ci) {
-        ESP esp = (ESP) KiwiClient.moduleManager.getModule(ESP.class);
-        if(esp.isEnabled() && esp.getSetting(0).asMode().mode == 0) {
-            if(vertexConsumers instanceof OutlineVertexConsumerProvider) {
-                float[] color = esp.getColor(entity);
-
-                if (color != null) {
-                    color[0] = (int) (color[0] * 255);
-                    color[1] = (int) (color[1] * 255);
-                    color[2] = (int) (color[2] * 255);
-
-                    OutlineVertexConsumerProvider outlineVertexConsumerProvider = (OutlineVertexConsumerProvider) vertexConsumers;
-                    outlineVertexConsumerProvider.setColor((int) color[0], (int) color[1], (int) color[2], 255);
-//            event.setVertex(colorVertexer.createDualProvider(event.getVertex(), (int) color[0], (int) color[1], (int) color[2], getSetting(1).asSlider().getValueInt()));
-                }
-            }
-        }
-    }
 }

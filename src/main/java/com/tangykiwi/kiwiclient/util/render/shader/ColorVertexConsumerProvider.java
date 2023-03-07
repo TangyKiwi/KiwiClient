@@ -5,6 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.*;
+import net.minecraft.client.render.RenderPhase.TextureBase;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class ColorVertexConsumerProvider {
     private final VertexConsumerProvider.Immediate plainDrawer = VertexConsumerProvider.immediate(new BufferBuilder(256));
 
     private Supplier<ShaderProgram> shader;
-    private Function<RenderPhase.TextureBase, RenderLayer> layerCreator;
+    private Function<TextureBase, RenderLayer> layerCreator;
 
     public ColorVertexConsumerProvider(Framebuffer framebuffer, Supplier<ShaderProgram> shader) {
         this.shader = shader;
@@ -57,7 +58,7 @@ public class ColorVertexConsumerProvider {
 
     public void setFramebuffer(Framebuffer framebuffer) {
         layerCreator = memoizeTexture(texture -> new RenderLayer(
-                "kiwiclient_outline", VertexFormats.POSITION_COLOR_TEXTURE, VertexFormat.DrawMode.QUADS, 256, false, false,
+                "bleachhack_outline", VertexFormats.POSITION_COLOR_TEXTURE, VertexFormat.DrawMode.QUADS, 256, false, false,
                 () -> {
                     texture.startDrawing();
                     RenderSystem.setShader(shader);
@@ -66,11 +67,11 @@ public class ColorVertexConsumerProvider {
                 () -> MinecraftClient.getInstance().getFramebuffer().beginWrite(false)) {});
     }
 
-    private Function<RenderPhase.TextureBase, RenderLayer> memoizeTexture(Function<RenderPhase.TextureBase, RenderLayer> function) {
+    private Function<TextureBase, RenderLayer> memoizeTexture(Function<TextureBase, RenderLayer> function) {
         return new Function<>() {
             private final Map<Identifier, RenderLayer> cache = new HashMap<>();
 
-            public RenderLayer apply(RenderPhase.TextureBase texture) {
+            public RenderLayer apply(TextureBase texture) {
                 return this.cache.computeIfAbsent(texture.getId().get(), id -> function.apply(texture));
             }
         };

@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.resource.DirectoryResourcePack;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
@@ -48,15 +49,12 @@ public class OpenResourceManager implements ResourceManager {
         if ("minecraft".equals(id.getNamespace()))
             return parent.getResource(id);
 
-        if ("__url__".equals(id.getNamespace())) {
-            DirectoryResourcePack dummy = new DirectoryResourcePack(id.getNamespace(), Paths.get(id.getNamespace()), true);
-            return Optional.of(new Resource(dummy, () -> parseURL(id.getPath())));
-        }
+        if ("__url__".equals(id.getNamespace()))
+            return Optional.of(new Resource(MinecraftClient.getInstance().getDefaultResourcePack(), () -> parseURL(id.getPath())));
 
         // Scuffed resource loader
         Path path = FabricLoader.getInstance().getModContainer(id.getNamespace()).get().findPath("assets/" + id.getNamespace() + "/" + id.getPath()).get();
-        DirectoryResourcePack dummy = new DirectoryResourcePack(id.getNamespace(), path.getRoot(), true);
-        return Optional.of(new Resource(dummy, () -> Files.newInputStream(path)));
+        return Optional.of(new Resource(MinecraftClient.getInstance().getDefaultResourcePack(), () -> Files.newInputStream(path)));
     }
 
     @Override

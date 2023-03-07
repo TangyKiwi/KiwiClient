@@ -26,5 +26,4 @@ public class ShaderLoader {
 
         return new PostEffectProcessor(texMang, new OpenResourceManager(resMang), framebuffer, id);
     }
-
 }
