@@ -34,7 +34,8 @@ public class BetterChat extends Module {
             new ToggleSetting("Infinite Chat Box", true).withDesc("Bypasses the message character limit"),
             new ToggleSetting("Better History", true).withDesc("Let's you see more of chat history").withChildren(
                 new SliderSetting("# Lines", 100, 1000, 1000, 0).withDesc("Extended number of lines")
-            ));
+            ),
+            new ToggleSetting("Keep History", true).withDesc("Keeps chat history on disconnect"));
 
         String[] a = "abcdefghijklmnopqrstuvwxyz".split("");
         String[] b = "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴩǫʀꜱᴛᴜᴠᴡxʏᴢ".split("");

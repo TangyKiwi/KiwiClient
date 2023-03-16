@@ -56,6 +56,14 @@ public abstract class ChatHudMixin implements IChatHUD {
         nextId = 0;
     }
 
+    @Inject(method = "clear(Z)V", at = @At("HEAD"), cancellable = true)
+    private void onClear(CallbackInfo info) {
+        BetterChat betterChat = (BetterChat) KiwiClient.moduleManager.getModule(BetterChat.class);;
+        if (betterChat.getSetting(6).asToggle().state) {
+            info.cancel();
+        }
+    }
+
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V", at = @At(value = "INVOKE", target = "Ljava/util/List;add(ILjava/lang/Object;)V", ordinal = 0, shift = At.Shift.AFTER))
     private void onAddMessageAfterNewChatHudLineVisible(Text message, MessageSignatureData signature, int ticks, MessageIndicator indicator, boolean refresh, CallbackInfo info) {
         ((IChatHUDLine) (Object) visibleMessages.get(0)).setId(nextId);
