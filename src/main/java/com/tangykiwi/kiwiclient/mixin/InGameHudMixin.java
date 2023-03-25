@@ -5,6 +5,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
+import com.tangykiwi.kiwiclient.modules.client.BetterChat;
 import com.tangykiwi.kiwiclient.modules.client.MountHUD;
 import com.tangykiwi.kiwiclient.modules.client.NoScoreboard;
 import com.tangykiwi.kiwiclient.modules.client.PotionTimers;
@@ -150,6 +151,14 @@ public class InGameHudMixin {
             return seconds / 60 + ":" + (seconds % 60 < 10 ? "0" : "") + seconds % 60;
         } else {
             return String.valueOf(seconds);
+        }
+    }
+
+    @Inject(method = "clear", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;clear(Z)V"), cancellable = true)
+    private void onClear(CallbackInfo info) {
+        BetterChat betterChat = (BetterChat) KiwiClient.moduleManager.getModule(BetterChat.class);;
+        if (betterChat.getSetting(6).asToggle().state) {
+            info.cancel();
         }
     }
 }
