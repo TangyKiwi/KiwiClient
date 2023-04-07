@@ -1,10 +1,10 @@
 {
   "variants": {
-	"age=4,stage=0,hanging=false": {
+    "age=4,hanging=false,stage=0": {
       "model": "minecraft:block/mangrove_propagule"
     },
-    "age=4,stage=1,hanging=false": {
-	  "model": "minecraft:block/large_mangrove_propagule"
+    "age=4,hanging=false,stage=1": {
+      "model": "minecraft:block/large_mangrove_propagule"
     },
     "age=0,hanging=false": {
       "model": "minecraft:block/mangrove_propagule"
@@ -30,11 +30,8 @@
     "age=3,hanging=true": {
       "model": "minecraft:block/mangrove_propagule_hanging_3"
     },
-    "age=4,hanging=false": {
-      "model": "minecraft:block/mangrove_propagule"
-    },
     "age=4,hanging=true": {
       "model": "minecraft:block/mangrove_propagule_hanging_4"
-    }    
+    }
   }
 }

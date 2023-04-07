@@ -73,7 +73,7 @@ public class TargetHUD extends Module {
 
         playerEntity = getNearestPlayer();
         if(playerEntity == null) return;
-        InventoryScreen.drawEntity(x + 26, y + 70, 30 , -MathHelper.wrapDegrees(playerEntity.prevYaw + (playerEntity.getYaw() - playerEntity.prevYaw) * mc.getTickDelta()), -playerEntity.getPitch(), playerEntity);
+        InventoryScreen.drawEntity(e.getMatrix(), x + 26, y + 70, 30 , -MathHelper.wrapDegrees(playerEntity.prevYaw + (playerEntity.getYaw() - playerEntity.prevYaw) * mc.getTickDelta()), -playerEntity.getPitch(), playerEntity);
 
         // Health bar
         x = scaledWidth - 164;
@@ -160,8 +160,8 @@ public class TargetHUD extends Module {
 
             ItemStack itemStack = getItem(slot);
 
-            mc.getItemRenderer().renderGuiItemIcon(itemStack, armorX, (int) armorY);
-            mc.getItemRenderer().renderGuiItemOverlay(mc.textRenderer, itemStack, armorX, (int) armorY);
+            mc.getItemRenderer().renderGuiItemIcon(e.getMatrix(), itemStack, armorX, (int) armorY);
+            mc.getItemRenderer().renderGuiItemOverlay(e.getMatrix(), mc.textRenderer, itemStack, armorX, (int) armorY);
 
             armorY += 18;
 

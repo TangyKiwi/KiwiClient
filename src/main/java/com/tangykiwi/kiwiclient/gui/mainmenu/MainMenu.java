@@ -105,7 +105,7 @@ public class MainMenu extends Screen {
             int height = this.height - 7;
             int playerX = 20;
             RenderSystem.setShaderTexture(0, player.getSkinTexture());
-            InventoryScreen.drawEntity(playerX, height, 30, -mouseX + playerX, -mouseY + height - 30, player);
+            InventoryScreen.drawEntity(matrixStack, playerX, height, 30, -mouseX + playerX, -mouseY + height - 30, player);
             IFont.CONSOLAS.drawString(matrixStack, this.client.getSession().getUsername(), 35, this.height - IFont.CONSOLAS.getFontHeight() - 4, ColorUtil.getRainbow(4, 0.8f, 1), 1);
         }
 

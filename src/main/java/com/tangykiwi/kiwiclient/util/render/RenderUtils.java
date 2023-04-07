@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.util.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.tangykiwi.kiwiclient.mixin.FrustumAccessor;
 import com.tangykiwi.kiwiclient.mixin.WorldRendererAccessor;
 import com.tangykiwi.kiwiclient.util.render.color.CustomColor;
 import com.tangykiwi.kiwiclient.util.Utils;
@@ -11,6 +12,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -95,6 +97,11 @@ public class RenderUtils {
 		return ((WorldRendererAccessor) MinecraftClient.getInstance().worldRenderer).getFrustum();
 	}
 
+	public static boolean isPointVisible(double x, double y, double z) {
+		FrustumAccessor frustum = (FrustumAccessor) getFrustum();
+		return frustum.getFrustumIntersection().testPoint((float) (x - frustum.getX()), (float) (y - frustum.getY()), (float) (z - frustum.getZ()));
+	}
+
 	// -------------------- Fill Boxes --------------------
 
 	public static void drawBoxFill(BlockPos blockPos, QuadColor color, Direction... excludeDirs) {
@@ -158,7 +165,7 @@ public class RenderUtils {
 	// -------------------- Lines --------------------
 
 	public static void drawLine(double x1, double y1, double z1, double x2, double y2, double z2, LineColor color, float width) {
-		if (!getFrustum().isVisible(new Box(new BlockPos(x1, y1, z1))) && !getFrustum().isVisible(new Box(new BlockPos(x2, y2, z2)))) {
+		if (!isPointVisible(x1, y1, z1) && !isPointVisible(x2, y2, z2)) {
 			return;
 		}
 
@@ -334,8 +341,8 @@ public class RenderUtils {
 
 		Utils.mc.getBufferBuilders().getEntityVertexConsumers().draw();
 
-		Utils.mc.getItemRenderer().renderItem(item, ModelTransformation.Mode.GUI, 0xF000F0,
-				OverlayTexture.DEFAULT_UV, matrices, Utils.mc.getBufferBuilders().getEntityVertexConsumers(), 0);
+		Utils.mc.getItemRenderer().renderItem(item, ModelTransformationMode.GUI, 0xF000F0,
+				OverlayTexture.DEFAULT_UV, matrices, Utils.mc.getBufferBuilders().getEntityVertexConsumers(), Utils.mc.world, 0);
 
 		Utils.mc.getBufferBuilders().getEntityVertexConsumers().draw();
 
@@ -390,12 +397,12 @@ public class RenderUtils {
 	public static void setup() {
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
-		RenderSystem.disableTexture();
+//		RenderSystem.disableTexture();
 	}
 
 	public static void cleanup() {
 		RenderSystem.disableBlend();
-		RenderSystem.enableTexture();
+//		RenderSystem.enableTexture();
 	}
 
 	public static Vector3f[] getCurrentLight() {

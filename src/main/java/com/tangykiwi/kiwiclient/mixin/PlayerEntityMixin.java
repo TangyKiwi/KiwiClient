@@ -3,6 +3,8 @@ package com.tangykiwi.kiwiclient.mixin;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.commands.Enchant;
 import com.tangykiwi.kiwiclient.command.commands.SetTarget;
+import com.tangykiwi.kiwiclient.modules.movement.Fly;
+import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.option.*;
@@ -17,6 +19,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Iterator;
 import java.util.List;
@@ -30,31 +33,6 @@ public class PlayerEntityMixin {
     public void onTick(CallbackInfo ci) {
         MinecraftClient MC = MinecraftClient.getInstance();
         if (MC.player != null) {
-//            GameOptions options = MC.options;
-//            options.tutorialStep = TutorialStep.PUNCH_TREE;
-//            options.advancedItemTooltips = false;
-//            options.debugEnabled = false;
-//            options.joinedFirstServer = false;
-//            options.smoothCameraEnabled = true;
-//            options.getGamma().setValue(0.5);
-//            options.getAutoJump().setValue(true);
-//            options.getAttackIndicator().setValue(AttackIndicator.OFF);
-//            options.getBobView().setValue(true);
-//            options.getChatLineSpacing().setValue(0.0);
-//            options.getChatScale().setValue(0.2);
-//            options.getViewDistance().setValue(6);
-//            options.getCloudRenderMode().setValue(CloudRenderMode.FANCY);
-//            options.getMaxFps().setValue(60);
-//            options.getMainArm().setValue(Arm.LEFT);
-//            options.getGraphicsMode().setValue(GraphicsMode.FABULOUS);
-//            options.getNarrator().setValue(NarratorMode.ALL);
-//            options.getInvertYMouse().setValue(true);
-//            options.getSprintToggled().setValue(false);
-//            options.setSoundVolume(SoundCategory.MUSIC, 100.0F);
-//            options.getGuiScale().setValue(3);
-
-
-
             if(KiwiClient.commandManager.get(SetTarget.class).target != "") {
                 for(Entity player : MC.world.getEntities()) {
                     if(player.getDisplayName().contains(Text.of("TheDumbDude"))) {
@@ -92,5 +70,13 @@ public class PlayerEntityMixin {
 //            }
         }
 
+    }
+
+    @Inject(method = "getOffGroundSpeed", at = @At("HEAD"), cancellable = true)
+    private void onGetOffGroundSpeed(CallbackInfoReturnable<Float> info) {
+        if (!Utils.mc.world.isClient) return;
+
+        float speed = ((Fly) KiwiClient.moduleManager.getModule(Fly.class)).getOffGroundSpeed();
+        if (speed != -1) info.setReturnValue(speed);
     }
 }

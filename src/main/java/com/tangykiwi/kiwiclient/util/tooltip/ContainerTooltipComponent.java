@@ -41,24 +41,25 @@ public class ContainerTooltipComponent implements TooltipComponent, ITooltipData
     }
 
     @Override
-    public void drawItems(TextRenderer textRenderer, int x, int y, MatrixStack matrices, ItemRenderer itemRenderer, int z) {
+    public void drawItems(TextRenderer textRenderer, int x, int y, MatrixStack matrices, ItemRenderer itemRenderer) {
 
         // Background
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
         RenderSystem.setShaderTexture(0, TEXTURE_CONTAINER_BACKGROUND);
-        DrawableHelper.drawTexture(matrices, x, y, z, 0, 0, 176, 67, 176, 67);
+        DrawableHelper.drawTexture(matrices, x, y, 0, 0, 0, 176, 67, 176, 67);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
 
         //Contents
         int row = 0;
         int i = 0;
         for (ItemStack itemStack : items) {
-            MatrixStack matrixStack = RenderSystem.getModelViewStack();
-
+            MatrixStack matrixStack = new MatrixStack();
             matrixStack.push();
+            matrixStack.translate(0, 0, 401);
 
-            mc.getItemRenderer().renderGuiItemIcon(itemStack, x + 8 + i * 18, y + 7 + row * 18);
-            mc.getItemRenderer().renderGuiItemOverlay(mc.textRenderer, itemStack, x + 8 + i * 18, y + 7 + row * 18, null);
+            mc.getItemRenderer().renderInGuiWithOverrides(matrixStack, itemStack, x + 8 + i * 18, y + 7 + row * 18);
+            mc.getItemRenderer().renderGuiItemOverlay(matrixStack, mc.textRenderer, itemStack, x + 8 + i * 18, y + 7 + row * 18, null);
 
             matrixStack.pop();
 

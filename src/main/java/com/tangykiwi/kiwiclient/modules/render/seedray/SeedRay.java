@@ -76,7 +76,7 @@ public class SeedRay extends Module {
                     }
 
                     for (Vec3d pos : chunkRenderers.get(chunkKey).get(ore)) {
-                        Box box = new Box(new BlockPos(pos));
+                        Box box = new Box(new BlockPos(new Vec3i((int) pos.x, (int) pos.y, (int) pos.z)));
                         Color color = ore.color;
                         RenderUtils.drawBoxOutline(box, QuadColor.single(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()), 1);
                     }

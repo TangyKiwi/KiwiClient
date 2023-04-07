@@ -31,8 +31,8 @@ public class WorldRendererMixin {
         if (KiwiClient.moduleManager.getModule(NoRender.class).isEnabled() && KiwiClient.moduleManager.getModule(NoRender.class).getSetting(1).asToggle().state) info.cancel();
     }
 
-    @Inject(method = "method_43788(Lnet/minecraft/client/render/Camera;)Z", at = @At("HEAD"), cancellable = true)
-    private void method_43788(Camera camera, CallbackInfoReturnable<Boolean> info) {
+    @Inject(method = "hasBlindnessOrDarkness(Lnet/minecraft/client/render/Camera;)Z", at = @At("HEAD"), cancellable = true)
+    private void hasBlindnessOrDarkness(Camera camera, CallbackInfoReturnable<Boolean> info) {
         if (KiwiClient.moduleManager.getModule(AntiBlind.class).isEnabled()) info.setReturnValue(null);
     }
 

@@ -9,12 +9,10 @@ import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.util.math.*;
-import org.joml.Quaterniond;
-import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -70,7 +68,7 @@ public class ItemPhysics extends Module {
 
         matrixStack.multiply(RotationAxis.NEGATIVE_Y.rotation(n));
         float l = MathHelper.sin(((float)itemEntity.getItemAge() + g) / 10.0F + itemEntity.uniqueOffset) * 0.1F + 0.1F;
-        float m = bakedModel.getTransformation().getTransformation(ModelTransformation.Mode.GROUND).scale.y();
+        float m = bakedModel.getTransformation().getTransformation(ModelTransformationMode.GROUND).scale.y();
         matrixStack.translate(0.0D, -(l + 0.25F * m), 0.0D);
     }
     

@@ -50,7 +50,7 @@ public abstract class ScreenMixin {
     }
 
     @Inject(method = "renderBackgroundTexture", at = @At("HEAD"), cancellable = true)
-    public void renderBackgroundTexture(int vOffset, CallbackInfo ci) {
+    public void renderBackgroundTexture(CallbackInfo ci) {
         if(!(this.client.currentScreen instanceof PackScreen) && KiwiClient.moduleManager.getModule(Background.class).isEnabled()) {
             ci.cancel();
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);

@@ -1,6 +1,6 @@
 package com.tangykiwi.kiwiclient.event;
 
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 
 public class SendPacketEvent extends Event {
     public Packet<?> packet;

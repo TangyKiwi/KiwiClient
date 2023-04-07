@@ -102,7 +102,7 @@ public class Window {
 			RenderSystem.getModelViewStack().scale(0.6f, 0.6f, 1f);
 
 			DiffuseLighting.enableGuiDepthLighting();
-			MinecraftClient.getInstance().getItemRenderer().renderInGui(icon, 0, 0);
+			MinecraftClient.getInstance().getItemRenderer().renderInGuiWithOverrides(matrices, icon, 0, 0);
 			DiffuseLighting.disableGuiDepthLighting();
 
 			RenderSystem.getModelViewStack().pop();
@@ -216,7 +216,6 @@ public class Window {
 		float red2   = (color2 >> 16 & 255) / 255.0F;
 		float green2 = (color2 >> 8 & 255) / 255.0F;
 		float blue2  = (color2 & 255) / 255.0F;
-		RenderSystem.disableTexture();
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.setShader(GameRenderer::getPositionColorProgram);
@@ -229,6 +228,5 @@ public class Window {
 		bufferBuilder.vertex(x2, y1, 0).color(red2, green2, blue2, alpha2).next();
 		tessellator.draw();
 		RenderSystem.disableBlend();
-		RenderSystem.enableTexture();
 	}
 }

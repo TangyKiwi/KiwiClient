@@ -34,7 +34,7 @@ public class ColorUtil {
     }
 
     public static void fillGradient(MatrixStack matrixStack, int xStart, int yStart, int xEnd, int yEnd, int colorStart, int colorEnd) {
-        RenderSystem.disableTexture();
+//        RenderSystem.disableTexture();
         RenderSystem.enableBlend();
         //RenderSystem.disableAlphaTest();
         RenderSystem.defaultBlendFunc();
@@ -58,7 +58,7 @@ public class ColorUtil {
         //RenderSystem.shadeModel(7424);
         RenderSystem.disableBlend();
         //RenderSystem.enableAlphaTest();
-        RenderSystem.enableTexture();
+//        RenderSystem.enableTexture();
     }
 
     /**

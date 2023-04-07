@@ -98,7 +98,6 @@ public class Fly extends Module {
 
         if (getSetting(0).asMode().mode == 1) {
             mc.player.getAbilities().flying = false;
-            mc.player.airStrafingSpeed = speed * (mc.player.isSprinting() ? 15f : 10f) / 10;
             mc.player.setVelocity(0, 0, 0);
             Vec3d initialVelocity = mc.player.getVelocity();
             if (mc.options.jumpKey.isPressed())
@@ -169,6 +168,13 @@ public class Fly extends Module {
 
     private boolean isEntityOnAir(Entity entity) {
         return entity.world.getStatesInBox(entity.getBoundingBox().expand(0.0625).stretch(0.0, -0.55, 0.0)).allMatch(AbstractBlock.AbstractBlockState::isAir);
+    }
+
+    public float getOffGroundSpeed() {
+        // All the multiplication below is to get the speed to roughly match the speed you get when using vanilla fly
+
+        if (!isEnabled() || getSetting(0).asMode().mode != 1) return -1;
+        return getSetting(2).asSlider().getValueFloat();
     }
 
     public void abilitiesOff() {

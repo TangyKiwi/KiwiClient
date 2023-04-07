@@ -280,7 +280,7 @@ public class GlyphPageFontRenderer {
 
         GlStateManager._enableBlend();
         GlStateManager._blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager._enableTexture();
+//        GlStateManager._enableTexture();
 
         glyphPage.bindTexture();
 
@@ -343,13 +343,13 @@ public class GlyphPageFontRenderer {
         matrices.pop();
 
         GlStateManager._disableBlend();
-        GlStateManager._disableTexture();
+//        GlStateManager._disableTexture();
     }
 
     private void doDraw(float f, GlyphPage glyphPage) {
         if (this.strikethroughStyle) {
             BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-            GlStateManager._disableTexture();
+//            GlStateManager._disableTexture();
             bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
             bufferBuilder
                     .vertex(this.posX, this.posY + (float) (glyphPage.getMaxFontHeight() / 2), 0.0D)
@@ -361,12 +361,12 @@ public class GlyphPageFontRenderer {
             bufferBuilder.vertex(this.posX,
                     this.posY + (float) (glyphPage.getMaxFontHeight() / 2) - 1.0F, 0.0D).next();
             BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-            GlStateManager._enableTexture();
+//            GlStateManager._enableTexture();
         }
 
         if (this.underlineStyle) {
             BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-            GlStateManager._disableTexture();
+//            GlStateManager._disableTexture();
             bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
             int l = this.underlineStyle ? -1 : 0;
             bufferBuilder.vertex(this.posX + (float) l,
@@ -379,7 +379,7 @@ public class GlyphPageFontRenderer {
             bufferBuilder.vertex(this.posX + (float) l,
                     this.posY + (float) glyphPage.getMaxFontHeight() - 1.0F, 0.0D).next();
             BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-            GlStateManager._enableTexture();
+//            GlStateManager._enableTexture();
         }
 
         this.posX += f;

@@ -83,11 +83,11 @@ public class HUD extends Module {
                     int x = x1 - 90 + (9 - count) * 20 + 2;
 
                     RenderSystem.enableDepthTest();
-                    mc.getItemRenderer().zOffset = 200F;
-                    mc.getItemRenderer().renderGuiItemIcon(is, x, y);
-                    mc.getItemRenderer().renderGuiItemOverlay(mc.textRenderer, is, x, y);
+//                    mc.getItemRenderer().zOffset = 200F;
+                    mc.getItemRenderer().renderGuiItemIcon(e.getMatrix(), is, x, y);
+                    mc.getItemRenderer().renderGuiItemOverlay(e.getMatrix(), mc.textRenderer, is, x, y);
 
-                    mc.getItemRenderer().zOffset = 0F;
+//                    mc.getItemRenderer().zOffset = 0F;
 
                     e.getMatrix().push();
                     e.getMatrix().scale(0.75F, 0.75F, 0.75F);

@@ -127,13 +127,13 @@ public class InGameHudMixin {
 
                     String duration = getDurationAsString(statusEffectInstance);
                     int durationLength = client.textRenderer.getWidth(duration);
-                    DrawableHelper.drawStringWithShadow(matrices, client.textRenderer, duration, x + 13 - (durationLength / 2), y + 14, 0x99FFFFFF);
+                    client.textRenderer.drawWithShadow(matrices, duration, x + 13 - (durationLength / 2), y + 14, 0x99FFFFFF);
 
                     int amplifier = statusEffectInstance.getAmplifier();
                     if (amplifier > 0) {
                         String amplifierString = (amplifier < 6) ? I18n.translate("potion.potency." + amplifier) : "**";
                         int amplifierLength = client.textRenderer.getWidth(amplifierString);
-                        DrawableHelper.drawStringWithShadow(matrices, client.textRenderer, amplifierString, x + 22 - amplifierLength, y + 3, 0x99FFFFFF);
+                        client.textRenderer.drawWithShadow(matrices, amplifierString, x + 22 - amplifierLength, y + 3, 0x99FFFFFF);
                     }
                 }
             }
