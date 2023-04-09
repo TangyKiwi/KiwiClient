@@ -49,6 +49,7 @@ public class StorageESP extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onTick(TickEvent event) {
+        if(mc.world == null) return;
         blockEntities.clear();
 
         for (BlockEntity be: WorldUtils.getBlockEntities()) {

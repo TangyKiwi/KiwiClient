@@ -36,7 +36,7 @@ public class ESP extends Module {
     public ESP() {
         super("ESP", "Highlights entities", GLFW.GLFW_KEY_R, Category.RENDER,
             new ModeSetting("Mode", "Shader", "Box+Fill", "Box", "Fill").withDesc("ESP Mode"),
-            new SliderSetting("Shader", 0, 6, 2, 0).withDesc("Shader outline thickness"),
+            new SliderSetting("Shader", 1, 255, 2, 0).withDesc("Shader outline thickness"),
             new SliderSetting("Box", 0.1, 4, 2, 1).withDesc("Box line thickness"),
             new SliderSetting("Fill", 0, 1, 0.3, 2).withDesc("Fill opacity"));
     }

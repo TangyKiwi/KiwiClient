@@ -24,6 +24,15 @@ repositories {
 		url 'https://jitpack.io'
 	}
 
+	maven {
+		name = "modrinth"
+		url = "https://api.modrinth.com/maven"
+
+		content {
+			includeGroup "maven.modrinth"
+		}
+	}
+
 	mavenCentral()
 }
 
@@ -45,6 +54,8 @@ dependencies {
 	apiModules.forEach {
 		include(modImplementation(fabricApi.module(it, project.fabric_version)))
 	}
+
+	modCompileOnly("maven.modrinth:sodium:${project.sodium_version}") { transitive = false }
 
 	implementation "com.github.Vatuu:discord-rpc:1.6.2"
 	include "com.github.Vatuu:discord-rpc:1.6.2"
