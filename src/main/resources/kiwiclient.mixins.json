@@ -27,7 +27,6 @@
     "CreativeInventoryScreenAccessor",
     "CustomPayloadC2SPacketAccessor",
     "EntityAccessor",
-    "EntityBucketItemAccessor",
     "EntityBucketItemMixin",
     "EntityMixin",
     "EntityRendererMixin",

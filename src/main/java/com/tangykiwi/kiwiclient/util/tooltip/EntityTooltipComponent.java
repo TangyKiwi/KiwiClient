@@ -7,6 +7,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.item.TooltipData;
 import net.minecraft.client.render.DiffuseLighting;
+import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -140,7 +141,7 @@ public class EntityTooltipComponent implements ITooltipData, TooltipComponent {
                 pufferfish.setPuffState(2);
             } else if (entity instanceof TropicalFishEntity tropicalFish) {
                 if (itemNbt.contains("BucketVariantTag", NbtElement.INT_TYPE)) {
-                    tropicalFish.setVariant(TropicalFishEntity.Variety.fromId(itemNbt.getInt("BucketVariantTag")));
+                    tropicalFish.setVariant(TropicalFishEntity.getVariety(itemNbt.getInt(TropicalFishEntity.BUCKET_VARIANT_TAG_KEY)));
                 }
             }
         }
