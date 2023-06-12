@@ -183,25 +183,25 @@ public class ModuleManager {
         }
     }
 
-    @Subscribe
-    @AllowConcurrentEvents
-    public void onGameJoin(GameJoinEvent e) {
-        for(Module m : getEnabledMods()) {
-            if(!m.runInMainMenu) {
-                m.onEnable();
-            }
-        }
-    }
-
-    @Subscribe
-    @AllowConcurrentEvents
-    public void onGameLeft(GameLeftEvent e) {
-        for(Module m : getEnabledMods()) {
-            if(!m.runInMainMenu) {
-                m.onDisable();
-            }
-        }
-    }
+//    @Subscribe
+//    @AllowConcurrentEvents
+//    public void onGameJoin(GameJoinEvent e) {
+//        for(Module m : getEnabledMods()) {
+//            if(!m.runInMainMenu) {
+//                m.onEnable();
+//            }
+//        }
+//    }
+//
+//    @Subscribe
+//    @AllowConcurrentEvents
+//    public void onGameLeft(GameLeftEvent e) {
+//        for(Module m : getEnabledMods()) {
+//            if(!m.runInMainMenu) {
+//                m.onDisable();
+//            }
+//        }
+//    }
 
     /**
     @Subscribe

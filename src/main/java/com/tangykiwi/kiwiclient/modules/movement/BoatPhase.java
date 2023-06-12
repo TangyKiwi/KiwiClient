@@ -16,6 +16,7 @@ public class BoatPhase extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onTick(TickEvent event) {
+        if(mc.player == null) { return; }
         if(!(mc.player.getVehicle() instanceof BoatEntity)) {
             mc.inGameHud.getChatHud().addMessage(Text.literal("You need a boat"));
             setToggled(false);

@@ -39,6 +39,9 @@ public class ElytraFly extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onTick(TickEvent event) {
+        if(this.mc.player == null) {
+            return;
+        }
         Vec3d vec3d = new Vec3d(0, 0, getSetting(3).asSlider().getValue()).rotateY(-(float) Math.toRadians(mc.player.getYaw()));
         double currentVel = Math.abs(mc.player.getVelocity().x) + Math.abs(mc.player.getVelocity().y) + Math.abs(mc.player.getVelocity().z);
         float radianYaw = (float) Math.toRadians(mc.player.getYaw());

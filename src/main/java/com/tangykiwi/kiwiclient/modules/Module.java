@@ -109,7 +109,10 @@ public class Module {
         keyCode = key;
     }
 
-    public void setToggled(boolean toggle) {enabled = toggle;}
+    public void setToggled(boolean toggle) {
+        enabled = toggle;
+        if(enabled) onEnable();
+    }
 
     public List<Setting<?>> getSettings() {
         return this.settings;
