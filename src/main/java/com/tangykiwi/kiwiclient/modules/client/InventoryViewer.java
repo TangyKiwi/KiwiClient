@@ -6,7 +6,7 @@ import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -21,6 +21,7 @@ public class InventoryViewer extends Module {
 
     @Subscribe
     public void onDrawOverlay(DrawOverlayEvent e) {
+        DrawContext context = e.getContext();
         ItemRenderer itemRenderer = mc.getItemRenderer();
         ClientPlayerEntity player = mc.player;
 
@@ -29,8 +30,7 @@ public class InventoryViewer extends Module {
 
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.8F);
-        RenderSystem.setShaderTexture(0, new Identifier("kiwiclient", "textures/hud/inv_bg.png"));
-        mc.inGameHud.drawTexture(e.getMatrix(), scaledWidth - 164, scaledHeight - 56, 0, 0, 164, 56, 164, 56);
+        context.drawTexture(new Identifier("kiwiclient", "textures/hud/inv_bg.png"), scaledWidth - 164, scaledHeight - 56, 0, 0, 164, 56, 164, 56);
         RenderSystem.disableBlend();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -43,8 +43,8 @@ public class InventoryViewer extends Module {
                 if(!isEmpty) {
                     int x = scaledWidth - 164 + j * 18 + 2;
                     int y = scaledHeight - 56 + i * 18 + 2;
-                    itemRenderer.renderGuiItemIcon(e.getMatrix(), itemStack, x, y);
-                    itemRenderer.renderGuiItemOverlay(e.getMatrix(), mc.textRenderer, itemStack, x, y);
+                    context.drawItem(itemStack, x, y);
+                    context.drawItemInSlot(mc.textRenderer, itemStack, x, y);
                 }
             }
         }

@@ -2,10 +2,9 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.modules.render.TNTimer;
-import com.tangykiwi.kiwiclient.util.font.IFont;
+import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -32,11 +31,11 @@ public abstract class TntEntityRendererMixin extends EntityRenderer<TntEntity> {
     @Inject(method = "render", at = @At(value = "TAIL"))
     public void render(TntEntity tntEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
         if(KiwiClient.moduleManager.getModule(TNTimer.class).isEnabled()) {
-            renderLabel(tntEntity, matrixStack, vertexConsumerProvider, i);
+            renderLabel(tntEntity, matrixStack, vertexConsumerProvider);
         }
     }
 
-    protected void renderLabel(TntEntity entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+    protected void renderLabel(TntEntity entity, MatrixStack matrices, VertexConsumerProvider vertexConsumerProvider) {
         double d = this.dispatcher.getSquaredDistanceToCamera(entity);
         if (!(d > 4096.0D)) {
             String text = getTime(entity.getFuse());

@@ -4,6 +4,7 @@ import com.tangykiwi.kiwiclient.mixin.EntityAccessor;
 import com.tangykiwi.kiwiclient.mixininterface.ITooltipData;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.item.TooltipData;
 import net.minecraft.client.render.DiffuseLighting;
@@ -50,7 +51,8 @@ public class EntityTooltipComponent implements ITooltipData, TooltipComponent {
     }
 
     @Override
-    public void drawItems(TextRenderer textRenderer, int x, int y, MatrixStack matrices, ItemRenderer itemRenderer) {
+    public void drawItems(TextRenderer textRenderer, int x, int y, DrawContext context) {
+        MatrixStack matrices = context.getMatrices();
         matrices.push();
         matrices.translate(15, 2, 0);
         this.entity.setVelocity(1.f, 1.f, 1.f);

@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.gui;
 
 import com.tangykiwi.kiwiclient.util.Utils;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -27,10 +28,10 @@ public class AccountButtonWidget extends TexturedButtonWidget
     }
 
     @Override
-    public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta)
+    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta)
     {
         // Cascade the rendering
-        super.renderButton(matrices, mouseX, mouseY, delta);
+        super.renderButton(context, mouseX, mouseY, delta);
 
         // Render the current session status
         RenderSystem.setShaderTexture(0, texture);
@@ -47,6 +48,6 @@ public class AccountButtonWidget extends TexturedButtonWidget
                 }
             }
         }
-        drawTexture(matrices, getX() + width - 6, getY() - 1, u, 60, 8, 8, 128, 128);
+        drawTexture(context, texture, getX() + width - 6, getY() - 1, u, 60, 0, 8, 8, 128, 128);
     }
 }

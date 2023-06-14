@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.gui.window.widget;
 
 import com.tangykiwi.kiwiclient.gui.window.Window;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class WindowBoxWidget extends WindowWidget {
@@ -31,10 +32,10 @@ public class WindowBoxWidget extends WindowWidget {
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int windowX, int windowY, int mouseX, int mouseY) {
-		super.render(matrices, windowX, windowY, mouseX, mouseY);
+	public void render(DrawContext context, int windowX, int windowY, int mouseX, int mouseY) {
+		super.render(context, windowX, windowY, mouseX, mouseY);
 
-		Window.fill(matrices, windowX + x1, windowY + y1, windowX + x2, windowY + y2,
+		Window.fill(context, windowX + x1, windowY + y1, windowX + x2, windowY + y2,
 				topColor, bottomColor, isInBounds(windowX, windowY, mouseX, mouseY) ? hoverColor : fillColor);
 	}
 }

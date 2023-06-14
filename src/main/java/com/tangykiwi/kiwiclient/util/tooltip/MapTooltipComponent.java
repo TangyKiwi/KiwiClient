@@ -5,7 +5,7 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.mixininterface.ITooltipData;
 import com.tangykiwi.kiwiclient.modules.client.Tooltips;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -41,17 +41,18 @@ public class MapTooltipComponent implements TooltipComponent, ITooltipData {
     }
 
     @Override
-    public void drawItems(TextRenderer textRenderer, int x, int y, MatrixStack matrices, ItemRenderer itemRenderer) {
+    public void drawItems(TextRenderer textRenderer, int x, int y, DrawContext context) {
         double scale = KiwiClient.moduleManager.getModule(Tooltips.class).getSetting(5).asToggle().getChild(0).asSlider().getValue();
 
         // Background
+        MatrixStack matrices = context.getMatrices();
         matrices.push();
         matrices.translate(x, y, 0);
         matrices.scale((float) (scale) * 2, (float) (scale) * 2, 0);
         matrices.scale((64 + 8) / 64f, (64 + 8) / 64f, 0);
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderTexture(0, TEXTURE_MAP_BACKGROUND);
-        DrawableHelper.drawTexture(matrices, 0, 0, 0, 0, 0, 64, 64, 64, 64);
+        context.drawTexture(TEXTURE_MAP_BACKGROUND, 0, 0, 0, 0, 0, 64, 64, 64, 64);
         matrices.pop();
 
         // Contents

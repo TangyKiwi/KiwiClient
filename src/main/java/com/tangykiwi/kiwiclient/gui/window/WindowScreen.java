@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.gui.window.widget.WindowWidget;
 import it.unimi.dsi.fastutil.ints.Int2IntMap.Entry;
 import it.unimi.dsi.fastutil.ints.*;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
@@ -100,11 +101,11 @@ public abstract class WindowScreen extends Screen {
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		super.render(matrices, mouseX, mouseY, delta);
+	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+		super.render(context, mouseX, mouseY, delta);
 		
 		for (WindowWidget w : globalWidgets) {
-			w.render(matrices, 0, 0, mouseX, mouseY);
+			w.render(context, 0, 0, mouseX, mouseY);
 		}
 
 		int sel = getSelectedWindow();
@@ -122,16 +123,16 @@ public abstract class WindowScreen extends Screen {
 		for (int w: getWindowsBackToFront()) {
 			if (!getWindow(w).closed) {
 				close = false;
-				onRenderWindow(matrices, w, mouseX, mouseY);
+				onRenderWindow(context, w, mouseX, mouseY);
 			}
 		}
 
 		if (autoClose && close) this.close();
 	}
 
-	public void onRenderWindow(MatrixStack matrices, int window, int mouseX, int mouseY) {
+	public void onRenderWindow(DrawContext context, int window, int mouseX, int mouseY) {
 		if (!windows.get(window).closed) {
-			windows.get(window).render(matrices, mouseX, mouseY);
+			windows.get(window).render(context, mouseX, mouseY);
 		}
 	}
 

@@ -3,8 +3,7 @@ package com.tangykiwi.kiwiclient.gui.mainmenu;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
 import com.tangykiwi.kiwiclient.util.font.IFont;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 
 public class GuiButton {
@@ -28,7 +27,7 @@ public class GuiButton {
         icon = new Identifier("kiwiclient:textures/menu/" + buttonText.toLowerCase() + ".png");
     }
 
-    public void drawButton(MatrixStack matrixStack, int mouseX, int mouseY) {
+    public void drawButton(DrawContext context, int mouseX, int mouseY) {
         boolean hovered = mouseX >= x - width / 2 && mouseY >= y && mouseX <= x + width / 2 && mouseY <= y + 60;
         if (hovered && index < 1) {
             movingUp = true;
@@ -42,11 +41,10 @@ public class GuiButton {
             index--;
         }
 
-        IFont.CONSOLAS.drawCenteredString(matrixStack, buttonText, x, (int) (y + getPosition(index)) + 55, hovered ? ColorUtil.getRainbow(3, 0.8f, 1) : -1, 1);
+        IFont.CONSOLAS.drawCenteredString(context.getMatrices(), buttonText, x, (int) (y + getPosition(index)) + 55, hovered ? ColorUtil.getRainbow(3, 0.8f, 1) : -1, 1);
 
         RenderSystem.enableBlend();
-        RenderSystem.setShaderTexture(0, icon);
-        DrawableHelper.drawTexture(matrixStack, (x - width / 2), (int) (y + getPosition(index)), 0, 0, 50, 50, 50, 50);
+        context.drawTexture(icon, (x - width / 2), (int) (y + getPosition(index)), 0, 0, 50, 50, 50, 50);
         RenderSystem.disableBlend();
     }
 

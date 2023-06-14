@@ -5,7 +5,7 @@ import com.tangykiwi.kiwiclient.gui.window.Window;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
@@ -69,17 +69,17 @@ public class SliderSetting extends Setting<Double> {
         return text;
     }
 
-    public int render(ModuleWindow window, MatrixStack matrices, int x, int y, int len, int index, int m) {
+    public int render(ModuleWindow window, DrawContext context, int x, int y, int len, int index, int m) {
         boolean mo = window.mouseOver(x, y, x + len, y + 12);
         if (mo) {
-            DrawableHelper.fill(matrices, x + 1, y, x + len, y + 12, 0x70303070);
+            context.fill(x + 1, y, x + len, y + 12, 0x70303070);
         }
 
         int pixels = (int) Math.round(MathHelper.clamp(len * ((getValue() - min) / (max - min)), 0, len));
-        Window.horizontalGradient(matrices, x + 1, y, x + pixels, y + 12,
+        Window.horizontalGradient(context.getMatrices(), x + 1, y, x + pixels, y + 12,
                 mo ? 0xf03078b0 : 0xf03080a0, mo ? 0xf02068c0 : 0xf02070b0);
 
-        IFont.CONSOLAS.drawStringWithShadow(matrices,
+        IFont.CONSOLAS.drawStringWithShadow(context.getMatrices(),
                 text + ": " + (decimals == 0 ? Integer.toString((int) getValue()) : getValue()),
                 x + 3, y + 2, 0xcfe0cf, 1);
 

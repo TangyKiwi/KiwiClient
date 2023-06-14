@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.gui;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
@@ -22,8 +23,10 @@ public class BindScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        this.renderBackground(context);
+
+        MatrixStack matrices = context.getMatrices();
 
         IFont.CONSOLAS.drawCenteredString(matrices, "Press a Key", width / 2D, height / 2D - IFont.CONSOLAS.getFontHeight(), Color.WHITE.getRGB(), 1);
         IFont.CONSOLAS.drawCenteredString(matrices, "ESC to quit / DEL to remove bind", width / 2D, height / 2D, Color.WHITE.getRGB(), 1);
@@ -44,7 +47,7 @@ public class BindScreen extends Screen {
             }
         }
         IFont.CONSOLAS.drawCenteredString(matrices, "Current Key: " + kn, width / 2D, height / 2D  + IFont.CONSOLAS.getFontHeight(), Color.WHITE.getRGB(), 1);
-        super.render(matrices, mouseX, mouseY, delta);
+        super.render(context, mouseX, mouseY, delta);
     }
 
     @Override

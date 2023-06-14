@@ -4,6 +4,7 @@ import com.tangykiwi.kiwiclient.gui.clickgui.window.ClickGuiWindow;
 import com.tangykiwi.kiwiclient.gui.window.Window;
 import com.tangykiwi.kiwiclient.gui.window.WindowScreen;
 import com.tangykiwi.kiwiclient.util.font.IFont;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.ArrayUtils;
@@ -36,8 +37,8 @@ public abstract class ClickGuiScreen extends WindowScreen {
 		return false;
 	}
 
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		this.renderBackground(matrices);
+	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+		this.renderBackground(context);
 
 		for (Window w : getWindows()) {
 			if (w instanceof ClickGuiWindow) {
@@ -45,8 +46,9 @@ public abstract class ClickGuiScreen extends WindowScreen {
 			}
 		}
 
-		super.render(matrices, mouseX, mouseY, delta);
+		super.render(context, mouseX, mouseY, delta);
 
+		MatrixStack matrices = context.getMatrices();
 		matrices.push();
 		matrices.translate(0, 0, 250);
 
@@ -73,14 +75,14 @@ public abstract class ClickGuiScreen extends WindowScreen {
 						int start = tooltipY + 1;
 						for (int l = 0; l < lines.size(); l++) {
 							if(lines.get(l).equals("ᴍᴀᴋᴇꜱ ʏᴏᴜʀ ᴍᴇꜱꜱᴀɢᴇꜱ ғᴀɴᴄʏ!")) {
-								fill(matrices, tooltip.getLeft(), start + (l * 10) - 1,
+								context.fill(tooltip.getLeft(), start + (l * 10) - 1,
 										tooltip.getLeft() + textRenderer.getWidth(lines.get(l)) + 3,
 										start + (l * 10) + 11, 0xff000000);
 
-								textRenderer.draw(matrices, lines.get(l), tooltip.getLeft() + 2, start + (l * 10) + 1, -1);
+								context.drawText(textRenderer, lines.get(l), tooltip.getLeft() + 2, start + (l * 10) + 1, -1, false);
 							}
 							else {
-								fill(matrices, tooltip.getLeft(), start + (l * 10) - 1,
+								context.fill(tooltip.getLeft(), start + (l * 10) - 1,
 										tooltip.getLeft() + IFont.CONSOLAS.getStringWidth(lines.get(l)) + 5,
 										start + (l * 10) + 11, 0xff000000);
 

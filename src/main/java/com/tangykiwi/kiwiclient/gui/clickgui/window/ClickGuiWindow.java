@@ -4,6 +4,7 @@ import com.tangykiwi.kiwiclient.gui.window.Window;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
@@ -35,7 +36,8 @@ public abstract class ClickGuiWindow extends Window {
 		return false;
 	}
 
-	protected void drawBar(MatrixStack matrices, int mouseX, int mouseY, GlyphPageFontRenderer textRend) {
+	protected void drawBar(DrawContext context, int mouseX, int mouseY, GlyphPageFontRenderer textRend) {
+		MatrixStack matrices = context.getMatrices();
 		/* background */
 		RenderUtils.renderRoundedQuad(matrices, new Color(0xff6060b0), x1, y1, x2, y2, 5, 20);
 
@@ -51,8 +53,8 @@ public abstract class ClickGuiWindow extends Window {
 		textRend.drawString(matrices, hiding ? "+" : "_", x2 - 11, y1 + (hiding ? 3 : 1), 0xffffff, 1);
 	}
 
-	public void render(MatrixStack matrices, int mouseX, int mouseY) {
-		super.render(matrices, mouseX, mouseY);
+	public void render(DrawContext context, int mouseX, int mouseY) {
+		super.render(context, mouseX, mouseY);
 
 		if (rmDown && mouseOver(x1, y1, x1 + (x2 - x1), y1 + 13)) {
 			mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));

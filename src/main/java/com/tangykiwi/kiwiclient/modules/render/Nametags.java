@@ -70,7 +70,7 @@ public class Nametags extends Module {
 
                     if(!customName.equals(name)) {
                         double up = 0.7 + 0.9 * (Math.sqrt(d / 4096));
-                        RenderUtils.drawWorldTextBackground(line, rPos.x, rPos.y + up, rPos.z, scale);
+                        RenderUtils.drawWorldTextBackground(event.getMatrixStack(), line, rPos.x, rPos.y + up, rPos.z, scale);
                         RenderUtils.drawWorldText(name, line, 0, rPos.x, rPos.y + up, rPos.z, scale, 0xFFAA00, false);
                         RenderUtils.drawWorldText(amount, line, 1, rPos.x, rPos.y + up, rPos.z, scale, 0xFFFF55, false);
 //                        RenderUtils.drawWorldText(name + " " + getEmptyString(amount), rPos.x, rPos.y + up, rPos.z, scale, 0xFFAA00, true);
@@ -97,7 +97,7 @@ public class Nametags extends Module {
                         String health = String.format("%.1f", livingEntity.getHealth());
                         String line = name + " " + health;
 
-                        RenderUtils.drawWorldTextBackground(line, rPos.x, rPos.y + 0.5, rPos.z, scale);
+                        RenderUtils.drawWorldTextBackground(event.getMatrixStack(), line, rPos.x, rPos.y + 0.5, rPos.z, scale);
                         RenderUtils.drawWorldText(name, line, 0, rPos.x, rPos.y + 0.5, rPos.z, scale, 0xFFFFFF, false);
                         RenderUtils.drawWorldText(health, line, 1, rPos.x, rPos.y + 0.5, rPos.z, scale, getHealthColor(livingEntity), false);
 

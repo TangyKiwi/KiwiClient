@@ -9,9 +9,8 @@ import com.tangykiwi.kiwiclient.util.font.IFont;
 import com.tangykiwi.kiwiclient.util.render.color.LineColor;
 import com.tangykiwi.kiwiclient.util.render.color.QuadColor;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
-import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -224,9 +223,7 @@ public class RenderUtils {
 		drawWorldText(text, line, location, x, y, z, 0, 0, scale, false, color, background);
 	}
 
-	public static void drawWorldTextBackground(String text, double x, double y, double z, double scale) {
-		MatrixStack matrices = matrixFrom(x, y, z);
-
+	public static void drawWorldTextBackground(MatrixStack matrices, String text, double x, double y, double z, double scale) {
 		Camera camera = Utils.mc.gameRenderer.getCamera();
 		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
 		matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
@@ -242,7 +239,8 @@ public class RenderUtils {
 		int backgroundColor = (int) (backgroundOpacity * 255.0F) << 24;
 
 		int xF = -IFont.CONSOLAS.getStringWidth(text) / 2;
-		DrawableHelper.fill(matrices, xF - 1, -2, IFont.CONSOLAS.getStringWidth(text) / 2 + 3, IFont.CONSOLAS.getFontHeight() + 1, backgroundColor);
+		DrawContext context = new DrawContext(Utils.mc, immediate);
+		context.fill(xF - 1, -2, IFont.CONSOLAS.getStringWidth(text) / 2 + 3, IFont.CONSOLAS.getFontHeight() + 1, backgroundColor);
 
 		immediate.draw();
 		RenderSystem.disableBlend();
@@ -309,7 +307,8 @@ public class RenderUtils {
 			int backgroundColor = (int) (backgroundOpacity * 255.0F) << 24;
 
 			int xF = -IFont.CONSOLAS.getStringWidth(text) / 2;
-			DrawableHelper.fill(matrices, xF - 1, -2, IFont.CONSOLAS.getStringWidth(text) / 2 + 3, IFont.CONSOLAS.getFontHeight() + 1, backgroundColor);
+			DrawContext context = new DrawContext(Utils.mc, immediate);
+			context.fill(xF - 1, -2, IFont.CONSOLAS.getStringWidth(text) / 2 + 3, IFont.CONSOLAS.getFontHeight() + 1, backgroundColor);
 		}
 		IFont.CONSOLAS.drawString(matrices, text, halfWidth, 0f, color, 1);
 		immediate.draw();

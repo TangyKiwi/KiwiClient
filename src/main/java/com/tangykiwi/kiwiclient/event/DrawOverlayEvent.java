@@ -1,17 +1,17 @@
 package com.tangykiwi.kiwiclient.event;
 
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 
 public class DrawOverlayEvent extends Event {
 
-    private MatrixStack matrix;
+    private DrawContext context;
 
-    public DrawOverlayEvent(MatrixStack matrix) {
-        this.matrix = matrix;
+    public DrawOverlayEvent(DrawContext context) {
+        this.context = context;
     }
 
-    public MatrixStack getMatrix() {
-        return matrix;
+    public DrawContext getContext() {
+        return context;
     }
 }
 

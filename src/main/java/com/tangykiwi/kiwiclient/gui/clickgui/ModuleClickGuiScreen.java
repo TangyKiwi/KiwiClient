@@ -6,6 +6,7 @@ import com.tangykiwi.kiwiclient.gui.clickgui.window.ModuleWindow;
 import com.tangykiwi.kiwiclient.gui.window.Window;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
@@ -65,7 +66,7 @@ public class ModuleClickGuiScreen extends ClickGuiScreen {
 		}
 	}
 
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		searchField.visible = true;
 
 		searchField.setSuggestion(searchField.getText().isEmpty() ? "Search here" : "");
@@ -88,6 +89,6 @@ public class ModuleClickGuiScreen extends ClickGuiScreen {
 			}
 		}
 
-		super.render(matrices, mouseX, mouseY, delta);
+		super.render(context, mouseX, mouseY, delta);
 	}
 }

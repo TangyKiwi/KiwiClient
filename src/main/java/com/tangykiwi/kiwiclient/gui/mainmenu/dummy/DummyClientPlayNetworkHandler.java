@@ -33,7 +33,7 @@ public class DummyClientPlayNetworkHandler extends ClientPlayNetworkHandler {
     }
 
     private DummyClientPlayNetworkHandler() {
-        super(MinecraftClient.getInstance(), null, new ClientConnection(NetworkSide.CLIENTBOUND), null, MinecraftClient.getInstance().getSession().getProfile(), new WorldSession(TelemetrySender.NOOP, true, Duration.ZERO));
+        super(MinecraftClient.getInstance(), null, new ClientConnection(NetworkSide.CLIENTBOUND), null, MinecraftClient.getInstance().getSession().getProfile(), new WorldSession(TelemetrySender.NOOP, true, Duration.ZERO, "dummy"));
         LifecycledResourceManagerImpl manager = new LifecycledResourceManagerImpl(ResourceType.SERVER_DATA, List.of(new VanillaDataPackProvider().getResourcePack()));
 
         combinedDynamicRegistries = combinedDynamicRegistries.with(ClientDynamicRegistryType.REMOTE,

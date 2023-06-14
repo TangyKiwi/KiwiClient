@@ -1,9 +1,8 @@
 package com.tangykiwi.kiwiclient.gui.window.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.tangykiwi.kiwiclient.gui.window.Window;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
@@ -24,8 +23,8 @@ public class WindowTexturedButtonWidget extends WindowWidget {
     }
 
     @Override
-    public void render(MatrixStack matrices, int windowX, int windowY, int mouseX, int mouseY) {
-        super.render(matrices, windowX, windowY, mouseX, mouseY);
+    public void render(DrawContext context, int windowX, int windowY, int mouseX, int mouseY) {
+        super.render(context, windowX, windowY, mouseX, mouseY);
 
         int bx1 = windowX + x1;
         int by1 = windowY + y1;
@@ -36,8 +35,7 @@ public class WindowTexturedButtonWidget extends WindowWidget {
         }
 
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-        RenderSystem.setShaderTexture(0, texture);
-        DrawableHelper.drawTexture(matrices, bx1, by1, loc, v, 20, 20, 128, 128);
+        context.drawTexture(texture, bx1, by1, loc, v, 20, 20, 128, 128);
     }
 
     @Override

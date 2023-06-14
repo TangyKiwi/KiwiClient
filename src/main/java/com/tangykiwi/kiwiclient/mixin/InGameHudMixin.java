@@ -10,7 +10,7 @@ import com.tangykiwi.kiwiclient.modules.client.MountHUD;
 import com.tangykiwi.kiwiclient.modules.client.NoScoreboard;
 import com.tangykiwi.kiwiclient.modules.client.PotionTimers;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.resource.language.I18n;
@@ -35,27 +35,26 @@ import static org.lwjgl.opengl.GL11.*;
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
     @Inject(method="render", at=@At(value="TAIL"), cancellable=true)
-    private void render(CallbackInfo info){
+    private void render(DrawContext context, float tickDelta, CallbackInfo info){
         if(!MinecraftClient.getInstance().options.debugEnabled) {
             MinecraftClient client = MinecraftClient.getInstance();
             MatrixStack matrixStack = new MatrixStack();
 
             RenderSystem.enableBlend();
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShaderTexture(0, KiwiClient.DUCK);
             GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            client.inGameHud.drawTexture(matrixStack, 0, 0, 0, 0, 53, 59, 53, 59);
+            context.drawTexture(KiwiClient.DUCK, 0, 0, 0, 0, 53, 59, 53, 59);
             RenderSystem.disableBlend();
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
 
-        DrawOverlayEvent event = new DrawOverlayEvent(new MatrixStack());
+        DrawOverlayEvent event = new DrawOverlayEvent(context);
         KiwiClient.eventBus.post(event);
         if (event.isCancelled()) info.cancel();
     }
 
     @Inject(method = "renderScoreboardSidebar", at = @At("HEAD"), cancellable = true)
-    private void renderScoreboardSidebar(MatrixStack matrices, ScoreboardObjective objective, CallbackInfo ci) {
+    private void renderScoreboardSidebar(DrawContext context, ScoreboardObjective objective, CallbackInfo ci) {
         if(KiwiClient.moduleManager.getModule(NoScoreboard.class).isEnabled()) {
             ci.cancel();
             return;
@@ -104,7 +103,7 @@ public class InGameHudMixin {
     }
 
     @Inject(method = "renderStatusEffectOverlay", at = @At("TAIL"))
-    private void renderDurationOverlay(MatrixStack matrices, CallbackInfo c) {
+    private void renderDurationOverlay(DrawContext context, CallbackInfo c) {
         if(!KiwiClient.moduleManager.getModule(PotionTimers.class).isEnabled()) return;
         Collection<StatusEffectInstance> collection = this.client.player.getStatusEffects();
         if (!collection.isEmpty()) {
@@ -127,13 +126,13 @@ public class InGameHudMixin {
 
                     String duration = getDurationAsString(statusEffectInstance);
                     int durationLength = client.textRenderer.getWidth(duration);
-                    client.textRenderer.drawWithShadow(matrices, duration, x + 13 - (durationLength / 2), y + 14, 0x99FFFFFF);
+                    context.drawTextWithShadow(client.textRenderer, duration, x + 13 - (durationLength / 2), y + 14, 0x99FFFFFF);
 
                     int amplifier = statusEffectInstance.getAmplifier();
                     if (amplifier > 0) {
                         String amplifierString = (amplifier < 6) ? I18n.translate("potion.potency." + amplifier) : "**";
                         int amplifierLength = client.textRenderer.getWidth(amplifierString);
-                        client.textRenderer.drawWithShadow(matrices, amplifierString, x + 22 - amplifierLength, y + 3, 0x99FFFFFF);
+                        context.drawTextWithShadow(client.textRenderer, amplifierString, x + 22 - amplifierLength, y + 3, 0x99FFFFFF);
                     }
                 }
             }

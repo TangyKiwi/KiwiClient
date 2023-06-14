@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.tangykiwi.kiwiclient.gui.clickgui.window.ModuleWindow;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
@@ -43,12 +43,12 @@ public class ModeSetting extends Setting<Integer> {
         return 12;
     }
 
-    public int render(ModuleWindow window, MatrixStack matrices, int x, int y, int len, int index, int max) {
+    public int render(ModuleWindow window, DrawContext context, int x, int y, int len, int index, int max) {
         if (window.mouseOver(x, y, x + len, y + 12)) {
-            DrawableHelper.fill(matrices, x + 1, y, x + len, y + 12, 0x70303070);
+            context.fill(x + 1, y, x + len, y + 12, 0x70303070);
         }
 
-        IFont.CONSOLAS.drawStringWithShadow(matrices, text + ": " + modes[mode], x + 3, y + 2, 0xcfe0cf, 1);
+        IFont.CONSOLAS.drawStringWithShadow(context.getMatrices(), text + ": " + modes[mode], x + 3, y + 2, 0xcfe0cf, 1);
 
         if (window.mouseOver(x, y, x + len, y + 12) && window.lmDown) {
             mode = getNextMode();

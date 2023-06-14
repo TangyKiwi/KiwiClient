@@ -5,6 +5,7 @@ import com.tangykiwi.kiwiclient.modules.client.BetterTab;
 import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.PlayerListHud;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
@@ -38,7 +39,7 @@ public class PlayerListHudMixin {
     }
 
     @Inject(method = "renderLatencyIcon", at = @At("HEAD"), cancellable = true)
-    private void onRenderLatencyIcon(MatrixStack matrices, int width, int x, int y, PlayerListEntry entry, CallbackInfo info) {
+    private void onRenderLatencyIcon(DrawContext context, int width, int x, int y, PlayerListEntry entry, CallbackInfo info) {
         BetterTab module = (BetterTab) KiwiClient.moduleManager.getModule(BetterTab.class);
 
         if (module.isEnabled() && module.getSetting(1).asToggle().state) {
@@ -47,7 +48,7 @@ public class PlayerListHudMixin {
             int latency = clamp(entry.getLatency(), 0, 9999);
             int color = ColorUtil.getColorString(latency, 10, 20, 50, 75, 100, true);
             String text = latency + "ms";
-            textRenderer.drawWithShadow(matrices, text, (float) x + width - textRenderer.getWidth(text), (float) y, color);
+            context.drawTextWithShadow(textRenderer, text, x + width - textRenderer.getWidth(text), y, color);
             info.cancel();
         }
     }

@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.tangykiwi.kiwiclient.gui.clickgui.window.ModuleWindow;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
@@ -43,13 +43,13 @@ public class ToggleSetting extends Setting<Boolean> {
         return text;
     }
 
-    public int render(ModuleWindow window, MatrixStack matrices, int x, int y, int len, int index, int max) {
+    public int render(ModuleWindow window, DrawContext context, int x, int y, int len, int index, int max) {
         this.index = index;
         this.max = max;
         String color2 = state ? "\u00a7a" : "\u00a7c";
 
         if (window.mouseOver(x, y, x + len, y + 12)) {
-            DrawableHelper.fill(matrices, x + 1, y, x + len, y + 12, 0x70303070);
+            context.fill(x + 1, y, x + len, y + 12, 0x70303070);
         }
 
         if (!children.isEmpty()) {
@@ -59,11 +59,11 @@ public class ToggleSetting extends Setting<Boolean> {
             }
 
             if (expanded) {
-                DrawableHelper.fill(matrices, x + 2, y + 12, x + 3, y + getHeight(len) - 1, 0xff8070b0);
+                context.fill(x + 2, y + 12, x + 3, y + getHeight(len) - 1, 0xff8070b0);
 
                 int h = y + 12;
                 for (Setting s : children) {
-                    s.render(window, matrices, x + 2, h, len - 2, index, max);
+                    s.render(window, context, x + 2, h, len - 2, index, max);
                     index++;
 
                     if(index == max) return max;
@@ -73,17 +73,17 @@ public class ToggleSetting extends Setting<Boolean> {
             }
 
             if (expanded) {
-                IFont.CONSOLAS.drawString(matrices,
+                IFont.CONSOLAS.drawString(context.getMatrices(),
                         color2 + "v",
                         x + len - 8, y + 2, -1, 1);
             } else {
-                IFont.CONSOLAS.drawStringWithShadow(matrices,
+                IFont.CONSOLAS.drawStringWithShadow(context.getMatrices(),
                         color2 + "\u00a7l>",
                         x + len - 8, y + 2, -1, 1);
             }
         }
 
-        IFont.CONSOLAS.drawStringWithShadow(matrices, color2 + text, x + 3, y + 2, 0xffffff, 1);
+        IFont.CONSOLAS.drawStringWithShadow(context.getMatrices(), color2 + text, x + 3, y + 2, 0xffffff, 1);
 
         if (window.mouseOver(x, y, x + len, y + 12) && window.lmDown) {
             state = !state;

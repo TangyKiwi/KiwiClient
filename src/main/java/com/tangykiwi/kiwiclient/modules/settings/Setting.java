@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.modules.settings;
 
 import com.google.gson.JsonElement;
 import com.tangykiwi.kiwiclient.gui.clickgui.window.ModuleWindow;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import org.apache.commons.lang3.tuple.Triple;
 
@@ -44,7 +45,7 @@ public abstract class Setting<T> {
 
     public abstract int getHeight(int len);
 
-    public abstract int render(ModuleWindow window, MatrixStack matrices, int x, int y, int len, int index, int max);
+    public abstract int render(ModuleWindow window, DrawContext context, int x, int y, int len, int index, int max);
 
     public String getDesc() {
         return description;

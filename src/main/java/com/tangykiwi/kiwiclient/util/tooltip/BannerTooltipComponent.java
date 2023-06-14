@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.util.tooltip;
 import com.tangykiwi.kiwiclient.mixininterface.ITooltipData;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.DiffuseLighting;
@@ -40,8 +41,9 @@ public class BannerTooltipComponent implements TooltipComponent, ITooltipData {
     }
 
     @Override
-    public void drawItems(TextRenderer textRenderer, int x, int y, MatrixStack matrices, ItemRenderer itemRenderer) {
+    public void drawItems(TextRenderer textRenderer, int x, int y, DrawContext context) {
         DiffuseLighting.disableGuiDepthLighting();
+        MatrixStack matrices = context.getMatrices();
         matrices.push();
         matrices.translate(x + 8, y + 8, 0);
 

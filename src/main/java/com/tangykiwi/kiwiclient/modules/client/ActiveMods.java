@@ -9,7 +9,8 @@ import com.tangykiwi.kiwiclient.modules.ModuleManager;
 import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import com.tangykiwi.kiwiclient.util.font.IFont;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,9 @@ public class ActiveMods extends Module {
 
     @Subscribe
     public void onDrawOverlay(DrawOverlayEvent e) {
+        DrawContext context = e.getContext();
+        MatrixStack matrixStack = context.getMatrices();
+
         if(!mc.options.debugEnabled) {
             GlyphPageFontRenderer textRenderer = IFont.CONSOLAS;
 
@@ -73,14 +77,14 @@ public class ActiveMods extends Module {
             Module firstMod = display.get(0);
             if(!firstDraw && enablingMods.containsKey(firstMod)) {
                 int displace = enablingMods.get(firstMod);
-                DrawableHelper.fill(e.getMatrix(), displace, 60, (textRenderer.getStringWidth(firstMod.getName()) + 3) * 3 / 4 + 1 +displace, 61, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                context.fill(displace, 60, (textRenderer.getStringWidth(firstMod.getName()) + 3) * 3 / 4 + 1 +displace, 61, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
             }
             else if(disablingMods.containsKey(firstMod)) {
                 int displace = disablingMods.get(firstMod);
-                DrawableHelper.fill(e.getMatrix(), displace, 60, (textRenderer.getStringWidth(firstMod.getName()) + 3) * 3 / 4 + 1 + displace, 61, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                context.fill(displace, 60, (textRenderer.getStringWidth(firstMod.getName()) + 3) * 3 / 4 + 1 + displace, 61, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
             }
             else {
-                DrawableHelper.fill(e.getMatrix(), 0, 60, (textRenderer.getStringWidth(firstMod.getName()) + 3) * 3 / 4 + 1, 61, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                context.fill(0, 60, (textRenderer.getStringWidth(firstMod.getName()) + 3) * 3 / 4 + 1, 61, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
             }
 
             for (Module m : display) {
@@ -89,9 +93,9 @@ public class ActiveMods extends Module {
 
                 if(!firstDraw && enablingMods.containsKey(m)) {
                     int displace = enablingMods.get(m);
-                    DrawableHelper.fill(e.getMatrix(), (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + 1 + displace, 61 + 6 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-                    DrawableHelper.fill(e.getMatrix(), displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + 6 + offset, 0x90000000);
-                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2 + displace, 61.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 0.75F);
+                    context.fill((textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + 1 + displace, 61 + 6 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                    context.fill(displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + 6 + offset, 0x90000000);
+                    textRenderer.drawString(matrixStack, m.getName(), 0.2 + displace, 61.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 0.75F);
                     if(displace + 1 >= 0) {
                         enablingMods.remove(m);
                     }
@@ -101,9 +105,9 @@ public class ActiveMods extends Module {
                 }
                 else if(disablingMods.containsKey(m)) {
                     int displace = disablingMods.get(m);
-                    DrawableHelper.fill(e.getMatrix(), (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + 1 + displace, 61 + 6 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-                    DrawableHelper.fill(e.getMatrix(), displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + 6 + offset, 0x90000000);
-                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2 + displace, 61.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 0.75F);
+                    context.fill((textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + 1 + displace, 61 + 6 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                    context.fill(displace, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + displace, 61 + 6 + offset, 0x90000000);
+                    textRenderer.drawString(matrixStack, m.getName(), 0.2 + displace, 61.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 0.75F);
                     if(displace - 2 <= -textRenderer.getStringWidth(m.getName())) {
                         disablingMods.remove(m);
                     }
@@ -112,9 +116,9 @@ public class ActiveMods extends Module {
                     }
                 }
                 else{
-                    DrawableHelper.fill(e.getMatrix(), (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + 1, 61 + 6 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
-                    DrawableHelper.fill(e.getMatrix(), 0, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4, 61 + 6 + offset, 0x90000000);
-                    textRenderer.drawString(e.getMatrix(), m.getName(), 0.2, 61.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 0.75F);
+                    context.fill((textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4 + 1, 61 + 6 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150));
+                    context.fill(0, 61 + offset, (textRenderer.getStringWidth(m.getName()) + 3) * 3 / 4, 61 + 6 + offset, 0x90000000);
+                    textRenderer.drawString(matrixStack, m.getName(), 0.2, 61.2 + offset, ColorUtil.getRainbow(4, 0.8f, 1, count * 150), 0.75F);
                 }
 
                 count++;

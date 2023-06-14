@@ -80,10 +80,10 @@ public class MinecraftClientMixin {
         info.setReturnValue(title);
     }
 
-    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setIcon(Lnet/minecraft/resource/InputSupplier;Lnet/minecraft/resource/InputSupplier;)V"))
-    public void setAlternativeWindowIcon(Window window, InputSupplier<InputStream> inputStream1, InputSupplier<InputStream> inputStream2) {
-        window.setIcon(() -> Files.newInputStream(FabricLoader.getInstance().getModContainer("kiwiclient").get().findPath("assets/kiwiclient/icon64.png").get()), () -> Files.newInputStream(FabricLoader.getInstance().getModContainer("kiwiclient").get().findPath("assets/kiwiclient/icon128.png").get()));
-    }
+//    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setIcon(Lnet/minecraft/resource/InputSupplier;Lnet/minecraft/resource/InputSupplier;)V"))
+//    public void setAlternativeWindowIcon(Window window, InputSupplier<InputStream> inputStream1, InputSupplier<InputStream> inputStream2) {
+//        window.setIcon(() -> Files.newInputStream(FabricLoader.getInstance().getModContainer("kiwiclient").get().findPath("assets/kiwiclient/icon64.png").get()), () -> Files.newInputStream(FabricLoader.getInstance().getModContainer("kiwiclient").get().findPath("assets/kiwiclient/icon128.png").get()));
+//    }
 
     @Inject(at = @At("HEAD"), method = "setScreen", cancellable = true)
     public void openScreen(Screen screen, CallbackInfo info) {

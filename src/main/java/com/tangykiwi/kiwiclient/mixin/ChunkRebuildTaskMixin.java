@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.mixin;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.mojang.blaze3d.systems.VertexSorter;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.RenderBlockEvent;
 import com.tangykiwi.kiwiclient.event.RenderFluidEvent;
@@ -117,7 +118,7 @@ public class ChunkRebuildTaskMixin {
             if (set.contains(RenderLayer.getTranslucent())) {
                 BufferBuilder bufferBuilder2 = buffers.get(RenderLayer.getTranslucent());
                 if (!bufferBuilder2.isBatchEmpty()) {
-                    bufferBuilder2.sortFrom(cameraX - (float)blockPos.getX(), cameraY - (float)blockPos.getY(), cameraZ - (float)blockPos.getZ());
+                    bufferBuilder2.setSorter(VertexSorter.byDistance(cameraX - (float)blockPos.getX(), cameraY - (float)blockPos.getY(), cameraZ - (float)blockPos.getZ()));
                     renderData.translucencySortingData = bufferBuilder2.getSortingData();
                 }
             }

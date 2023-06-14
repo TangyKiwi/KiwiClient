@@ -3,7 +3,7 @@ package com.tangykiwi.kiwiclient.util.tooltip;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.mixininterface.ITooltipData;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -41,13 +41,12 @@ public class ContainerTooltipComponent implements TooltipComponent, ITooltipData
     }
 
     @Override
-    public void drawItems(TextRenderer textRenderer, int x, int y, MatrixStack matrices, ItemRenderer itemRenderer) {
+    public void drawItems(TextRenderer textRenderer, int x, int y, DrawContext context) {
 
         // Background
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
-        RenderSystem.setShaderTexture(0, TEXTURE_CONTAINER_BACKGROUND);
-        DrawableHelper.drawTexture(matrices, x, y, 0, 0, 0, 176, 67, 176, 67);
+        context.drawTexture(TEXTURE_CONTAINER_BACKGROUND, x, y, 0, 0, 0, 176, 67, 176 ,67);
         RenderSystem.setShaderColor(1, 1, 1, 1);
 
         //Contents
@@ -58,8 +57,8 @@ public class ContainerTooltipComponent implements TooltipComponent, ITooltipData
             matrixStack.push();
             matrixStack.translate(0, 0, 401);
 
-            mc.getItemRenderer().renderInGuiWithOverrides(matrixStack, itemStack, x + 8 + i * 18, y + 7 + row * 18);
-            mc.getItemRenderer().renderGuiItemOverlay(matrixStack, mc.textRenderer, itemStack, x + 8 + i * 18, y + 7 + row * 18, null);
+            context.drawItem(itemStack, x + 8 + i * 18, y + 7 + row * 18);
+            context.drawItemInSlot(mc.textRenderer, itemStack, x + 8 + i * 18, y + 7 + row * 18, null);
 
             matrixStack.pop();
 

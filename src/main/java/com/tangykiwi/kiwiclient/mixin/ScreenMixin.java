@@ -8,7 +8,7 @@ import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.modules.other.Background;
 import com.tangykiwi.kiwiclient.util.Utils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.*;
 import net.minecraft.client.gui.screen.ingame.CommandBlockScreen;
 import net.minecraft.client.gui.screen.multiplayer.SocialInteractionsScreen;
@@ -30,7 +30,6 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Objects;
 
 @Mixin(Screen.class)
 public abstract class ScreenMixin {
@@ -40,29 +39,20 @@ public abstract class ScreenMixin {
 
     @Shadow public int width;
 
-    @SuppressWarnings("UnresolvedMixinReference")
-    @Inject(method = "method_32635", at = @At("HEAD"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
-    private static void onComponentConstruct(List<TooltipComponent> list, TooltipData data, CallbackInfo info) {
-        if (data instanceof ITooltipData) {
-            list.add(((ITooltipData) data).getComponent());
-            info.cancel();
-        }
-    }
-
     @Inject(method = "renderBackgroundTexture", at = @At("HEAD"), cancellable = true)
-    public void renderBackgroundTexture(CallbackInfo ci) {
+    public void renderBackgroundTexture(DrawContext context, CallbackInfo ci) {
         if(!(this.client.currentScreen instanceof PackScreen) && KiwiClient.moduleManager.getModule(Background.class).isEnabled()) {
             ci.cancel();
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             if(this.client.currentScreen instanceof SocialInteractionsScreen) return;
             else if(this.client.currentScreen instanceof OptionsScreen) {
-                RenderSystem.setShaderTexture(0, KiwiClient.MENU3);
+                context.drawTexture(KiwiClient.MENU3, 0, 0, 0, 0, this.width, this.height, this.width, this.height);
             }
             else {
+                context.drawTexture(KiwiClient.MENU2, 0, 0, 0, 0, this.width, this.height, this.width, this.height);
                 RenderSystem.setShaderTexture(0, KiwiClient.MENU2);
             }
-            Screen.drawTexture(new MatrixStack(), 0, 0, 0, 0, this.width, this.height, this.width, this.height);
-            if (!(this.client.currentScreen instanceof MainMenu)) DrawableHelper.fill(new MatrixStack(), 0, 0, this.width, this.height, new Color(0, 0, 0, 140).getRGB());
+            if (!(this.client.currentScreen instanceof MainMenu)) context.fill(0, 0, this.width, this.height, new Color(0, 0, 0, 140).getRGB());
         }
     }
 

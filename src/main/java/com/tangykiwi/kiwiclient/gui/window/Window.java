@@ -5,9 +5,7 @@ import com.tangykiwi.kiwiclient.gui.window.widget.WindowWidget;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import com.tangykiwi.kiwiclient.util.font.IFont;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.widget.TexturedButtonWidget;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
@@ -75,7 +73,8 @@ public class Window {
 		return widget;
 	}
 
-	public void render(MatrixStack matrices, int mouseX, int mouseY) {
+	public void render(DrawContext context, int mouseX, int mouseY) {
+		MatrixStack matrices = context.getMatrices();
 		GlyphPageFontRenderer textRend = IFont.CONSOLAS;
 
 		if (dragging && draggable) {
@@ -85,11 +84,11 @@ public class Window {
 			y1 = Math.max(0, mouseY - dragOffY);
 		}
 
-		drawBar(matrices, mouseX, mouseY, textRend);
+		drawBar(context, mouseX, mouseY, textRend);
 
 		for (WindowWidget w : widgets) {
 			if (w.shouldRender(x1, y1, x2, y2)) {
-				w.render(matrices, x1, y1, mouseX, mouseY);
+				w.render(context, x1, y1, mouseX, mouseY);
 			}
 		}
 
@@ -102,7 +101,7 @@ public class Window {
 			RenderSystem.getModelViewStack().scale(0.6f, 0.6f, 1f);
 
 			DiffuseLighting.enableGuiDepthLighting();
-			MinecraftClient.getInstance().getItemRenderer().renderInGuiWithOverrides(matrices, icon, 0, 0);
+			context.drawItem(icon, 0, 0);
 			DiffuseLighting.disableGuiDepthLighting();
 
 			RenderSystem.getModelViewStack().pop();
@@ -113,14 +112,15 @@ public class Window {
 		textRend.drawStringWithShadow(matrices, title, x1 + (icon == null || icon.getItem() == Items.AIR ? 4 : (blockItem ? 15 : 14)), y1 + 3, -1, 1);
 	}
 
-	protected void drawBar(MatrixStack matrices, int mouseX, int mouseY, GlyphPageFontRenderer textRend) {
+	protected void drawBar(DrawContext context, int mouseX, int mouseY, GlyphPageFontRenderer textRend) {
+		MatrixStack matrices = context.getMatrices();
 		/* background */
-		DrawableHelper.fill(matrices, x1, y1 + 1, x1 + 1, y2 - 1, 0xff6060b0);
+		context.fill(x1, y1 + 1, x1 + 1, y2 - 1, 0xff6060b0);
 		horizontalGradient(matrices, x1 + 1, y1, x2 - 1, y1 + 1, 0xff6060b0, 0xff8070b0);
-		DrawableHelper.fill(matrices, x2 - 1, y1 + 1, x2, y2 - 1, 0xff8070b0);
+		context.fill(x2 - 1, y1 + 1, x2, y2 - 1, 0xff8070b0);
 		horizontalGradient(matrices, x1 + 1, y2 - 1, x2 - 1, y2, 0xff6060b0, 0xff8070b0);
 
-		DrawableHelper.fill(matrices, x1 + 1, y1 + 12, x2 - 1, y2 - 1, 0x90606090);
+		context.fill(x1 + 1, y1 + 12, x2 - 1, y2 - 1, 0x90606090);
 
 		/* title bar */
 		horizontalGradient(matrices, x1 + 1, y1 + 1, x2 - 1, y1 + 12, (selected ? 0xff6060b0 : 0xff606060), (selected ? 0xff8070b0 : 0xffa0a0a0));
@@ -191,20 +191,20 @@ public class Window {
 		}
 	}
 
-	public static void fill(MatrixStack matrices, int x1, int y1, int x2, int y2) {
-		fill(matrices, x1, y1, x2, y2, 0xff6060b0, 0xff8070b0, 0x00000000);
+	public static void fill(DrawContext context, int x1, int y1, int x2, int y2) {
+		fill(context, x1, y1, x2, y2, 0xff6060b0, 0xff8070b0, 0x00000000);
 	}
 
-	public static void fill(MatrixStack matrices, int x1, int y1, int x2, int y2, int fill) {
-		fill(matrices, x1, y1, x2, y2, 0xff6060b0, 0xff8070b0, fill);
+	public static void fill(DrawContext context, int x1, int y1, int x2, int y2, int fill) {
+		fill(context, x1, y1, x2, y2, 0xff6060b0, 0xff8070b0, fill);
 	}
 
-	public static void fill(MatrixStack matrices, int x1, int y1, int x2, int y2, int colTop, int colBot, int colFill) {
-		DrawableHelper.fill(matrices, x1, y1 + 1, x1 + 1, y2 - 1, colTop);
-		DrawableHelper.fill(matrices, x1 + 1, y1, x2 - 1, y1 + 1, colTop);
-		DrawableHelper.fill(matrices, x2 - 1, y1 + 1, x2, y2 - 1, colBot);
-		DrawableHelper.fill(matrices, x1 + 1, y2 - 1, x2 - 1, y2, colBot);
-		DrawableHelper.fill(matrices, x1 + 1, y1 + 1, x2 - 1, y2 - 1, colFill);
+	public static void fill(DrawContext context, int x1, int y1, int x2, int y2, int colTop, int colBot, int colFill) {
+		context.fill(x1, y1 + 1, x1 + 1, y2 - 1, colTop);
+		context.fill(x1 + 1, y1, x2 - 1, y1 + 1, colTop);
+		context.fill(x2 - 1, y1 + 1, x2, y2 - 1, colBot);
+		context.fill(x1 + 1, y2 - 1, x2 - 1, y2, colBot);
+		context.fill(x1 + 1, y1 + 1, x2 - 1, y2 - 1, colFill);
 	}
 
 	public static void horizontalGradient(MatrixStack matrices, int x1, int y1, int x2, int y2, int color1, int color2) {

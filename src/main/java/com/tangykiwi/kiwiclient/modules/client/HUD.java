@@ -12,6 +12,7 @@ import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
 import com.tangykiwi.kiwiclient.util.TickRate;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import com.tangykiwi.kiwiclient.util.font.IFont;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
@@ -55,6 +56,8 @@ public class HUD extends Module {
     @Subscribe
     public void onDrawOverlay(DrawOverlayEvent e) {
         if(!mc.options.debugEnabled) {
+            DrawContext context = e.getContext();
+            MatrixStack matrixStack = context.getMatrices();
             GlyphPageFontRenderer textRenderer = IFont.CONSOLAS;
 
             List<Setting<?>> settings = getSettings();
@@ -62,7 +65,7 @@ public class HUD extends Module {
             for(int i = settings.size() - 3; i >= 0; i--) {
                 if(settings.get(i).asToggle().state) {
                     counter++;
-                    drawSetting(textRenderer, e.getMatrix(), settings.get(i).asToggle().getValue(), (counter) * 6 + 2);
+                    drawSetting(textRenderer, matrixStack, settings.get(i).asToggle().getValue(), (counter) * 6 + 2);
                 }
             }
 
@@ -84,17 +87,17 @@ public class HUD extends Module {
 
                     RenderSystem.enableDepthTest();
 //                    mc.getItemRenderer().zOffset = 200F;
-                    mc.getItemRenderer().renderGuiItemIcon(e.getMatrix(), is, x, y);
-                    mc.getItemRenderer().renderGuiItemOverlay(e.getMatrix(), mc.textRenderer, is, x, y);
+                    context.drawItem(is, x, y);
+                    context.drawItemInSlot(mc.textRenderer, is, x, y);
 
 //                    mc.getItemRenderer().zOffset = 0F;
 
-                    e.getMatrix().push();
-                    e.getMatrix().scale(0.75F, 0.75F, 0.75F);
+                    matrixStack.push();
+                    matrixStack.scale(0.75F, 0.75F, 0.75F);
 
                     RenderSystem.disableDepthTest();
                     String s = is.getCount() > 1 ? "x" + is.getCount() : "";
-                    mc.textRenderer.drawWithShadow(e.getMatrix(), s, (x + 19 - mc.textRenderer.getWidth(s)) * 1.333f, (y + 9) * 1.333f, ColorUtil.guiColour());
+                    context.drawTextWithShadow(mc.textRenderer, s, (x + 19 - mc.textRenderer.getWidth(s)) * 4 / 3, (y + 9) * 4 / 3, ColorUtil.guiColour());
 
                     if (is.isDamageable()) {
                         String dur = is.getMaxDamage() - is.getDamage() + "";
@@ -104,11 +107,11 @@ public class HUD extends Module {
                         } catch (Exception exception) {
                         }
 
-                        mc.textRenderer.drawWithShadow(e.getMatrix(), dur, (x + 10 - mc.textRenderer.getWidth(dur) / 2) * 1.333f, (y - 3) * 1.333f, durcolor);
+                        context.drawTextWithShadow(mc.textRenderer, dur, (x + 10 - mc.textRenderer.getWidth(dur) / 2) * 4 / 3, (y - 3) * 4 / 3, durcolor);
                     }
 
                     RenderSystem.enableDepthTest();
-                    e.getMatrix().pop();
+                    matrixStack.pop();
                 }
             }
         }

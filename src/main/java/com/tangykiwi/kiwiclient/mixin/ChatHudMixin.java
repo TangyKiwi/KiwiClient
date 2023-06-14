@@ -8,7 +8,7 @@ import com.tangykiwi.kiwiclient.mixininterface.IChatHUDLine;
 import com.tangykiwi.kiwiclient.modules.client.BetterChat;
 import com.tangykiwi.kiwiclient.util.StringCharacterVisitor;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
@@ -94,7 +94,7 @@ public abstract class ChatHudMixin implements IChatHUD {
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void onRender(MatrixStack matrices, int currentTick, int mouseX, int mouseY, CallbackInfo ci) {
+    private void onRender(DrawContext context, int currentTick, int mouseX, int mouseY, CallbackInfo ci) {
         BetterChat betterChat = (BetterChat) KiwiClient.moduleManager.getModule(BetterChat.class);
         if(betterChat.isEnabled() && betterChat.getSetting(3).asToggle().state) {
             if (mc.options.getChatVisibility().getValue() == ChatVisibility.HIDDEN) return;
@@ -104,6 +104,7 @@ public abstract class ChatHudMixin implements IChatHUD {
             double g = 9.0D * (mc.options.getChatLineSpacing().getValue() + 1.0D);
             double h = -8.0D * (mc.options.getChatLineSpacing().getValue() + 1.0D) + 4.0D * mc.options.getChatLineSpacing().getValue() + 8.0D;
 
+            MatrixStack matrices = context.getMatrices();
             matrices.push();
             matrices.translate(2, -0.1f, 10);
             RenderSystem.enableBlend();
@@ -117,7 +118,7 @@ public abstract class ChatHudMixin implements IChatHUD {
                             double s = ((double)(-m) * g);
                             StringCharacterVisitor visitor = new StringCharacterVisitor();
                             chatHudLine.content().accept(visitor);
-                            drawIcon(matrices, visitor.result.toString(), (int)(s + h), (float)(o * d));
+                            drawIcon(context, visitor.result.toString(), (int)(s + h), (float)(o * d));
                         }
                     }
                 }
@@ -136,13 +137,12 @@ public abstract class ChatHudMixin implements IChatHUD {
         throw new AssertionError();
     }
 
-    private void drawIcon(MatrixStack matrices, String line, int y, float opacity) {
+    private void drawIcon(DrawContext context, String line, int y, float opacity) {
         Identifier skin = getMessageTexture(line);
         if (skin != null) {
             RenderSystem.setShaderColor(1, 1, 1, opacity);
-            RenderSystem.setShaderTexture(0, skin);
-            DrawableHelper.drawTexture(matrices, 0, y, 8, 8, 8.0F, 8.0F,8, 8, 64, 64);
-            DrawableHelper.drawTexture(matrices, 0, y, 8, 8, 40.0F, 8.0F,8, 8, 64, 64);
+            context.drawTexture(skin, 0, y, 8, 8, 8.0F, 8.0F,8, 8, 64, 64);
+            context.drawTexture(skin, 0, y, 8, 8, 40.0F, 8.0F,8, 8, 64, 64);
             RenderSystem.setShaderColor(1, 1, 1, 1);
         }
     }

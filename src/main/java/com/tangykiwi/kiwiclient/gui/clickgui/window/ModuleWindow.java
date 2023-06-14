@@ -5,8 +5,7 @@ import com.tangykiwi.kiwiclient.modules.settings.Setting;
 import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import com.tangykiwi.kiwiclient.util.font.IFont;
-import com.tangykiwi.kiwiclient.util.render.RenderUtils;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
@@ -52,7 +51,7 @@ public class ModuleWindow extends ClickGuiWindow {
 	}
 
 	// numMods lines max
-	public void render(MatrixStack matrices, int mouseX, int mouseY) {
+	public void render(DrawContext context, int mouseX, int mouseY) {
 		int lines = getLines();
 		boolean scrollable = lines > numMods;
 
@@ -68,7 +67,7 @@ public class ModuleWindow extends ClickGuiWindow {
 
 		max = start + numMods;
 
-		super.render(matrices, mouseX, mouseY);
+		super.render(context, mouseX, mouseY);
 
 		if (hiding) return;
 
@@ -81,25 +80,25 @@ public class ModuleWindow extends ClickGuiWindow {
 		for (Entry<Module, Boolean> m : mods.entrySet()) {
 			if(index >= start) {
 				if (mouseOver(x, y + curY, x + len, y + 12 + curY)) {
-					DrawableHelper.fill(matrices, x, y + curY, x + len, y + 12 + curY, 0x70303070);
+					context.fill(x, y + curY, x + len, y + 12 + curY, 0x70303070);
 				}
 
 				// If they match: Module gets marked red
 				if (searchedModules != null && searchedModules.contains(m.getKey())) {
-					DrawableHelper.fill(matrices, x, y + curY, x + len, y + 12 + curY, 0x50ff0000);
+					context.fill(x, y + curY, x + len, y + 12 + curY, 0x50ff0000);
 				}
 
-				textRend.drawStringWithShadow(matrices, textRend.trimStringToWidth(m.getKey().getName(), len),
+				textRend.drawStringWithShadow(context.getMatrices(), textRend.trimStringToWidth(m.getKey().getName(), len),
 						x + 2, y + 2 + curY, m.getKey().isEnabled() ? 0x70efe0 : 0xc0c0c0, 1);
 
 				String color2 = m.getValue() ? "\u00a7a" : "\u00a7c";
 				if(!m.getKey().getSettings().isEmpty()) {
 					if (m.getValue()) {
-						IFont.CONSOLAS.drawString(matrices,
+						IFont.CONSOLAS.drawString(context.getMatrices(),
 								color2 + "v",
 								x + len - 8, y + 2 + curY, -1, 1);
 					} else if (m.getKey().getSettings().size() > 1){
-						IFont.CONSOLAS.drawStringWithShadow(matrices,
+						IFont.CONSOLAS.drawStringWithShadow(context.getMatrices(),
 								color2 + "\u00a7l>",
 								x + len - 8, y + 2 + curY, -1, 1);
 					}
@@ -130,13 +129,13 @@ public class ModuleWindow extends ClickGuiWindow {
 			if (m.getValue()) {
 				for (Setting s : m.getKey().getSettings()) {
 					if(index >= start) {
-						index = s.render(this, matrices, x + 1, y + curY, len - 1, index, max);
+						index = s.render(this, context, x + 1, y + curY, len - 1, index, max);
 
 						if (!s.getDesc().isEmpty() && mouseOver(x + 2, y + curY, x + len, y + s.getHeight(len) + curY)) {
 							tooltip = s.getGuiDesc(this, x + 1, y + curY, len - 1);
 						}
 
-						DrawableHelper.fill(matrices, x + 1, y + curY, x + 2, y + curY + s.getHeight(len), 0xff8070b0);
+						context.fill(x + 1, y + curY, x + 2, y + curY + s.getHeight(len), 0xff8070b0);
 
 						curY += s.getHeight(len);
 					}
@@ -156,7 +155,7 @@ public class ModuleWindow extends ClickGuiWindow {
 		if (scrollable) {
 			int scrollbarTop = y + (y2 - y - 2) * start / lines;
 			int scrollbarBottom = y + (y2 - y - 2) * max / lines - 2;
-			DrawableHelper.fill(matrices, x2 - 2, scrollbarTop, x2 - 1, scrollbarBottom, Color.WHITE.getRGB());
+			context.fill(x2 - 2, scrollbarTop, x2 - 1, scrollbarBottom, Color.WHITE.getRGB());
 		}
 	}
 

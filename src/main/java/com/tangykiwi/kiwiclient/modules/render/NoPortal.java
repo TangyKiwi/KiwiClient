@@ -18,8 +18,7 @@ public class NoPortal extends Module {
     @Subscribe
     public void onClientMove(OnMoveEvent event) {
         if (doesBoxTouchBlock(mc.player.getBoundingBox(), Blocks.NETHER_PORTAL)) {
-            mc.player.lastNauseaStrength = -1f;
-            mc.player.nextNauseaStrength = -1f;
+            mc.player.nauseaIntensity = -1f;
         }
     }
 

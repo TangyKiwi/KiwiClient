@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.gui.window.widget;
 
 import com.tangykiwi.kiwiclient.util.font.IFont;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.RotationAxis;
 
@@ -27,8 +28,10 @@ public class WindowTextWidget extends WindowWidget {
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int windowX, int windowY, int mouseX, int mouseY) {
-		super.render(matrices, windowX, windowY, mouseX, mouseY);
+	public void render(DrawContext context, int windowX, int windowY, int mouseX, int mouseY) {
+		super.render(context, windowX, windowY, mouseX, mouseY);
+
+		MatrixStack matrices = context.getMatrices();
 
 		float offset = IFont.CONSOLAS.getStringWidth(text) * align.offset * scale;
 
