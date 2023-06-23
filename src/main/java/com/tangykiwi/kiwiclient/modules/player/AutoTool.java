@@ -25,7 +25,9 @@ public class AutoTool extends Module {
 
     @Override
     public void onEnable() {
-        slot = mc.player.getInventory().selectedSlot;
+        if (mc.player != null) {
+            slot = mc.player.getInventory().selectedSlot;
+        }
 
         super.onEnable();
     }

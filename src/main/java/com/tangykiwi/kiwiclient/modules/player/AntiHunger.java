@@ -19,14 +19,18 @@ public class AntiHunger extends Module {
     public AntiHunger() {
         super("AntiHunger", "Reduces hunger consumption", KEY_UNBOUND, Category.PLAYER,
             new ToggleSetting("Spoof Sprint", true).withDesc("Spoofs sprinting packets"),
-            new ToggleSetting("Spoon OnGround", true).withDesc("Spoofs OnGround flag"));
+            new ToggleSetting("Spoof OnGround", true).withDesc("Spoofs OnGround flag"));
     }
 
     @Override
     public void onEnable() {
         super.onEnable();
 
-        lastOnGround = mc.player.isOnGround();
+        if (mc.player == null) {
+            lastOnGround = true;
+        } else {
+            lastOnGround = mc.player.isOnGround();
+        }
         sendOnGroundTruePacket = true;
     }
 
