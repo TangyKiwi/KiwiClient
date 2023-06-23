@@ -5,12 +5,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
-import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
@@ -22,7 +19,6 @@ public class InventoryViewer extends Module {
     @Subscribe
     public void onDrawOverlay(DrawOverlayEvent e) {
         DrawContext context = e.getContext();
-        ItemRenderer itemRenderer = mc.getItemRenderer();
         ClientPlayerEntity player = mc.player;
 
         int scaledWidth = mc.getWindow().getScaledWidth();

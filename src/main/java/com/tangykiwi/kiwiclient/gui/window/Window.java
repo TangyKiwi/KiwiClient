@@ -96,16 +96,15 @@ public class Window {
 
 		/* window icon */
 		if (icon != null) {
-			RenderSystem.getModelViewStack().push();
-			RenderSystem.getModelViewStack().translate(x1 + (blockItem ? 3 : 2), y1 + 1, 0);
-			RenderSystem.getModelViewStack().scale(0.6f, 0.6f, 1f);
+			matrices.push();
+			matrices.translate(x1 + (blockItem ? 3 : 2), y1 + 1, 0);
+			matrices.scale(0.6f, 0.6f, 1f);
 
 			DiffuseLighting.enableGuiDepthLighting();
 			context.drawItem(icon, 0, 0);
 			DiffuseLighting.disableGuiDepthLighting();
 
-			RenderSystem.getModelViewStack().pop();
-			RenderSystem.applyModelViewMatrix();
+			matrices.pop();
 		}
 
 		/* window title */
