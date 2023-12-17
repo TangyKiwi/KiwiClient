@@ -36,7 +36,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class InGameHudMixin {
     @Inject(method="render", at=@At(value="TAIL"), cancellable=true)
     private void render(DrawContext context, float tickDelta, CallbackInfo info){
-        if(!MinecraftClient.getInstance().options.debugEnabled) {
+        if(!MinecraftClient.getInstance().getDebugHud().shouldShowDebugHud()) {
             MinecraftClient client = MinecraftClient.getInstance();
             MatrixStack matrixStack = new MatrixStack();
 

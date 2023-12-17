@@ -84,7 +84,7 @@ public class Server extends Command {
         if (singleplayer)
             return "Integrated Server";
 
-        return Utils.mc.player.getServerBrand() != null ? Utils.mc.player.getServerBrand() : "Unknown";
+        return Utils.mc.getNetworkHandler().getBrand() != null ? Utils.mc.getNetworkHandler().getBrand() : "Unknown";
     }
 
     public String getDay() {

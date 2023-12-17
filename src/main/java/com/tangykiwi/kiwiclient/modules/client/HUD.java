@@ -55,7 +55,7 @@ public class HUD extends Module {
     
     @Subscribe
     public void onDrawOverlay(DrawOverlayEvent e) {
-        if(!mc.options.debugEnabled) {
+        if(!mc.getDebugHud().shouldShowDebugHud()) {
             DrawContext context = e.getContext();
             MatrixStack matrixStack = context.getMatrices();
             GlyphPageFontRenderer textRenderer = IFont.CONSOLAS;
@@ -135,7 +135,7 @@ public class HUD extends Module {
             case 3:
                 this.ip = "IP: Singleplayer";
                 if(mc.getCurrentServerEntry() != null) {
-                    if(mc.isConnectedToRealms()) {
+                    if(mc.getCurrentServerEntry().isRealm()) {
                         this.ip = "IP: " + mc.getCurrentServerEntry().name;
                     }
                     else this.ip = "IP: " + mc.getCurrentServerEntry().address;

@@ -25,7 +25,6 @@
     "ClientPlayNetworkHandlerMixin",
     "ClientWorldMixin",
     "CreativeInventoryScreenAccessor",
-    "CustomPayloadC2SPacketAccessor",
     "DrawContextMixin",
     "EntityAccessor",
     "EntityBucketItemMixin",

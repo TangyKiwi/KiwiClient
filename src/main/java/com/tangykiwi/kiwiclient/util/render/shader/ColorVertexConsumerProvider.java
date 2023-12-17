@@ -1,17 +1,12 @@
 package com.tangykiwi.kiwiclient.util.render.shader;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.jellysquid.mods.sodium.client.render.vertex.VertexBufferWriter;
-import me.jellysquid.mods.sodium.client.render.vertex.VertexFormatDescription;
-import me.jellysquid.mods.sodium.client.render.vertex.transform.VertexTransform;
-import me.jellysquid.mods.sodium.client.util.color.ColorABGR;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.RenderPhase.TextureBase;
 import net.minecraft.util.Identifier;
-import org.lwjgl.system.MemoryStack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +58,7 @@ public class ColorVertexConsumerProvider {
 
     public void setFramebuffer(Framebuffer framebuffer) {
         layerCreator = memoizeTexture(texture -> new RenderLayer(
-                "bleachhack_outline", VertexFormats.POSITION_COLOR_TEXTURE, VertexFormat.DrawMode.QUADS, 256, false, false,
+                "kiwiclient_outline", VertexFormats.POSITION_COLOR_TEXTURE, VertexFormat.DrawMode.QUADS, 256, false, false,
                 () -> {
                     texture.startDrawing();
                     RenderSystem.setShader(shader);
@@ -85,7 +80,7 @@ public class ColorVertexConsumerProvider {
     public void draw() {
         this.plainDrawer.draw();
     }
-    public static class ColorVertexConsumer extends FixedColorVertexConsumer implements VertexBufferWriter {
+    public static class ColorVertexConsumer extends FixedColorVertexConsumer /*implements VertexBufferWriter*/ {
         private final VertexConsumer delegate; // plainBuffer
         private double x;
         private double y;
@@ -146,10 +141,10 @@ public class ColorVertexConsumerProvider {
             this.delegate.vertex(this.x, this.y, this.z).color(this.fixedRed, this.fixedGreen, this.fixedBlue, this.fixedAlpha).texture(this.u, this.v).next();
         }
 
-        @Override
-        public void push(MemoryStack stack, long ptr, int count, VertexFormatDescription format) {
-            VertexTransform.transformColor(ptr, count, format, ColorABGR.pack(this.fixedRed, this.fixedGreen, this.fixedBlue, this.fixedAlpha));
-            VertexBufferWriter.of(this.delegate).push(stack, ptr, count, format);
-        }
+//        @Override
+//        public void push(MemoryStack stack, long ptr, int count, VertexFormatDescription format) {
+//            VertexTransform.transformColor(ptr, count, format, ColorABGR.pack(this.fixedRed, this.fixedGreen, this.fixedBlue, this.fixedAlpha));
+//            VertexBufferWriter.of(this.delegate).push(stack, ptr, count, format);
+//        }
     }
 }

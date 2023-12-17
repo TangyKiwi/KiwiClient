@@ -17,6 +17,17 @@ public class DummyClientWorld extends ClientWorld {
     }
 
     private DummyClientWorld(DummyClientPlayNetworkHandler dummyClientPlayNetworkHandler) {
-        super(dummyClientPlayNetworkHandler, new Properties(Difficulty.EASY, false, true), World.OVERWORLD, dummyClientPlayNetworkHandler.getRegistryManager().get(RegistryKeys.DIMENSION_TYPE).entryOf(DimensionTypes.OVERWORLD), 0,0, MinecraftClient.getInstance()::getProfiler, MinecraftClient.getInstance().worldRenderer, false, 0);
+        super(
+                dummyClientPlayNetworkHandler,
+                new Properties(Difficulty.EASY, false, true),
+                World.OVERWORLD,
+                dummyClientPlayNetworkHandler.getRegistryManager().get(RegistryKeys.DIMENSION_TYPE).entryOf(DimensionTypes.OVERWORLD),
+                0,
+                0,
+                MinecraftClient.getInstance()::getProfiler,
+                MinecraftClient.getInstance().worldRenderer,
+                false,
+                0
+        );
     }
 }

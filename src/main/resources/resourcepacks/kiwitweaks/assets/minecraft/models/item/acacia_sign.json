@@ -1,0 +1,6 @@
+{
+	"parent": "item/sign",
+	"textures": {
+		"texture": "entity/signs/acacia"
+	}
+}

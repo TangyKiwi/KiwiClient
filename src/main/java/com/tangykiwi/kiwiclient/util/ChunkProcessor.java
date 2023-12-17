@@ -88,15 +88,15 @@ public class ChunkProcessor {
         } else if (loadChunkConsumer != null && event.getPacket() instanceof ChunkDataS2CPacket) {
             ChunkDataS2CPacket packet = (ChunkDataS2CPacket) event.getPacket();
 
-            ChunkPos cp = new ChunkPos(packet.getX(), packet.getZ());
+            ChunkPos cp = new ChunkPos(packet.getChunkX(), packet.getChunkZ());
             WorldChunk chunk = new WorldChunk(MinecraftClient.getInstance().world, cp);
-            chunk.loadFromPacket(packet.getChunkData().getSectionsDataBuf(), new NbtCompound(), packet.getChunkData().getBlockEntities(packet.getX(), packet.getZ()));
+            chunk.loadFromPacket(packet.getChunkData().getSectionsDataBuf(), new NbtCompound(), packet.getChunkData().getBlockEntities(packet.getChunkX(), packet.getChunkZ()));
 
             executor.execute(() -> loadChunkConsumer.accept(cp, chunk));
         } else if (unloadChunkConsumer != null && event.getPacket() instanceof UnloadChunkS2CPacket) {
             UnloadChunkS2CPacket packet = (UnloadChunkS2CPacket) event.getPacket();
 
-            ChunkPos cp = new ChunkPos(packet.getX(), packet.getZ());
+            ChunkPos cp = new ChunkPos(packet.pos().x, packet.pos().z);
             WorldChunk chunk = MinecraftClient.getInstance().world.getChunk(cp.x, cp.z);
 
             executor.execute(() -> unloadChunkConsumer.accept(cp, chunk));

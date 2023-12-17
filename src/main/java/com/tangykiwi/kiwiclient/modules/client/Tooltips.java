@@ -67,8 +67,12 @@ public class Tooltips extends Module {
                             NbtCompound effectTag = effects.getCompound(i);
                             byte effectId = effectTag.getByte("EffectId");
                             int effectDuration = effectTag.contains("EffectDuration") ? effectTag.getInt("EffectDuration") : 160;
-                            StatusEffectInstance effect = new StatusEffectInstance(StatusEffect.byRawId(effectId), effectDuration, 0);
-                            event.list.add(1, getStatusText(effect));
+                            StatusEffect type = Registries.STATUS_EFFECT.get(effectId);
+
+                            if (type != null) {
+                                StatusEffectInstance effect = new StatusEffectInstance(type, effectDuration, 0);
+                                event.list.add(1, getStatusText(effect));
+                            }
                         }
                     }
                 }
@@ -150,9 +154,9 @@ public class Tooltips extends Module {
     private MutableText getStatusText(StatusEffectInstance effect) {
         MutableText text = Text.translatable(effect.getTranslationKey());
         if (effect.getAmplifier() != 0) {
-            text.append(String.format(" %d (%s)", effect.getAmplifier() + 1, StatusEffectUtil.getDurationText(effect, 1).getString()));
+            text.append(String.format(" %d (%s)", effect.getAmplifier() + 1, StatusEffectUtil.getDurationText(effect, 1, mc.world.getTickManager().getTickRate()).getString()));
         } else {
-            text.append(String.format(" (%s)", StatusEffectUtil.getDurationText(effect, 1).getString()));
+            text.append(String.format(" (%s)", StatusEffectUtil.getDurationText(effect, 1, mc.world.getTickManager().getTickRate()).getString()));
         }
         if (effect.getEffectType().isBeneficial()) {
             return text.formatted(Formatting.BLUE);

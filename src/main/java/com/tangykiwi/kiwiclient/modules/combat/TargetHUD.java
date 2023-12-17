@@ -74,7 +74,7 @@ public class TargetHUD extends Module {
 
         playerEntity = getNearestPlayer();
         if(playerEntity == null) return;
-        InventoryScreen.drawEntity(context, x + 26, y + 70, 30 , -MathHelper.wrapDegrees(playerEntity.prevYaw + (playerEntity.getYaw() - playerEntity.prevYaw) * mc.getTickDelta()), -playerEntity.getPitch(), playerEntity);
+        InventoryScreen.drawEntity(context, x + 26, y + 70, x + 26, y + 70, 30, 0, -MathHelper.wrapDegrees(playerEntity.prevYaw + (playerEntity.getYaw() - playerEntity.prevYaw) * mc.getTickDelta()), -playerEntity.getPitch(), playerEntity);
 
         // Health bar
         x = scaledWidth - 164;
@@ -112,7 +112,7 @@ public class TargetHUD extends Module {
         String breakText = " | ";
 
         // Name
-        String nameText = playerEntity.getEntityName();
+        String nameText = playerEntity.getNameForScoreboard();
 
         // Health
         String healthText = String.format("%.1f", playerEntity.getHealth());

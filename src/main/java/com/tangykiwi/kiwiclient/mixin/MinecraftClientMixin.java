@@ -58,7 +58,7 @@ public class MinecraftClientMixin {
             if (client.getServer() != null && !client.getServer().isRemote()) {
                 title += I18n.translate("title.singleplayer");
                 discordRPC.update("Playing", "Singleplayer");
-            } else if (client.isConnectedToRealms()) {
+            } else if (client.getCurrentServerEntry().isRealm()) {
                 title += I18n.translate("title.multiplayer.realms");
                 discordRPC.update("Playing", "Realms");
             } else if (client.getServer() == null && (client.getCurrentServerEntry() == null || !client.getCurrentServerEntry().isLocal())) {

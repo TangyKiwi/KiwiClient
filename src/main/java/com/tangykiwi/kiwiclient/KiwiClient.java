@@ -48,9 +48,9 @@ public class KiwiClient implements ModInitializer {
 	public static Identifier CAPE = new Identifier("kiwiclient:textures/cosmetic/cape/cape.png");
 	public static Identifier CAPE2 = new Identifier("kiwiclient:textures/cosmetic/cape/gura_cape.png");
 	public static Identifier CAPE3 = new Identifier("kiwiclient:textures/cosmetic/cape/ahri_nsfw_cape.png");
-	public static Identifier MENU = new Identifier("kiwiclient:textures/background/background1.jpg");
-	public static Identifier MENU2 = new Identifier("kiwiclient:textures/background/background2.jpg");
-	public static Identifier MENU3 = new Identifier("kiwiclient:textures/background/background3.jpg");
+	public static Identifier MENU = new Identifier("kiwiclient:textures/background/background1.png");
+	public static Identifier MENU2 = new Identifier("kiwiclient:textures/background/background2.png");
+	public static Identifier MENU3 = new Identifier("kiwiclient:textures/background/background3.png");
 
 	public static KeyBinding zoomKey = new KeyBinding("kiwiclient.zoom", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_5, "KiwiClient");
 

@@ -6,10 +6,12 @@ import com.tangykiwi.kiwiclient.event.WorldRenderEvent;
 import com.tangykiwi.kiwiclient.modules.player.AntiBlind;
 import com.tangykiwi.kiwiclient.modules.render.ESP;
 import com.tangykiwi.kiwiclient.modules.render.NoRender;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.render.*;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -67,13 +69,23 @@ public class WorldRendererMixin {
         KiwiClient.eventBus.post(event);
     }
 
+    @Unique
+    private static boolean SODIUM_INSTALLED = FabricLoader.getInstance().isModLoaded("sodium");
+
     @Redirect(method = "renderEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/EntityRenderDispatcher;render(Lnet/minecraft/entity/Entity;DDDFFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V"))
     public <E extends Entity> void renderEntity_render(EntityRenderDispatcher dispatcher, E entity, double x, double y, double z, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         EntityRenderEvent.Single.Pre event = new EntityRenderEvent.Single.Pre(entity, matrices, vertexConsumers);
         KiwiClient.eventBus.post(event);
 
         if (!event.isCancelled()) {
-            dispatcher.render(event.getEntity(), x, y, z, yaw, tickDelta, event.getMatrix(), event.getVertex(), light);
+            try {
+                dispatcher.render(event.getEntity(), x, y, z, yaw, tickDelta, event.getMatrix(), SODIUM_INSTALLED ? vertexConsumers : event.getVertex(), light);
+            } catch (Exception e) {
+                System.out.println("Disabling Entity Rendering Mixin, another mod conflicting?");
+                e.printStackTrace();
+                SODIUM_INSTALLED = true;
+            }
+            //dispatcher.render(event.getEntity(), x, y, z, yaw, tickDelta, event.getMatrix(), event.getVertex(), light);
         }
     }
 }

@@ -32,7 +32,7 @@ public class ActiveMods extends Module {
         DrawContext context = e.getContext();
         MatrixStack matrixStack = context.getMatrices();
 
-        if(!mc.options.debugEnabled) {
+        if(!mc.getDebugHud().shouldShowDebugHud()) {
             GlyphPageFontRenderer textRenderer = IFont.CONSOLAS;
 
             int count = 0;

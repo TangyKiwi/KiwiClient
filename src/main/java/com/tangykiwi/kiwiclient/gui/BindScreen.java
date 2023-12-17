@@ -24,8 +24,6 @@ public class BindScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderBackground(context);
-
         MatrixStack matrices = context.getMatrices();
 
         IFont.CONSOLAS.drawCenteredString(matrices, "Press a Key", width / 2D, height / 2D - IFont.CONSOLAS.getFontHeight(), Color.WHITE.getRGB(), 1);
@@ -47,7 +45,6 @@ public class BindScreen extends Screen {
             }
         }
         IFont.CONSOLAS.drawCenteredString(matrices, "Current Key: " + kn, width / 2D, height / 2D  + IFont.CONSOLAS.getFontHeight(), Color.WHITE.getRGB(), 1);
-        super.render(context, mouseX, mouseY, delta);
     }
 
     @Override

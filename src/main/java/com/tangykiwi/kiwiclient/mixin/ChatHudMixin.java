@@ -14,8 +14,8 @@ import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.option.ChatVisibility;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.network.message.ChatVisibility;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
@@ -153,7 +153,7 @@ public abstract class ChatHudMixin implements IChatHUD {
             if (part.isBlank()) continue;
             PlayerListEntry p = mc.getNetworkHandler().getPlayerListEntry(part);
             if (p != null) {
-                return p.getSkinTexture();
+                return p.getSkinTextures().texture();
             }
         }
         return new Identifier("kiwiclient:textures/hud/terminal.png");

@@ -129,7 +129,7 @@ public class ChunkRebuildTaskMixin {
                 RenderLayer renderLayer2 = (RenderLayer)var15.next();
                 BufferBuilder.BuiltBuffer builtBuffer = buffers.get(renderLayer2).endNullable();
                 if (builtBuffer != null) {
-                    renderData.field_39081.put(renderLayer2, builtBuffer);
+                    renderData.buffers.put(renderLayer2, builtBuffer);
                 }
             }
 

@@ -12,8 +12,6 @@ import com.tangykiwi.kiwiclient.modules.settings.SliderSetting;
 import com.tangykiwi.kiwiclient.modules.settings.ToggleSetting;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.FernBlock;
-import net.minecraft.block.TallPlantBlock;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.render.RenderLayer;
 

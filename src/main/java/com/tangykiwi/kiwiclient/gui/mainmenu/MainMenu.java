@@ -4,8 +4,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
-import com.tangykiwi.kiwiclient.gui.AccountButtonWidget;
-import com.tangykiwi.kiwiclient.gui.AccountManagerScreen;
 import com.tangykiwi.kiwiclient.gui.mainmenu.dummy.DummyClientPlayerEntity;
 import com.tangykiwi.kiwiclient.gui.mainmenu.particles.ParticleManager;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
@@ -25,7 +23,6 @@ import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -59,19 +56,10 @@ public class MainMenu extends Screen {
         buttonList.add(new GuiButton(4, xMid + 90, initHeight, objWidth, objHeight, BUTTONS[4]));
         buttonList.add(new GuiButton(5, xMid + 150, initHeight, objWidth, objHeight, BUTTONS[5]));
 
-        MinecraftClient.getInstance().getSkinProvider().loadSkin(new GameProfile(this.client.getSession().getProfile().getId(), "cskin"), (type, identifier, minecraftProfileTexture) -> {
-            if (type == MinecraftProfileTexture.Type.SKIN) {
-                skin = identifier;
-            }
-        }, false);
-
-        this.addDrawableChild(new AccountButtonWidget(this, this.width - 20, this.height - 20, btn -> client.setScreen(new AccountManagerScreen())));
-
+        skin = MinecraftClient.getInstance().getSkinProvider().getSkinTextures(new GameProfile(this.client.getSession().getUuidOrNull(), "cskin")).texture();
     }
 
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderBackground(context);
-
         context.drawTexture(KiwiClient.MENU, 0, 0, 20 * mouseX / this.width,  20 * mouseY / this.height, this.width + 20 * mouseX / this.width, this.height + 20 * mouseY / this.height, this.width + 40, this.height + 40);
         context.fillGradient(0, 0, this.width, this.height, 0x00000000, 0xff000000);
 
@@ -98,16 +86,14 @@ public class MainMenu extends Screen {
             context.drawTexture(skin, 2, this.height - 8 * renderScale - 2, 8 * renderScale, 8 * renderScale, 40 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 64 * renderScale, 64 * renderScale);
             IFont.CONSOLAS.drawString(context.getMatrices(), this.client.getSession().getUsername(), 8 * renderScale + 3, this.height - IFont.CONSOLAS.getFontHeight() - 2, ColorUtil.getRainbow(4, 0.8f, 1), 1);
         }
-        else {
-            ClientPlayerEntity player = DummyClientPlayerEntity.getInstance();
-            int height = this.height - 7;
-            int playerX = 20;
-            RenderSystem.setShaderTexture(0, player.getSkinTexture());
-            InventoryScreen.drawEntity(context, playerX, height, 30, -mouseX + playerX, -mouseY + height - 30, player);
-            IFont.CONSOLAS.drawString(context.getMatrices(), this.client.getSession().getUsername(), 35, this.height - IFont.CONSOLAS.getFontHeight() - 4, ColorUtil.getRainbow(4, 0.8f, 1), 1);
-        }
-
-        super.render(context, mouseX, mouseY, delta);
+//        else {
+//            ClientPlayerEntity player = DummyClientPlayerEntity.getInstance();
+//            int height = this.height - 7;
+//            int playerX = 20;
+//            RenderSystem.setShaderTexture(0, player.getSkinTextures().texture());
+//            InventoryScreen.drawEntity(context, playerX, height, playerX, height, 30, delta, -mouseX + playerX, -mouseY + height - 30, player);
+//            IFont.CONSOLAS.drawString(context.getMatrices(), this.client.getSession().getUsername(), 35, this.height - IFont.CONSOLAS.getFontHeight() - 4, ColorUtil.getRainbow(4, 0.8f, 1), 1);
+//        }
     }
 
     public boolean mouseClicked(double mouseX, double mouseY, int button) {

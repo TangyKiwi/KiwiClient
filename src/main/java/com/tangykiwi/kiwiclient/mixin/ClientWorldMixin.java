@@ -6,7 +6,6 @@ import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.modules.client.Time;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Final;
@@ -22,8 +21,8 @@ public class ClientWorldMixin {
     @Final
     private ClientWorld.Properties clientWorldProperties;
 
-    @Inject(method = "addEntityPrivate", at = @At("TAIL"))
-    private void onAddEntityPrivate(int id, Entity entity, CallbackInfo info) {
+    @Inject(method = "addEntity", at = @At("TAIL"))
+    private void onAddEntity(Entity entity, CallbackInfo info) {
         if (entity != null) {
             EntityAddedEvent event = new EntityAddedEvent(entity);
             KiwiClient.eventBus.post(event);

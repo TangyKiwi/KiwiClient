@@ -23,23 +23,13 @@ public class DummyClientPlayerEntity extends ClientPlayerEntity {
     }
 
     private DummyClientPlayerEntity() {
-        super(MinecraftClient.getInstance(), DummyClientWorld.getInstance(), DummyClientPlayNetworkHandler.getInstance(), null, null,false, false);
-        MinecraftClient.getInstance().getSkinProvider().loadSkin(getGameProfile(), (type, identifier, texture) -> skinIdentifier = identifier, true);
+        super(MinecraftClient.getInstance(), DummyClientWorld.getInstance(), DummyClientPlayNetworkHandler.getInstance(), null, null, false, false);
+        skinIdentifier = MinecraftClient.getInstance().getSkinProvider().getSkinTextures(getGameProfile()).texture();
     }
 
     @Override
     public boolean isPartVisible(PlayerModelPart modelPart) {
         return true;
-    }
-
-    @Override
-    public boolean hasSkinTexture() {
-        return true;
-    }
-
-    @Override
-    public Identifier getSkinTexture() {
-        return skinIdentifier == null ? DefaultSkinHelper.getTexture(this.getUuid()) : skinIdentifier;
     }
 
     @Nullable

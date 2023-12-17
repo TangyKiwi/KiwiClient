@@ -1,10 +1,12 @@
 package com.tangykiwi.kiwiclient.gui.mainmenu.dummy;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientConnectionState;
 import net.minecraft.client.network.ClientDynamicRegistryType;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.util.telemetry.TelemetrySender;
-import net.minecraft.client.util.telemetry.WorldSession;
+import net.minecraft.client.network.ServerInfo;
+import net.minecraft.client.session.telemetry.TelemetrySender;
+import net.minecraft.client.session.telemetry.WorldSession;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.NetworkSide;
 import net.minecraft.registry.CombinedDynamicRegistries;
@@ -13,6 +15,10 @@ import net.minecraft.registry.RegistryLoader;
 import net.minecraft.resource.LifecycledResourceManagerImpl;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.VanillaDataPackProvider;
+import net.minecraft.resource.VanillaResourcePackProvider;
+import net.minecraft.resource.featuretoggle.FeatureSet;
+import net.minecraft.util.path.AllowedSymlinkPathMatcher;
+import net.minecraft.util.path.SymlinkFinder;
 
 import java.time.Duration;
 import java.util.List;
@@ -28,13 +34,21 @@ public class DummyClientPlayNetworkHandler extends ClientPlayNetworkHandler {
         return instance;
     }
 
-    public static void newInstance() {
-        instance = new DummyClientPlayNetworkHandler();
-    }
-
     private DummyClientPlayNetworkHandler() {
-        super(MinecraftClient.getInstance(), null, new ClientConnection(NetworkSide.CLIENTBOUND), null, MinecraftClient.getInstance().getSession().getProfile(), new WorldSession(TelemetrySender.NOOP, true, Duration.ZERO, "dummy"));
-        LifecycledResourceManagerImpl manager = new LifecycledResourceManagerImpl(ResourceType.SERVER_DATA, List.of(new VanillaDataPackProvider().getResourcePack()));
+        super(
+                MinecraftClient.getInstance(),
+                new ClientConnection(NetworkSide.CLIENTBOUND),
+                new ClientConnectionState(
+                        MinecraftClient.getInstance().getGameProfile(),
+                        new WorldSession(TelemetrySender.NOOP, true, Duration.ZERO, "dummy"),
+                        ClientDynamicRegistryType.createCombinedDynamicRegistries().getCombinedRegistryManager(),
+                        FeatureSet.empty(),
+                        "",
+                        new ServerInfo("", "", ServerInfo.ServerType.OTHER),
+                        null
+                )
+        );
+        LifecycledResourceManagerImpl manager = new LifecycledResourceManagerImpl(ResourceType.SERVER_DATA, List.of());
 
         combinedDynamicRegistries = combinedDynamicRegistries.with(ClientDynamicRegistryType.REMOTE,
             RegistryLoader.load(manager, combinedDynamicRegistries.getCombinedRegistryManager(), Stream.concat(
@@ -45,7 +59,7 @@ public class DummyClientPlayNetworkHandler extends ClientPlayNetworkHandler {
     }
 
     @Override
-    public DynamicRegistryManager getRegistryManager() {
+    public DynamicRegistryManager.Immutable getRegistryManager() {
         return combinedDynamicRegistries.getCombinedRegistryManager();
     }
 }

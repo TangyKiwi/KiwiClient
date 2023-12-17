@@ -21,7 +21,8 @@ public abstract class ClickGuiScreen extends WindowScreen {
 	protected boolean lmDown = false;
 	protected boolean rmDown = false;
 	protected boolean lmHeld = false;
-	protected int mwScroll = 0;
+	protected int mwhScroll = 0;
+	protected int mwvScroll = 0;
 
 	public ClickGuiScreen(Text title) {
 		super(title);
@@ -38,11 +39,11 @@ public abstract class ClickGuiScreen extends WindowScreen {
 	}
 
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		this.renderBackground(context);
+		this.renderBackground(context, mouseX, mouseY, delta);
 
 		for (Window w : getWindows()) {
 			if (w instanceof ClickGuiWindow) {
-				((ClickGuiWindow) w).updateKeys(mouseX, mouseY, keyDown, lmDown, rmDown, lmHeld, mwScroll);
+				((ClickGuiWindow) w).updateKeys(mouseX, mouseY, keyDown, lmDown, rmDown, lmHeld, mwvScroll);
 			}
 		}
 
@@ -101,7 +102,8 @@ public abstract class ClickGuiScreen extends WindowScreen {
 		lmDown = false;
 		rmDown = false;
 		keyDown = -1;
-		mwScroll = 0;
+		mwhScroll = 0;
+		mwvScroll = 0;
 	}
 
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
@@ -133,8 +135,9 @@ public abstract class ClickGuiScreen extends WindowScreen {
 		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
 
-	public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-		mwScroll = (int) amount;
-		return super.mouseScrolled(mouseX, mouseY, amount);
+	public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+		mwhScroll = (int) horizontalAmount;
+		mwvScroll = (int) verticalAmount;
+		return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
 	}
 }
