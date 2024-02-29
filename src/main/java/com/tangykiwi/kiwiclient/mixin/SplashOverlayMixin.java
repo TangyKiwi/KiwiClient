@@ -26,7 +26,6 @@ public class SplashOverlayMixin {
 
     @Inject(method = "init(Lnet/minecraft/client/MinecraftClient;)V", at = @At("TAIL"), cancellable=true)
     private static void init(MinecraftClient client, CallbackInfo ci) {
-//        Utils.mc.getWindow().setIcon(InputSupplier.create(Paths.get(new File(SplashOverlayMixin.class.getResource("/assets/kiwiclient/icon64.png").getFile()).getPath())), InputSupplier.create(Paths.get(new File(SplashOverlayMixin.class.getResource("/assets/kiwiclient/icon128.png").getFile()).getPath())));
         if(KiwiClient.moduleManager.getModule(com.tangykiwi.kiwiclient.modules.other.LoadingScreen.class).isEnabled()) {
             client.getTextureManager().registerTexture(LOGO, new LoadingScreen(LOGO));
         }
