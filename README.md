@@ -161,6 +161,7 @@ If you use **ANY** code from the source:
 [Atomic](https://gitlab.com/0x151/atomic)  
 [JexClient](https://github.com/DustinRepo/JexClient)  
 [Wurst](https://github.com/Wurst-Imperium/Wurst7)  
+[ThunderHack-Recode](https://github.com/Pan4ur/ThunderHack-Recode)  
 [Font Renderer](https://github.com/SprayDown/CustomFont-Rendering)
 
 **Resource Pack**:  
