@@ -6,6 +6,9 @@ import com.tangykiwi.kiwiclient.modules.ModuleManager;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.modules.player.ArmorSwap;
 import com.tangykiwi.kiwiclient.util.*;
+import com.tangykiwi.kiwiclient.util.discord.DiscordEventHandlers;
+import com.tangykiwi.kiwiclient.util.discord.DiscordRPC;
+import com.tangykiwi.kiwiclient.util.discord.DiscordRichPresence;
 import com.tangykiwi.kiwiclient.util.render.CustomMatrix;
 import com.tangykiwi.kiwiclient.util.tooltip.EChestMemory;
 import net.fabricmc.api.ModInitializer;
@@ -37,7 +40,8 @@ public class KiwiClient implements ModInitializer {
 
 	public static String name = "KiwiClient " + SharedConstants.getGameVersion().getName(), version = "8.14.51";
 
-	public static DiscordRP discordRPC;
+	public static DiscordRichPresence discordRPC;
+	public static DiscordRPC rpc = DiscordRPC.INSTANCE;
 	public static ModuleManager moduleManager;
 	public static CommandManager commandManager;
 	public static String PREFIX = ",";
@@ -67,8 +71,8 @@ public class KiwiClient implements ModInitializer {
 		commandManager = new CommandManager();
 		commandManager.init();
 
-		discordRPC = new DiscordRP();
-		discordRPC.start();
+		discordRPC = new DiscordRichPresence();
+		startRPC();
 
 		EChestMemory eChestMemory = new EChestMemory();
 		TickRate tickRate = new TickRate();
@@ -86,24 +90,24 @@ public class KiwiClient implements ModInitializer {
 			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("kiwiclient:kiwitweaks"), "resourcepacks/kiwitweaks", modContainer, true);
 		});
 
-		UseItemCallback.EVENT.register((player, world, hand) -> {
-			MinecraftClient mc = MinecraftClient.getInstance();
-			ClientPlayerInteractionManager interactionManager = mc.interactionManager;
-			if (mc.mouse.wasRightButtonClicked() && moduleManager.getModule(ArmorSwap.class).isEnabled()) {
-				ItemStack stack = player.getMainHandStack();
-				int currentItemIndex = player.getInventory().main.indexOf(stack);
-				EquipmentSlot equipmentSlot = MobEntity.getPreferredEquipmentSlot(stack);
-				int armorIndexSlot = determineIndex(equipmentSlot);
-
-				if (hand == Hand.MAIN_HAND && armorIndexSlot != -1) {
-					SoundEvent sound = determineSound(stack.getItem());
-					player.playSound(sound, 1.0F, 1.0F);
-					interactionManager.clickSlot(player.playerScreenHandler.syncId, armorIndexSlot, currentItemIndex, SlotActionType.SWAP, player);
-					return TypedActionResult.success(stack);
-				}
-			}
-			return TypedActionResult.pass(ItemStack.EMPTY);
-		});
+//		UseItemCallback.EVENT.register((player, world, hand) -> {
+//			MinecraftClient mc = MinecraftClient.getInstance();
+//			ClientPlayerInteractionManager interactionManager = mc.interactionManager;
+//			if (mc.mouse.wasRightButtonClicked() && moduleManager.getModule(ArmorSwap.class).isEnabled()) {
+//				ItemStack stack = player.getMainHandStack();
+//				int currentItemIndex = player.getInventory().main.indexOf(stack);
+//				EquipmentSlot equipmentSlot = MobEntity.getPreferredEquipmentSlot(stack);
+//				int armorIndexSlot = determineIndex(equipmentSlot);
+//
+//				if (hand == Hand.MAIN_HAND && armorIndexSlot != -1) {
+//					SoundEvent sound = determineSound(stack.getItem());
+//					player.playSound(sound, 1.0F, 1.0F);
+//					interactionManager.clickSlot(player.playerScreenHandler.syncId, armorIndexSlot, currentItemIndex, SlotActionType.SWAP, player);
+//					return TypedActionResult.success(stack);
+//				}
+//			}
+//			return TypedActionResult.pass(ItemStack.EMPTY);
+//		});
 
 		KeyBindingHelper.registerKeyBinding(zoomKey);
 	}
@@ -134,5 +138,16 @@ public class KiwiClient implements ModInitializer {
 			default:
 				return -1;
 		}
+	}
+
+	public static void startRPC() {
+		DiscordEventHandlers handlers = new DiscordEventHandlers();
+		rpc.Discord_Initialize("790758093113917491", handlers, true, "");
+		discordRPC.startTimestamp = System.currentTimeMillis() / 1000L;
+		discordRPC.largeImageKey = "discord_background";
+		rpc.Discord_UpdatePresence(discordRPC);
+		discordRPC.details = "Loading";
+		discordRPC.button_label_1 = "Download";
+		discordRPC.button_url_1 = "https://github.com/TangyKiwi/KiwiClient";
 	}
 }

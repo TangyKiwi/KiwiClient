@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.discordRPC;
+import static com.tangykiwi.kiwiclient.KiwiClient.rpc;
 
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
@@ -69,26 +70,28 @@ public class MinecraftClientMixin {
         ClientPlayNetworkHandler clientPlayNetworkHandler = client.getNetworkHandler();
         if (clientPlayNetworkHandler != null && clientPlayNetworkHandler.getConnection().isOpen()) {
             title += " - ";
+            discordRPC.details = "Playing";
             if (client.getServer() != null && !client.getServer().isRemote()) {
                 title += I18n.translate("title.singleplayer");
-                discordRPC.update("Playing", "Singleplayer");
+                discordRPC.state = "Singleplayer";
             } else if (client.getCurrentServerEntry().isRealm()) {
                 title += I18n.translate("title.multiplayer.realms");
-                discordRPC.update("Playing", "Realms");
+                discordRPC.state = "Realms";
             } else if (client.getServer() == null && (client.getCurrentServerEntry() == null || !client.getCurrentServerEntry().isLocal())) {
                 title += I18n.translate("title.multiplayer.other");
                 if(KiwiClient.moduleManager.getModule(NoIP.class).isEnabled()) {
-                    discordRPC.update("Playing", "Multiplayer");
+                    discordRPC.state = "Multiplayer";
                 } else {
-                    discordRPC.update("Playing", client.getCurrentServerEntry().address);
+                    discordRPC.state = client.getCurrentServerEntry().address;
                 }
             } else {
                 title += I18n.translate("title.multiplayer.lan");
-                discordRPC.update("Playing", "LAN Server");
+                discordRPC.state = "LAN Server";
             }
         }
         else {
-            discordRPC.update("Idle", "Main Menu");
+            discordRPC.details = "Idle";
+            discordRPC.state = "Main Menu";
         }
 
         info.setReturnValue(title);
@@ -108,7 +111,7 @@ public class MinecraftClientMixin {
 
     @Inject(method = "stop", at = @At("HEAD"))
     public void shutdown(CallbackInfo info) {
-        discordRPC.shutdown();
+        rpc.Discord_Shutdown();
         KiwiClient.moduleManager.getModule(Freecam.class).setToggled(false);
         ConfigManager.saveModules("default");
         ConfigManager.saveClickGui("default");

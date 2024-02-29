@@ -61,8 +61,8 @@ dependencies {
 	modCompileOnly "maven.modrinth:sodium:${project.sodium_version}"
 	//	include "maven.modrinth:sodium:${project.sodium_version}"
 
-	implementation "com.github.Vatuu:discord-rpc:1.6.2"
-	include "com.github.Vatuu:discord-rpc:1.6.2"
+//	implementation "com.github.Vatuu:discord-rpc:1.6.2"
+//	include "com.github.Vatuu:discord-rpc:1.6.2"
 
 	implementation "com.github.LlamaLad7.MixinExtras:mixinextras-fabric:0.2.0-beta.8"
 	annotationProcessor "com.github.LlamaLad7.MixinExtras:mixinextras-fabric:0.2.0-beta.8"
