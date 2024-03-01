@@ -145,9 +145,10 @@ public class KiwiClient implements ModInitializer {
 		rpc.Discord_Initialize("790758093113917491", handlers, true, "");
 		discordRPC.startTimestamp = System.currentTimeMillis() / 1000L;
 		discordRPC.largeImageKey = "discord_background";
-		rpc.Discord_UpdatePresence(discordRPC);
 		discordRPC.details = "Loading";
 		discordRPC.button_label_1 = "Download";
 		discordRPC.button_url_1 = "https://github.com/TangyKiwi/KiwiClient";
+
+		rpc.Discord_UpdatePresence(discordRPC);
 	}
 }

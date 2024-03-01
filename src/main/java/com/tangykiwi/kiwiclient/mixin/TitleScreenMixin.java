@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.discordRPC;
+import static com.tangykiwi.kiwiclient.KiwiClient.rpc;
 
 @Mixin(TitleScreen.class)
 public class TitleScreenMixin extends Screen {
@@ -32,5 +33,6 @@ public class TitleScreenMixin extends Screen {
 
         discordRPC.details = "Idle";
         discordRPC.state = "Main Menu";
+        rpc.Discord_UpdatePresence(discordRPC);
     }
 }

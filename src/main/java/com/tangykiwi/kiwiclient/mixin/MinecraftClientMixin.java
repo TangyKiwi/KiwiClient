@@ -94,6 +94,8 @@ public class MinecraftClientMixin {
             discordRPC.state = "Main Menu";
         }
 
+        rpc.Discord_UpdatePresence(discordRPC);
+
         info.setReturnValue(title);
     }
 
