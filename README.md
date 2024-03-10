@@ -83,7 +83,6 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 <summary>Player</summary>
 - AntiBlind<br>
 - AntiHunger<br>
-- ArmorSwap<br>
 - AutoContainer<br>
 - AutoTool<br>
 </details>
@@ -138,7 +137,6 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - ,vclip [blocks]
 
 ### TODO
-- Fix alt manager Mojang/Microsoft login
 - Other bugs in [Issues](https://github.com/TangyKiwi/KiwiClient/issues)
 
 ## Disclaimer
