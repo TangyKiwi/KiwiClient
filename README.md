@@ -7,19 +7,18 @@
 <div align="center">
     <img src="https://img.shields.io/github/last-commit/TangyKiwi/KiwiClient" alt="GitHub last commit"/>
     <img src="https://img.shields.io/github/actions/workflow/status/TangyKiwi/KiwiClient/build.yml?branch=master" alt="Build status"/>
-    <img src="https://img.shields.io/badge/MC-1.20.4-brightgreen.svg" alt="Minecraft"/>
+    <img src="https://img.shields.io/badge/MC-1.21.1-brightgreen.svg" alt="Minecraft"/>
     <br>
     <img src="https://img.shields.io/github/v/release/TangyKiwi/KiwiClient.svg" alt="Release"/>
     <img src="https://img.shields.io/github/languages/code-size/TangyKiwi/KiwiClient" alt="GitHub code size in bytes"/>
-    <img src="https://img.shields.io/tokei/lines/github/TangyKiwi/KiwiClient"/>
-    <br>
+    <img src="https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/TangyKiwi/KiwiClient/badge?filter=.java$&label=lines%20of%20code&color=blue" alt="GitHub lines of code"/>
 </div>
 
 
 ## Installation
 ### Standalone Vanilla Installer
-- Download the [installer](https://github.com/TangyKiwi/KiwiClient-Installer/releases)
-- Select version & install location (default 1.20 / .minecraft folder)
+- Download the [installer](https://github.com/TangyKiwi/KiwiClient-Installer/releases) (Not updated for latest)
+- Select version & install location (default 1.21 / .minecraft folder)
 - Hit install, a new profile called KiwiClient for X.X.X will be created in your launcher
 - Place additional mods in the .minecraft/kiwiclient-mods/X.X.X folder
 ### Manual
