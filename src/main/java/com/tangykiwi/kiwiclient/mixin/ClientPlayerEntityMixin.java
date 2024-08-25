@@ -59,13 +59,9 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         return super.clipAtLedge() || KiwiClient.moduleManager.getModule(SafeWalk.class).isEnabled();
     }
 
-    @Redirect(method = "updateNausea()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;closeHandledScreen()V", ordinal = 0))
-    private void updateNausea_closeHandledScreen(ClientPlayerEntity player) {
-        if (!KiwiClient.moduleManager.getModule(NoPortal.class).isEnabled()) closeHandledScreen();
-    }
-
-    @Redirect(method = "updateNausea()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;setScreen(Lnet/minecraft/client/gui/screen/Screen;)V", ordinal = 0))
-    private void updateNausea_openScreen(MinecraftClient player, Screen screen_1) {
-        if (!KiwiClient.moduleManager.getModule(NoPortal.class).isEnabled()) client.setScreen(screen_1);
+    @Redirect(method = "tickNausea", at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;currentScreen:Lnet/minecraft/client/gui/screen/Screen;"))
+    private Screen updateNauseaGetCurrentScreenProxy(MinecraftClient client) {
+        if (!KiwiClient.moduleManager.getModule(NoPortal.class).isEnabled()) return null;
+        return client.currentScreen;
     }
 }

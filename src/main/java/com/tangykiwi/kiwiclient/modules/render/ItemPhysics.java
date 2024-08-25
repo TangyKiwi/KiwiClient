@@ -53,9 +53,10 @@ public class ItemPhysics extends Module {
         matrixStack.translate(0, itemEntity.getHeight() / 1.5f, 0);
 
         BakedModel bakedModel = mc.getItemRenderer().getModel(itemEntity.getStack(), itemEntity.getWorld(), null, itemEntity.getId());
-        float roll = MathHelper.lerp(mc.getTickDelta(), prevItemRotationsRoll.get(itemEntity), itemRotationsRoll.get(itemEntity));
-        float pitch = MathHelper.lerp(mc.getTickDelta(), prevItemRotationsPitch.get(itemEntity), itemRotationsPitch.get(itemEntity));
-        float yaw = MathHelper.lerp(mc.getTickDelta(), prevItemRotationsYaw.get(itemEntity), itemRotationsYaw.get(itemEntity));
+        float tickDelta = mc.getRenderTickCounter().getTickDelta(true);
+        float roll = MathHelper.lerp(tickDelta, prevItemRotationsRoll.get(itemEntity), itemRotationsRoll.get(itemEntity));
+        float pitch = MathHelper.lerp(tickDelta, prevItemRotationsPitch.get(itemEntity), itemRotationsPitch.get(itemEntity));
+        float yaw = MathHelper.lerp(tickDelta, prevItemRotationsYaw.get(itemEntity), itemRotationsYaw.get(itemEntity));
 
         if (itemEntity.isOnGround())
             matrixStack.translate(0, bakedModel.hasDepth() ? -0.04 : -0.151f, 0);

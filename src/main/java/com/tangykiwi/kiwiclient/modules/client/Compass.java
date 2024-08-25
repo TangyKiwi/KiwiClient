@@ -67,8 +67,8 @@ public class Compass extends Module {
 
         if(shadow){
             RenderSystem.enableBlend();
-            RenderSystem.setShaderTexture(0, new Identifier("kiwiclient:textures/hud/shadow.png"));
-            context.drawTexture(new Identifier("kiwiclient:textures/hud/shadow.png"), (int) (mc.getWindow().getScaledWidth() * 0.1), 0, 0.0F, 0.0F, (int) (mc.getWindow().getScaledWidth() * 0.8), 40, (int) (mc.getWindow().getScaledWidth() * 0.8), 40);
+            RenderSystem.setShaderTexture(0, Identifier.of("kiwiclient:textures/hud/shadow.png"));
+            context.drawTexture(Identifier.of("kiwiclient:textures/hud/shadow.png"), (int) (mc.getWindow().getScaledWidth() * 0.1), 0, 0.0F, 0.0F, (int) (mc.getWindow().getScaledWidth() * 0.8), 40, (int) (mc.getWindow().getScaledWidth() * 0.8), 40);
             RenderSystem.disableBlend();
         }
 

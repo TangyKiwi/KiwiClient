@@ -24,7 +24,7 @@ public abstract class CameraMixin {
 
     @Shadow private boolean thirdPerson;
 
-    @Shadow protected abstract double clipToSpace(double desiredCameraDistance);
+    @Shadow protected abstract float clipToSpace(float desiredCameraDistance);
 
     @Inject(
             method = {"update"},
@@ -43,13 +43,13 @@ public abstract class CameraMixin {
             method = {"update"},
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/render/Camera;moveBy(DDD)V",
+                    target = "Lnet/minecraft/client/render/Camera;moveBy(FFF)V",
                     ordinal = 0
             )
     )
     private void modifyCameraDistance(Args args) {
         if (KiwiClient.moduleManager.getModule(Freecam.class).isEnabled()) {
-            args.set(0, -this.clipToSpace(0.0D));
+            args.set(0, -this.clipToSpace(0.0F));
         }
     }
 }

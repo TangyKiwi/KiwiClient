@@ -12,11 +12,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
+import net.minecraft.client.util.BufferAllocator;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.*;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
@@ -47,8 +49,7 @@ public class RenderUtils {
 	}
 
 	public static void renderRoundedQuadInternal(Matrix4f matrix, float cr, float cg, float cb, float ca, double fromX, double fromY, double toX, double toY, double radC1, double radC2, double radC3, double radC4, double samples) {
-		BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-		bufferBuilder.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
+		BufferBuilder bufferBuilder = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
 
 		double[][] map = new double[][] { new double[] { toX - radC4, toY - radC4, radC4 }, new double[] { toX - radC2, fromY + radC2, radC2 },
 				new double[] { fromX + radC1, fromY + radC1, radC1 }, new double[] { fromX + radC3, toY - radC3, radC3 } };
@@ -59,12 +60,12 @@ public class RenderUtils {
 				float rad1 = (float) Math.toRadians(r);
 				float sin = (float) (Math.sin(rad1) * rad);
 				float cos = (float) (Math.cos(rad1) * rad);
-				bufferBuilder.vertex(matrix, (float) current[0] + sin, (float) current[1] + cos, 0.0F).color(cr, cg, cb, ca).next();
+				bufferBuilder.vertex(matrix, (float) current[0] + sin, (float) current[1] + cos, 0.0F).color(cr, cg, cb, ca);
 			}
 			float rad1 = (float) Math.toRadians((360 / 4d + i * 90d));
 			float sin = (float) (Math.sin(rad1) * rad);
 			float cos = (float) (Math.cos(rad1) * rad);
-			bufferBuilder.vertex(matrix, (float) current[0] + sin, (float) current[1] + cos, 0.0F).color(cr, cg, cb, ca).next();
+			bufferBuilder.vertex(matrix, (float) current[0] + sin, (float) current[1] + cos, 0.0F).color(cr, cg, cb, ca);
 		}
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 	}
@@ -116,15 +117,12 @@ public class RenderUtils {
 
 		MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
 
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tessellator.getBuffer();
+		BufferBuilder buffer = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 
 		// Fill
 		RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-
-		buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 		Vertexer.vertexBoxQuads(matrices, buffer, Boxes.moveToZero(box), color, excludeDirs);
-		tessellator.draw();
+		BufferRenderer.drawWithGlobalProgram(buffer.end());
 
 		cleanup();
 	}
@@ -144,17 +142,15 @@ public class RenderUtils {
 
 		MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
 
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tessellator.getBuffer();
+		BufferBuilder buffer = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 
 		// Outline
 		RenderSystem.disableCull();
 		RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
 		RenderSystem.lineWidth(lineWidth);
 
-		buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 		Vertexer.vertexBoxLines(matrices, buffer, Boxes.moveToZero(box), color, excludeDirs);
-		tessellator.draw();
+		BufferRenderer.drawWithGlobalProgram(buffer.end());
 
 		RenderSystem.enableCull();
 
@@ -172,8 +168,7 @@ public class RenderUtils {
 
 		MatrixStack matrices = matrixFrom(x1, y1, z1);
 
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tessellator.getBuffer();
+		BufferBuilder buffer = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 
 		// Line
 		RenderSystem.disableDepthTest();
@@ -181,9 +176,8 @@ public class RenderUtils {
 		RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
 		RenderSystem.lineWidth(width);
 
-		buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 		Vertexer.vertexLine(matrices, buffer, 0f, 0f, 0f, (float) (x2 - x1), (float) (y2 - y1), (float) (z2 - z1), color);
-		tessellator.draw();
+		BufferRenderer.drawWithGlobalProgram(buffer.end());
 
 		RenderSystem.enableCull();
 		RenderSystem.enableDepthTest();
@@ -195,8 +189,7 @@ public class RenderUtils {
 
 		MatrixStack matrices = matrixFrom(x1, y1, 0);
 
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tessellator.getBuffer();
+		BufferBuilder buffer = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 
 		// Line
 		RenderSystem.disableDepthTest();
@@ -204,9 +197,8 @@ public class RenderUtils {
 		RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
 		RenderSystem.lineWidth(width);
 
-		buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 		Vertexer.vertexLine(matrices, buffer, (float) x1, (float) y1, 0f, (float) x2, (float) y2, 0, color);
-		tessellator.draw();
+		BufferRenderer.drawWithGlobalProgram(buffer.end());
 
 		RenderSystem.enableCull();
 		RenderSystem.enableDepthTest();
@@ -233,7 +225,7 @@ public class RenderUtils {
 
 		matrices.scale(-0.025f * (float) scale, -0.025f * (float) scale, 1);
 
-		VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+		VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(new BufferAllocator(256));
 
 		float backgroundOpacity = MinecraftClient.getInstance().options.getTextBackgroundOpacity(0.25F);
 		int backgroundColor = (int) (backgroundOpacity * 255.0F) << 24;
@@ -292,7 +284,7 @@ public class RenderUtils {
 			halfWidth = halfWidth - textLength;
 		}
 
-		VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+		VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(new BufferAllocator(256));
 
 		if(shadow) {
 			matrices.push();
@@ -386,7 +378,7 @@ public class RenderUtils {
 			return Vec3d.ZERO;
 		}
 
-		double tickDelta = (double) MinecraftClient.getInstance().getTickDelta();
+		double tickDelta = MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(true);
 		return new Vec3d(
 				e.getX() - MathHelper.lerp(tickDelta, e.lastRenderX, e.getX()),
 				e.getY() - MathHelper.lerp(tickDelta, e.lastRenderY, e.getY()),

@@ -15,12 +15,12 @@ import net.minecraft.util.collection.DefaultedList;
 import java.awt.*;
 
 public class ContainerTooltipComponent implements TooltipComponent, ITooltipData {
-    private static final Identifier TEXTURE_CONTAINER_BACKGROUND = new Identifier("kiwiclient", "textures/hud/container.png");
+    private static final Identifier TEXTURE_CONTAINER_BACKGROUND = Identifier.of("kiwiclient", "textures/hud/container.png");
 
-    private final DefaultedList<ItemStack> items;
+    private final ItemStack[] items;
     private final Color color;
 
-    public ContainerTooltipComponent(DefaultedList<ItemStack> items, Color color) {
+    public ContainerTooltipComponent(ItemStack[] items, Color color) {
         this.items = items;
         this.color = color;
     }
@@ -53,14 +53,14 @@ public class ContainerTooltipComponent implements TooltipComponent, ITooltipData
         int row = 0;
         int i = 0;
         for (ItemStack itemStack : items) {
-            MatrixStack matrixStack = new MatrixStack();
-            matrixStack.push();
-            matrixStack.translate(0, 0, 401);
+//            MatrixStack matrixStack = new MatrixStack();
+//            matrixStack.push();
+//            matrixStack.translate(0, 0, 401);
 
             context.drawItem(itemStack, x + 8 + i * 18, y + 7 + row * 18);
             context.drawItemInSlot(mc.textRenderer, itemStack, x + 8 + i * 18, y + 7 + row * 18, null);
 
-            matrixStack.pop();
+//            matrixStack.pop();
 
             i++;
             if (i >= 9) {

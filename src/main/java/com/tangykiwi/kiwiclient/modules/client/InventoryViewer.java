@@ -26,7 +26,7 @@ public class InventoryViewer extends Module {
 
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.8F);
-        context.drawTexture(new Identifier("kiwiclient", "textures/hud/inv_bg.png"), scaledWidth - 164, scaledHeight - 56, 0, 0, 164, 56, 164, 56);
+        context.drawTexture(Identifier.of("kiwiclient", "textures/hud/inv_bg.png"), scaledWidth - 164, scaledHeight - 56, 0, 0, 164, 56, 164, 56);
         RenderSystem.disableBlend();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 

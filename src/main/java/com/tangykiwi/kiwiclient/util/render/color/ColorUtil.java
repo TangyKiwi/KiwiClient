@@ -1,10 +1,7 @@
 package com.tangykiwi.kiwiclient.util.render.color;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.*;
@@ -39,9 +36,7 @@ public class ColorUtil {
         //RenderSystem.disableAlphaTest();
         RenderSystem.defaultBlendFunc();
         //RenderSystem.shadeModel(7425);
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.getBuffer();
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        BufferBuilder bufferBuilder = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         float f = (float)(colorStart >> 24 & 255) / 255.0F;
         float g = (float)(colorStart >> 16 & 255) / 255.0F;
         float h = (float)(colorStart >> 8 & 255) / 255.0F;
@@ -50,11 +45,11 @@ public class ColorUtil {
         float k = (float)(colorEnd >> 16 & 255) / 255.0F;
         float l = (float)(colorEnd >> 8 & 255) / 255.0F;
         float m = (float)(colorEnd & 255) / 255.0F;
-        bufferBuilder.vertex(matrixStack.peek().getPositionMatrix(), (float)xEnd, (float)yStart, (float)0).color(g, h, i, f).next();
-        bufferBuilder.vertex(matrixStack.peek().getPositionMatrix(), (float)xStart, (float)yStart, (float)0).color(g, h, i, f).next();
-        bufferBuilder.vertex(matrixStack.peek().getPositionMatrix(), (float)xStart, (float)yEnd, (float)0).color(k, l, m, j).next();
-        bufferBuilder.vertex(matrixStack.peek().getPositionMatrix(), (float)xEnd, (float)yEnd, (float)0).color(k, l, m, j).next();
-        tessellator.draw();
+        bufferBuilder.vertex(matrixStack.peek().getPositionMatrix(), (float)xEnd, (float)yStart, (float)0).color(g, h, i, f);
+        bufferBuilder.vertex(matrixStack.peek().getPositionMatrix(), (float)xStart, (float)yStart, (float)0).color(g, h, i, f);
+        bufferBuilder.vertex(matrixStack.peek().getPositionMatrix(), (float)xStart, (float)yEnd, (float)0).color(k, l, m, j);
+        bufferBuilder.vertex(matrixStack.peek().getPositionMatrix(), (float)xEnd, (float)yEnd, (float)0).color(k, l, m, j);
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         //RenderSystem.shadeModel(7424);
         RenderSystem.disableBlend();
         //RenderSystem.enableAlphaTest();

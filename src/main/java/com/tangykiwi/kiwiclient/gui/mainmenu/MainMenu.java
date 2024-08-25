@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
-import com.tangykiwi.kiwiclient.gui.mainmenu.dummy.DummyClientPlayerEntity;
 import com.tangykiwi.kiwiclient.gui.mainmenu.particles.ParticleManager;
 import com.tangykiwi.kiwiclient.modules.client.ClickGui;
 import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
@@ -20,12 +19,25 @@ import net.minecraft.client.gui.screen.multiplayer.MultiplayerWarningScreen;
 import net.minecraft.client.gui.screen.option.LanguageOptionsScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
+import net.minecraft.client.model.Dilation;
+import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
+import net.minecraft.client.render.DiffuseLighting;
+import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
+import org.joml.Matrix4f;
+import org.joml.Matrix4fStack;
+import org.joml.Quaternionf;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -34,7 +46,7 @@ public class MainMenu extends Screen {
 
     public final String[] BUTTONS = {"Singleplayer", "Multiplayer", "Realms", "Options", "Language", "Quit"};
     public final ArrayList<GuiButton> buttonList = new ArrayList<GuiButton>();
-    public Identifier skin = new Identifier("textures/entity/player/wide/steve.png");
+    public Identifier skin = Identifier.of("textures/entity/player/wide/steve.png");
     public ParticleManager particles;
 
     public MainMenu() {
@@ -60,7 +72,12 @@ public class MainMenu extends Screen {
     }
 
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        context.drawTexture(KiwiClient.MENU, 0, 0, 20 * mouseX / this.width,  20 * mouseY / this.height, this.width + 20 * mouseX / this.width, this.height + 20 * mouseY / this.height, this.width + 40, this.height + 40);
+        com.tangykiwi.kiwiclient.modules.other.MainMenu mm = (com.tangykiwi.kiwiclient.modules.other.MainMenu) KiwiClient.moduleManager.getModule(com.tangykiwi.kiwiclient.modules.other.MainMenu.class);
+        Identifier menubg = KiwiClient.MENU;
+        if(mm.getSetting(0).asMode().mode != 0) {
+            menubg = KiwiClient.MENU_ARRXW;
+        }
+        context.drawTexture(menubg, 0, 0, 20 * mouseX / this.width,  20 * mouseY / this.height, this.width + 20 * mouseX / this.width, this.height + 20 * mouseY / this.height, this.width + 40, this.height + 40);
         context.fillGradient(0, 0, this.width, this.height, 0x00000000, 0xff000000);
 
         particles.render(context.getMatrices(), mouseX, mouseY);
@@ -70,16 +87,14 @@ public class MainMenu extends Screen {
         IFont.CONSOLAS.drawString(context.getMatrices(), version, 1, 2, 0xFFFFFF, 1);
 
         RenderSystem.enableBlend();
-        context.drawTexture(new Identifier("kiwiclient:textures/menu/title.png"), this.width / 2 - 160, this.height / 2 - 55, 0, 0, 320, 40, 320, 40);
+        context.drawTexture(Identifier.of("kiwiclient:textures/menu/title.png"), this.width / 2 - 160, this.height / 2 - 55, 0, 0, 320, 40, 320, 40);
         RenderSystem.disableBlend();
 
         for(GuiButton b : buttonList) {
             b.drawButton(context, mouseX, mouseY);
         }
 
-        com.tangykiwi.kiwiclient.modules.other.MainMenu mm = (com.tangykiwi.kiwiclient.modules.other.MainMenu) KiwiClient.moduleManager.getModule(com.tangykiwi.kiwiclient.modules.other.MainMenu.class);
-
-        if(mm.getSetting(0).asMode().mode == 0) {
+        if(mm.getSetting(1).asMode().mode == 0) {
             int renderScale = 2 * this.height / 100;
             RenderSystem.setShaderTexture(0, skin);
             context.drawTexture(skin, 2, this.height - 8 * renderScale - 2, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 8 * renderScale, 64 * renderScale, 64 * renderScale);
@@ -87,11 +102,10 @@ public class MainMenu extends Screen {
             IFont.CONSOLAS.drawString(context.getMatrices(), this.client.getSession().getUsername(), 8 * renderScale + 3, this.height - IFont.CONSOLAS.getFontHeight() - 2, ColorUtil.getRainbow(4, 0.8f, 1), 1);
         }
 //        else {
-//            ClientPlayerEntity player = DummyClientPlayerEntity.getInstance();
 //            int height = this.height - 7;
 //            int playerX = 20;
-//            RenderSystem.setShaderTexture(0, player.getSkinTextures().texture());
-//            InventoryScreen.drawEntity(context, playerX, height, playerX, height, 30, delta, -mouseX + playerX, -mouseY + height - 30, player);
+//            MinecraftClient client = MinecraftClient.getInstance();
+//            drawEntity(context.getMatrices(), playerX, height, 30, delta, -mouseX + playerX, -mouseY + height - 30, client.getSkinProvider().getSkinTextures(client.getGameProfile()).texture());
 //            IFont.CONSOLAS.drawString(context.getMatrices(), this.client.getSession().getUsername(), 35, this.height - IFont.CONSOLAS.getFontHeight() - 4, ColorUtil.getRainbow(4, 0.8f, 1), 1);
 //        }
     }

@@ -2,12 +2,15 @@ package com.tangykiwi.kiwiclient.util;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import org.apache.commons.lang3.StringUtils;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -30,62 +33,23 @@ public class Utils {
         return Arrays.stream(name.split("-")).map(StringUtils::capitalize).collect(Collectors.joining(" "));
     }
 
-    public static void addEnchantment(ItemStack itemStack, Enchantment enchantment, int level) {
-        NbtCompound tag = itemStack.getOrCreateNbt();
-        NbtList listTag;
+    public static void addEnchantment(ItemStack itemStack, RegistryEntry<Enchantment> enchantment, int level) {
+        ItemEnchantmentsComponent.Builder b = new ItemEnchantmentsComponent.Builder(EnchantmentHelper.getEnchantments(itemStack));
+        b.add(enchantment, level);
 
-        if (!tag.contains("Enchantments", 9)) {
-            listTag = new NbtList();
-            tag.put("Enchantments", listTag);
-        } else {
-            listTag = tag.getList("Enchantments", 10);
-        }
-
-        String enchId = Registries.ENCHANTMENT.getId(enchantment).toString();
-
-        for (NbtElement _t : listTag) {
-            NbtCompound t = (NbtCompound) _t;
-
-            if (t.getString("id").equals(enchId)) {
-                t.putShort("lvl", (short) level);
-                return;
-            }
-        }
-
-        NbtCompound enchTag = new NbtCompound();
-        enchTag.putString("id", enchId);
-        enchTag.putShort("lvl", (short) level);
-
-        listTag.add(enchTag);
+        EnchantmentHelper.set(itemStack, b.build());
     }
 
     public static void clearEnchantments(ItemStack itemStack) {
-        NbtCompound nbt = itemStack.getNbt();
-        if (nbt != null) nbt.remove("Enchantments");
+        EnchantmentHelper.apply(itemStack, components -> components.remove(a -> true));
     }
 
     public static void removeEnchantment(ItemStack itemStack, Enchantment enchantment) {
-        NbtCompound nbt = itemStack.getNbt();
-        if (nbt == null) return;
-
-        if (!nbt.contains("Enchantments", 9)) return;
-        NbtList list = nbt.getList("Enchantments", 10);
-
-        String enchId = Registries.ENCHANTMENT.getId(enchantment).toString();
-
-        for (Iterator<NbtElement> it = list.iterator(); it.hasNext();) {
-            NbtCompound ench = (NbtCompound) it.next();
-
-            if (ench.getString("id").equals(enchId)) {
-                it.remove();
-                break;
-            }
-        }
+        EnchantmentHelper.apply(itemStack, components -> components.remove(enchantment1 -> enchantment1.value().equals(enchantment)));
     }
 
     public static String getEnchantmentName(Enchantment enchantment) {
-        String text = I18n.translate(enchantment.getName(2).getString());
-        text = text.toLowerCase().substring(0, text.length() - 3);
+        String text = enchantment.description().getString();
         if(text.contains("aqua")) return "AqAf";
         if(text.contains("bane")) return "BnAr";
         if(text.contains("blas")) return "BlPr";

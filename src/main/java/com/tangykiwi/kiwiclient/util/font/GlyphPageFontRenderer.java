@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.Tessellator;
@@ -348,38 +349,22 @@ public class GlyphPageFontRenderer {
 
     private void doDraw(float f, GlyphPage glyphPage) {
         if (this.strikethroughStyle) {
-            BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-//            GlStateManager._disableTexture();
-            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
-            bufferBuilder
-                    .vertex(this.posX, this.posY + (float) (glyphPage.getMaxFontHeight() / 2), 0.0D)
-                    .next();
-            bufferBuilder.vertex(this.posX + f,
-                    this.posY + (float) (glyphPage.getMaxFontHeight() / 2), 0.0D).next();
-            bufferBuilder.vertex(this.posX + f,
-                    this.posY + (float) (glyphPage.getMaxFontHeight() / 2) - 1.0F, 0.0D).next();
-            bufferBuilder.vertex(this.posX,
-                    this.posY + (float) (glyphPage.getMaxFontHeight() / 2) - 1.0F, 0.0D).next();
+            BufferBuilder bufferBuilder = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
+            bufferBuilder.vertex(this.posX, this.posY + (float) (glyphPage.getMaxFontHeight() / 2), 0.0F);
+            bufferBuilder.vertex(this.posX + f, this.posY + (float) (glyphPage.getMaxFontHeight() / 2), 0.0F);
+            bufferBuilder.vertex(this.posX + f, this.posY + (float) (glyphPage.getMaxFontHeight() / 2) - 1.0F, 0.0F);
+            bufferBuilder.vertex(this.posX, this.posY + (float) (glyphPage.getMaxFontHeight() / 2) - 1.0F, 0.0F);
             BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-//            GlStateManager._enableTexture();
         }
 
         if (this.underlineStyle) {
-            BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-//            GlStateManager._disableTexture();
-            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
+            BufferBuilder bufferBuilder = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
             int l = this.underlineStyle ? -1 : 0;
-            bufferBuilder.vertex(this.posX + (float) l,
-                    this.posY + (float) glyphPage.getMaxFontHeight(), 0.0D).next();
-            bufferBuilder
-                    .vertex(this.posX + f, this.posY + (float) glyphPage.getMaxFontHeight(), 0.0D)
-                    .next();
-            bufferBuilder.vertex(this.posX + f,
-                    this.posY + (float) glyphPage.getMaxFontHeight() - 1.0F, 0.0D).next();
-            bufferBuilder.vertex(this.posX + (float) l,
-                    this.posY + (float) glyphPage.getMaxFontHeight() - 1.0F, 0.0D).next();
+            bufferBuilder.vertex(this.posX + (float) l, this.posY + (float) glyphPage.getMaxFontHeight(), 0.0F);
+            bufferBuilder.vertex(this.posX + f, this.posY + (float) glyphPage.getMaxFontHeight(), 0.0F);
+            bufferBuilder.vertex(this.posX + f, this.posY + (float) glyphPage.getMaxFontHeight() - 1.0F, 0.0F);
+            bufferBuilder.vertex(this.posX + (float) l, this.posY + (float) glyphPage.getMaxFontHeight() - 1.0F, 0.0F);
             BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-//            GlStateManager._enableTexture();
         }
 
         this.posX += f;

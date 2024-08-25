@@ -26,7 +26,7 @@ public abstract class GameRendererMixin
     @Final
     private MinecraftClient client;
 
-    @Shadow public abstract void updateTargetedEntity(float tickDelta);
+    @Shadow public abstract void updateCrosshairTarget(float tickDelta);
 
     private boolean freecamSet = false;
 
@@ -41,7 +41,7 @@ public abstract class GameRendererMixin
     }
 
     @Inject(
-            method = {"updateTargetedEntity"},
+            method = {"updateCrosshairTarget"},
             at = {@At("HEAD")},
             cancellable = true
     )
@@ -69,7 +69,7 @@ public abstract class GameRendererMixin
             camera.prevYaw = freecam.prevYaw;
             camera.prevPitch = freecam.prevPitch;
             this.freecamSet = true;
-            this.updateTargetedEntity(tickDelta);
+            this.updateCrosshairTarget(tickDelta);
             this.freecamSet = false;
             ((IVec3d)camera.getPos()).set(x, y, z);
             camera.prevX = prevX;

@@ -1,25 +1,31 @@
 package com.tangykiwi.kiwiclient.mixin;
 
 import com.mojang.authlib.GameProfile;
-import com.tangykiwi.kiwiclient.mixininterface.IChatHUDLine;
+import com.tangykiwi.kiwiclient.mixininterface.IChatHUDLineVisible;
 import net.minecraft.client.gui.hud.ChatHudLine;
-import net.minecraft.text.Text;
+import net.minecraft.text.OrderedText;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(value = ChatHudLine.class)
-public class ChatHudLineMixin implements IChatHUDLine {
-    @Shadow
-    @Final
-    private Text content;
+@Mixin(ChatHudLine.Visible.class)
+public abstract class ChatHudLineVisibleMixin implements IChatHUDLineVisible {
+    @Shadow @Final private OrderedText content;
     @Unique private int id;
     @Unique private GameProfile sender;
+    @Unique private boolean startOfEntry;
 
     @Override
     public String kiwiclient$getText() {
-        return content.getString();
+        StringBuilder sb = new StringBuilder();
+
+        content.accept((index, style, codePoint) -> {
+            sb.appendCodePoint(codePoint);
+            return true;
+        });
+
+        return sb.toString();
     }
 
     @Override
@@ -40,5 +46,15 @@ public class ChatHudLineMixin implements IChatHUDLine {
     @Override
     public void kiwiclient$setSender(GameProfile profile) {
         sender = profile;
+    }
+
+    @Override
+    public boolean kiwiclient$isStartOfEntry() {
+        return startOfEntry;
+    }
+
+    @Override
+    public void kiwiclient$setStartOfEntry(boolean start) {
+        startOfEntry = start;
     }
 }

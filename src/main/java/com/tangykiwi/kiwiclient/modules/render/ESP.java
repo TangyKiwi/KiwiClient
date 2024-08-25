@@ -47,7 +47,7 @@ public class ESP extends Module {
 
         try {
             shader = new ShaderEffectWrapper(
-                    ShaderLoader.loadEffect(mc.getFramebuffer(), new Identifier("kiwiclient", "shaders/post/entity_outline.json")));
+                    ShaderLoader.loadEffect(mc.getFramebuffer(), Identifier.of("kiwiclient", "shaders/post/entity_outline.json")));
             colorVertexer = new ColorVertexConsumerProvider(shader.getFramebuffer("main"), ShaderCore::getColorOverlayShader);
         } catch (JsonSyntaxException | IOException e) {
             e.printStackTrace();

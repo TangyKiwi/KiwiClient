@@ -3,10 +3,10 @@ package com.tangykiwi.kiwiclient.modules.combat;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.SendPacketEvent;
+import com.tangykiwi.kiwiclient.mixininterface.IPlayerInteractEntityC2SPacket;
 import com.tangykiwi.kiwiclient.modules.Category;
 import com.tangykiwi.kiwiclient.modules.Module;
 import com.tangykiwi.kiwiclient.modules.movement.NoFall;
-import com.tangykiwi.kiwiclient.util.PlayerInteractEntityC2SUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -19,10 +19,10 @@ public class Criticals extends Module {
 
     @Subscribe
     public void sendPacket(SendPacketEvent event) {
-        if (event.getPacket() instanceof PlayerInteractEntityC2SPacket) {
-            PlayerInteractEntityC2SPacket packet = (PlayerInteractEntityC2SPacket) event.getPacket();
-            if (PlayerInteractEntityC2SUtils.getInteractType(packet) == PlayerInteractEntityC2SUtils.InteractType.ATTACK
-                    && PlayerInteractEntityC2SUtils.getEntity(packet) instanceof LivingEntity) {
+        if (event.getPacket() instanceof IPlayerInteractEntityC2SPacket) {
+            IPlayerInteractEntityC2SPacket packet = (IPlayerInteractEntityC2SPacket) event.getPacket();
+            if (packet.getType() == PlayerInteractEntityC2SPacket.InteractType.ATTACK
+                    && packet.getEntity() instanceof LivingEntity) {
                 doCritical();
             }
         }

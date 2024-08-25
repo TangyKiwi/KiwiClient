@@ -13,6 +13,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.JumpingMount;
@@ -34,12 +35,9 @@ import static org.lwjgl.opengl.GL11.*;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
-    @Inject(method="render", at=@At(value="TAIL"), cancellable=true)
-    private void render(DrawContext context, float tickDelta, CallbackInfo info){
+    @Inject(method="renderMainHud", at=@At(value="TAIL"), cancellable=true)
+    private void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci){
         if(!MinecraftClient.getInstance().getDebugHud().shouldShowDebugHud()) {
-            MinecraftClient client = MinecraftClient.getInstance();
-            MatrixStack matrixStack = new MatrixStack();
-
             RenderSystem.enableBlend();
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -50,20 +48,28 @@ public class InGameHudMixin {
 
         DrawOverlayEvent event = new DrawOverlayEvent(context);
         KiwiClient.eventBus.post(event);
-        if (event.isCancelled()) info.cancel();
+        if (event.isCancelled()) ci.cancel();
     }
 
-    @Inject(method = "renderScoreboardSidebar", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "renderScoreboardSidebar(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/scoreboard/ScoreboardObjective;)V", at = @At("HEAD"), cancellable = true)
     private void renderScoreboardSidebar(DrawContext context, ScoreboardObjective objective, CallbackInfo ci) {
         if(KiwiClient.moduleManager.getModule(NoScoreboard.class).isEnabled()) {
             ci.cancel();
-            return;
         }
     }
 
     @Shadow @Final private MinecraftClient client;
 
-    @ModifyConstant(method = "renderMountHealth", constant = @Constant(intValue = 39))
+    @Shadow
+    private LivingEntity getRiddenEntity() {return null;}
+
+    @Shadow
+    private int getHeartCount(LivingEntity entity) {return 0;}
+
+    @Shadow
+    private int getHeartRows(int heartCount) {return 0;}
+
+    @ModifyVariable(method = "renderMountHealth", at = @At(value = "STORE"), ordinal = 2)
     private int renderMountHealth(int yOffset) {
         if (KiwiClient.moduleManager.getModule(MountHUD.class).isEnabled() && client.interactionManager.hasStatusBars()) {
             yOffset += 10;
@@ -87,15 +93,19 @@ public class InGameHudMixin {
         }
     }
 
-    @ModifyVariable(method = "renderStatusBars", at = @At(value = "STORE", ordinal = 1), ordinal = 10)
+    @ModifyVariable(method = "renderStatusBars", at = @At(value = "STORE"), ordinal = 11)
     private int moveAirUp(int y) {
         if (KiwiClient.moduleManager.getModule(MountHUD.class).isEnabled() && client.player.getJumpingMount() != null) {
-            y -= 10;
+            LivingEntity entity = getRiddenEntity();
+            if (entity != null) {
+                int rows = getHeartRows(getHeartCount(entity));
+                y -= rows * 10;
+            }
         }
         return y;
     }
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getJumpingMount()Lnet/minecraft/entity/JumpingMount;"))
+    @Redirect(method = "renderMainHud", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getJumpingMount()Lnet/minecraft/entity/JumpingMount;"))
     private JumpingMount switchBar(ClientPlayerEntity player) {
         if (!client.interactionManager.hasExperienceBar() || !KiwiClient.moduleManager.getModule(MountHUD.class).isEnabled()) return player.getJumpingMount();
         if(client.options.jumpKey.isPressed() || player.getMountJumpStrength() > 0) return player.getJumpingMount();
@@ -103,14 +113,14 @@ public class InGameHudMixin {
     }
 
     @Inject(method = "renderStatusEffectOverlay", at = @At("TAIL"))
-    private void renderDurationOverlay(DrawContext context, CallbackInfo c) {
+    private void renderDurationOverlay(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         if(!KiwiClient.moduleManager.getModule(PotionTimers.class).isEnabled()) return;
         Collection<StatusEffectInstance> collection = this.client.player.getStatusEffects();
         if (!collection.isEmpty()) {
             int beneficialCount = 0;
             int nonBeneficialCount = 0;
             for (StatusEffectInstance statusEffectInstance : Ordering.natural().reverse().sortedCopy(collection)) {
-                StatusEffect statusEffect = statusEffectInstance.getEffectType();
+                StatusEffect statusEffect = statusEffectInstance.getEffectType().value();
                 if (statusEffectInstance.shouldShowIcon()) {
                     int x = this.client.getWindow().getScaledWidth();
                     int y = 1;

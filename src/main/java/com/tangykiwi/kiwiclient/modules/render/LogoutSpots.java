@@ -123,9 +123,10 @@ public class LogoutSpots extends Module {
             if (getSetting(0).asToggle().state) {
                 PlayerCopyEntity player = playerPair.getLeft();
 
-                Vec3d rVec = new Vec3d(player.lastRenderX + (player.getX() - player.lastRenderX) * mc.getTickDelta(),
-                        player.lastRenderY + (player.getY() - player.lastRenderY) * mc.getTickDelta() + player.getHeight(),
-                        player.lastRenderZ + (player.getZ() - player.lastRenderZ) * mc.getTickDelta());
+                float tickDelta = mc.getRenderTickCounter().getTickDelta(true);
+                Vec3d rVec = new Vec3d(player.lastRenderX + (player.getX() - player.lastRenderX) * tickDelta,
+                        player.lastRenderY + (player.getY() - player.lastRenderY) * tickDelta + player.getHeight(),
+                        player.lastRenderZ + (player.getZ() - player.lastRenderZ) * tickDelta);
 
                 Vec3d offset = new Vec3d(0, 0, 0.45 + mc.textRenderer.getWidth(player.getDisplayName().getString()) / 90d)
                         .rotateY((float) -Math.toRadians(mc.player.getYaw() + 90));

@@ -18,7 +18,7 @@ public class ClientConnectionMixin {
 
     @Inject(at = @At("HEAD"), method = "send(Lnet/minecraft/network/packet/Packet;)V", cancellable = true)
     private void onSendPacketHead(Packet<?> packet, CallbackInfo info) {
-        SendPacketEvent event = new SendPacketEvent(packet);
+        SendPacketEvent event = new SendPacketEvent(packet, (ClientConnection)(Object)this);
         KiwiClient.eventBus.post(event);
         
         if(event.isCancelled()) info.cancel();

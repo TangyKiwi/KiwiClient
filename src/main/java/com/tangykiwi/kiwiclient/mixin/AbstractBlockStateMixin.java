@@ -6,6 +6,7 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.IsFullCubeEvent;
 import com.tangykiwi.kiwiclient.event.RenderBlockEvent;
 import com.tangykiwi.kiwiclient.modules.render.XRay;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
 import net.minecraft.block.AbstractBlock.AbstractBlockState;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -22,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class AbstractBlockStateMixin extends State<Block, BlockState> {
 
     private AbstractBlockStateMixin(Block object,
-                                    ImmutableMap<Property<?>, Comparable<?>> immutableMap,
+                                    Reference2ObjectArrayMap<Property<?>, Comparable<?>> immutableMap,
                                     MapCodec<BlockState> mapCodec)
     {
         super(object, immutableMap, mapCodec);

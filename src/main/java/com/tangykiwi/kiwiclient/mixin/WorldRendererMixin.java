@@ -51,21 +51,19 @@ public class WorldRendererMixin {
     }
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    private void render_head(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer,
-                             LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo callback) {
-        WorldRenderEvent.Pre event = new WorldRenderEvent.Pre(tickDelta, matrices);
+    private void render_head(RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, Matrix4f matrix4f2, CallbackInfo ci) {
+        WorldRenderEvent.Pre event = new WorldRenderEvent.Pre(tickCounter.getTickDelta(true));
         KiwiClient.eventBus.post(event);
 
         if (event.isCancelled()) {
-            callback.cancel();
+            ci.cancel();
         }
     }
 
     @Inject(method = "render", at = @At("RETURN"))
-    private void render_return(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer,
-                               LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo callback) {
+    private void render_return(RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, Matrix4f matrix4f2, CallbackInfo ci) {
         RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
-        WorldRenderEvent.Post event = new WorldRenderEvent.Post(tickDelta, matrices);
+        WorldRenderEvent.Post event = new WorldRenderEvent.Post(tickCounter.getTickDelta(true));
         KiwiClient.eventBus.post(event);
     }
 

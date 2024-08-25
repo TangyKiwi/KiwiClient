@@ -218,14 +218,13 @@ public class Window {
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferBuilder = tessellator.getBuffer();
-		bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-		bufferBuilder.vertex(x1, y1, 0).color(red1, green1, blue1, alpha1).next();
-		bufferBuilder.vertex(x1, y2, 0).color(red1, green1, blue1, alpha1).next();
-		bufferBuilder.vertex(x2, y2, 0).color(red2, green2, blue2, alpha2).next();
-		bufferBuilder.vertex(x2, y1, 0).color(red2, green2, blue2, alpha2).next();
-		tessellator.draw();
+		Tessellator tessellator = RenderSystem.renderThreadTesselator();
+		BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+		bufferBuilder.vertex(x1, y1, 0).color(red1, green1, blue1, alpha1);
+		bufferBuilder.vertex(x1, y2, 0).color(red1, green1, blue1, alpha1);
+		bufferBuilder.vertex(x2, y2, 0).color(red2, green2, blue2, alpha2);
+		bufferBuilder.vertex(x2, y1, 0).color(red2, green2, blue2, alpha2);
+		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		RenderSystem.disableBlend();
 	}
 }

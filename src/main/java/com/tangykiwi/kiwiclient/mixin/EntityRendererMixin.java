@@ -19,17 +19,17 @@ import net.minecraft.text.Text;
 public abstract class EntityRendererMixin<T extends Entity> {
 
     @Inject(method = "renderLabelIfPresent", at = @At("HEAD"), cancellable = true)
-    public void renderLabelIfPresent(T entity, Text text, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo info) {
+    public void renderLabelIfPresent(T entity, Text text, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float tickDelta, CallbackInfo ci) {
         EntityRenderEvent.Single.Label event = new EntityRenderEvent.Single.Label(entity, matrices, vertexConsumers);
         KiwiClient.eventBus.post(event);
 
         TargetHUD targetHUD = (TargetHUD) KiwiClient.moduleManager.getModule(TargetHUD.class);
         if (entity instanceof PlayerEntity && targetHUD.isEnabled() && targetHUD.playerEntity == entity) {
-            info.cancel();
+            ci.cancel();
         }
 
         if (event.isCancelled()) {
-            info.cancel();
+            ci.cancel();
         }
     }
 }

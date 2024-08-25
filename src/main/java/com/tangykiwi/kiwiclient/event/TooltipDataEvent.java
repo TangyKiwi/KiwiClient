@@ -1,6 +1,6 @@
 package com.tangykiwi.kiwiclient.event;
 
-import net.minecraft.client.item.TooltipData;
+import net.minecraft.item.tooltip.TooltipData;
 import net.minecraft.item.ItemStack;
 
 public class TooltipDataEvent {

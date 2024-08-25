@@ -6,6 +6,7 @@ import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.RenderPhase.TextureBase;
+import net.minecraft.client.util.BufferAllocator;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import java.util.function.Supplier;
 
 public class ColorVertexConsumerProvider {
 
-    private final VertexConsumerProvider.Immediate plainDrawer = VertexConsumerProvider.immediate(new BufferBuilder(256));
+    private final VertexConsumerProvider.Immediate plainDrawer = VertexConsumerProvider.immediate(new BufferAllocator(256));
 
     private Supplier<ShaderProgram> shader;
     private Function<TextureBase, RenderLayer> layerCreator;
@@ -36,29 +37,28 @@ public class ColorVertexConsumerProvider {
 
             VertexConsumer plainBuffer = this.plainDrawer.getBuffer(
                     layerCreator.apply(((RenderLayer.MultiPhase) layer).getPhases().texture));
-            ColorVertexConsumer outlineVertexConsumer = new ColorVertexConsumer(plainBuffer, red, green, blue, alpha);
-            return VertexConsumers.union(outlineVertexConsumer, parentBuffer);
+            return VertexConsumers.union(plainBuffer.color(red, green, blue, alpha), parentBuffer);
         };
     }
 
-    public VertexConsumerProvider createSingleProvider(VertexConsumerProvider parent, int red, int green, int blue, int alpha) {
-        return layer -> {
-            VertexConsumer parentBuffer = parent.getBuffer(layer);
-
-            if (!(layer instanceof RenderLayer.MultiPhase)
-                    || ((RenderLayer.MultiPhase) layer).getPhases().outlineMode == RenderLayer.OutlineMode.NONE) {
-                return parentBuffer;
-            }
-
-            VertexConsumer plainBuffer = this.plainDrawer.getBuffer(
-                    layerCreator.apply(((RenderLayer.MultiPhase) layer).getPhases().texture));
-            return new ColorVertexConsumer(plainBuffer, red, green, blue, alpha);
-        };
-    }
+//    public VertexConsumerProvider createSingleProvider(VertexConsumerProvider parent, int red, int green, int blue, int alpha) {
+//        return layer -> {
+//            VertexConsumer parentBuffer = parent.getBuffer(layer);
+//
+//            if (!(layer instanceof RenderLayer.MultiPhase)
+//                    || ((RenderLayer.MultiPhase) layer).getPhases().outlineMode == RenderLayer.OutlineMode.NONE) {
+//                return parentBuffer;
+//            }
+//
+//            VertexConsumer plainBuffer = this.plainDrawer.getBuffer(
+//                    layerCreator.apply(((RenderLayer.MultiPhase) layer).getPhases().texture));
+//            return new ColorVertexConsumer(plainBuffer, red, green, blue, alpha);
+//        };
+//    }
 
     public void setFramebuffer(Framebuffer framebuffer) {
         layerCreator = memoizeTexture(texture -> new RenderLayer(
-                "kiwiclient_outline", VertexFormats.POSITION_COLOR_TEXTURE, VertexFormat.DrawMode.QUADS, 256, false, false,
+                "kiwiclient_outline", VertexFormats.POSITION_TEXTURE_COLOR, VertexFormat.DrawMode.QUADS, 256, false, false,
                 () -> {
                     texture.startDrawing();
                     RenderSystem.setShader(shader);
@@ -79,72 +79,5 @@ public class ColorVertexConsumerProvider {
 
     public void draw() {
         this.plainDrawer.draw();
-    }
-    public static class ColorVertexConsumer extends FixedColorVertexConsumer /*implements VertexBufferWriter*/ {
-        private final VertexConsumer delegate; // plainBuffer
-        private double x;
-        private double y;
-        private double z;
-        private float u;
-        private float v;
-
-        ColorVertexConsumer(VertexConsumer vertexConsumer, int i, int j, int k, int l) {
-            this.delegate = vertexConsumer;
-            super.fixedColor(i, j, k, l);
-        }
-
-        public void fixedColor(int red, int green, int blue, int alpha) {
-//            this.fixedRed = red;
-//            this.fixedGreen = green;
-//            this.fixedBlue = blue;
-//            this.fixedAlpha = alpha;
-        }
-
-        public void unfixColor() {
-//            this.colorFixed = false;
-        }
-
-        public VertexConsumer vertex(double x, double y, double z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            return this;
-        }
-
-        public VertexConsumer color(int red, int green, int blue, int alpha) {
-            return this;
-        }
-
-        public VertexConsumer texture(float u, float v) {
-            this.u = u;
-            this.v = v;
-            return this;
-        }
-
-        public VertexConsumer overlay(int u, int v) {
-            return this;
-        }
-
-        public VertexConsumer light(int u, int v) {
-            return this;
-        }
-
-        public VertexConsumer normal(float x, float y, float z) {
-            return this;
-        }
-
-        public void vertex(float x, float y, float z, float red, float green, float blue, float alpha, float u, float v, int overlay, int light, float normalX, float normalY, float normalZ) {
-            this.delegate.vertex(x, y, z).color(this.fixedRed, this.fixedGreen, this.fixedBlue, this.fixedAlpha).texture(u, v).next();
-        }
-
-        public void next() {
-            this.delegate.vertex(this.x, this.y, this.z).color(this.fixedRed, this.fixedGreen, this.fixedBlue, this.fixedAlpha).texture(this.u, this.v).next();
-        }
-
-//        @Override
-//        public void push(MemoryStack stack, long ptr, int count, VertexFormatDescription format) {
-//            VertexTransform.transformColor(ptr, count, format, ColorABGR.pack(this.fixedRed, this.fixedGreen, this.fixedBlue, this.fixedAlpha));
-//            VertexBufferWriter.of(this.delegate).push(stack, ptr, count, format);
-//        }
     }
 }

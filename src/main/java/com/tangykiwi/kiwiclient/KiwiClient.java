@@ -26,7 +26,7 @@ public class KiwiClient implements ModInitializer {
 
 	private MinecraftClient mc;
 
-	public static String name = "KiwiClient " + SharedConstants.getGameVersion().getName(), version = "8.15.53";
+	public static String name = "KiwiClient " + SharedConstants.getGameVersion().getName(), version = "8.16.53";
 
 	public static DiscordRichPresence discordRPC;
 	public static DiscordRPC rpc = DiscordRPC.INSTANCE;
@@ -35,14 +35,15 @@ public class KiwiClient implements ModInitializer {
 	public static String PREFIX = ",";
 	public static EventBus eventBus = new EventBus();
 
-	public static Identifier EARS = new Identifier("kiwiclient:textures/cosmetic/ears.png");
-	public static Identifier DUCK = new Identifier("kiwiclient:textures/hud/duck.png");
-	public static Identifier CAPE = new Identifier("kiwiclient:textures/cosmetic/cape/cape.png");
-	public static Identifier CAPE2 = new Identifier("kiwiclient:textures/cosmetic/cape/gura_cape.png");
-	public static Identifier CAPE3 = new Identifier("kiwiclient:textures/cosmetic/cape/ahri_nsfw_cape.png");
-	public static Identifier MENU = new Identifier("kiwiclient:textures/background/background1.png");
-	public static Identifier MENU2 = new Identifier("kiwiclient:textures/background/background2.png");
-	public static Identifier MENU3 = new Identifier("kiwiclient:textures/background/background3.png");
+	public static Identifier EARS = Identifier.of("kiwiclient:textures/cosmetic/ears.png");
+	public static Identifier DUCK = Identifier.of("kiwiclient:textures/hud/duck.png");
+	public static Identifier CAPE = Identifier.of("kiwiclient:textures/cosmetic/cape/cape.png");
+	public static Identifier CAPE2 = Identifier.of("kiwiclient:textures/cosmetic/cape/gura_cape.png");
+	public static Identifier CAPE3 = Identifier.of("kiwiclient:textures/cosmetic/cape/ahri_nsfw_cape.png");
+	public static Identifier MENU = Identifier.of("kiwiclient:textures/background/background1.png");
+	public static Identifier MENU_ARRXW = Identifier.of("kiwiclient:textures/background/background4.png");
+	public static Identifier MENU2 = Identifier.of("kiwiclient:textures/background/background2.png");
+	public static Identifier MENU3 = Identifier.of("kiwiclient:textures/background/background3.png");
 
 	public static KeyBinding zoomKey = new KeyBinding("kiwiclient.zoom", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_5, "KiwiClient");
 
@@ -75,7 +76,7 @@ public class KiwiClient implements ModInitializer {
 		ConfigManager.loadClickGui("default");
 
 		FabricLoader.getInstance().getModContainer("kiwiclient").ifPresent(modContainer -> {
-			ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("kiwiclient:kiwitweaks"), "resourcepacks/kiwitweaks", modContainer, true);
+			ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of("kiwiclient:kiwitweaks"), "resourcepacks/kiwitweaks", modContainer, true);
 		});
 
 		KeyBindingHelper.registerKeyBinding(zoomKey);

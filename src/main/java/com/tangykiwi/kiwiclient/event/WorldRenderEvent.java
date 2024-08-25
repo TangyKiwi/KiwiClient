@@ -10,6 +10,7 @@ public class WorldRenderEvent extends Event {
 
         public Pre(float partialTicks) {
             this.partialTicks = partialTicks;
+            this.matrixStack = new MatrixStack();
         }
 
         public Pre(float partialTicks, MatrixStack matrixStack) {
@@ -23,6 +24,7 @@ public class WorldRenderEvent extends Event {
 
         public Post(float partialTicks) {
             this.partialTicks = partialTicks;
+            this.matrixStack = new MatrixStack();
         }
 
         public Post(float partialTicks, MatrixStack matrixStack) {

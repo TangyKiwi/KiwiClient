@@ -5,12 +5,4 @@ import net.minecraft.text.Text;
 
 import java.util.List;
 
-public class ItemStackTooltipEvent {
-    public ItemStack itemStack;
-    public List<Text> list;
-
-    public ItemStackTooltipEvent(ItemStack itemStack, List<Text> list) {
-        this.itemStack = itemStack;
-        this.list = list;
-    }
-}
+public record ItemStackTooltipEvent(ItemStack itemStack, List<Text> list) {}

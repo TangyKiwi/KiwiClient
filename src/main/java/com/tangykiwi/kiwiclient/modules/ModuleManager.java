@@ -77,6 +77,7 @@ public class ModuleManager {
         moduleList.add(new MainMenu());
         moduleList.add(new NoIP());
         moduleList.add(new NoLO());
+        moduleList.add(new TestModule());
 
         //player
         moduleList.add(new AntiBlind());

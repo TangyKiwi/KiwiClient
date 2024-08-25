@@ -25,3 +25,9 @@ accessible    field    net/minecraft/client/render/RenderLayer$MultiPhaseParamet
 # TextRenderer
 # - Making the font storage accessible so WindowPassTextFieldWidget can override the text renderer
 accessible    field    net/minecraft/client/font/TextRenderer    fontStorageAccessor    Ljava/util/function/Function;
+
+# PlayerInteractEntityC2SPacket
+# - Making various classes accessible for Criticals
+accessible   class   net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket$InteractType
+accessible   class   net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket$InteractAtHandler
+accessible   class   net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket$InteractTypeHandler

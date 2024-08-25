@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.mainmenu.MainMenu;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.LogoDrawer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -17,18 +18,12 @@ import static com.tangykiwi.kiwiclient.KiwiClient.discordRPC;
 import static com.tangykiwi.kiwiclient.KiwiClient.rpc;
 
 @Mixin(TitleScreen.class)
-public class TitleScreenMixin extends Screen {
-
-    @Shadow @Final private LogoDrawer logoDrawer;
-
-    protected TitleScreenMixin(Text t) {
-        super(t);
-    }
+public class TitleScreenMixin {
 
     @Inject(method = "init()V", at = @At("HEAD"))
     private void init(CallbackInfo info) {
         if(KiwiClient.moduleManager.getModule(com.tangykiwi.kiwiclient.modules.other.MainMenu.class).isEnabled()) {
-            this.client.setScreen(new MainMenu());
+            MinecraftClient.getInstance().setScreen(new MainMenu());
         }
 
         discordRPC.details = "Idle";

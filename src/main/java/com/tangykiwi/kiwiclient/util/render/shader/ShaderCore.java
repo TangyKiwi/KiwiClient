@@ -16,7 +16,7 @@ public class ShaderCore {
 
     static {
         try {
-            COLOR_OVERLAY_SHADER = ShaderLoader.load(VertexFormats.POSITION_COLOR_TEXTURE, new Identifier("kiwiclient", "color_overlay"));
+            COLOR_OVERLAY_SHADER = ShaderLoader.load(VertexFormats.POSITION_TEXTURE_COLOR, Identifier.of("kiwiclient", "color_overlay"));
         } catch (IOException e) {
             throw new RuntimeException("Failed to initialize KiwiClient core shaders");
         }

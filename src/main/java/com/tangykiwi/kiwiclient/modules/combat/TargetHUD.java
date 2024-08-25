@@ -10,22 +10,28 @@ import com.tangykiwi.kiwiclient.util.Utils;
 import com.tangykiwi.kiwiclient.util.font.GlyphPageFontRenderer;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.ObjectIntPair;
+import it.unimi.dsi.fastutil.objects.ObjectIntImmutablePair;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Map;
+import java.util.List;
 
 public class TargetHUD extends Module {
     public PlayerEntity playerEntity;
@@ -74,7 +80,7 @@ public class TargetHUD extends Module {
 
         playerEntity = getNearestPlayer();
         if(playerEntity == null) return;
-        InventoryScreen.drawEntity(context, x + 26, y + 70, x + 26, y + 70, 30, 0, -MathHelper.wrapDegrees(playerEntity.prevYaw + (playerEntity.getYaw() - playerEntity.prevYaw) * mc.getTickDelta()), -playerEntity.getPitch(), playerEntity);
+        InventoryScreen.drawEntity(context, x + 26, y + 70, x + 26, y + 70, 30, 0, -MathHelper.wrapDegrees(playerEntity.prevYaw + (playerEntity.getYaw() - playerEntity.prevYaw) * mc.getRenderTickCounter().getTickDelta(true)), -playerEntity.getPitch(), playerEntity);
 
         // Health bar
         x = scaledWidth - 164;
@@ -166,13 +172,17 @@ public class TargetHUD extends Module {
 
             armorY += 18;
 
-            Map<Enchantment, Integer> enchantments = EnchantmentHelper.get(itemStack);
+            ItemEnchantmentsComponent enchantments = EnchantmentHelper.getEnchantments(itemStack);
+            List<ObjectIntPair<RegistryEntry<Enchantment>>> enchantmentsToShow = new ArrayList<>();
 
-            for (Enchantment enchantment : enchantments.keySet()) {
-                String enchantText = Utils.getEnchantmentName(enchantment);
-                String enchantName = enchantText + " " + enchantments.get(enchantment);
+            for (Object2IntMap.Entry<RegistryEntry<Enchantment>> entry : enchantments.getEnchantmentEntries()) {
+                enchantmentsToShow.add(new ObjectIntImmutablePair<>(entry.getKey(), entry.getIntValue()));
+            }
 
-                textRenderer.drawCenteredString(matrixStack, enchantName, armorX + 8 + 0.5 * (textRenderer.getStringWidth(enchantName) / 2), armorY, enchantment.isCursed() ? Color.RED.hashCode() : 0xFFFFFF, 0.5F);
+            for (ObjectIntPair<RegistryEntry<Enchantment>> entry : enchantmentsToShow) {
+                String enchantName = Utils.getEnchantmentName(entry.left().value()) + " " + entry.rightInt();
+
+                textRenderer.drawCenteredString(matrixStack, enchantName, armorX + 8 + 0.5 * (textRenderer.getStringWidth(enchantName) / 2), armorY, entry.left().isIn(EnchantmentTags.CURSE) ? Color.RED.hashCode() : 0xFFFFFF, 0.5F);
                 armorY += textRenderer.getFontHeight() * 0.5F;
             }
             slot--;

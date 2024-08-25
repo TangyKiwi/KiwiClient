@@ -13,7 +13,11 @@ import com.tangykiwi.kiwiclient.util.render.color.ColorUtil;
 import com.tangykiwi.kiwiclient.util.EntityUtils;
 import com.tangykiwi.kiwiclient.util.font.IFont;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.ObjectIntImmutablePair;
+import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -23,10 +27,14 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.apache.commons.lang3.text.WordUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Nametags extends Module {
@@ -177,10 +185,18 @@ public class Nametags extends Module {
         }
 
         int c = item.isDamageable() ? -1 : 0;
-        for (Map.Entry<Enchantment, Integer> m : EnchantmentHelper.get(item).entrySet()) {
-            String subText = Utils.getEnchantmentName(m.getKey()) + m.getValue();
 
-            RenderUtils.drawWorldText(subText, subText, 0, x, y, z, (offX + 0.055) * scale, (offY + 0.75 - c * 0.34) * scale, scale * 1.4, false, m.getKey().isCursed() ? 0xff5050 : 0xFFAA00, false);
+        ItemEnchantmentsComponent enchantments = EnchantmentHelper.getEnchantments(item);
+        List<ObjectIntPair<RegistryEntry<Enchantment>>> enchantmentsToShow = new ArrayList<>();
+
+        for (Object2IntMap.Entry<RegistryEntry<Enchantment>> entry : enchantments.getEnchantmentEntries()) {
+            enchantmentsToShow.add(new ObjectIntImmutablePair<>(entry.getKey(), entry.getIntValue()));
+        }
+
+        for (ObjectIntPair<RegistryEntry<Enchantment>> entry : enchantmentsToShow) {
+            String subText = Utils.getEnchantmentName(entry.left().value()) + " " + entry.rightInt();
+
+            RenderUtils.drawWorldText(subText, subText, 0, x, y, z, (offX + 0.055) * scale, (offY + 0.75 - c * 0.34) * scale, scale * 1.4, false, entry.left().isIn(EnchantmentTags.CURSE) ? 0xff5050 : 0xFFAA00, false);
             c--;
         }
         return c;

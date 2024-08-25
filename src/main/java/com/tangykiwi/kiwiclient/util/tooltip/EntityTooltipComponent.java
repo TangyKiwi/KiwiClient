@@ -6,7 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.client.item.TooltipData;
+import net.minecraft.item.tooltip.TooltipData;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -60,17 +60,17 @@ public class EntityTooltipComponent implements ITooltipData, TooltipComponent {
         matrices.pop();
     }
 
-    public static Optional<TooltipData> of(EntityType<?> type, NbtCompound itemNbt) {
-        var client = MinecraftClient.getInstance();
-        var entity = type.create(client.world);
-        if (entity != null) {
-            EntityType.loadFromEntityNbt(client.world, null, entity, itemNbt);
-            adjustEntity(entity, itemNbt);
-            ((EntityAccessor) entity).setInWater(true);
-            return Optional.of(new EntityTooltipComponent(entity));
-        }
-        return Optional.empty();
-    }
+//    public static Optional<TooltipData> of(EntityType<?> type, NbtCompound itemNbt) {
+//        var client = MinecraftClient.getInstance();
+//        var entity = type.create(client.world);
+//        if (entity != null) {
+//            EntityType.loadFromEntityNbt(client.world, null, entity, itemNbt);
+//            adjustEntity(entity, itemNbt);
+//            ((EntityAccessor) entity).setInWater(true);
+//            return Optional.of(new EntityTooltipComponent(entity));
+//        }
+//        return Optional.empty();
+//    }
 
     protected void renderEntity(MatrixStack matrices, int x, int y) {
         if (mc.player == null) return;

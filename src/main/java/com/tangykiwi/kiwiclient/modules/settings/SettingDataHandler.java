@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.modules.settings;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
@@ -48,4 +49,22 @@ public interface SettingDataHandler<T> {
         }
     };
 
+    SettingDataHandler<float[]> FLOAT_ARRAY = new SettingDataHandler<>() {
+        public JsonElement write(float[] value) {
+            JsonArray array = new JsonArray();
+            for (float f: value)
+                array.add(f);
+
+            return array;
+        }
+
+        public float[] read(JsonElement json) {
+            JsonArray array = json.getAsJsonArray();
+            float[] farray = new float[array.size()];
+            for (int i = 0; i < array.size(); i++)
+                farray[i] = array.get(i).getAsFloat();
+
+            return farray;
+        }
+    };
 }

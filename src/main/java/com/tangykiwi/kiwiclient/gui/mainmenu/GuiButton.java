@@ -24,7 +24,7 @@ public class GuiButton {
         this.heighIn = heightIn;
         this.buttonText = buttonText;
         movingUp = false;
-        icon = new Identifier("kiwiclient:textures/menu/" + buttonText.toLowerCase() + ".png");
+        icon = Identifier.of("kiwiclient:textures/menu/" + buttonText.toLowerCase() + ".png");
     }
 
     public void drawButton(DrawContext context, int mouseX, int mouseY) {

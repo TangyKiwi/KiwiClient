@@ -120,7 +120,7 @@ public class XRay extends Module {
     public void onRenderBlockTesselate(RenderBlockEvent.Tesselate event) {
         if (!blocks.contains(event.getState().getBlock())) {
             if(getSetting(1).asToggle().state) {
-                event.getVertexConsumer().fixedColor(-1, -1, -1, getSetting(1).asToggle().getChild(0).asSlider().getValueInt());
+                event.getVertexConsumer().color(-1, -1, -1, getSetting(1).asToggle().getChild(0).asSlider().getValueInt());
             }
             else {
                 event.setCancelled(true);

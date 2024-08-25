@@ -31,7 +31,7 @@ public class ShaderEffectWrapper {
     }
 
     public void render() {
-        shader.render(mc.getTickDelta());
+        shader.render(mc.getRenderTickCounter().getTickDelta(true));
         mc.getFramebuffer().beginWrite(false);
     }
 
@@ -49,8 +49,8 @@ public class ShaderEffectWrapper {
         ShaderProgram blitshader = mc.gameRenderer.blitScreenProgram;
         blitshader.addSampler("DiffuseSampler", buffer.getColorAttachment());
 
-        double w = mc.getWindow().getFramebufferWidth();
-        double h = mc.getWindow().getFramebufferHeight();
+        float w = mc.getWindow().getFramebufferWidth();
+        float h = mc.getWindow().getFramebufferHeight();
         float ws = (float) buffer.viewportWidth / (float) buffer.textureWidth;
         float hs = (float) buffer.viewportHeight / (float) buffer.textureHeight;
 
@@ -63,13 +63,11 @@ public class ShaderEffectWrapper {
         GlStateManager._viewport(0, 0, (int) w, (int) h);
 
         blitshader.bind();
-        Tessellator tessellator = RenderSystem.renderThreadTesselator();
-        BufferBuilder bufferBuilder = tessellator.getBuffer();
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
-        bufferBuilder.vertex(0, h, 0).texture(0f, 0f).color(255, 255, 255, 255).next();
-        bufferBuilder.vertex(w, h, 0).texture(ws, 0f).color(255, 255, 255, 255).next();
-        bufferBuilder.vertex(w, 0, 0).texture(ws, hs).color(255, 255, 255, 255).next();
-        bufferBuilder.vertex(0, 0, 0).texture(0f, hs).color(255, 255, 255, 255).next();
+        BufferBuilder bufferBuilder = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
+        bufferBuilder.vertex(0, h, 0).texture(0f, 0f).color(255, 255, 255, 255);
+        bufferBuilder.vertex(w, h, 0).texture(ws, 0f).color(255, 255, 255, 255);
+        bufferBuilder.vertex(w, 0, 0).texture(ws, hs).color(255, 255, 255, 255);
+        bufferBuilder.vertex(0, 0, 0).texture(0f, hs).color(255, 255, 255, 255);
         BufferRenderer.draw(bufferBuilder.end());
         blitshader.unbind();
 

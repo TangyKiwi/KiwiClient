@@ -20,10 +20,11 @@ public class VanillaSpoof extends Module {
     @Subscribe
     public void onSendPacket(SendPacketEvent event) {
         if(event.packet instanceof CustomPayloadC2SPacket packet) {
-            Identifier id = packet.payload().id();
-            if(id.equals(BrandCustomPayload.ID)) {
+            Identifier id = packet.payload().getId().id();
+            if(id.equals(BrandCustomPayload.ID.id())) {
                 ModeSetting setting = getSetting(0).asMode();
-                event.packet.write(new PacketByteBuf(Unpooled.buffer()).writeString(setting.modes[setting.mode].toLowerCase()));
+                CustomPayloadC2SPacket spoofedPacket = new CustomPayloadC2SPacket(new BrandCustomPayload(setting.modes[setting.mode].toLowerCase()));
+                event.connection.send(spoofedPacket);
             }
         }
     }
