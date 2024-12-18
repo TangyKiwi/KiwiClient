@@ -5,15 +5,17 @@
 <h1 align="center">KiwiClient</h1>
 
 <div align="center">
-    <img src="https://img.shields.io/github/last-commit/TangyKiwi/KiwiClient" alt="GitHub last commit"/>
-    <img src="https://img.shields.io/github/actions/workflow/status/TangyKiwi/KiwiClient/build.yml?branch=master" alt="Build status"/>
-    <img src="https://img.shields.io/badge/MC-1.21.1-brightgreen.svg" alt="Minecraft"/>
+    <img src="https://img.shields.io/github/last-commit/TangyKiwi/KiwiClient/v2" alt="GitHub last commit"/>
+    <img src="https://img.shields.io/github/actions/workflow/status/TangyKiwi/KiwiClient/build.yml?branch=v2" alt="Build status"/>
+    <img src="https://img.shields.io/badge/MC-1.21.4-brightgreen.svg" alt="Minecraft"/>
     <br>
     <img src="https://img.shields.io/github/v/release/TangyKiwi/KiwiClient.svg" alt="Release"/>
     <img src="https://img.shields.io/github/languages/code-size/TangyKiwi/KiwiClient" alt="GitHub code size in bytes"/>
-    <img src="https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/TangyKiwi/KiwiClient/badge?filter=.java$&label=lines%20of%20code&color=blue" alt="GitHub lines of code"/>
+    <img src="https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/TangyKiwi/KiwiClient/badge?branch=v2&filter=.java$&label=lines%20of%20code&color=blue" alt="GitHub lines of code"/>
 </div>
 
+## 1.21.4 UPDATE
+Currently rewriting KiwiClient ground up from scratch!
 
 ## Installation
 ### Standalone Vanilla Installer
