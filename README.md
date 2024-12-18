@@ -14,6 +14,8 @@
     <img src="https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/TangyKiwi/KiwiClient/badge?filter=.java$&label=lines%20of%20code&color=blue" alt="GitHub lines of code"/>
 </div>
 
+## 1.21.4 UPDATE
+Currently rewriting KiwiClient ground up from scratch! Check branch `v2` for the latest updates.
 
 ## Installation
 ### Standalone Vanilla Installer
