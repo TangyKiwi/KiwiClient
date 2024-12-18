@@ -1,0 +1,96 @@
+plugins {
+	id 'fabric-loom' version '1.9-SNAPSHOT'
+	id 'maven-publish'
+}
+
+base {
+	version = project.mod_version
+	group = project.maven_group
+	archivesName = project.archives_base_name
+}
+
+repositories {
+	maven {
+		url 'https://jitpack.io'
+	}
+
+	maven {
+		name = "modrinth"
+		url = "https://api.modrinth.com/maven"
+
+		content {
+			includeGroup "maven.modrinth"
+		}
+	}
+
+	mavenCentral()
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	Set<String> apiModules = [
+			"fabric-api-base",
+			"fabric-item-group-api-v1",
+			"fabric-resource-loader-v0",
+			"fabric-events-interaction-v0",
+			"fabric-key-binding-api-v1",
+			"fabric-lifecycle-events-v1"
+	]
+	apiModules.forEach {
+		include(modImplementation(fabricApi.module(it, project.fabric_version)))
+	}
+
+	modCompileOnly("maven.modrinth:sodium:${project.sodium_version}") { transitive = false }
+
+	modImplementation "com.ptsmods:devlogin:3.5"
+}
+
+tasks {
+	processResources {
+		def propertyMap = [
+				"version"          : project.version,
+				"commit"           : project.findProperty("commit") ?: "",
+				"minecraft_version": project.minecraft_version,
+				"loader_version"   : project.loader_version
+		]
+
+		inputs.properties(propertyMap)
+		filesMatching("fabric.mod.json") {
+			expand(propertyMap)
+		}
+	}
+
+	java {
+		withSourcesJar()
+
+		sourceCompatibility = JavaVersion.VERSION_21
+		targetCompatibility = JavaVersion.VERSION_21
+	}
+
+	jar {
+		from("LICENSE") {
+			rename { "${it}_${project.base.archivesName}"}
+		}
+	}
+}
+
+// configure the maven publication
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			artifactId = project.archives_base_name
+			from components.java
+		}
+	}
+
+	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+	repositories {
+		// Add repositories to publish to here.
+		// Notice: This block does NOT have the same function as the block in the top level.
+		// The repositories here will be used for publishing your artifact, not for
+		// retrieving dependencies.
+	}
+}

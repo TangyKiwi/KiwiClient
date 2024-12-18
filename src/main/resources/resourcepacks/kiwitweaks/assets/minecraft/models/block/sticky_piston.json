@@ -1,0 +1,23 @@
+{
+	"credit": "Created by Stridey",
+	"textures": {
+		"side": "block/piston_side_sticky",
+		"particle": "block/piston_side_sticky",
+		"platform": "block/piston_top_sticky",
+		"bottom": "block/piston_bottom"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#platform", "cullface": "north"},
+				"east": {"uv": [0, 0, 16, 16], "rotation": 90, "texture": "#side", "cullface": "east"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#bottom", "cullface": "south"},
+				"west": {"uv": [0, 0, 16, 16], "rotation": 270, "texture": "#side", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#side", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#side", "cullface": "down"}
+			}
+		}
+	]
+}

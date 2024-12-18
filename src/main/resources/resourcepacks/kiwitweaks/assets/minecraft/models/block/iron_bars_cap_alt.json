@@ -1,0 +1,20 @@
+{
+	"credit": "Created by Stridey",
+	"ambientocclusion": false,
+	"textures": {
+		"particle": "block/iron_bars",
+		"edge": "block/iron_bars"
+	},
+	"elements": [
+		{
+			"from": [7, 0, 7],
+			"to": [9, 16, 8],
+			"faces": {
+				"north": {"uv": [9, 0, 7, 16], "texture": "#edge"},
+				"east": {"uv": [8.999, 0, 8, 16], "texture": "#edge"},
+				"south": {"uv": [9, 0, 7, 16], "texture": "#edge"},
+				"west": {"uv": [7.999, 0, 7, 16], "texture": "#edge"}
+			}
+		}
+	]
+}

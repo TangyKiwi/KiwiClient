@@ -1,0 +1,18 @@
+{
+	"credit": "Created by Stridey",
+	"texture_size": [32, 16],
+	"textures": {
+		"book": "block/chiseled_bookshelf_occupied",
+		"ends": "block/chiseled_bookshelf_book_ends"
+	},
+	"elements": [
+		{
+			"from": [1, 1, 0],
+			"to": [5, 7, 6],
+			"faces": {
+				"north": {"uv": [11, 9, 15, 15], "texture": "#book", "cullface": "north"},
+				"east": {"uv": [6, 10, 9, 16], "texture": "#ends", "cullface": "north"}
+			}
+		}
+	]
+}

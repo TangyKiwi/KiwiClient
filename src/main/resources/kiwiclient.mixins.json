@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "com.tangykiwi.kiwiclient.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"MinecraftClientMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

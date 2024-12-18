@@ -1,0 +1,2545 @@
+{
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "block/rail",
+        "rail": "block/rail_corner"
+    },
+    "elements": [
+        {
+            "name": "Plank1",
+            "from": [
+                11,
+                0,
+                1
+            ],
+            "to": [
+                13,
+                0.75,
+                2
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        1,
+                        13,
+                        2
+                    ],
+                    "rotation": 180
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        1,
+                        13,
+                        2
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        1,
+                        12,
+                        2
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        1,
+                        13,
+                        2
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        1,
+                        13,
+                        2
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank2",
+            "from": [
+                11,
+                0,
+                2
+            ],
+            "to": [
+                12,
+                0.75,
+                3
+            ],
+            "faces": {
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        2,
+                        12,
+                        3
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        2,
+                        12,
+                        3
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        2,
+                        12,
+                        3
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank3",
+            "from": [
+                12,
+                0,
+                4
+            ],
+            "to": [
+                14,
+                0.75,
+                7
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        4,
+                        14,
+                        5
+                    ],
+                    "rotation": 180
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        4,
+                        14,
+                        7
+                    ],
+                    "rotation": 90
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        6,
+                        14,
+                        7
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        4,
+                        13,
+                        7
+                    ],
+                    "rotation": 270
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        4,
+                        14,
+                        7
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        4,
+                        12,
+                        7
+                    ],
+                    "rotation": 180,
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank4",
+            "from": [
+                13,
+                0,
+                7
+            ],
+            "to": [
+                15,
+                0.75,
+                10
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        7,
+                        15,
+                        8
+                    ],
+                    "rotation": 180
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        7,
+                        15,
+                        10
+                    ],
+                    "rotation": 90
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        9,
+                        15,
+                        10
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        7,
+                        14,
+                        10
+                    ],
+                    "rotation": 90
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        7,
+                        15,
+                        10
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        15,
+                        7,
+                        13,
+                        10
+                    ],
+                    "rotation": 180,
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank5",
+            "from": [
+                14,
+                0,
+                10
+            ],
+            "to": [
+                16,
+                0.75,
+                12
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        10,
+                        16,
+                        11
+                    ],
+                    "rotation": 180
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        15,
+                        10,
+                        16,
+                        12
+                    ],
+                    "rotation": 90,
+                    "cullface": "east"
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        10,
+                        15,
+                        12
+                    ],
+                    "rotation": 270
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        10,
+                        16,
+                        12
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        16,
+                        10,
+                        14,
+                        12
+                    ],
+                    "rotation": 180,
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank6",
+            "from": [
+                14,
+                0,
+                14
+            ],
+            "to": [
+                16,
+                0.75,
+                15
+            ],
+            "faces": {
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        15,
+                        14,
+                        16,
+                        15
+                    ],
+                    "cullface": "east"
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        14,
+                        16,
+                        15
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        14,
+                        16,
+                        15
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        14,
+                        16,
+                        15
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank7",
+            "from": [
+                14,
+                0,
+                15
+            ],
+            "to": [
+                15,
+                0.75,
+                16
+            ],
+            "faces": {
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        15,
+                        15,
+                        16
+                    ]
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        15,
+                        15,
+                        16
+                    ],
+                    "cullface": "south"
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        15,
+                        15,
+                        16
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        15,
+                        15,
+                        16
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank8",
+            "from": [
+                5,
+                0,
+                5
+            ],
+            "to": [
+                7,
+                0.75,
+                6
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        5,
+                        7,
+                        6
+                    ],
+                    "rotation": 180
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        6,
+                        5,
+                        7,
+                        6
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        5,
+                        6,
+                        6
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        5,
+                        7,
+                        6
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        5,
+                        7,
+                        6
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank9",
+            "from": [
+                5,
+                0,
+                6
+            ],
+            "to": [
+                6,
+                0.75,
+                7
+            ],
+            "faces": {
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        6,
+                        6,
+                        7
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        6,
+                        6,
+                        7
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        6,
+                        6,
+                        7
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        6,
+                        6,
+                        7
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank10",
+            "from": [
+                7,
+                0,
+                7
+            ],
+            "to": [
+                9,
+                0.75,
+                9
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        7,
+                        9,
+                        8
+                    ],
+                    "rotation": 180
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        8,
+                        7,
+                        9,
+                        9
+                    ],
+                    "rotation": 90
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        8,
+                        9,
+                        9
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        7,
+                        8,
+                        9
+                    ],
+                    "rotation": 270
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        7,
+                        9,
+                        9
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        7,
+                        7,
+                        9
+                    ],
+                    "rotation": 180,
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank11",
+            "from": [
+                9,
+                0,
+                8
+            ],
+            "to": [
+                10,
+                0.75,
+                9
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        8,
+                        10,
+                        9
+                    ]
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        8,
+                        10,
+                        9
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        8,
+                        10,
+                        9
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        8,
+                        10,
+                        9
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank12",
+            "from": [
+                8,
+                0,
+                9
+            ],
+            "to": [
+                9,
+                0.75,
+                10
+            ],
+            "faces": {
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        8,
+                        9,
+                        9,
+                        10
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        8,
+                        9,
+                        9,
+                        10
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        8,
+                        9,
+                        9,
+                        10
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        8,
+                        9,
+                        9,
+                        10
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank13",
+            "from": [
+                9,
+                0,
+                9
+            ],
+            "to": [
+                11,
+                0.75,
+                11
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        9,
+                        11,
+                        10
+                    ],
+                    "rotation": 180
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        9,
+                        11,
+                        11
+                    ],
+                    "rotation": 180
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        10,
+                        11,
+                        11
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        9,
+                        10,
+                        11
+                    ],
+                    "rotation": 270
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        9,
+                        11,
+                        11
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        9,
+                        9,
+                        11
+                    ],
+                    "rotation": 180,
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank14",
+            "from": [
+                11,
+                0,
+                10
+            ],
+            "to": [
+                12,
+                0.75,
+                11
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        10,
+                        12,
+                        11
+                    ]
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        10,
+                        12,
+                        11
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        10,
+                        12,
+                        11
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        10,
+                        12,
+                        11
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank15",
+            "from": [
+                10,
+                0,
+                11
+            ],
+            "to": [
+                11,
+                0.75,
+                12
+            ],
+            "faces": {
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        11,
+                        11,
+                        12
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        11,
+                        11,
+                        12
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        11,
+                        11,
+                        12
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        11,
+                        11,
+                        12
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank16",
+            "from": [
+                11,
+                0,
+                11
+            ],
+            "to": [
+                13,
+                0.75,
+                13
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        11,
+                        13,
+                        12
+                    ]
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        11,
+                        13,
+                        13
+                    ],
+                    "rotation": 90
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        12,
+                        13,
+                        13
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        11,
+                        12,
+                        13
+                    ],
+                    "rotation": 270
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        11,
+                        13,
+                        13
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        11,
+                        11,
+                        13
+                    ],
+                    "rotation": 180,
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank17",
+            "from": [
+                13,
+                0,
+                12
+            ],
+            "to": [
+                14,
+                0.75,
+                13
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        12,
+                        14,
+                        13
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        12,
+                        14,
+                        13
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        12,
+                        14,
+                        13
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank18",
+            "from": [
+                12,
+                0,
+                13
+            ],
+            "to": [
+                13,
+                0.75,
+                14
+            ],
+            "faces": {
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        13,
+                        13,
+                        14
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        13,
+                        13,
+                        14
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        13,
+                        13,
+                        14
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank19",
+            "from": [
+                1,
+                0,
+                11
+            ],
+            "to": [
+                3,
+                0.75,
+                12
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        1,
+                        11,
+                        3,
+                        12
+                    ],
+                    "rotation": 180
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        1,
+                        11,
+                        2,
+                        12
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        1,
+                        11,
+                        3,
+                        12
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        1,
+                        11,
+                        3,
+                        12
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank20",
+            "from": [
+                1,
+                0,
+                12
+            ],
+            "to": [
+                2,
+                0.75,
+                13
+            ],
+            "faces": {
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        1,
+                        12,
+                        2,
+                        13
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        1,
+                        12,
+                        2,
+                        13
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        1,
+                        12,
+                        2,
+                        13
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        1,
+                        12,
+                        2,
+                        13
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank21",
+            "from": [
+                4,
+                0,
+                12
+            ],
+            "to": [
+                7,
+                0.75,
+                14
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        4,
+                        12,
+                        7,
+                        13
+                    ],
+                    "rotation": 180
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        6,
+                        12,
+                        7,
+                        14
+                    ],
+                    "rotation": 90
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        4,
+                        13,
+                        7,
+                        14
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        4,
+                        13,
+                        5,
+                        14
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        4,
+                        12,
+                        7,
+                        14
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        12,
+                        4,
+                        14
+                    ],
+                    "rotation": 180,
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank22",
+            "from": [
+                7,
+                0,
+                13
+            ],
+            "to": [
+                10,
+                0.75,
+                15
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        13,
+                        10,
+                        14
+                    ],
+                    "rotation": 180
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        13,
+                        10,
+                        15
+                    ],
+                    "rotation": 90
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        14,
+                        10,
+                        15
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        13,
+                        8,
+                        15
+                    ],
+                    "rotation": 270
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        13,
+                        10,
+                        15
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        13,
+                        7,
+                        15
+                    ],
+                    "rotation": 180,
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Plank23",
+            "from": [
+                10,
+                0,
+                14
+            ],
+            "to": [
+                12,
+                0.75,
+                16
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        14,
+                        12,
+                        15
+                    ],
+                    "rotation": 180
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        15,
+                        12,
+                        16
+                    ],
+                    "cullface": "south"
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        15,
+                        12,
+                        16
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        14,
+                        12,
+                        16
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        14,
+                        10,
+                        16
+                    ],
+                    "rotation": 180,
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "UR1",
+            "from": [
+                12,
+                0,
+                2
+            ],
+            "to": [
+                13,
+                0.75,
+                3
+            ],
+            "faces": {
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        4,
+                        12,
+                        5,
+                        13
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        4,
+                        12,
+                        5,
+                        13
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "UR2",
+            "from": [
+                11,
+                0,
+                3
+            ],
+            "to": [
+                13,
+                0.75,
+                4
+            ],
+            "faces": {
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        12,
+                        6,
+                        13
+                    ]
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        12,
+                        6,
+                        14
+                    ],
+                    "rotation": 90
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        13,
+                        6,
+                        14
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        6,
+                        12,
+                        5,
+                        14
+                    ],
+                    "rotation": 90,
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "UR3",
+            "from": [
+                14,
+                0,
+                12
+            ],
+            "to": [
+                15.999,
+                0.75,
+                14
+            ],
+            "faces": {
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        8,
+                        10,
+                        10
+                    ],
+                    "rotation": 90,
+                    "cullface": "east"
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        8,
+                        8,
+                        10
+                    ],
+                    "rotation": 180,
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "UR4",
+            "from": [
+                6,
+                0,
+                6
+            ],
+            "to": [
+                7.999,
+                0.75,
+                7
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        8,
+                        9,
+                        9
+                    ],
+                    "rotation": 180
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        8,
+                        8,
+                        9,
+                        9
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        8,
+                        9,
+                        9
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "UR5",
+            "from": [
+                6,
+                0,
+                7
+            ],
+            "to": [
+                7,
+                0.75,
+                7.999
+            ],
+            "faces": {
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        9,
+                        10,
+                        10
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        9,
+                        10,
+                        10
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        9,
+                        9,
+                        10,
+                        10
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "UR6",
+            "from": [
+                13,
+                0,
+                13
+            ],
+            "to": [
+                14,
+                0.75,
+                14
+            ],
+            "faces": {
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        14,
+                        12,
+                        15
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "UR7",
+            "from": [
+                2,
+                0,
+                12
+            ],
+            "to": [
+                3,
+                0.75,
+                13
+            ],
+            "faces": {
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        4,
+                        14,
+                        5
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        4,
+                        14,
+                        5
+                    ],
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "UR8",
+            "from": [
+                3,
+                0,
+                11
+            ],
+            "to": [
+                4,
+                0.75,
+                13
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        5,
+                        6,
+                        6
+                    ]
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        5,
+                        6,
+                        7
+                    ],
+                    "rotation": 90
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        6,
+                        6,
+                        7
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        5,
+                        6,
+                        7
+                    ],
+                    "rotation": 180,
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "UR9",
+            "from": [
+                12,
+                0,
+                14
+            ],
+            "to": [
+                14,
+                0.75,
+                15.999
+            ],
+            "faces": {
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        5,
+                        14,
+                        6
+                    ],
+                    "cullface": "south"
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        4,
+                        12,
+                        6
+                    ],
+                    "rotation": 180,
+                    "cullface": "down"
+                }
+            }
+        },
+        {
+            "name": "Rail1-1",
+            "from": [
+                2,
+                0.25,
+                12
+            ],
+            "to": [
+                4,
+                1,
+                16
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        2,
+                        12,
+                        3,
+                        13
+                    ]
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        3,
+                        12,
+                        4,
+                        16
+                    ]
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        2,
+                        15,
+                        4,
+                        16
+                    ],
+                    "cullface": "south"
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        2,
+                        12,
+                        3,
+                        13
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        2,
+                        12,
+                        4,
+                        16
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        2,
+                        12,
+                        4,
+                        16
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Rail1-2",
+            "from": [
+                3,
+                0.25,
+                10
+            ],
+            "to": [
+                5,
+                1,
+                12
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        3,
+                        10,
+                        5,
+                        12
+                    ],
+                    "rotation": 180
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        4,
+                        10,
+                        5,
+                        11
+                    ]
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        3,
+                        10,
+                        5,
+                        12
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        3,
+                        10,
+                        4,
+                        11
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        3,
+                        10,
+                        5,
+                        12
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        3,
+                        10,
+                        5,
+                        12
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Rail1-3",
+            "from": [
+                4,
+                0.25,
+                8
+            ],
+            "to": [
+                6,
+                1,
+                10
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        4,
+                        8,
+                        5,
+                        9
+                    ]
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        8,
+                        6,
+                        9
+                    ]
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        4,
+                        8,
+                        6,
+                        10
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        4,
+                        8,
+                        5,
+                        9
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        4,
+                        8,
+                        6,
+                        10
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        4,
+                        8,
+                        6,
+                        10
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Rail1-4",
+            "from": [
+                5,
+                0.25,
+                7
+            ],
+            "to": [
+                7,
+                1,
+                8
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        7,
+                        7,
+                        8
+                    ],
+                    "rotation": 180
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        6,
+                        7,
+                        7,
+                        8
+                    ]
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        7,
+                        7,
+                        8
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        7,
+                        6,
+                        8
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        7,
+                        7,
+                        8
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        5,
+                        7,
+                        7,
+                        8
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Rail1-5",
+            "from": [
+                6,
+                0.25,
+                6
+            ],
+            "to": [
+                7,
+                1,
+                7
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        6,
+                        6,
+                        7,
+                        7
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        6,
+                        6,
+                        7,
+                        7
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        6,
+                        6,
+                        7,
+                        7
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        6,
+                        7,
+                        7,
+                        8
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Rail1-6",
+            "from": [
+                7,
+                0.25,
+                5
+            ],
+            "to": [
+                8,
+                1,
+                7
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        5,
+                        8,
+                        6
+                    ]
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        6,
+                        8,
+                        7
+                    ]
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        6,
+                        8,
+                        7
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        5,
+                        8,
+                        6
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        5,
+                        8,
+                        7
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        7,
+                        5,
+                        8,
+                        7
+                    ],
+                    "rotation": 180
+                }
+            }
+        },
+        {
+            "name": "Rail1-7",
+            "from": [
+                8,
+                0.25,
+                4
+            ],
+            "to": [
+                10,
+                1,
+                6
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        8,
+                        4,
+                        9,
+                        5
+                    ]
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        8,
+                        5,
+                        9,
+                        6
+                    ]
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        8,
+                        5,
+                        9,
+                        6
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        8,
+                        4,
+                        9,
+                        5
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        8,
+                        4,
+                        10,
+                        6
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        8,
+                        4,
+                        10,
+                        6
+                    ],
+                    "rotation": 180
+                }
+            }
+        },
+        {
+            "name": "Rail1-8",
+            "from": [
+                10,
+                0.25,
+                3
+            ],
+            "to": [
+                12,
+                1,
+                5
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        3,
+                        11,
+                        4
+                    ]
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        4,
+                        11,
+                        5
+                    ]
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        4,
+                        11,
+                        5
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        11,
+                        3,
+                        12,
+                        4
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        3,
+                        12,
+                        5
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        10,
+                        3,
+                        12,
+                        5
+                    ],
+                    "rotation": 180
+                }
+            }
+        },
+        {
+            "name": "Rail1-9",
+            "from": [
+                12,
+                0.25,
+                2
+            ],
+            "to": [
+                16,
+                1,
+                4
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        2,
+                        16,
+                        3
+                    ]
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        2,
+                        16,
+                        4
+                    ],
+                    "rotation": 90,
+                    "cullface": "east"
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        3,
+                        16,
+                        4
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        2,
+                        14,
+                        3
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        2,
+                        16,
+                        4
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        2,
+                        16,
+                        4
+                    ],
+                    "rotation": 180
+                }
+            }
+        },
+        {
+            "name": "Rail2-1",
+            "from": [
+                12,
+                0.25,
+                14
+            ],
+            "to": [
+                14,
+                1,
+                16
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        14,
+                        13,
+                        15
+                    ]
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        14,
+                        14,
+                        15
+                    ]
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        14,
+                        14,
+                        16
+                    ],
+                    "cullface": "south"
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        14,
+                        13,
+                        15
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        14,
+                        14,
+                        16
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        12,
+                        14,
+                        14,
+                        16
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Rail2-2",
+            "from": [
+                13,
+                0.25,
+                13
+            ],
+            "to": [
+                14,
+                1,
+                14
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        13,
+                        14,
+                        14
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        13,
+                        14,
+                        14
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        13,
+                        14,
+                        14
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        13,
+                        13,
+                        14,
+                        14
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Rail2-3",
+            "from": [
+                14,
+                0.25,
+                12
+            ],
+            "to": [
+                16,
+                1,
+                14
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        12,
+                        15,
+                        13
+                    ]
+                },
+                "east": {
+                    "texture": "#rail",
+                    "uv": [
+                        15,
+                        12,
+                        16,
+                        14
+                    ],
+                    "rotation": 90,
+                    "cullface": "east"
+                },
+                "south": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        13,
+                        15,
+                        14
+                    ]
+                },
+                "west": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        12,
+                        15,
+                        13
+                    ]
+                },
+                "up": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        12,
+                        16,
+                        14
+                    ]
+                },
+                "down": {
+                    "texture": "#rail",
+                    "uv": [
+                        14,
+                        12,
+                        16,
+                        14
+                    ],
+                    "rotation": 180
+                }
+            }
+        }
+    ]
+}
