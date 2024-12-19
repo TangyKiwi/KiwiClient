@@ -69,7 +69,7 @@ public class MinecraftClientMixin {
         }
     }
 
-    @Inject(method="getWindowTitle", at=@At(value="TAIL"), cancellable=true)
+    @Inject(method = "getWindowTitle", at = @At(value = "TAIL"), cancellable = true)
     private void getWindowTitle(final CallbackInfoReturnable<String> info) {
         MinecraftClient client = KiwiClient.mc;
 

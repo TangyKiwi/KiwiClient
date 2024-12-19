@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient;
 
 import com.google.common.eventbus.EventBus;
+import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.module.ModuleManager;
 import com.tangykiwi.kiwiclient.util.discord.Discord;
 import com.tangykiwi.kiwiclient.util.discord.DiscordEventHandlers;
@@ -28,6 +29,7 @@ public class KiwiClient implements ModInitializer {
 	public static EventBus eventBus = new EventBus();
 
 	public static ModuleManager moduleManager;
+	public static CommandManager commandManager;
 
 	public static String PREFIX = ",";
 
@@ -53,6 +55,10 @@ public class KiwiClient implements ModInitializer {
 		moduleManager = new ModuleManager();
 		moduleManager.init();
 		eventBus.register(moduleManager);
+
+		LOGGER.info("Initializing CommandManager");
+		commandManager = new CommandManager();
+		commandManager.init();
 	}
 
 	public static void startRPC() {

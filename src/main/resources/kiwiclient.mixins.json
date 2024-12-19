@@ -3,6 +3,8 @@
   "package": "com.tangykiwi.kiwiclient.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ChatInputSuggestorMixin",
+    "ClientPlayNetworkHandlerMixin",
     "KeyboardMixin",
     "MinecraftClientMixin"
   ],
