@@ -1,5 +1,7 @@
 package com.tangykiwi.kiwiclient;
 
+import com.google.common.eventbus.EventBus;
+import com.tangykiwi.kiwiclient.module.ModuleManager;
 import com.tangykiwi.kiwiclient.util.discord.Discord;
 import com.tangykiwi.kiwiclient.util.discord.DiscordEventHandlers;
 import com.tangykiwi.kiwiclient.util.discord.DiscordRichPresence;
@@ -23,6 +25,12 @@ public class KiwiClient implements ModInitializer {
 	public static DiscordRichPresence discordRPC;
 	public static Discord discord = Discord.INSTANCE;
 
+	public static EventBus eventBus = new EventBus();
+
+	public static ModuleManager moduleManager;
+
+	public static String PREFIX = ",";
+
 	static {
 		MOD_META = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow().getMetadata();
 		NAME = MOD_META.getName();
@@ -36,8 +44,15 @@ public class KiwiClient implements ModInitializer {
 
 		mc = MinecraftClient.getInstance();
 
+		LOGGER.info("Initializing DiscordRPC");
 		discordRPC = new DiscordRichPresence();
 		startRPC();
+		LOGGER.info("DiscordRPC running!");
+
+		LOGGER.info("Initializing ModuleManager");
+		moduleManager = new ModuleManager();
+		moduleManager.init();
+		eventBus.register(moduleManager);
 	}
 
 	public static void startRPC() {
