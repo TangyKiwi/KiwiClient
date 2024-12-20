@@ -79,7 +79,7 @@ public abstract class SplashOverlayMixin {
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(770, 1);
 
-        context.drawTexture(RenderLayer::getGuiTextured, KiwiClient.LOGO, k - 150, p - 35, 0, 0, (int) (300 * progress), 70, 300, 70);
+        context.drawTexture(RenderLayer::getGuiTextured, KiwiClient.LOGO2, k - 175, p - 35, 0, 0, (int) (350 * progress), 70, 350, 70);
 
         float t = this.reload.getProgress();
         this.progress = MathHelper.clamp(this.progress * 0.95F + t * 0.050000012F, 0.0F, 1.0F);
