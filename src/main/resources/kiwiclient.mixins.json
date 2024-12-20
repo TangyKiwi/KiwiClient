@@ -6,7 +6,8 @@
     "ChatInputSuggestorMixin",
     "ClientPlayNetworkHandlerMixin",
     "KeyboardMixin",
-    "MinecraftClientMixin"
+    "MinecraftClientMixin",
+    "SplashOverlayMixin"
   ],
   "injectors": {
     "defaultRequire": 1

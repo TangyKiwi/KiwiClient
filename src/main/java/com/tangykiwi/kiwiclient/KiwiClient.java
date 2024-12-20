@@ -11,6 +11,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +33,8 @@ public class KiwiClient implements ModInitializer {
 	public static CommandManager commandManager;
 
 	public static String PREFIX = ",";
+
+	public static Identifier LOGO = Identifier.of("kiwiclient", "textures/logo.png");
 
 	static {
 		MOD_META = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow().getMetadata();
