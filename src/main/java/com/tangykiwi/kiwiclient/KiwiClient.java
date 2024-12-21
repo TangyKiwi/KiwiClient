@@ -6,6 +6,7 @@ import com.tangykiwi.kiwiclient.module.ModuleManager;
 import com.tangykiwi.kiwiclient.util.discord.Discord;
 import com.tangykiwi.kiwiclient.util.discord.DiscordEventHandlers;
 import com.tangykiwi.kiwiclient.util.discord.DiscordRichPresence;
+import com.tangykiwi.kiwiclient.util.font.FontManager;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.loader.api.FabricLoader;
@@ -31,6 +32,7 @@ public class KiwiClient implements ModInitializer {
 
 	public static ModuleManager moduleManager;
 	public static CommandManager commandManager;
+	public static FontManager fontManager;
 
 	public static String PREFIX = ",";
 
@@ -63,6 +65,9 @@ public class KiwiClient implements ModInitializer {
 		LOGGER.info("Initializing CommandManager");
 		commandManager = new CommandManager();
 		commandManager.init();
+
+		LOGGER.info("Initializing FontManager");
+		fontManager = new FontManager();
 	}
 
 	public static void startRPC() {
