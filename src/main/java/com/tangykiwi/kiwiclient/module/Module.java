@@ -7,7 +7,6 @@ import com.tangykiwi.kiwiclient.module.setting.Setting;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Module {
     public final static int KEY_UNBOUND = -1;
@@ -17,7 +16,7 @@ public class Module {
     private String description;
     private int keyCode;
     private boolean enabled = false;
-    private ArrayList<Setting<?>> settings = new ArrayList<>();
+    private ArrayList<Setting> settings = new ArrayList<>();
 
     public Module(String name, String description, int keyCode, Category category) {
         this.name = name;
@@ -26,7 +25,7 @@ public class Module {
         this.category = category;
     }
 
-    public Module(String name, String description, int keyCode, Category category, Setting<?>... s) {
+    public Module(String name, String description, int keyCode, Category category, Setting... s) {
         this.name = name;
         this.description = description;
         this.keyCode = keyCode;
@@ -99,7 +98,7 @@ public class Module {
         }
     }
 
-    public ArrayList<Setting<?>> getSettings() {
+    public ArrayList<Setting> getSettings() {
         return settings;
     }
 
