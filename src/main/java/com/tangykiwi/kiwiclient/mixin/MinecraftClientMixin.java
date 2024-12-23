@@ -73,7 +73,7 @@ public class MinecraftClientMixin {
     private void getWindowTitle(final CallbackInfoReturnable<String> info) {
         MinecraftClient client = KiwiClient.mc;
 
-        String title = KiwiClient.NAME + " v" + KiwiClient.VERSION + " - MC " + SharedConstants.getGameVersion().getName();
+        String title = KiwiClient.NAME + " v" + KiwiClient.VERSION + " - MC " + KiwiClient.MC_VERSION;
 
         ClientPlayNetworkHandler clientPlayNetworkHandler = client.getNetworkHandler();
         if (clientPlayNetworkHandler != null && clientPlayNetworkHandler.getConnection().isOpen()) {

@@ -11,6 +11,7 @@ import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.metadata.ModMetadata;
+import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ public class KiwiClient implements ModInitializer {
 	public static final Logger LOGGER;
 	public static final ModMetadata MOD_META;
 	public static final String VERSION;
+	public static final String MC_VERSION = SharedConstants.getGameVersion().getName();
 
 	public static MinecraftClient mc;
 

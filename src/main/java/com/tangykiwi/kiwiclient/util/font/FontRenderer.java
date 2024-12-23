@@ -276,6 +276,37 @@ public class FontRenderer implements Closeable {
     }
 
     /**
+     * Draws a string with shadow
+     *
+     * @param stack The MatrixStack
+     * @param s     The string to draw
+     * @param x     X coordinate to draw at
+     * @param y     Y coordinate to draw at
+     * @param color Texts color
+     */
+    public void drawStringWithShadow(MatrixStack stack, String s, float x, float y, Color color) {
+        int c = color.getRGB();
+        drawString(stack, s, x + 1.0F, y + 1.0F, new Color((c & 16579836) >> 2 | c & -16777216));
+        drawString(stack, s, x, y, color);
+    }
+
+    /**
+     * Draws a string centered on the X coordinate with a shadow
+     *
+     * @param stack The MatrixStack
+     * @param s     The string to draw
+     * @param x     X center coordinate of the text to draw
+     * @param y     Y coordinate of the text to draw
+     * @param color Texts color
+     */
+    public void drawCenteredStringWithShadow(MatrixStack stack, String s, float x, float y, Color color) {
+        int c = color.getRGB();
+        float width = getStringWidth(s);
+        drawString(stack, s, x - width / 2f + 1.0F, y + 1.0F, new Color((c & 16579836) >> 2 | c & -16777216));
+        drawString(stack, s, x - width / 2f, y, color);
+    }
+
+    /**
      * Calculates the width of the string, if it were drawn on the screen
      *
      * @param text The text to simulate
