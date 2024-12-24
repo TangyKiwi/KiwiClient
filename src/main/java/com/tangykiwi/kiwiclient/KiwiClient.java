@@ -38,9 +38,6 @@ public class KiwiClient implements ModInitializer {
 
 	public static String PREFIX = ",";
 
-	public static Identifier LOGO = Identifier.of("kiwiclient", "textures/logo.png");
-	public static Identifier LOGO2 = Identifier.of("kiwiclient", "textures/logo2.png");
-
 	static {
 		MOD_META = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow().getMetadata();
 		NAME = MOD_META.getName();

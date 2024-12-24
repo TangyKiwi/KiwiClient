@@ -2,7 +2,7 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.util.Textures;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.SplashOverlay;
 import net.minecraft.client.render.RenderLayer;
@@ -79,7 +79,7 @@ public abstract class SplashOverlayMixin {
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(770, 1);
 
-        context.drawTexture(RenderLayer::getGuiTextured, KiwiClient.LOGO2, k - 175, p - 35, 0, 0, (int) (350 * progress), 70, 350, 70);
+        context.drawTexture(RenderLayer::getGuiTextured, Textures.LOGO2, k - 175, p - 35, 0, 0, (int) (350 * progress), 70, 350, 70);
 
         float t = this.reload.getProgress();
         this.progress = MathHelper.clamp(this.progress * 0.95F + t * 0.050000012F, 0.0F, 1.0F);

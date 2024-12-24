@@ -235,7 +235,15 @@ public class FontRenderer implements Closeable {
 
             bb = Tessellator.getInstance().begin(DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
 
+            int len = objects.size();
+            int i = 0;
             for (DrawEntry object : objects) {
+                float mult = 1;
+                // mult is test code for cutting off rendering vertically
+//                if (i < len / 2) {
+//                    mult = 0.5F;
+//                }
+                i++;
                 float xo = object.atX;
                 float yo = object.atY;
                 float cr = object.r;
@@ -248,10 +256,10 @@ public class FontRenderer implements Closeable {
                 float u1 = (float) glyph.u() / owner.width;
                 float v1 = (float) glyph.v() / owner.height;
                 float u2 = (float) (glyph.u() + glyph.width()) / owner.width;
-                float v2 = (float) (glyph.v() + glyph.height()) / owner.height;
+                float v2 = (float) (glyph.v() + glyph.height() * mult) / owner.height;
 
-                bb.vertex(mat, xo + 0, yo + h, 0).texture(u1, v2).color(cr, cg, cb, a);
-                bb.vertex(mat, xo + w, yo + h, 0).texture(u2, v2).color(cr, cg, cb, a);
+                bb.vertex(mat, xo + 0, yo + h * mult, 0).texture(u1, v2).color(cr, cg, cb, a);
+                bb.vertex(mat, xo + w, yo + h * mult, 0).texture(u2, v2).color(cr, cg, cb, a);
                 bb.vertex(mat, xo + w, yo + 0, 0).texture(u2, v1).color(cr, cg, cb, a);
                 bb.vertex(mat, xo + 0, yo + 0, 0).texture(u1, v1).color(cr, cg, cb, a);
             }
