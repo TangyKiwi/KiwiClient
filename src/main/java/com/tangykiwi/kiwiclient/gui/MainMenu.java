@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.gui.particles.ParticleManager;
 import com.tangykiwi.kiwiclient.util.RenderUtils;
 import com.tangykiwi.kiwiclient.util.Textures;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
@@ -14,7 +15,7 @@ import net.minecraft.client.gui.screen.option.LanguageOptionsScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.*;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -28,6 +29,7 @@ public class MainMenu extends Screen {
     public final int[] offset = {-150, -90, -30, 30, 90, 150};
     public final ArrayList<GuiButton> buttonList = new ArrayList<GuiButton>();
     public static FontRenderer fontRenderer;
+    public static ParticleManager particleManager;
 
     public MainMenu() {
         super(Text.translatable("narrator.screen.title"));
@@ -35,6 +37,7 @@ public class MainMenu extends Screen {
 
     public void init() {
         buttonList.clear();
+        particleManager = new ParticleManager();
 
         int initHeight = this.height / 2;
         int xMid = this.width / 2;
@@ -51,8 +54,10 @@ public class MainMenu extends Screen {
         context.fillGradient(0, 0, this.width, this.height, 0x00000000, 0xff000000);
 
         String version = "v" + KiwiClient.VERSION + " - MC " + KiwiClient.MC_VERSION;
-        context.fill(0, 0, (int) fontRenderer.getStringWidth(version) + 4, (int) fontRenderer.getStringHeight(version) + 2, 0x90000000);
-        fontRenderer.drawString(context.getMatrices(), version, 1, 2, new Color(-1));
+        RenderUtils.drawRectWH(context.getMatrices(), 0, 0, (int) fontRenderer.getStringWidth(version) + 4, (int) fontRenderer.getStringHeight(version) + 2, 0x90000000);
+        fontRenderer.drawString(context.getMatrices(), version, 1, 2, new Color(0xFFFFFF));
+
+        particleManager.render(context.getMatrices(), mouseX, mouseY);
 
         RenderSystem.enableBlend();
         context.drawTexture(RenderLayer::getGuiTextured, Textures.TITLE, this.width / 2 - 160, this.height / 2 - 55, 0, 0, 320, 40, 320, 40);
