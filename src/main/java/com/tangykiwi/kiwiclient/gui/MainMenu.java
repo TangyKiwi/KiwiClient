@@ -1,8 +1,8 @@
 package com.tangykiwi.kiwiclient.gui;
 
-import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.util.RenderUtils;
 import com.tangykiwi.kiwiclient.util.Textures;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 public class MainMenu extends Screen {
     public final String[] BUTTONS = {"Singleplayer", "Multiplayer", "Realms", "Options", "Language", "Quit"};
+    public final int[] offset = {-150, -90, -30, 30, 90, 150};
     public final ArrayList<GuiButton> buttonList = new ArrayList<GuiButton>();
     public static FontRenderer fontRenderer;
 
@@ -34,18 +35,14 @@ public class MainMenu extends Screen {
 
     public void init() {
         buttonList.clear();
+
         int initHeight = this.height / 2;
-        int objHeight = 50;
-        int objWidth = 50;
         int xMid = this.width / 2;
 
         fontRenderer = KiwiClient.fontManager.getSize(8, FontManager.Type.CONSOLAS);
-        buttonList.add(new GuiButton(0, xMid - 150, initHeight, objWidth, objHeight, BUTTONS[0], fontRenderer));
-        buttonList.add(new GuiButton(1, xMid - 90, initHeight, objWidth, objHeight, BUTTONS[1], fontRenderer));
-        buttonList.add(new GuiButton(2, xMid - 30, initHeight, objWidth, objHeight, BUTTONS[2], fontRenderer));
-        buttonList.add(new GuiButton(3, xMid + 30, initHeight, objWidth, objHeight, BUTTONS[3], fontRenderer));
-        buttonList.add(new GuiButton(4, xMid + 90, initHeight, objWidth, objHeight, BUTTONS[4], fontRenderer));
-        buttonList.add(new GuiButton(5, xMid + 150, initHeight, objWidth, objHeight, BUTTONS[5], fontRenderer));
+        for (int i = 0; i < BUTTONS.length; i++) {
+            buttonList.add(new GuiButton(xMid + offset[i], initHeight, BUTTONS[i]));
+        }
     }
 
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
@@ -73,7 +70,7 @@ public class MainMenu extends Screen {
             float x = guiButton.x;
             float y = guiButton.y;
 
-            if(mouseX >= x - guiButton.width / 2.0 && mouseY >= y && mouseX <= x + guiButton.width / 2.0 && mouseY <= y + 60) {
+            if(mouseX >= x - 50 / 2.0 && mouseY >= y && mouseX <= x + 50 / 2.0 && mouseY <= y + 60) {
                 this.client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 switch(b) {
                     case "Singleplayer":
@@ -101,4 +98,73 @@ public class MainMenu extends Screen {
 
         return super.mouseClicked(mouseX, mouseY, button);
     }
+
+    static class GuiButton {
+
+        private int index = 0;
+        public int x, y;
+        public String buttonText;
+        private boolean movingUp = false;
+        private final Identifier icon;
+
+        public GuiButton(int x, int y, String buttonText) {
+            this.x = x;
+            this.y = y;
+            this.buttonText = buttonText;
+            icon = Identifier.of("kiwiclient:textures/menu/" + buttonText.toLowerCase() + ".png");
+        }
+
+        public void drawButton(DrawContext context, int mouseX, int mouseY) {
+            boolean hovered = mouseX >= x - 50 / 2 && mouseY >= y && mouseX <= x + 50 / 2 && mouseY <= y + 60;
+            if (hovered && index < 1) {
+                movingUp = true;
+            } else if (index == 14 && movingUp && !hovered) {
+                movingUp = false;
+            }
+
+            if (movingUp && index < 14) {
+                index++;
+            } else if (index > 0 && !movingUp) {
+                index--;
+            }
+
+            fontRenderer.drawCenteredString(context.getMatrices(), buttonText, x, y + getPosition(index) + 55, hovered ? new Color(RenderUtils.getRainbow(3, 0.8f, 1)) : new Color(-1));
+            RenderSystem.enableBlend();
+            context.drawTexture(RenderLayer::getGuiTextured, icon, (x - 50 / 2), (int) (y + getPosition(index)), 0, 0, 50, 50, 50, 50);
+            RenderSystem.disableBlend();
+        }
+
+        public float getPosition(int index) {
+            if (movingUp) {
+                return new float[]{0, -48.839F, -107.135F, -147.163F, -159.884F, -148.736F,
+                        -128.329F,
+                        -112.506F,
+                        -107.611F,
+                        -117.462F,
+                        -123.848F,
+                        -118.805F,
+                        -120.371F,
+                        -119.885F,
+                        -120}[index] / 10;
+            } else {
+                return new float[]{0,
+                        -0.115F,
+                        0.371F,
+                        -1.195F,
+                        3.848F,
+                        -2.538F,
+                        -12.389F,
+                        -7.494F,
+                        8.329F,
+                        28.736F,
+                        39.884F,
+                        27.163F,
+                        -12.865F,
+                        -71.161F,
+                        -120}[index] / 10;
+            }
+        }
+    }
 }
+
+
