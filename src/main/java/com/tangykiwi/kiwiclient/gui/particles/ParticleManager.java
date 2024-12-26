@@ -1,7 +1,7 @@
 package com.tangykiwi.kiwiclient.gui.particles;
 
+import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.util.RenderUtils;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.*;
@@ -12,40 +12,51 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ParticleManager {
     private List<Particle> particles = new CopyOnWriteArrayList<>();
-    public MinecraftClient mc = MinecraftClient.getInstance();
 
     public ParticleManager() {
-        getParticles().clear();
+        particles.clear();
     }
 
     public void render(MatrixStack m, int x, int y) {
         int rand;
-        if (getParticles().size() <= 1000) {
+        if (particles.size() <= 1000) {
             for (int i = 0; i < 5; i++) {
-                rand = random(0, 6);
-                if (rand == 1) {
-                    getParticles().add(new TopLeftParticle(centerWidth() + random(-getScaledWidth(), getScaledWidth()), centerHeight() + random(-getScaledHeight(), getScaledHeight()), random(1, 2), 0.15f, random(90, 150)));
+                rand = random(0, 4);
+                Particle particle = new Particle(centerWidth() + random(-getScaledWidth(), getScaledWidth()), centerHeight() + random(-getScaledHeight(), getScaledHeight()), random(1, 2), 0.15f, random(90, 150));
+                if (rand == 0) {
+                    // down right
+                    particle.setDx(1);
+                    particle.setDy(1);
                 }
-                if (rand == 2) {
-                    getParticles().add(new GravityParticle(centerWidth() + random(-getScaledWidth(), getScaledWidth()), centerHeight() + random(-getScaledHeight(), getScaledHeight()), random(1, 3), 0.15f, random(90, 160)));
+                else if (rand == 1) {
+                    // gravity
+                    particle.setDx(0);
+                    particle.setDy(1);
                 }
-                if (rand == 3) {
-                    getParticles().add(new TopRightParticle(centerWidth() + random(-getScaledWidth(), getScaledWidth()), centerHeight() + random(-getScaledHeight(), getScaledHeight()), random(1, 3), 0.15f, random(90, 160)));
+                else if (rand == 2) {
+                    // up right
+                    particle.setDx(-1);
+                    particle.setDy(-1);
                 }
-                if (rand == 4) {
-                    getParticles().add(new BottomLeftParticle(centerWidth() + random(-getScaledWidth(), getScaledWidth()), centerHeight() + random(-getScaledHeight(), getScaledHeight()), random(1, 3), 0.15f, random(90, 160)));
+                else if (rand == 3) {
+                    // up left
+                    particle.setDx(1);
+                    particle.setDy(-1);
                 }
-                if (rand == 5) {
-                    getParticles().add(new BottomRightParticle(centerWidth() + random(-getScaledWidth(), getScaledWidth()), centerHeight() + random(-getScaledHeight(), getScaledHeight()), random(1, 3), 0.15f, random(90, 160)));
+                else if (rand == 4) {
+                    // down left
+                    particle.setDx(-1);
+                    particle.setDy(1);
                 }
+                particles.add(particle);
             }
         }
-        for (Particle p : getParticles()) {
+        for (Particle p : particles) {
             if (p.getAlpha() <= 0.0F) {
-                getParticles().remove(p);
+                particles.remove(p);
             }
 
-            p.render(m, this);
+            p.render(m);
         }
 
         drawConnections(m, x, y);
@@ -79,22 +90,18 @@ public class ParticleManager {
     }
 
     public int getScaledWidth() {
-        return mc.getWindow().getScaledWidth();
+        return KiwiClient.mc.getWindow().getScaledWidth();
     }
 
     public int getScaledHeight() {
-        return mc.getWindow().getScaledHeight();
+        return KiwiClient.mc.getWindow().getScaledHeight();
     }
 
     public int centerWidth() {
-        return mc.getWindow().getScaledWidth() / 2;
+        return KiwiClient.mc.getWindow().getScaledWidth() / 2;
     }
 
     public int centerHeight() {
-        return mc.getWindow().getScaledHeight() / 2;
-    }
-
-    public List<Particle> getParticles() {
-        return particles;
+        return KiwiClient.mc.getWindow().getScaledHeight() / 2;
     }
 }
