@@ -1,21 +1,18 @@
 package com.tangykiwi.kiwiclient.module.setting;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ModeSetting extends Setting {
+public class ModeSetting extends Setting<Integer> {
     public String[] modes;
-    public int index;
+    // value = index of current mode
 
     public ModeSetting(String name, String desc, String[] modes) {
         super(name, desc);
         this.modes = modes;
-        this.index = 0;
+        this.setValue(0);
     }
 
     public ModeSetting(String name, String desc, String[] modes, int index) {
         super(name, desc);
         this.modes = modes;
-        this.index = index;
+        this.setValue(index);
     }
 }

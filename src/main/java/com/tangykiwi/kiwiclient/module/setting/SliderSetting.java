@@ -3,22 +3,22 @@ package com.tangykiwi.kiwiclient.module.setting;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class SliderSetting extends Setting {
+public class SliderSetting extends Setting<Double> {
     public double min;
     public double max;
-    public double value;
+    // value = double value
     public int decimals;
 
     public SliderSetting(String name, String desc, double min, double max, double value, int decimals) {
         super(name, desc);
         this.min = min;
         this.max = max;
-        this.value = value;
+        this.setValue(value);
         this.decimals = decimals;
     }
 
     public double getValue() {
-        return round(value, decimals);
+        return round(this.getSValue(), decimals);
     }
 
     public float getValueFloat() {
