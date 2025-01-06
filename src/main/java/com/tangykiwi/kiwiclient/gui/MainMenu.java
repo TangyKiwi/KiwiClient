@@ -66,6 +66,9 @@ public class MainMenu extends Screen {
         for(GuiButton b : buttonList) {
             b.drawButton(context, mouseX, mouseY);
         }
+
+        String username = this.client.getSession().getUsername();
+        fontRenderer.drawString(context.getMatrices(), this.client.getSession().getUsername(), 1, this.height - fontRenderer.getStringHeight(username) - 2, RenderUtils.getRainbowColor(4, 0.8f, 1));
     }
 
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
@@ -105,7 +108,6 @@ public class MainMenu extends Screen {
     }
 
     static class GuiButton {
-
         private int index = 0;
         public int x, y;
         public String buttonText;
@@ -133,7 +135,7 @@ public class MainMenu extends Screen {
                 index--;
             }
 
-            fontRenderer.drawCenteredString(context.getMatrices(), buttonText, x, y + getPosition(index) + 55, hovered ? new Color(RenderUtils.getRainbow(3, 0.8f, 1)) : new Color(-1));
+            fontRenderer.drawCenteredString(context.getMatrices(), buttonText, x, y + getPosition(index) + 55, hovered ? RenderUtils.getRainbowColor(3, 0.8f, 1) : new Color(-1));
             RenderSystem.enableBlend();
             context.drawTexture(RenderLayer::getGuiTextured, icon, (x - 50 / 2), (int) (y + getPosition(index)), 0, 0, 50, 50, 50, 50);
             RenderSystem.disableBlend();

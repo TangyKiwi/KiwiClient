@@ -16,16 +16,18 @@ public class RenderUtils {
         return (int) KiwiClient.mc.getWindow().getScaleFactor();
     }
 
-    public static int getRainbow(float seconds, float saturation, float brightness) {
+    public static int getRainbowInt(float seconds, float saturation, float brightness) {
         float hue = (System.currentTimeMillis() % (int) (seconds * 1000)) / (float) (seconds * 1000);
-        int color = Color.HSBtoRGB(hue, saturation, brightness);
-        return color;
+        return Color.HSBtoRGB(hue, saturation, brightness);
+    }
+
+    public static Color getRainbowColor(float seconds, float saturation, float brightness) {
+        return new Color(getRainbowInt(seconds, saturation, brightness));
     }
 
     public static int getRainbow(float seconds, float saturation, float brightness, long index) {
         float hue = ((System.currentTimeMillis() + index) % (int) (seconds * 1000)) / (float) (seconds * 1000);
-        int color = Color.HSBtoRGB(hue, saturation, brightness);
-        return color;
+        return Color.HSBtoRGB(hue, saturation, brightness);
     }
 
     public static void drawRectWH(MatrixStack matrices, float x, float y, float width, float height, int c) {
@@ -36,17 +38,17 @@ public class RenderUtils {
         Matrix4f matrix = matrices.peek().getPositionMatrix();
         setupRender();
         RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
-        BufferBuilder buffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-        buffer.vertex(matrix, x, y2, 0.0F).color(c);
-        buffer.vertex(matrix, x2, y2, 0.0F).color(c);
-        buffer.vertex(matrix, x2, y, 0.0F).color(c);
-        buffer.vertex(matrix, x, y, 0.0F).color(c);
-        BufferRenderer.drawWithGlobalProgram(buffer.end());
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        bufferBuilder.vertex(matrix, x, y2, 0.0F).color(c);
+        bufferBuilder.vertex(matrix, x2, y2, 0.0F).color(c);
+        bufferBuilder.vertex(matrix, x2, y, 0.0F).color(c);
+        bufferBuilder.vertex(matrix, x, y, 0.0F).color(c);
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         endRender();
     }
 
     public static void drawRoundedQuadWH(MatrixStack stack, Color c, float x, float y, float width, float height, float rad, float samples) {
-        drawRoundedQuadXY(stack, c, x, y, x + width, x + height, rad, samples);
+        drawRoundedQuadXY(stack, c, x, y, x + width, y + height, rad, samples);
     }
 
     public static void drawRoundedQuadXY(MatrixStack matrices, Color c, float x, float y, float x2, float y2, float rad, float samples) {
@@ -67,7 +69,7 @@ public class RenderUtils {
     }
 
     private static void drawRoundedQuadInternal(Matrix4f matrix, float cr, float cg, float cb, float ca, double fromX, double fromY, double toX, double toY, double radC1, double radC2, double radC3, double radC4, double samples) {
-        BufferBuilder bufferBuilder = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
 
         double[][] map = new double[][] { new double[] { toX - radC4, toY - radC4, radC4 }, new double[] { toX - radC2, fromY + radC2, radC2 },
                 new double[] { fromX + radC1, fromY + radC1, radC1 }, new double[] { fromX + radC3, toY - radC3, radC3 } };
@@ -94,10 +96,9 @@ public class RenderUtils {
         setupRender();
         RenderSystem.disableDepthTest();
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
-        Tessellator tessellator = RenderSystem.renderThreadTesselator();
         RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
 
-        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINES,
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.LINES,
                 VertexFormats.POSITION_COLOR);
         bufferBuilder.vertex(matrix4f, x1, y1, 0).color(c);
         bufferBuilder.vertex(matrix4f, x2, y2, 0).color(c);
@@ -114,10 +115,9 @@ public class RenderUtils {
         setupRender();
         RenderSystem.disableDepthTest();
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
-        Tessellator tessellator = RenderSystem.renderThreadTesselator();
         RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
 
-        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
         double roundedInterval = (360.0f / 30.0f);
 
         for (int i = 0; i < 30; i++)
