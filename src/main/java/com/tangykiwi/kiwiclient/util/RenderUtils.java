@@ -98,7 +98,7 @@ public class RenderUtils {
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
 
-        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.LINES,
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINES,
                 VertexFormats.POSITION_COLOR);
         bufferBuilder.vertex(matrix4f, x1, y1, 0).color(c);
         bufferBuilder.vertex(matrix4f, x2, y2, 0).color(c);
