@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.module;
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
+import com.tangykiwi.kiwiclient.module.client.ClickGUI;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -15,7 +16,7 @@ public class ModuleManager {
     public ArrayList<Module> moduleList = new ArrayList<Module>();
 
     public void init() {
-
+        moduleList.add(new ClickGUI());
     }
 
     public ArrayList<Module> getEnabledMods() {
@@ -66,7 +67,7 @@ public class ModuleManager {
         if(mc.currentScreen != null) return;
 
         // figure out handling for F keys and command prefix
-//        if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) return;
+        if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) return;
 //
 //        if(InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_COMMA)) {
 //            mc.setScreen(new ChatScreen(""));

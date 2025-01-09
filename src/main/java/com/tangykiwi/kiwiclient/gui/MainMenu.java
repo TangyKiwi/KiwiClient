@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.particles.ParticleManager;
+import com.tangykiwi.kiwiclient.module.client.ClickGUI;
 import com.tangykiwi.kiwiclient.util.RenderUtils;
 import com.tangykiwi.kiwiclient.util.Textures;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
@@ -23,6 +24,9 @@ import net.minecraft.util.Identifier;
 
 import java.awt.*;
 import java.util.ArrayList;
+
+import static com.tangykiwi.kiwiclient.KiwiClient.mc;
+import static com.tangykiwi.kiwiclient.KiwiClient.moduleManager;
 
 public class MainMenu extends Screen {
     public final String[] BUTTONS = {"Singleplayer", "Multiplayer", "Realms", "Options", "Language", "Quit"};
@@ -105,6 +109,14 @@ public class MainMenu extends Screen {
         }
 
         return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if(keyCode == moduleManager.getModule(ClickGUI.class).getKeyCode()) {
+            mc.setScreen(ClickGUI.clickGUIScreen);
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     static class GuiButton {

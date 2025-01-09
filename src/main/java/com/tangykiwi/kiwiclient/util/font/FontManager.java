@@ -13,7 +13,7 @@ public class FontManager {
 
     private final Map<FontKey, FontRenderer> fontCache = new HashMap<>();
 
-    public void initialize() throws IOException {
+    public void init() throws IOException {
         for (Type type : Type.values()) {
             for (int size = 4; size <= 32; size++) {
                 fontCache.put(new FontKey(size, type), create(size, type.getType()));
@@ -37,8 +37,6 @@ public class FontManager {
                 throw new RuntimeException(ee);
             }
         }
-
-
     }
 
     public FontRenderer getSize(int size, Type type) {

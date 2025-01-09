@@ -17,6 +17,8 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 public class KiwiClient implements ModInitializer {
 	public static final String MOD_ID = "kiwiclient";
 	public static final String NAME;
@@ -67,7 +69,7 @@ public class KiwiClient implements ModInitializer {
 
 		LOGGER.info("Initializing FontManager");
 		fontManager = new FontManager();
-	}
+    }
 
 	public static void startRPC() {
 		DiscordEventHandlers handlers = new DiscordEventHandlers();
