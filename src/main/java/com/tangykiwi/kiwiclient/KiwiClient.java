@@ -58,6 +58,9 @@ public class KiwiClient implements ModInitializer {
 		startRPC();
 		LOGGER.info("DiscordRPC running!");
 
+		LOGGER.info("Initializing FontManager");
+		fontManager = new FontManager();
+
 		LOGGER.info("Initializing ModuleManager");
 		moduleManager = new ModuleManager();
 		moduleManager.init();
@@ -66,9 +69,6 @@ public class KiwiClient implements ModInitializer {
 		LOGGER.info("Initializing CommandManager");
 		commandManager = new CommandManager();
 		commandManager.init();
-
-		LOGGER.info("Initializing FontManager");
-		fontManager = new FontManager();
     }
 
 	public static void startRPC() {

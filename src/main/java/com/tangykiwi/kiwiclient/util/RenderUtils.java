@@ -35,8 +35,8 @@ public class RenderUtils {
     }
 
     public static void drawRectXY(MatrixStack matrices, float x, float y, float x2, float y2, int c) {
-        Matrix4f matrix = matrices.peek().getPositionMatrix();
         setupRender();
+        Matrix4f matrix = matrices.peek().getPositionMatrix();
         RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
         BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         bufferBuilder.vertex(matrix, x, y2, 0.0F).color(c);
@@ -56,13 +56,13 @@ public class RenderUtils {
     }
 
     public static void drawRoundedQuad(MatrixStack matrices, Color c, float fromX, float fromY, float toX, float toY, float radC1, float radC2, float radC3, float radC4, float samples) {
+        setupRender();
         int color = c.getRGB();
         Matrix4f matrix = matrices.peek().getPositionMatrix();
         float f = ((float) (color >> 24 & 255) / 255.0F);
         float g = (float) (color >> 16 & 255) / 255.0F;
         float h = (float) (color >> 8 & 255) / 255.0F;
         float k = (float) (color & 255) / 255.0F;
-        setupRender();
         RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
         drawRoundedQuadInternal(matrix, g, h, k, f, fromX, fromY, toX, toY, radC1, radC2, radC3, radC4, samples);
         endRender();
@@ -92,8 +92,8 @@ public class RenderUtils {
 
     public static void drawLine2D(MatrixStack matrices, float x1, float y1, float x2, float y2, int c)
     {
-        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
         setupRender();
+        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
         RenderSystem.disableDepthTest();
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
@@ -111,8 +111,8 @@ public class RenderUtils {
 
     public static void drawCircle(MatrixStack matrices, float x, float y, float radius, int c)
     {
-        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
         setupRender();
+        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
         RenderSystem.disableDepthTest();
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
@@ -137,6 +137,24 @@ public class RenderUtils {
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
         endRender();
         RenderSystem.enableDepthTest();
+    }
+
+    /**
+     * Differs from DrawContext.fillGradient as this allows renderUtils to render
+     * our intended objects "on top" of the gradient
+     */
+    public static void fillGradient(int startX, int startY, int endX, int endY, int colorStart, int colorEnd) {
+        setupRender();
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
+
+        BufferBuilder bufferBuilder = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        bufferBuilder.vertex(startX, startY, 0).color(colorStart);
+        bufferBuilder.vertex(startX, endY, 0).color(colorEnd);
+        bufferBuilder.vertex(endX, endY, 0).color(colorEnd);
+        bufferBuilder.vertex(endX, startY, 0).color(colorStart);
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+
+        endRender();
     }
 
     public static void setupRender() {

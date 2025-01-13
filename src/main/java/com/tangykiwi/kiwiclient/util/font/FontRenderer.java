@@ -159,6 +159,10 @@ public class FontRenderer implements Closeable {
         return new int[]{red, green, blue};
     }
 
+    public void drawString(MatrixStack stack, String s, float x, float y, int color) {
+        drawString(stack, s, x, y, new Color(color));
+    }
+
     /**
      * Draws a string
      *
@@ -265,8 +269,14 @@ public class FontRenderer implements Closeable {
             BufferRenderer.drawWithGlobalProgram(bb.end());
         }
 
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableBlend();
         stack.pop();
         GLYPH_PAGE_CACHE.clear();
+    }
+
+    public void drawCenteredString(MatrixStack stack, String s, float x, float y, int color) {
+        drawCenteredString(stack, s, x, y, new Color(color));
     }
 
     /**
@@ -282,6 +292,10 @@ public class FontRenderer implements Closeable {
         drawString(stack, s, x - getStringWidth(s) / 2f, y, color);
     }
 
+    public void drawStringWithShadow(MatrixStack stack, String s, float x, float y, int color) {
+        drawStringWithShadow(stack, s, x, y, new Color(color));
+    }
+
     /**
      * Draws a string with shadow
      *
@@ -295,6 +309,10 @@ public class FontRenderer implements Closeable {
         int c = color.getRGB();
         drawString(stack, s, x + 1.0F, y + 1.0F, new Color((c & 16579836) >> 2 | c & -16777216));
         drawString(stack, s, x, y, color);
+    }
+
+    public void drawCenteredStringWithShadow(MatrixStack stack, String s, float x, float y, int color) {
+        drawCenteredStringWithShadow(stack, s, x, y, new Color(color));
     }
 
     /**

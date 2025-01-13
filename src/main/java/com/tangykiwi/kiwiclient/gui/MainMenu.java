@@ -112,8 +112,9 @@ public class MainMenu extends Screen {
     }
 
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if(keyCode == moduleManager.getModule(ClickGUI.class).getKeyCode()) {
-            mc.setScreen(ClickGUI.clickGUIScreen);
+        ClickGUI clickGUI = (ClickGUI) moduleManager.getModule(ClickGUI.class);
+        if(keyCode == clickGUI.getKeyCode()) {
+            clickGUI.onEnable();
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);
