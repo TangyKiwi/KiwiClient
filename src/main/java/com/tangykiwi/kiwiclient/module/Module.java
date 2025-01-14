@@ -109,4 +109,8 @@ public class Module {
     public Setting getSetting(int setting) {
         return settings.get(setting);
     }
+
+    public void addSetting(Setting setting) {
+        settings.add(setting);
+    }
 }

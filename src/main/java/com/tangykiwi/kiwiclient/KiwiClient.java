@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient;
 
 import com.google.common.eventbus.EventBus;
 import com.tangykiwi.kiwiclient.command.CommandManager;
+import com.tangykiwi.kiwiclient.gui.clickgui.ClickGUIScreen;
 import com.tangykiwi.kiwiclient.module.ModuleManager;
 import com.tangykiwi.kiwiclient.util.discord.Discord;
 import com.tangykiwi.kiwiclient.util.discord.DiscordEventHandlers;
@@ -13,11 +14,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 public class KiwiClient implements ModInitializer {
 	public static final String MOD_ID = "kiwiclient";
@@ -70,6 +68,10 @@ public class KiwiClient implements ModInitializer {
 		commandManager = new CommandManager();
 		commandManager.init();
     }
+
+	public static void postInit() {
+		ClickGUIScreen.INSTANCE.initWindows();
+	}
 
 	public static void startRPC() {
 		DiscordEventHandlers handlers = new DiscordEventHandlers();

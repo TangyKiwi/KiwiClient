@@ -2,8 +2,8 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
-import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.RunArgs;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.texture.NativeImage;
@@ -33,6 +33,11 @@ import static com.tangykiwi.kiwiclient.KiwiClient.discordRPC;
 
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
+    @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;setOverlay(Lnet/minecraft/client/gui/screen/Overlay;)V", shift = At.Shift.BEFORE))
+    private void init(RunArgs args, CallbackInfo callback) {
+        KiwiClient.postInit();
+    }
+
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setIcon(Lnet/minecraft/resource/ResourcePack;Lnet/minecraft/client/util/Icons;)V"))
     private void onChangeIcon(Window instance, ResourcePack resourcePack, Icons icons) throws IOException {
         RenderSystem.assertOnRenderThreadOrInit();

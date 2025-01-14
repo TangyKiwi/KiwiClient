@@ -11,23 +11,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClickGUIScreen extends Base {
+    public static ClickGUIScreen INSTANCE = new ClickGUIScreen();
+
     List<CategoryWindow> windows = new ArrayList<CategoryWindow>();
 
     public ClickGUIScreen() {
         super(Text.literal("ClickGUI"));
+    }
+
+    public void initWindows() {
 
         int i = 10;
-        windows.add(new CategoryWindow(i, 18, 85, 30, Category.PLAYER, new ItemStack(Items.PLAYER_HEAD)));
+        windows.add(new CategoryWindow(i, 18, 85, Category.PLAYER, new ItemStack(Items.PLAYER_HEAD)));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, 30, Category.COMBAT, new ItemStack(Items.DIAMOND_SWORD)));
+        windows.add(new CategoryWindow(i, 18, 85, Category.COMBAT, new ItemStack(Items.DIAMOND_SWORD)));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, 30, Category.RENDER, new ItemStack(Items.ENDER_EYE)));
+        windows.add(new CategoryWindow(i, 18, 85, Category.RENDER, new ItemStack(Items.ENDER_EYE)));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, 30, Category.MOVEMENT, new ItemStack(Items.DIAMOND_BOOTS)));
+        windows.add(new CategoryWindow(i, 18, 85, Category.MOVEMENT, new ItemStack(Items.DIAMOND_BOOTS)));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, 30, Category.CLIENT, new ItemStack(Items.GLASS_PANE)));
+        windows.add(new CategoryWindow(i, 18, 85, Category.CLIENT, new ItemStack(Items.GLASS_PANE)));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, 30, Category.OTHER, new ItemStack(Items.COMMAND_BLOCK)));
+        windows.add(new CategoryWindow(i, 18, 85, Category.OTHER, new ItemStack(Items.COMMAND_BLOCK)));
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.gui.clickgui;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
+import com.tangykiwi.kiwiclient.module.client.ClickGUI;
 import com.tangykiwi.kiwiclient.util.RenderUtils;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
@@ -29,33 +30,40 @@ public class CategoryWindow {
     private boolean expanded = true;
 
     private FontRenderer fontRenderer;
+    private float fontHeight;
 
-    public CategoryWindow(int x, int y, int width, int height, Category category, ItemStack icon) {
+    public CategoryWindow(int x, int y, int width, Category category, ItemStack icon) {
         this.x = x;
         this.y = y;
         this.width = width;
-        this.height = height;
+        this.height = ((ClickGUI) KiwiClient.moduleManager.getModule("ClickGUI")).length.getValueInt();
         this.category = category;
         this.title = StringUtils.capitalize(StringUtils.lowerCase(this.category.toString()));
         this.icon = icon;
 
         this.fontRenderer = KiwiClient.fontManager.getSize(8, FontManager.Type.CONSOLAS);
+        this.fontHeight = fontRenderer.getStringHeight(title);
 
         moduleList = KiwiClient.moduleManager.getModulesInCat(this.category);
     }
 
     public void render(DrawContext context, int mouseX, int mouseY) {
+        int trueLen = (int) (expanded ? y + fontHeight + 1 /*+ getHeight()*/ : y + fontHeight + 1);
+
         MatrixStack matrixStack = context.getMatrices();
 
+        /* background */
         RenderUtils.drawRoundedQuadWH(matrixStack, new Color(0xffb08760), x, y, width, height, 5, 20);
 
-        if(!expanded) {
+        /* expansion background */
+        if(expanded) {
             RenderUtils.drawRoundedQuadWH(matrixStack, new Color(0x90907760), x + 1, y + 1, width - 1, height - 1, 5, 20);
         }
 
+        /* base title */
         RenderUtils.drawRoundedQuadWH(matrixStack, new Color(0xffb09070), x + 1, y + 1, width - 1, 12, 5, 20);
 
-        fontRenderer.drawStringWithShadow(matrixStack, expanded ? "-" : "+", x + width - 10, y, -1);
+        fontRenderer.drawStringWithShadow(matrixStack, expanded ? "-" : "+", x + width - 10, y + (expanded ? 2 : 4), -1);
 
         boolean blockItem = icon != null && icon.getItem() instanceof BlockItem;
 
