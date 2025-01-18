@@ -53,15 +53,15 @@ public class CategoryWindow {
         MatrixStack matrixStack = context.getMatrices();
 
         /* background */
-        RenderUtils.drawRoundedQuadWH(matrixStack, new Color(0xffb08760), x, y, width, height, 5, 90);
+        RenderUtils.drawRoundedQuadWH(matrixStack, new Color(0xfff7a558), x, y, width, height, 5, 90);
 
         /* expansion background */
         if(expanded) {
-            RenderUtils.drawRoundedQuadXY(matrixStack, new Color(0x90907760), x + 1, y + fontHeight + 2, x + width - 1, y + height - 1, 5, 90);
+            RenderUtils.drawRoundedQuadXY(matrixStack, new Color(0x90d9904b), x + 1, y + fontHeight + 2, x + width - 1, y + height - 1, 5, 90);
         }
 
         /* base title */
-        RenderUtils.drawRoundedQuadWH(matrixStack, new Color(0xffb09070), x + 1, y + 1, width - 2, fontHeight + 1, 5, 90);
+        RenderUtils.drawRoundedQuadWH(matrixStack, new Color(0xffec8625), x + 1, y + 1, width - 2, fontHeight + 1, 5, 90);
 
         fontRenderer.drawStringWithShadow(matrixStack, expanded ? "-" : "+", x + width - 10, y + (expanded ? 2 : 4), -1);
 

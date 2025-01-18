@@ -38,9 +38,8 @@ public abstract class Base extends Screen {
             RenderSystem.defaultBlendFunc();
             RenderSystem.disableBlend();
         } else {
-//            RenderUtils.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
+            RenderUtils.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
             this.applyBlur();
-            this.renderDarkening(drawContext);
         }
     }
 }
