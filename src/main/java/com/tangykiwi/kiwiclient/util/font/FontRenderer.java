@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.util.font;
 
 import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.util.RenderUtils;
 import it.unimi.dsi.fastutil.chars.Char2IntArrayMap;
 import it.unimi.dsi.fastutil.chars.Char2ObjectArrayMap;
@@ -183,11 +184,8 @@ public class FontRenderer implements Closeable {
         stack.translate(x, y, 0);
         stack.scale(1f / this.scaleMul, 1f / this.scaleMul, 1f);
 
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        RenderUtils.setupRender();
         RenderSystem.disableCull();
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
 
         RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR);
         BufferBuilder bb;
@@ -269,8 +267,7 @@ public class FontRenderer implements Closeable {
             BufferRenderer.drawWithGlobalProgram(bb.end());
         }
 
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.disableBlend();
+        RenderUtils.endRender();
         stack.pop();
         GLYPH_PAGE_CACHE.clear();
     }

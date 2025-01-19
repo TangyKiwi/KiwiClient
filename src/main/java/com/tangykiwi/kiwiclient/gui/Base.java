@@ -24,8 +24,7 @@ public abstract class Base extends Screen {
             // smooth
             colorOffset = (int) (-(Math.cos(Math.PI * (colorOffset / 50d)) - 1) / 2 * 50);
 
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
+            RenderUtils.setupRender();
             RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
 
             BufferBuilder bufferBuilder = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -35,8 +34,7 @@ public abstract class Base extends Screen {
             bufferBuilder.vertex(width, height + 16, 0).color(170 + colorOffset, 103, 45, 255);
             BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.disableBlend();
+            RenderUtils.endRender();
         } else {
             RenderUtils.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
             this.applyBlur();

@@ -5,6 +5,7 @@
   "mixins": [
     "ChatInputSuggestorMixin",
     "ClientPlayNetworkHandlerMixin",
+    "InGameHudMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
     "SplashOverlayMixin",

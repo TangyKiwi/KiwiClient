@@ -90,17 +90,9 @@ public class CategoryWindow {
         boolean blockItem = icon != null && icon.getItem() instanceof BlockItem;
 
         /* window icon */
-//        if (icon != null) {
-//            matrixStack.push();
-//            matrixStack.translate(x + (blockItem ? 3 : 2), y + 1, 0);
-//            matrixStack.scale(0.6f, 0.6f, 1f);
-//
-//            DiffuseLighting.enableGuiDepthLighting();
-//            context.drawItem(icon, 0, 0);
-//            DiffuseLighting.disableGuiDepthLighting();
-//
-//            matrixStack.pop();
-//        }
+        if (icon != null) {
+            RenderUtils.drawItem(context, icon, x + (blockItem ? 3 : 2), y + 1, 0.6f);
+        }
 
         /* window title */
         fontRenderer.drawStringWithShadow(matrixStack, title, x + (icon == null || icon.getItem() == Items.AIR ? 4 : (blockItem ? 15 : 14)), y + 3, -1);

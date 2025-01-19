@@ -3,17 +3,21 @@ package com.tangykiwi.kiwiclient.util;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import net.minecraft.client.gl.ShaderProgramKeys;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.RotationAxis;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
+import static com.tangykiwi.kiwiclient.KiwiClient.mc;
+
 public class RenderUtils {
     public static int getGuiScale() {
-        return (int) KiwiClient.mc.getWindow().getScaleFactor();
+        return (int) mc.getWindow().getScaleFactor();
     }
 
     public static int getRainbowInt(float seconds, float saturation, float brightness) {
@@ -157,6 +161,25 @@ public class RenderUtils {
         endRender();
     }
 
+    public static void drawItem(DrawContext drawContext, ItemStack itemStack, int x, int y, float scale) {
+        drawItem(drawContext, itemStack, x, y, scale, false, null);
+    }
+
+    public static void drawItem(DrawContext drawContext, ItemStack itemStack, int x, int y, float scale, boolean overlay, String countOverride) {
+        MatrixStack matrices = drawContext.getMatrices();
+        matrices.push();
+        matrices.scale(scale, scale, 1f);
+        matrices.translate(0, 0, 401); // Thanks Mojang
+
+        int scaledX = (int) (x / scale);
+        int scaledY = (int) (y / scale);
+
+        drawContext.drawItem(itemStack, scaledX, scaledY);
+        if (overlay) drawContext.drawStackOverlay(mc.textRenderer, itemStack, scaledX, scaledY, countOverride);
+
+        matrices.pop();
+    }
+
     public static void setupRender() {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -172,7 +195,7 @@ public class RenderUtils {
     public static MatrixStack matrixFrom(double x, double y, double z) {
         MatrixStack matrices = new MatrixStack();
 
-        Camera camera = KiwiClient.mc.gameRenderer.getCamera();
+        Camera camera = mc.gameRenderer.getCamera();
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));
 
