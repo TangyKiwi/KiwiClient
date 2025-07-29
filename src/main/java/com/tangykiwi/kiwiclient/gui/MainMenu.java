@@ -8,6 +8,8 @@ import com.tangykiwi.kiwiclient.util.RenderUtils;
 import com.tangykiwi.kiwiclient.util.Textures;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
+
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -54,7 +56,7 @@ public class MainMenu extends Screen {
 
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         Identifier menubg = Textures.MENU;
-        context.drawTexture(RenderLayer::getGuiTextured, menubg, 0, 0, 20 * mouseX / this.width,  20 * mouseY / this.height, this.width + 20 * mouseX / this.width, this.height + 20 * mouseY / this.height, this.width + 40, this.height + 40);
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, menubg, 0, 0, 20 * mouseX / this.width,  20 * mouseY / this.height, this.width + 20 * mouseX / this.width, this.height + 20 * mouseY / this.height, this.width + 40, this.height + 40);
         context.fillGradient(0, 0, this.width, this.height, 0x00000000, 0xff000000);
 
         String version = "v" + KiwiClient.VERSION + " - MC " + KiwiClient.MC_VERSION;
@@ -63,9 +65,7 @@ public class MainMenu extends Screen {
 
         particleManager.render(context.getMatrices(), mouseX, mouseY);
 
-        RenderSystem.enableBlend();
-        context.drawTexture(RenderLayer::getGuiTextured, Textures.TITLE, this.width / 2 - 160, this.height / 2 - 55, 0, 0, 320, 40, 320, 40);
-        RenderSystem.disableBlend();
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, Textures.TITLE, this.width / 2 - 160, this.height / 2 - 55, 0, 0, 320, 40, 320, 40);
 
         for(GuiButton b : buttonList) {
             b.drawButton(context, mouseX, mouseY);
@@ -149,9 +149,8 @@ public class MainMenu extends Screen {
             }
 
             fontRenderer.drawCenteredString(context.getMatrices(), buttonText, x, y + getPosition(index) + 55, hovered ? RenderUtils.getRainbowColor(3, 0.8f, 1) : new Color(-1));
-            RenderSystem.enableBlend();
-            context.drawTexture(RenderLayer::getGuiTextured, icon, (x - 50 / 2), (int) (y + getPosition(index)), 0, 0, 50, 50, 50, 50);
-            RenderSystem.disableBlend();
+
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, icon, (x - 50 / 2), (int) (y + getPosition(index)), 0, 0, 50, 50, 50, 50);
         }
 
         public float getPosition(int index) {

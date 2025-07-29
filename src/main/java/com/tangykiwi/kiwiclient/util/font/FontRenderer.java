@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.util.font;
 
 import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.textures.GpuTextureView;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.util.RenderUtils;
 import it.unimi.dsi.fastutil.chars.Char2IntArrayMap;
@@ -9,12 +10,12 @@ import it.unimi.dsi.fastutil.chars.Char2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
-import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.render.*;
-import net.minecraft.client.render.VertexFormat.DrawMode;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import org.joml.Matrix4f;
+import org.joml.Matrix3x2fStack;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -160,7 +161,7 @@ public class FontRenderer implements Closeable {
         return new int[]{red, green, blue};
     }
 
-    public void drawString(MatrixStack stack, String s, float x, float y, int color) {
+    public void drawString(Matrix3x2fStack stack, String s, float x, float y, int color) {
         drawString(stack, s, x, y, new Color(color));
     }
 
@@ -173,23 +174,20 @@ public class FontRenderer implements Closeable {
      * @param y     Y coordinate to draw at
      * @param color Texts color
      */
-    public void drawString(MatrixStack stack, String s, float x, float y, Color color) {
+    public void drawString(Matrix3x2fStack stack, String s, float x, float y, Color color) {
         float r = (float) color.getRed() / 255;
         float g = (float) color.getGreen() / 255;
         float b = (float) color.getBlue() / 255;
         float a = (float) color.getAlpha() / 255;
         sizeCheck();
         float r2 = r, g2 = g, b2 = b;
-        stack.push();
-        stack.translate(x, y, 0);
-        stack.scale(1f / this.scaleMul, 1f / this.scaleMul, 1f);
+        stack.pushMatrix();
+        stack.translate(x, y);
+        stack.scale(1f / this.scaleMul, 1f / this.scaleMul);
 
         RenderUtils.setupRender();
-        RenderSystem.disableCull();
 
-        RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR);
         BufferBuilder bb;
-        Matrix4f mat = stack.peek().getPositionMatrix();
         char[] chars = s.toCharArray();
         float xOffset = 0;
         float yOffset = 0;
@@ -231,10 +229,10 @@ public class FontRenderer implements Closeable {
             xOffset += glyph.width();
         }
         for (Identifier identifier : GLYPH_PAGE_CACHE.keySet()) {
-            RenderSystem.setShaderTexture(0, identifier);
+            RenderSystem.setShaderTexture(lineStart, null);
             List<DrawEntry> objects = GLYPH_PAGE_CACHE.get(identifier);
 
-            bb = Tessellator.getInstance().begin(DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
+            bb = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
 
             int len = objects.size();
             int i = 0;
@@ -259,20 +257,20 @@ public class FontRenderer implements Closeable {
                 float u2 = (float) (glyph.u() + glyph.width()) / owner.width;
                 float v2 = (float) (glyph.v() + glyph.height() * mult) / owner.height;
 
-                bb.vertex(mat, xo + 0, yo + h * mult, 0).texture(u1, v2).color(cr, cg, cb, a);
-                bb.vertex(mat, xo + w, yo + h * mult, 0).texture(u2, v2).color(cr, cg, cb, a);
-                bb.vertex(mat, xo + w, yo + 0, 0).texture(u2, v1).color(cr, cg, cb, a);
-                bb.vertex(mat, xo + 0, yo + 0, 0).texture(u1, v1).color(cr, cg, cb, a);
+                bb.vertex(stack, xo + 0, yo + h * mult, 0).texture(u1, v2).color(cr, cg, cb, a);
+                bb.vertex(stack, xo + w, yo + h * mult, 0).texture(u2, v2).color(cr, cg, cb, a);
+                bb.vertex(stack, xo + w, yo + 0, 0).texture(u2, v1).color(cr, cg, cb, a);
+                bb.vertex(stack, xo + 0, yo + 0, 0).texture(u1, v1).color(cr, cg, cb, a);
             }
-            BufferRenderer.drawWithGlobalProgram(bb.end());
+            RenderLayer.getText(identifier).draw(bb.end());
         }
 
         RenderUtils.endRender();
-        stack.pop();
+        stack.popMatrix();
         GLYPH_PAGE_CACHE.clear();
     }
 
-    public void drawCenteredString(MatrixStack stack, String s, float x, float y, int color) {
+    public void drawCenteredString(Matrix3x2fStack stack, String s, float x, float y, int color) {
         drawCenteredString(stack, s, x, y, new Color(color));
     }
 
@@ -285,11 +283,11 @@ public class FontRenderer implements Closeable {
      * @param y     Y coordinate of the text to draw
      * @param color Texts color
      */
-    public void drawCenteredString(MatrixStack stack, String s, float x, float y, Color color) {
+    public void drawCenteredString(Matrix3x2fStack stack, String s, float x, float y, Color color) {
         drawString(stack, s, x - getStringWidth(s) / 2f, y, color);
     }
 
-    public void drawStringWithShadow(MatrixStack stack, String s, float x, float y, int color) {
+    public void drawStringWithShadow(Matrix3x2fStack stack, String s, float x, float y, int color) {
         drawStringWithShadow(stack, s, x, y, new Color(color));
     }
 
@@ -302,13 +300,13 @@ public class FontRenderer implements Closeable {
      * @param y     Y coordinate to draw at
      * @param color Texts color
      */
-    public void drawStringWithShadow(MatrixStack stack, String s, float x, float y, Color color) {
+    public void drawStringWithShadow(Matrix3x2fStack stack, String s, float x, float y, Color color) {
         int c = color.getRGB();
         drawString(stack, s, x + 1.0F, y + 1.0F, new Color((c & 16579836) >> 2 | c & -16777216));
         drawString(stack, s, x, y, color);
     }
 
-    public void drawCenteredStringWithShadow(MatrixStack stack, String s, float x, float y, int color) {
+    public void drawCenteredStringWithShadow(Matrix3x2fStack stack, String s, float x, float y, int color) {
         drawCenteredStringWithShadow(stack, s, x, y, new Color(color));
     }
 
@@ -321,7 +319,7 @@ public class FontRenderer implements Closeable {
      * @param y     Y coordinate of the text to draw
      * @param color Texts color
      */
-    public void drawCenteredStringWithShadow(MatrixStack stack, String s, float x, float y, Color color) {
+    public void drawCenteredStringWithShadow(Matrix3x2fStack stack, String s, float x, float y, Color color) {
         int c = color.getRGB();
         float width = getStringWidth(s);
         drawString(stack, s, x - width / 2f + 1.0F, y + 1.0F, new Color((c & 16579836) >> 2 | c & -16777216));

@@ -129,7 +129,7 @@ class GlyphMap {
 
             ByteBuffer data = BufferUtils.createByteBuffer(bytes.length).put(bytes);
             data.flip();
-            NativeImageBackedTexture tex = new NativeImageBackedTexture(NativeImage.read(data));
+            NativeImageBackedTexture tex = new NativeImageBackedTexture(null, NativeImage.read(data));
             MinecraftClient.getInstance()
                     .execute(() -> MinecraftClient.getInstance().getTextureManager().registerTexture(bindToTexture, tex));
         } catch (Exception e) {

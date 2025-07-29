@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvents;
 import org.apache.commons.lang3.StringUtils;
+import org.joml.Matrix3x2fStack;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class CategoryWindow {
 
         int trueLen = (int) (expanded ? y + fontHeight + 1 /*+ getHeight()*/ : y + fontHeight + 1);
 
-        MatrixStack matrixStack = context.getMatrices();
+        Matrix3x2fStack matrixStack = context.getMatrices();
 
         /* background */
         RenderUtils.drawRoundedQuadWH(matrixStack, new Color(0xfff7a558), x, y, width, height, 5, 90);

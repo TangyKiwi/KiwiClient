@@ -1,8 +1,11 @@
 package com.tangykiwi.kiwiclient.mixin;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.opengl.GlStateManager;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.util.Textures;
+
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.SplashOverlay;
 import net.minecraft.client.render.RenderLayer;
@@ -68,24 +71,16 @@ public abstract class SplashOverlayMixin {
             float m = (float) (k >> 16 & 255) / 255.0F;
             float n = (float) (k >> 8 & 255) / 255.0F;
             float o = (float) (k & 255) / 255.0F;
-            GlStateManager._clearColor(m, n, o, 1.0F);
-            GlStateManager._clear(16384);
             h = 1.0F;
         }
 
         k = (int) ((double) context.getScaledWindowWidth() * 0.5);
         int p = (int) ((double) context.getScaledWindowHeight() * 0.5);
 
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(770, 1);
-
-        context.drawTexture(RenderLayer::getGuiTextured, Textures.LOGO2, k - 175, p - 35, 0, 0, (int) (350 * progress), 70, 350, 70);
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, Textures.LOGO2, k - 175, p - 35, 0, 0, (int) (350 * progress), 70, 350, 70);
 
         float t = this.reload.getProgress();
         this.progress = MathHelper.clamp(this.progress * 0.95F + t * 0.050000012F, 0.0F, 1.0F);
-
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.disableBlend();
 
         if (f >= 2.0F) {
             mc.setOverlay(null);

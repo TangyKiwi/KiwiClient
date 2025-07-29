@@ -6,6 +6,8 @@ import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.*;
 
+import org.joml.Matrix3x2fStack;
+
 public class Particle {
     private float posX;
     private float posY;
@@ -24,7 +26,7 @@ public class Particle {
         this.alpha = alpha;
     }
 
-    public void render(MatrixStack m) {
+    public void render(Matrix3x2fStack m) {
         alpha -= 0.3F;
         if (alpha <= 0) {
             alpha = 0;

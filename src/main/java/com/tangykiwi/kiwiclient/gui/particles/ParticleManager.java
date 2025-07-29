@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.joml.Matrix3x2fStack;
+
 public class ParticleManager {
     private List<Particle> particles = new CopyOnWriteArrayList<>();
 
@@ -17,7 +19,7 @@ public class ParticleManager {
         particles.clear();
     }
 
-    public void render(MatrixStack m, int x, int y) {
+    public void render(Matrix3x2fStack m, int x, int y) {
         int rand;
         if (particles.size() <= 1000) {
             for (int i = 0; i < 5; i++) {
@@ -62,7 +64,7 @@ public class ParticleManager {
         drawConnections(m, x, y);
     }
 
-    public void drawConnections(MatrixStack m, int x, int y) {
+    public void drawConnections(Matrix3x2fStack m, int x, int y) {
         List<Particle> nearbyParticles = new ArrayList<>();
         for (Particle p : particles) {
             if (getDistance(x, y, p) <= 30) {
