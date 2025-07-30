@@ -48,6 +48,10 @@ dependencies {
 	modImplementation "com.ptsmods:devlogin:3.5"
 }
 
+loom {
+	accessWidenerPath = file("src/main/resources/kiwiclient.accesswidener")
+}
+
 tasks {
 	processResources {
 		def propertyMap = [

@@ -1,8 +1,15 @@
 package com.tangykiwi.kiwiclient.gui;
 
+import java.awt.Color;
+
+import org.joml.Matrix3x2f;
+
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.tangykiwi.kiwiclient.util.RenderUtils;
+import com.tangykiwi.kiwiclient.util.render.CustomQuadRenderState;
+import com.tangykiwi.kiwiclient.util.render.RenderUtils;
+
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.RenderLayer;
@@ -25,16 +32,17 @@ public abstract class Base extends Screen {
             // smooth
             colorOffset = (int) (-(Math.cos(Math.PI * (colorOffset / 50d)) - 1) / 2 * 50);
 
-            RenderUtils.setupRender();  
-
-            BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-            bufferBuilder.vertex(width, 0, 0).color(80, 53, 20, 255);
-            bufferBuilder.vertex(0, 0, 0).color(80 + colorOffset / 3, 53, 20, 255);
-            bufferBuilder.vertex(0, height + 16, 0).color(159, 113, 54, 255);
-            bufferBuilder.vertex(width, height + 16, 0).color(170 + colorOffset, 103, 45, 255);
-            RenderLayer.getLines().draw(bufferBuilder.end());
-
-            RenderUtils.endRender();
+            Matrix3x2f matrix = new Matrix3x2f(drawContext.getMatrices());
+            ScreenRect scissor = drawContext.scissorStack.peekLast();
+            drawContext.state.addSimpleElement(new CustomQuadRenderState(
+                matrix,
+                width, 0, 0, 0, 0, height + 16, width, height + 16,
+                new Color(80, 53, 20). getRGB(),
+                new Color(80 + colorOffset / 3, 53, 20).getRGB(),
+                new Color(159, 113, 54).getRGB(),
+                new Color(170 + colorOffset, 103, 45).getRGB(),
+                scissor
+            ));
         } else {
             RenderUtils.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
             this.applyBlur(drawContext);

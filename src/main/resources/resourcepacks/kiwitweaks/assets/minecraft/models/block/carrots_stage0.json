@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/crop",
-  "textures": {
-    "alert": "minecraft:block/no_alert",
-    "crop": "minecraft:block/carrots_stage0"
-  }
-}

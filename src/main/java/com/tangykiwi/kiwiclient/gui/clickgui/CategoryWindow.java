@@ -4,9 +4,10 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.client.ClickGUI;
-import com.tangykiwi.kiwiclient.util.RenderUtils;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
+import com.tangykiwi.kiwiclient.util.render.RenderUtils;
+
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.sound.PositionedSoundInstance;
@@ -76,17 +77,20 @@ public class CategoryWindow {
         Matrix3x2fStack matrixStack = context.getMatrices();
 
         /* background */
-        RenderUtils.drawRoundedQuadWH(matrixStack, new Color(0xfff7a558), x, y, width, height, 5, 90);
+        RenderUtils.drawRectWH(context, x, y, width, height, 0xfff7a558);
+        // RenderUtils.drawRoundedQuadWH(context, new Color(0xfff7a558), x, y, width, height, 5, 90);
 
         /* expansion background */
         if(expanded) {
-            RenderUtils.drawRoundedQuadXY(matrixStack, new Color(0x90d9904b), x + 1, y + fontHeight + 2, x + width - 1, y + height - 1, 5, 90);
+            RenderUtils.drawRectXY(context, x + 1, y + fontHeight + 2, x + width - 1, y + height - 1, 0x90d9904b);
+            // RenderUtils.drawRoundedQuadXY(context, new Color(0x90d9904b), x + 1, y + fontHeight + 2, x + width - 1, y + height - 1, 5, 90);
         }
 
         /* base title */
-        RenderUtils.drawRoundedQuadWH(matrixStack, new Color(0xffec8625), x + 1, y + 1, width - 2, fontHeight + 1, 5, 90);
+        RenderUtils.drawRectWH(context, x + 1, y + 1, width - 2, fontHeight + 1, 0xffec8625);
+        // RenderUtils.drawRoundedQuadWH(context, new Color(0xffec8625), x + 1, y + 1, width - 2, fontHeight + 1, 5, 90);
 
-        fontRenderer.drawStringWithShadow(matrixStack, expanded ? "-" : "+", x + width - 10, y + 2, -1);
+        fontRenderer.drawStringWithShadow(context, expanded ? "-" : "+", x + width - 10, y + 2, -1);
 
         boolean blockItem = icon != null && icon.getItem() instanceof BlockItem;
 
@@ -96,7 +100,7 @@ public class CategoryWindow {
         }
 
         /* window title */
-        fontRenderer.drawStringWithShadow(matrixStack, title, x + (icon == null || icon.getItem() == Items.AIR ? 4 : (blockItem ? 15 : 14)), y + 3, -1);
+        fontRenderer.drawStringWithShadow(context, title, x + (icon == null || icon.getItem() == Items.AIR ? 4 : (blockItem ? 15 : 14)), y + 3, -1);
 
         if (rmDown && mouseOver(x, y, x + width, y + 13)) {
             mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));

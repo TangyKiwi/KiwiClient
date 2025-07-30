@@ -4,10 +4,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.particles.ParticleManager;
 import com.tangykiwi.kiwiclient.module.client.ClickGUI;
-import com.tangykiwi.kiwiclient.util.RenderUtils;
 import com.tangykiwi.kiwiclient.util.Textures;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
+import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
@@ -60,8 +60,8 @@ public class MainMenu extends Screen {
         context.fillGradient(0, 0, this.width, this.height, 0x00000000, 0xff000000);
 
         String version = "v" + KiwiClient.VERSION + " - MC " + KiwiClient.MC_VERSION;
-        RenderUtils.drawRectWH(context.getMatrices(), 0, 0, (int) fontRenderer.getStringWidth(version) + 4, (int) fontRenderer.getStringHeight(version) + 2, 0x90000000);
-        fontRenderer.drawString(context.getMatrices(), version, 1, 2, new Color(0xFFFFFF));
+        RenderUtils.drawRectWH(context, 0, 0, (int) fontRenderer.getStringWidth(version) + 4, (int) fontRenderer.getStringHeight(version) + 2, 0x90000000);
+        fontRenderer.drawString(context, version, 1, 2, new Color(0xFFFFFF));
 
         particleManager.render(context.getMatrices(), mouseX, mouseY);
 
@@ -72,7 +72,7 @@ public class MainMenu extends Screen {
         }
 
         String username = this.client.getSession().getUsername();
-        fontRenderer.drawString(context.getMatrices(), this.client.getSession().getUsername(), 1, this.height - fontRenderer.getStringHeight(username) - 2, RenderUtils.getRainbowColor(4, 0.8f, 1));
+        fontRenderer.drawString(context, this.client.getSession().getUsername(), 1, this.height - fontRenderer.getStringHeight(username) - 2, RenderUtils.getRainbowColor(4, 0.8f, 1));
     }
 
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
@@ -148,7 +148,7 @@ public class MainMenu extends Screen {
                 index--;
             }
 
-            fontRenderer.drawCenteredString(context.getMatrices(), buttonText, x, y + getPosition(index) + 55, hovered ? RenderUtils.getRainbowColor(3, 0.8f, 1) : new Color(-1));
+            fontRenderer.drawCenteredString(context, buttonText, x, y + getPosition(index) + 55, hovered ? RenderUtils.getRainbowColor(3, 0.8f, 1) : new Color(-1));
 
             context.drawTexture(RenderPipelines.GUI_TEXTURED, icon, (x - 50 / 2), (int) (y + getPosition(index)), 0, 0, 50, 50, 50, 50);
         }

@@ -1,12 +1,13 @@
 package com.tangykiwi.kiwiclient.gui.particles;
 
-import com.tangykiwi.kiwiclient.util.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.*;
 
 import org.joml.Matrix3x2fStack;
+
+import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 public class Particle {
     private float posX;

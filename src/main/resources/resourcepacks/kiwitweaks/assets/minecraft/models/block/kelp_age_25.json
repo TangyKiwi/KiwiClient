@@ -1,7 +1,0 @@
-{
-    "parent": "block/tinted_cross",
-    "textures": {
-        "particle": "block/kelp_age_25",
-        "cross": "block/kelp_age_25"
-    }
-}

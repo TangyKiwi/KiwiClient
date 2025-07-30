@@ -1,7 +1,8 @@
 package com.tangykiwi.kiwiclient.gui.particles;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
-import com.tangykiwi.kiwiclient.util.RenderUtils;
+import com.tangykiwi.kiwiclient.util.render.RenderUtils;
+
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.*;
