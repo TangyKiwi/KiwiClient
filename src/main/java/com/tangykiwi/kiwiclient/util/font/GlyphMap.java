@@ -27,6 +27,7 @@ class GlyphMap {
     final int pixelPadding;
     private final Char2ObjectArrayMap<Glyph> glyphs = new Char2ObjectArrayMap<>();
     int width, height;
+    public NativeImageBackedTexture tex;
 
     boolean generated = false;
 
@@ -129,9 +130,9 @@ class GlyphMap {
 
             ByteBuffer data = BufferUtils.createByteBuffer(bytes.length).put(bytes);
             data.flip();
-            NativeImageBackedTexture tex = new NativeImageBackedTexture(null, NativeImage.read(data));
+            this.tex = new NativeImageBackedTexture(null, NativeImage.read(data));
             MinecraftClient.getInstance()
-                    .execute(() -> MinecraftClient.getInstance().getTextureManager().registerTexture(bindToTexture, tex));
+                    .execute(() -> MinecraftClient.getInstance().getTextureManager().registerTexture(bindToTexture, this.tex));
         } catch (Exception e) {
             KiwiClient.LOGGER.error(e.getMessage());
         }

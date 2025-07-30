@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.textures.GpuTextureView;
 
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.ScreenRect;
@@ -15,9 +16,9 @@ public record CustomFontRenderState(RenderPipeline pipeline,
     TextureSetup textureSetup, Matrix3x2f pose, float xo, float yo, float w, float h, float mult, float u1, float u2, float v1, float v2, float cr, float cg, float cb, float ca,
     @Nullable ScreenRect scissorArea, @Nullable ScreenRect bounds) implements SimpleGuiElementRenderState {
     
-    public CustomFontRenderState(Matrix3x2f pose, float xo, float yo, float w, float h, float mult, float u1, float u2, float v1, float v2, float cr, float cg, float cb, float ca,
+    public CustomFontRenderState(Matrix3x2f pose, GpuTextureView glId, float xo, float yo, float w, float h, float mult, float u1, float u2, float v1, float v2, float cr, float cg, float cb, float ca,
         @Nullable ScreenRect scissorArea) {
-        this(RenderPipelines.GUI_TEXTURED, TextureSetup.empty(), pose, xo, yo, w, h, mult, u1, u2, v1, v2,
+        this(RenderPipelines.GUI_TEXTURED, TextureSetup.of(glId), pose, xo, yo, w, h, mult, u1, u2, v1, v2,
             cr, cg, cb, ca,
             scissorArea,
             createBounds(xo, yo, w, h, mult, pose, scissorArea));

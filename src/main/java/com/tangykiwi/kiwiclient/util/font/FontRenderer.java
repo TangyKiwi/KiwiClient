@@ -195,9 +195,9 @@ public class FontRenderer implements Closeable {
         stack.scale(1f / this.scaleMul, 1f / this.scaleMul);
         Matrix3x2f matrix = new Matrix3x2f(stack);
 
-        RenderUtils.setupRender();
+        // RenderUtils.setupRender();
 
-        BufferBuilder bb;
+        // BufferBuilder bb;
         char[] chars = s.toCharArray();
         float xOffset = 0;
         float yOffset = 0;
@@ -242,7 +242,7 @@ public class FontRenderer implements Closeable {
             RenderSystem.setShaderTexture(lineStart, null);
             List<DrawEntry> objects = GLYPH_PAGE_CACHE.get(identifier);
 
-            bb = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
+            // bb = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
 
             int len = objects.size();
             int i = 0;
@@ -269,6 +269,7 @@ public class FontRenderer implements Closeable {
 
                 context.state.addSimpleElement(new CustomFontRenderState(
                     matrix,
+                    owner.tex.getGlTextureView(),
                     xo, yo, w, h, mult, u1, u2, v1, v2,
                     cr, cg, cb, a,
                     scissor
@@ -282,7 +283,7 @@ public class FontRenderer implements Closeable {
             // RenderLayer.getText(identifier).draw(bb.end());
         }
 
-        RenderUtils.endRender();
+        // RenderUtils.endRender();
         stack.popMatrix();
         GLYPH_PAGE_CACHE.clear();
     }
