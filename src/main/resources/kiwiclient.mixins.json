@@ -5,9 +5,11 @@
   "mixins": [
     "ChatInputSuggestorMixin",
     "ClientPlayNetworkHandlerMixin",
+    "GuiRendererMixin",
     "InGameHudMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
+    "ShaderLoaderMixin",
     "SplashOverlayMixin",
     "TitleScreenMixin"
   ],

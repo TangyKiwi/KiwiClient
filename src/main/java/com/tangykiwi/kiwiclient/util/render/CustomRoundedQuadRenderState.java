@@ -4,12 +4,10 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-
-import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.gui.render.state.SimpleGuiElementRenderState;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.texture.TextureSetup;
+import net.minecraft.client.texture.TextureSetup; 
 
 public record CustomRoundedQuadRenderState(RenderPipeline pipeline,
     TextureSetup textureSetup, Matrix3x2f pose, float x1, float y1, float x2,
@@ -18,7 +16,7 @@ public record CustomRoundedQuadRenderState(RenderPipeline pipeline,
 
     public CustomRoundedQuadRenderState(Matrix3x2f pose, float x1, float y1, float x2,
         float y2, float rad, float samples, int color, @Nullable ScreenRect scissorArea) {
-        this(RenderPipelines.GUI, TextureSetup.empty(), pose, x1, y1, x2, y2, rad, samples, color,
+        this(CustomRenderPipelines.GUI_TRIANGLE_FAN, TextureSetup.empty(), pose, x1, y1, x2, y2, rad, samples, color,
         scissorArea, createBounds(x1, y1, x2, y2, pose, scissorArea));
     }
 
@@ -31,14 +29,21 @@ public record CustomRoundedQuadRenderState(RenderPipeline pipeline,
             double rad = current[2];
             for (double r = i * 90d; r < (360 / 4d + i * 90d); r += (90 / samples)) {
                 float rad1 = (float) Math.toRadians(r);
+                float rad2 = (float) Math.toRadians(Math.min(360 / 4d + i * 90d, r + 90 / samples));
                 float sin = (float) (Math.sin(rad1) * rad);
                 float cos = (float) (Math.cos(rad1) * rad);
+                float sin2 = (float) (Math.sin(rad2) * rad);
+                float cos2 = (float) (Math.cos(rad2) * rad);
+                vertices.vertex(pose(), x1 + (x2 - x1) / 2f, y1 + (y2 - y1) / 2f, depth).color(color());
                 vertices.vertex(pose(), (float) current[0] + sin, (float) current[1] + cos, depth).color(color());
+                vertices.vertex(pose(), (float) current[0] + sin2, (float) current[1] + cos2, depth).color(color());
             }
             float rad1 = (float) Math.toRadians((360 / 4d + i * 90d));
             float sin = (float) (Math.sin(rad1) * rad);
             float cos = (float) (Math.cos(rad1) * rad);
+            vertices.vertex(pose(), x1 + (x2 - x1) / 2f, y1 + (y2 - y1) / 2f, depth).color(color());
             vertices.vertex(pose(), (float) current[0] + sin, (float) current[1] + cos, depth).color(color());
+            vertices.vertex(pose(), (float) map[(i + 1) % 4][0] + sin, (float) map[(i + 1) % 4][1] + cos, depth).color(color());
         }
     }
     

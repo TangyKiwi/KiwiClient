@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient.gui.particles;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.*;
@@ -20,7 +21,7 @@ public class ParticleManager {
         particles.clear();
     }
 
-    public void render(Matrix3x2fStack m, int x, int y) {
+    public void render(DrawContext m, int x, int y) {
         int rand;
         if (particles.size() <= 1000) {
             for (int i = 0; i < 5; i++) {
@@ -65,7 +66,7 @@ public class ParticleManager {
         drawConnections(m, x, y);
     }
 
-    public void drawConnections(Matrix3x2fStack m, int x, int y) {
+    public void drawConnections(DrawContext m, int x, int y) {
         List<Particle> nearbyParticles = new ArrayList<>();
         for (Particle p : particles) {
             if (getDistance(x, y, p) <= 30) {

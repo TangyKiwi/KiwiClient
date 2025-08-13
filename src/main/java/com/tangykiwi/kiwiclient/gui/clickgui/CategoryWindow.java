@@ -77,18 +77,18 @@ public class CategoryWindow {
         Matrix3x2fStack matrixStack = context.getMatrices();
 
         /* background */
-        RenderUtils.drawRectWH(context, x, y, width, height, 0xfff7a558);
-        // RenderUtils.drawRoundedQuadWH(context, new Color(0xfff7a558), x, y, width, height, 5, 90);
+        // RenderUtils.drawRectWH(context, x, y, width, height, 0xfff7a558);
+        RenderUtils.drawRoundedQuadWH(context, 0xfff7a558, x, y, width, height, 5, 90);
 
         /* expansion background */
         if(expanded) {
-            RenderUtils.drawRectXY(context, x + 1, y + fontHeight + 2, x + width - 1, y + height - 1, 0x90d9904b);
-            // RenderUtils.drawRoundedQuadXY(context, new Color(0x90d9904b), x + 1, y + fontHeight + 2, x + width - 1, y + height - 1, 5, 90);
+            // RenderUtils.drawRectXY(context, x + 1, y + fontHeight + 2, x + width - 1, y + height - 1, 0x90d9904b);
+            RenderUtils.drawRoundedQuadXY(context, 0x90d9904b, x + 1, y + fontHeight + 2, x + width - 1, y + height - 1, 5, 90);
         }
 
         /* base title */
-        RenderUtils.drawRectWH(context, x + 1, y + 1, width - 2, fontHeight + 1, 0xffec8625);
-        // RenderUtils.drawRoundedQuadWH(context, new Color(0xffec8625), x + 1, y + 1, width - 2, fontHeight + 1, 5, 90);
+        // RenderUtils.drawRectWH(context, x + 1, y + 1, width - 2, fontHeight + 1, 0xffec8625);
+        RenderUtils.drawRoundedQuadWH(context, 0xffec8625, x + 1, y + 1, width - 2, fontHeight + 1, 5, 90);
 
         fontRenderer.drawStringWithShadow(context, expanded ? "-" : "+", x + width - 10, y + 2, -1);
 

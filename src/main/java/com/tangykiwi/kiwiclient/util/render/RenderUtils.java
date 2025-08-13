@@ -61,13 +61,13 @@ public class RenderUtils {
         // RenderLayer.getDebugQuads().draw(bufferBuilder.end());
     }
 
-    public static void drawRoundedQuadWH(DrawContext context, Color c, float x, float y, float width, float height, float rad, float samples) {
+    public static void drawRoundedQuadWH(DrawContext context, int c, float x, float y, float width, float height, float rad, float samples) {
         drawRoundedQuadXY(context, c, x, y, x + width, y + height, rad, samples);
     }
 
-    public static void drawRoundedQuadXY(DrawContext context, Color c, float x, float y, float x2, float y2, float rad, float samples) {
+    public static void drawRoundedQuadXY(DrawContext context, int c, float x, float y, float x2, float y2, float rad, float samples) {
         // drawRoundedQuad(context, c, x, y, x2, y2, rad, rad, rad, rad, samples);
-        drawRoundedQuadInternal(context, c.getRGB(), x, y, x2, y2, rad, samples);
+        drawRoundedQuadInternal(context, c, x, y, x2, y2, rad, samples);
     }
 
     // public static void drawRoundedQuad(DrawContext context, Color c, float fromX, float fromY, float toX, float toY, float radC1, float radC2, float radC3, float radC4, float samples) {
@@ -115,45 +115,53 @@ public class RenderUtils {
     //     RenderLayer.getDebugQuads().draw(bufferBuilder.end());
     // }
 
-    public static void drawLine2D(Matrix3x2fStack matrices, float x1, float y1, float x2, float y2, int c)
+    public static void drawLine2D(DrawContext context, float x1, float y1, float x2, float y2, int c)
     {
-        setupRender();
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        // setupRender();
+        // GL11.glEnable(GL11.GL_LINE_SMOOTH);
 
-        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINES,
-                VertexFormats.POSITION_COLOR);
-        bufferBuilder.vertex(matrices, x1, y1, 0).color(c);
-        bufferBuilder.vertex(matrices, x2, y2, 0).color(c);
-        RenderLayer.getDebugQuads().draw(bufferBuilder.end());
+        // BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINES,
+        //         VertexFormats.POSITION_COLOR);
+        // bufferBuilder.vertex(matrices, x1, y1, 0).color(c);
+        // bufferBuilder.vertex(matrices, x2, y2, 0).color(c);
+        // RenderLayer.getDebugQuads().draw(bufferBuilder.end());
 
-        GL11.glDisable(GL11.GL_LINE_SMOOTH);
-        endRender();
+        // GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        // endRender();
     }
 
-    public static void drawCircle(Matrix3x2fStack matrices, float x, float y, float radius, int c)
+    public static void drawCircle(DrawContext context, float x, float y, float radius, int c)
     {
-        setupRender();
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        Matrix3x2f matrix = new Matrix3x2f(context.getMatrices());
+        ScreenRect scissor = context.scissorStack.peekLast();
+        context.state.addSimpleElement(new CustomCircleRenderState(
+            matrix,
+            x, y, 0, 360, radius, 90,
+            c,
+            scissor
+        ));
+        // setupRender();
+        // GL11.glEnable(GL11.GL_LINE_SMOOTH);
 
-        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
-        double roundedInterval = (360.0f / 30.0f);
+        // BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
+        // double roundedInterval = (360.0f / 30.0f);
 
-        for (int i = 0; i < 30; i++)
-        {
-            double angle = Math.toRadians(0 + (i * roundedInterval));
-            double angle2 = Math.toRadians(0 + ((i + 1) * roundedInterval));
-            float radiusX1 = (float) (Math.cos(angle) * radius);
-            float radiusY1 = (float) Math.sin(angle) * radius;
-            float radiusX2 = (float) Math.cos(angle2) * radius;
-            float radiusY2 = (float) Math.sin(angle2) * radius;
+        // for (int i = 0; i < 30; i++)
+        // {
+        //     double angle = Math.toRadians(0 + (i * roundedInterval));
+        //     double angle2 = Math.toRadians(0 + ((i + 1) * roundedInterval));
+        //     float radiusX1 = (float) (Math.cos(angle) * radius);
+        //     float radiusY1 = (float) Math.sin(angle) * radius;
+        //     float radiusX2 = (float) Math.cos(angle2) * radius;
+        //     float radiusY2 = (float) Math.sin(angle2) * radius;
 
-            bufferBuilder.vertex(matrices, x, y, 0).color(c);
-            bufferBuilder.vertex(matrices, x + radiusX1, y + radiusY1, 0).color(c);
-            bufferBuilder.vertex(matrices, x + radiusX2, y + radiusY2, 0).color(c);
-        }
-        RenderLayer.getDebugQuads().draw(bufferBuilder.end());
-        GL11.glDisable(GL11.GL_LINE_SMOOTH);
-        endRender();
+        //     bufferBuilder.vertex(matrices, x, y, 0).color(c);
+        //     bufferBuilder.vertex(matrices, x + radiusX1, y + radiusY1, 0).color(c);
+        //     bufferBuilder.vertex(matrices, x + radiusX2, y + radiusY2, 0).color(c);
+        // }
+        // RenderLayer.getDebugQuads().draw(bufferBuilder.end());
+        // GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        // endRender();
     }
 
     /**

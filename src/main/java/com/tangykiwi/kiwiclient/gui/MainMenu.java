@@ -60,10 +60,11 @@ public class MainMenu extends Screen {
         context.fillGradient(0, 0, this.width, this.height, 0x00000000, 0xff000000);
 
         String version = "v" + KiwiClient.VERSION + " - MC " + KiwiClient.MC_VERSION;
-        RenderUtils.drawRectWH(context, 0, 0, (int) fontRenderer.getStringWidth(version) + 4, (int) fontRenderer.getStringHeight(version) + 2, 0x90000000);
+        // RenderUtils.drawRectWH(context, 0, 0, (int) fontRenderer.getStringWidth(version) + 4, (int) fontRenderer.getStringHeight(version) + 2, 0x90000000);
+        RenderUtils.drawRoundedQuadWH(context, 0x90000000, 0, 0, (int) fontRenderer.getStringWidth(version) + 4, (int) fontRenderer.getStringHeight(version) + 2, 5, 90);
         fontRenderer.drawString(context, version, 1, 2, new Color(0xFFFFFF));
 
-        particleManager.render(context.getMatrices(), mouseX, mouseY);
+        particleManager.render(context, mouseX, mouseY);
 
         context.drawTexture(RenderPipelines.GUI_TEXTURED, Textures.TITLE, this.width / 2 - 160, this.height / 2 - 55, 0, 0, 320, 40, 320, 40);
 

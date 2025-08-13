@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.gui.particles;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.*;
@@ -27,7 +28,7 @@ public class Particle {
         this.alpha = alpha;
     }
 
-    public void render(Matrix3x2fStack m) {
+    public void render(DrawContext m) {
         alpha -= 0.3F;
         if (alpha <= 0) {
             alpha = 0;
