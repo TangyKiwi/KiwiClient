@@ -1,6 +1,5 @@
 package com.tangykiwi.kiwiclient.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.particles.ParticleManager;
 import com.tangykiwi.kiwiclient.module.client.ClickGUI;
@@ -18,7 +17,6 @@ import net.minecraft.client.gui.screen.option.LanguageOptionsScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
-import net.minecraft.client.render.*;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -27,7 +25,6 @@ import net.minecraft.util.Identifier;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 import static com.tangykiwi.kiwiclient.KiwiClient.moduleManager;
 
 public class MainMenu extends Screen {

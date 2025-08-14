@@ -4,17 +4,12 @@ import java.awt.Color;
 
 import org.joml.Matrix3x2f;
 
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.tangykiwi.kiwiclient.util.render.CustomQuadRenderState;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormats;
 import net.minecraft.text.Text;
 
 public abstract class Base extends Screen {

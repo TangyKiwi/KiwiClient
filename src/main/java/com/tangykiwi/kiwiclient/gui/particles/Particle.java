@@ -2,11 +2,8 @@ package com.tangykiwi.kiwiclient.gui.particles;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.*;
-
-import org.joml.Matrix3x2fStack;
 
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 

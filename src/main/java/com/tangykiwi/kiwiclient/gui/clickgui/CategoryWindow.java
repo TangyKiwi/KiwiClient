@@ -9,17 +9,13 @@ import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvents;
 import org.apache.commons.lang3.StringUtils;
-import org.joml.Matrix3x2fStack;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,8 +69,6 @@ public class CategoryWindow {
         }
 
         int trueLen = (int) (expanded ? y + fontHeight + 1 /*+ getHeight()*/ : y + fontHeight + 1);
-
-        Matrix3x2fStack matrixStack = context.getMatrices();
 
         /* background */
         // RenderUtils.drawRectWH(context, x, y, width, height, 0xfff7a558);

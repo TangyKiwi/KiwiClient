@@ -2,10 +2,7 @@ package com.tangykiwi.kiwiclient.util.font;
 
 import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.textures.GpuTextureView;
-import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.util.render.CustomFontRenderState;
-import com.tangykiwi.kiwiclient.util.render.CustomRoundedQuadRenderState;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 import it.unimi.dsi.fastutil.chars.Char2IntArrayMap;
@@ -15,14 +12,9 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
-import net.minecraft.client.render.*;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import org.joml.Matrix4f;
 import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.io.Closeable;

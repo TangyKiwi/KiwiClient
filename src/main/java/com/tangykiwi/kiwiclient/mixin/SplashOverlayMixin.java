@@ -1,14 +1,10 @@
 package com.tangykiwi.kiwiclient.mixin;
 
-import com.mojang.blaze3d.opengl.GlStateManager;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.util.Textures;
 
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.SplashOverlay;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.resource.ResourceReload;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
@@ -50,7 +46,7 @@ public abstract class SplashOverlayMixin {
 
         float f = reloadCompleteTime > -1L ? (float) (l - reloadCompleteTime) / 1000.0F : -1.0F;
         float g = reloadStartTime > -1L ? (float) (l - reloadStartTime) / 500.0F : -1.0F;
-        float h;
+        float h = 0.0F;
         int k;
         if (f >= 1.0F) {
             if (mc.currentScreen != null)

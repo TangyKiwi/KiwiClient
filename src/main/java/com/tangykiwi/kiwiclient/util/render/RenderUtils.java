@@ -1,21 +1,13 @@
 package com.tangykiwi.kiwiclient.util.render;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.tangykiwi.kiwiclient.KiwiClient;
-import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
-import net.minecraft.client.gui.render.state.ColoredQuadGuiElementRenderState;
 import net.minecraft.client.render.*;
-import net.minecraft.client.texture.TextureSetup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.RotationAxis;
 
 import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
-import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
