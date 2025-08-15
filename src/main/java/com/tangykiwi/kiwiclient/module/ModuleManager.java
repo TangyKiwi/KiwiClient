@@ -3,7 +3,8 @@ package com.tangykiwi.kiwiclient.module;
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
-import com.tangykiwi.kiwiclient.module.client.ClickGUI;
+import com.tangykiwi.kiwiclient.module.client.*;
+
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
@@ -16,6 +17,7 @@ public class ModuleManager {
 
     public void init() {
         moduleList.add(new ClickGUI());
+        moduleList.add(new HUD());
     }
 
     public ArrayList<Module> getEnabledMods() {

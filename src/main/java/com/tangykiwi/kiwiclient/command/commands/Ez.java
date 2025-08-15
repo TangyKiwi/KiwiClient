@@ -1,6 +1,8 @@
-package com.tangykiwi.kiwiclient.command;
+package com.tangykiwi.kiwiclient.command.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.tangykiwi.kiwiclient.command.Command;
+
 import net.minecraft.command.CommandSource;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;

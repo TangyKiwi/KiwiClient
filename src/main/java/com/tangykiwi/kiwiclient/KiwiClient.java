@@ -3,6 +3,7 @@ package com.tangykiwi.kiwiclient;
 import com.google.common.eventbus.EventBus;
 import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.gui.clickgui.ClickGUIScreen;
+import com.tangykiwi.kiwiclient.gui.hudeditor.HUDEditorScreen;
 import com.tangykiwi.kiwiclient.module.ModuleManager;
 import com.tangykiwi.kiwiclient.util.discord.Discord;
 import com.tangykiwi.kiwiclient.util.discord.DiscordEventHandlers;
@@ -71,6 +72,7 @@ public class KiwiClient implements ModInitializer {
 
 	public static void postInit() {
 		ClickGUIScreen.INSTANCE.initWindows();
+		HUDEditorScreen.INSTANCE.initComponents();
 	}
 
 	public static void startRPC() {

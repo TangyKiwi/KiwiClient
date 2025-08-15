@@ -2,6 +2,8 @@ package com.tangykiwi.kiwiclient.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.tangykiwi.kiwiclient.command.commands.*;
+
 import net.minecraft.command.CommandSource;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class CommandManager {
 
     public void init() {
         add(new Ez());
+        add(new Toggle());
 
         COMMANDS.sort(Comparator.comparing(Command::getName));
     }

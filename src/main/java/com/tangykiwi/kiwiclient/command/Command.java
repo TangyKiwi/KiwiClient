@@ -9,6 +9,7 @@ import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.CommandSource;
 import net.minecraft.registry.BuiltinRegistries;
 import net.minecraft.server.command.CommandManager;
+import net.minecraft.text.Text;
 
 import java.util.List;
 
@@ -66,5 +67,10 @@ public abstract class Command {
         StringBuilder base = new StringBuilder(toString());
         for (String arg : args) base.append(' ').append(arg);
         return base.toString();
+    }
+
+    public void addMessage(String text) {
+        String prefix = "§a[§6KiwiClient§a]§r";
+        KiwiClient.mc.inGameHud.getChatHud().addMessage(Text.literal(prefix + " " + text));
     }
 }

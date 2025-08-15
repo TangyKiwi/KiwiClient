@@ -110,6 +110,13 @@ public class Module {
         return settings.get(setting);
     }
 
+    public Setting<?> getSetting(String name) {
+        return settings.stream()
+                .filter(setting -> setting.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
+    }
+
     public void addSetting(Setting<?> setting) {
         settings.add(setting);
     }
