@@ -58,7 +58,7 @@ public class MainMenu extends Screen {
 
         String version = "v" + KiwiClient.VERSION + " - MC " + KiwiClient.MC_VERSION;
         // RenderUtils.drawRectWH(context, 0, 0, (int) fontRenderer.getStringWidth(version) + 4, (int) fontRenderer.getStringHeight(version) + 2, 0x90000000);
-        RenderUtils.drawRoundedQuadWH(context, 0x90000000, 0, 0, (int) fontRenderer.getStringWidth(version) + 4, (int) fontRenderer.getStringHeight(version) + 2, 5, 90);
+        RenderUtils.drawRoundedQuadWH(context, 0, 0, (int) fontRenderer.getStringWidth(version) + 4, (int) fontRenderer.getStringHeight(version) + 2, 5, 90, 0x90000000);
         fontRenderer.drawString(context, version, 1, 2, new Color(0xFFFFFF));
 
         particleManager.render(context, mouseX, mouseY);

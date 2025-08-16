@@ -76,7 +76,7 @@ public class ParticleManager {
                 Particle pi = nearbyParticles.get(i);
                 Particle pj = nearbyParticles.get(j);
                 int alpha = (int) ((pi.getAlpha() + pj.getAlpha()) / 2);
-                RenderUtils.drawLine2D(m, pi.getPosX(), pi.getPosY(), pj.getPosX(), pj.getPosY(), new Color(255, 255, 255, alpha).getRGB());
+                RenderUtils.drawLine2D(m, pi.getPosX(), pi.getPosY(), pj.getPosX(), pj.getPosY(), 0.5F, new Color(255, 255, 255, alpha).getRGB());
             }
         }
     }

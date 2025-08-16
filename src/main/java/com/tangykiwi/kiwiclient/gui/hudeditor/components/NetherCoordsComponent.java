@@ -14,6 +14,11 @@ public class NetherCoordsComponent extends HUDComponent {
 
     @Override
     public void render(DrawContext context, FontRenderer fontRenderer) {
+        if (mc.player == null || mc.world == null) {
+            fontRenderer.drawString(context, String.format("(Nether) X: 0.0 Y: 0.0 Z: 0.0", getX(), getY()), getX(), getY(), 0xFFAA00);
+            return;
+        }
+        
         Boolean nether = mc.world.getRegistryKey().getValue().getPath().contains("nether");
         Vec3d vec2 = mc.player.getPos();
         double altx = vec2.x / 8;

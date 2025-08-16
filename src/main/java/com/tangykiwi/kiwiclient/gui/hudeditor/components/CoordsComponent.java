@@ -15,6 +15,11 @@ public class CoordsComponent extends HUDComponent {
 
     @Override
     public void render(DrawContext context, FontRenderer fontRenderer) {
+        if (mc.player == null || mc.world == null) {
+            fontRenderer.drawString(context, String.format("X: 0.0 Y: 0.0 Z: 0.0", getX(), getY()), getX(), getY(), 0xFFAA00);
+            return;
+        }
+        
         Vec3d vec = mc.player.getPos();
         float yaw = MathHelper.wrapDegrees(mc.getCameraEntity().getYaw());
         String dir = "";

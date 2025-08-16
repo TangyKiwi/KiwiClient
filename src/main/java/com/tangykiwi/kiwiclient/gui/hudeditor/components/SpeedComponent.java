@@ -13,6 +13,11 @@ public class SpeedComponent extends HUDComponent {
 
     @Override
     public void render(DrawContext context, FontRenderer fontRenderer) {
+        if (mc.player == null || mc.world == null) {
+            fontRenderer.drawString(context, String.format("Speed: 0.0 b/s", getX(), getY()), getX(), getY(), 0xFFAA00);
+            return;
+        }
+        
         double tX = Math.abs(mc.player.getX() - mc.player.lastX);
         double tY = Math.abs(mc.player.getY() - mc.player.lastY);
         double tZ = Math.abs(mc.player.getZ() - mc.player.lastZ);

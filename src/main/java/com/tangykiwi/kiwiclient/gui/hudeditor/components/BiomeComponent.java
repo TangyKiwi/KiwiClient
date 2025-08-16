@@ -25,6 +25,10 @@ public class BiomeComponent extends HUDComponent {
     }
 
     private String getBiome() {
+        if (mc.world == null || mc.player == null) {
+            return "Unknown";
+        }
+        
         return mc.world.getRegistryManager().getOptional(RegistryKeys.BIOME)
             .map(biomeRegistry -> {
                 Identifier id = biomeRegistry.getId(mc.world.getBiome(new BlockPos.Mutable().set(mc.player.getX(), mc.player.getY(), mc.player.getZ())).value());

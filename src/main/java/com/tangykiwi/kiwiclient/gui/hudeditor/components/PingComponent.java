@@ -14,6 +14,11 @@ public class PingComponent extends HUDComponent {
 
     @Override
     public void render(DrawContext context, FontRenderer fontRenderer) {
+        if (mc.player == null || mc.world == null) {
+            fontRenderer.drawString(context, String.format("Ping: 0", getX(), getY()), getX(), getY(), 0xFFAA00);
+            return;
+        }
+
         PlayerListEntry playerEntry = mc.player.networkHandler.getPlayerListEntry(mc.player.getGameProfile().getId());
         int ping = playerEntry == null ? 0 : playerEntry.getLatency();
         fontRenderer.drawString(context, String.format("Ping: %d", ping), getX(), getY(), getColorString(ping, 10, 20, 50, 75, 100, true));
