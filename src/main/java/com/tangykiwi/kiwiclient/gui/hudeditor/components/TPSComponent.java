@@ -14,6 +14,6 @@ public class TPSComponent extends HUDComponent {
         float tps = 20; // placeholder
         String renderString = "TPS: " + String.format("%.1f", tps);
         setWidth((int) fontRenderer.getStringWidth(renderString));
-        fontRenderer.drawString(context, renderString, getX(), getY(), getColorString((int) tps, 20, 18, 16, 14, 12, false));
+        fontRenderer.drawString(context, renderString, getX(), getY(), getColorString((int) tps, 18, 18, 16, 14, 12, false));
     }
 }
