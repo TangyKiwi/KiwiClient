@@ -2,8 +2,6 @@ package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
-import com.tangykiwi.kiwiclient.util.font.FontRenderer;
-
 import net.minecraft.client.gui.DrawContext;
 
 public class FPSComponent extends HUDComponent {
@@ -12,8 +10,12 @@ public class FPSComponent extends HUDComponent {
     }
 
     @Override
-    public void render(DrawContext context, FontRenderer fontRenderer) {
+    public void render(DrawContext context) {
+        super.render(context);
+        
         int fps = (mc.fpsDebugString.equals("")) ? 0 : Integer.parseInt(mc.fpsDebugString.replaceAll("[^\\d]", " ").trim().replaceAll(" +", " ").split(" ")[0]);
-        fontRenderer.drawString(context, String.format("FPS: %d", fps), getX(), getY(), getColorString(fps, 80, 60, 30, 15, 10, false));
+        String renderString = String.format("FPS: %d", fps);
+        setWidth((int) fontRenderer.getStringWidth(renderString));
+        fontRenderer.drawString(context, renderString, getX(), getY(), getColorString(fps, 80, 60, 30, 15, 10, false));
     }
 }

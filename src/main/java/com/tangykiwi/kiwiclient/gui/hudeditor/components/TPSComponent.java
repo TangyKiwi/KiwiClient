@@ -1,7 +1,5 @@
 package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 
-import com.tangykiwi.kiwiclient.util.font.FontRenderer;
-
 import net.minecraft.client.gui.DrawContext;
 
 public class TPSComponent extends HUDComponent {
@@ -10,8 +8,12 @@ public class TPSComponent extends HUDComponent {
     }
 
     @Override
-    public void render(DrawContext context, FontRenderer fontRenderer) {
+    public void render(DrawContext context) {
+        super.render(context);
+
         float tps = 20; // placeholder
-        fontRenderer.drawString(context, "TPS: " + String.format("%.1f", tps), getX(), getY(), getColorString((int) tps, 20, 18, 16, 14, 12, false));
+        String renderString = "TPS: " + String.format("%.1f", tps);
+        setWidth((int) fontRenderer.getStringWidth(renderString));
+        fontRenderer.drawString(context, renderString, getX(), getY(), getColorString((int) tps, 20, 18, 16, 14, 12, false));
     }
 }

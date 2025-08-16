@@ -2,8 +2,6 @@ package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
-import com.tangykiwi.kiwiclient.util.font.FontRenderer;
-
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -14,12 +12,17 @@ public class CoordsComponent extends HUDComponent {
     }
 
     @Override
-    public void render(DrawContext context, FontRenderer fontRenderer) {
+    public void render(DrawContext context) {
+        super.render(context);
+
+        String renderString = "X: 0.0 Y: 0.0 Z: 0.0";
+
         if (mc.player == null || mc.world == null) {
-            fontRenderer.drawString(context, String.format("X: 0.0 Y: 0.0 Z: 0.0", getX(), getY()), getX(), getY(), 0xFFAA00);
+            setWidth((int) fontRenderer.getStringWidth(renderString));
+            fontRenderer.drawString(context, "X: 0.0 Y: 0.0 Z: 0.0", getX(), getY(), 0xFFAA00);
             return;
         }
-        
+
         Vec3d vec = mc.player.getPos();
         float yaw = MathHelper.wrapDegrees(mc.getCameraEntity().getYaw());
         String dir = "";
@@ -33,7 +36,9 @@ public class CoordsComponent extends HUDComponent {
         else if(yaw >= -157.5) dir = "NE +X, -Z";
         else dir = "N -Z";
 
-        fontRenderer.drawString(context, String.format("X: %.1f Y: %.1f Z: %.1f " + dir, vec.x, vec.y, vec.z), getX(), getY(), 0xFFAA00);
+        renderString = String.format("X: %.1f Y: %.1f Z: %.1f " + dir, vec.x, vec.y, vec.z);
+        setWidth((int) fontRenderer.getStringWidth(renderString));
+        fontRenderer.drawString(context, renderString, getX(), getY(), 0xFFAA00);
     }
     
 }

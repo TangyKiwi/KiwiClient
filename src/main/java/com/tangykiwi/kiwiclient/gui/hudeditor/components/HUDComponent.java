@@ -1,6 +1,9 @@
 package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 
+import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
+import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 import net.minecraft.client.gui.DrawContext;
 
@@ -11,14 +14,39 @@ public abstract class HUDComponent {
     private float x, y;
     private int width, height;
 
+    public FontRenderer fontRenderer;
+    public float fontHeight;
+
+    protected boolean dragging;
+    protected int dragOffX;
+    protected int dragOffY;
+
+    public int mouseX;
+    public int mouseY;
+
+    public boolean lmDown = false;
+    public boolean rmDown = false;
+    public boolean lmHeld = false;
+    public int mwScroll = 0;
+
     public HUDComponent(String name, float x, float y) {
         this.name = name;
         this.x = x;
         this.y = y;
+        this.fontRenderer = KiwiClient.fontManager.getSize(6, FontManager.Type.CONSOLAS);
+        this.fontHeight = fontRenderer.getStringHeight(name);
+        this.height = (int) this.fontHeight;
     }
 
-    public void render(DrawContext context, FontRenderer fontRenderer) {
-        
+    public void render(DrawContext context) {
+        if (dragging) {
+            x = Math.max(0, mouseX - dragOffX);
+            y = Math.max(0, mouseY - dragOffY);
+        }
+
+        if (mouseOver((int) x, (int) y, (int) x + width, (int) y + height)) {
+            RenderUtils.drawRectWH(context, x, y, width, height, 0x60000000);
+        }
     }
 
     public String getName() {
@@ -41,8 +69,16 @@ public abstract class HUDComponent {
         return y;
     }
 
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
     public int getWidth() {
         return width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public int getHeight() {
@@ -58,5 +94,30 @@ public abstract class HUDComponent {
         else if (!reverse ? value > worst : value < worst) {color = Color.ORANGE;}
         else {color = Color.RED;}
         return (int) Long.parseLong(Integer.toHexString(color.getRGB()), 16);
+    }
+
+    public void mouseClicked(double mouseX, double mouseY, int button) {
+        if (mouseX >= x && mouseX <= x + width - 2 && mouseY >= y && mouseY <= y + height) {
+            dragging = true;
+            dragOffX = (int) (mouseX - x);
+            dragOffY = (int) (mouseY - y);
+        }
+    }
+
+    public void mouseReleased(double mouseX, double mouseY, int button) {
+        dragging = false;
+    }
+
+    public boolean mouseOver(int minX, int minY, int maxX, int maxY) {
+        return mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY < maxY;
+    }
+
+    public void updateKeys(int mouseX, int mouseY, boolean lmDown, boolean rmDown, boolean lmHeld, int mwScroll) {
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+        this.lmDown = lmDown;
+        this.rmDown = rmDown;
+        this.lmHeld = lmHeld;
+        this.mwScroll = mwScroll;
     }
 }

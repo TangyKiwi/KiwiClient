@@ -38,7 +38,7 @@ public class HUD extends Module {
     public void onDrawOverlay(DrawOverlayEvent e) {
         for (HUDComponent component : HUDEditorScreen.INSTANCE.components) {
             if(((ToggleSetting) getSetting(component.getName())).getSValue()) {
-                component.render(e.getContext(), KiwiClient.fontManager.getSize(6, FontManager.Type.CONSOLAS));
+                component.render(e.getContext());
             }
         }
     }

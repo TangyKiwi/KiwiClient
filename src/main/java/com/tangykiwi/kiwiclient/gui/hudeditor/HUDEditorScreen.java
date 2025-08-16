@@ -17,7 +17,6 @@ import com.tangykiwi.kiwiclient.gui.hudeditor.components.NetherCoordsComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.PingComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.SpeedComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.TPSComponent;
-import com.tangykiwi.kiwiclient.module.client.HUD;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
@@ -29,11 +28,9 @@ import net.minecraft.text.Text;
 public class HUDEditorScreen extends Base {
     public static HUDEditorScreen INSTANCE = new HUDEditorScreen();
     public FontRenderer fontRenderer;
-    public FontRenderer hudComponentRenderer;
 
     public List<HUDComponent> components = new ArrayList<HUDComponent>();
 
-    protected int keyDown = -1;
     protected boolean lmDown = false;
     protected boolean rmDown = false;
     protected boolean lmHeld = false;
@@ -43,7 +40,6 @@ public class HUDEditorScreen extends Base {
     public HUDEditorScreen() {
         super(Text.literal("HUD Editor"));
         fontRenderer = KiwiClient.fontManager.getSize(8, FontManager.Type.CONSOLAS);
-        hudComponentRenderer = KiwiClient.fontManager.getSize(6, FontManager.Type.CONSOLAS);
     }
 
     public void initComponents() {
@@ -74,6 +70,12 @@ public class HUDEditorScreen extends Base {
     
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        for (HUDComponent component : components) {
+            component.updateKeys(mouseX, mouseY, lmDown, rmDown, lmHeld, mouseY);
+        }
+
+        super.render(context, mouseX, mouseY, delta);
+
         context.fill(width / 2 - 50, -1, width / 2 - 2, 12, 
             mouseX >= width / 2 - 50 && mouseX <= width / 2 - 2 && mouseY >= 0 && mouseY <= 12 ? 0x60b070f0 : 0x60606090);
         context.fill(width / 2 + 2, -1, width / 2 + 50, 12,
@@ -82,12 +84,11 @@ public class HUDEditorScreen extends Base {
         fontRenderer.drawCenteredStringWithShadow(context, "HUD Editor", width / 2 + 26, 2, 0xf0f0f0);
 
         for(HUDComponent component : components) {
-            component.render(context, hudComponentRenderer);
+            component.render(context);
         }
 
         lmDown = false;
         rmDown = false;
-        keyDown = -1;
         mwhScroll = 0;
         mwvScroll = 0;
     }
@@ -108,19 +109,25 @@ public class HUDEditorScreen extends Base {
             rmDown = true;
         }
 
+        for (HUDComponent component : components) {
+            if (mouseX > component.getX() && mouseX < component.getX() + component.getWidth() && 
+                mouseY > component.getY() && mouseY < component.getY() + component.getHeight()) {
+                component.mouseClicked(mouseX, mouseY, button);
+                break;
+            }
+        }
+
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (button == 0) lmHeld = false;
 
+        for (HUDComponent component : components) {
+            component.mouseReleased(mouseX, mouseY, button);
+        }
+
         return super.mouseReleased(mouseX, mouseY, button);
-    }
-
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        keyDown = keyCode;
-
-        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
