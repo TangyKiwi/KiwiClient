@@ -34,6 +34,9 @@ public abstract class HUDComponent {
     public boolean lmHeld = false;
     public int mwScroll = 0;
 
+    public boolean xCollide, yCollide;
+    public boolean prev_xCollide, prev_yCollide;
+
     public HUDComponent(String name, float x, float y) {
         this.name = name;
         this.x = x;
@@ -46,39 +49,49 @@ public abstract class HUDComponent {
     public void render(DrawContext context) {
         if (dragging) {
             if (InputUtil.isKeyPressed(KiwiClient.mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-                // float newX = mouseX - dragOffX;
-                // float newY = mouseY - dragOffY;
+                float newX = mouseX - dragOffX;
+                float newY = mouseY - dragOffY;
 
-                // for (HUDComponent component : HUDEditorScreen.INSTANCE.components) {
-                //     if (component.getName() != this.name) {
-                //         float compX = component.getX();
-                //         float compY = component.getY();
-                //         int compW = component.getWidth();
-                //         int compH = component.getHeight();
-
-                //         // left collision
-                //         if (newX + width > compX && newX + width < compX + compW) {
-                //             // top || bottom bounds
-                //             if ((compY < newY && newY < compY + compH) || (compY < newY + height && newY + height < compY + compH)) {
-                //                 component.renderBoundingBox(context);
-                //                 y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.currentScreen.height - height);
-                //             } else {
-                //                 component.renderBoundingBox(context);
-                //                 x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.currentScreen.width - width);
-                //             }
-                //         // right collision
-                //         } else if (newX < compX + compW && newX + width > compX) {
-                //             // top || bottom bounds
-                //             if ((compY < newY && newY < compY + compH) || (compY < newY + height && newY + height < compY + compH)) {
-                //                 component.renderBoundingBox(context);
-                //                 y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.currentScreen.height - height);
-                //             } else {
-                //                 component.renderBoundingBox(context);
-                //                 x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.currentScreen.width - width);
-                //             }
-                //         }
-                //     }
-                // }
+                for (HUDComponent component : HUDEditorScreen.INSTANCE.components) {
+                    if (component.getName() != this.name) {
+                        checkCollision(newX, newY, component);
+                        if (xCollide && yCollide) {
+                            float xC1 = x + width * 0.5F;
+                            float yC1 = y + height * 0.5F;
+                            float xC2 = component.getX() + component.getWidth() * 0.5F;
+                            float yC2 = component.getY() + component.getHeight() * 0.5F;
+                            if (!prev_xCollide && !prev_yCollide) {
+                                if ((width + component.getWidth()) * 0.5F - Math.abs(xC1 - xC2) >
+                                (height + component.getHeight()) * 0.5F - Math.abs(yC1 - yC2)) {
+                                    prev_xCollide = true;
+                                } else {
+                                    prev_yCollide = true;
+                                }
+                            }
+                            if (prev_xCollide) {
+                                renderBoundingBox(context);
+                                component.renderBoundingBox(context);
+                                if(yC1 < yC2) {
+                                    x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.currentScreen.width - width);
+                                    y = component.getY() - height;
+                                } else {
+                                    x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.currentScreen.width - width);
+                                    y = component.getY() + component.getHeight();
+                                }
+                            } else if (prev_yCollide) {
+                                renderBoundingBox(context);
+                                component.renderBoundingBox(context);
+                                if (xC1 < xC2) {
+                                    x = component.getX() - width;
+                                    y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.currentScreen.height - height);
+                                } else {
+                                    x = component.getX() + component.getWidth();
+                                    y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.currentScreen.height - height);
+                                }
+                            }
+                        }
+                    }
+                }
             } else {
                 x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.currentScreen.width - width);
                 y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.currentScreen.height - height);
@@ -88,6 +101,21 @@ public abstract class HUDComponent {
         if (mouseOver((int) x, (int) y, (int) x + width, (int) y + height)) {
             renderBoundingBox(context);
         }
+    }
+
+    public void checkCollision(float newX, float newY, HUDComponent component) {
+        if (!xCollide || !yCollide) {
+            prev_xCollide = xCollide;
+            prev_yCollide = yCollide;
+        }
+
+        if (newX < component.getX() + component.getWidth() &&
+            newX + width > component.getX()) xCollide = true;
+        else xCollide = false;
+
+        if (newY < component.getY() + component.getHeight() &&
+            newY + height > component.getY()) yCollide = true;
+        else yCollide = false;
     }
 
     public void renderBoundingBox(DrawContext context) {
