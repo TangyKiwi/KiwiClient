@@ -37,6 +37,8 @@ public abstract class HUDComponent {
     public boolean xCollide, yCollide;
     public boolean prev_xCollide, prev_yCollide;
 
+    public int minX, minY, maxX, maxY;
+
     public HUDComponent(String name, float x, float y) {
         this.name = name;
         this.x = x;
@@ -49,6 +51,24 @@ public abstract class HUDComponent {
     public void render(DrawContext context) {
         if (dragging) {
             if (InputUtil.isKeyPressed(KiwiClient.mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+                RenderUtils.drawLine2D(context, KiwiClient.mc.currentScreen.width / 2F, 0F, KiwiClient.mc.currentScreen.width / 2F, (float) KiwiClient.mc.currentScreen.height, 0.5F, 0x00FFFFFF);
+                RenderUtils.drawLine2D(context, 0F, KiwiClient.mc.currentScreen.height / 2F, (float) KiwiClient.mc.currentScreen.width, KiwiClient.mc.currentScreen.height / 2F, 0.5F, 0x00FFFFFF);
+
+                if (x < KiwiClient.mc.currentScreen.width / 2) {
+                    minX = 0;
+                    maxX = KiwiClient.mc.currentScreen.width / 2;
+                } else {
+                    minX = KiwiClient.mc.currentScreen.width / 2;
+                    maxX = KiwiClient.mc.currentScreen.width;
+                }
+                if (y < KiwiClient.mc.currentScreen.height / 2) {
+                    minY = 0;
+                    maxY = KiwiClient.mc.currentScreen.height / 2;
+                } else {
+                    minY = KiwiClient.mc.currentScreen.height / 2;
+                    maxY = KiwiClient.mc.currentScreen.height;
+                }
+
                 float newX = mouseX - dragOffX;
                 float newY = mouseY - dragOffY;
 
@@ -72,10 +92,10 @@ public abstract class HUDComponent {
                                 renderBoundingBox(context);
                                 component.renderBoundingBox(context);
                                 if (yC1 < yC2) {
-                                    x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.currentScreen.width - width);
+                                    x = Math.min(Math.max(minX, mouseX - dragOffX), maxX - width);
                                     y = component.getY() - height;
                                 } else {
-                                    x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.currentScreen.width - width);
+                                    x = Math.min(Math.max(minX, mouseX - dragOffX), maxX - width);
                                     y = component.getY() + component.getHeight();
                                 }
                             } else if (prev_yCollide) {
@@ -83,12 +103,15 @@ public abstract class HUDComponent {
                                 component.renderBoundingBox(context);
                                 if (xC1 < xC2) {
                                     x = component.getX() - width;
-                                    y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.currentScreen.height - height);
+                                    y = Math.min(Math.max(minY, mouseY - dragOffY), maxY - height);
                                 } else {
                                     x = component.getX() + component.getWidth();
-                                    y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.currentScreen.height - height);
+                                    y = Math.min(Math.max(minY, mouseY - dragOffY), maxY - height);
                                 }
                             }
+                        } else {
+                            x = Math.min(Math.max(minX, mouseX - dragOffX), maxX - width);
+                            y = Math.min(Math.max(minY, mouseY - dragOffY), maxY - height);
                         }
                     }
                 }
