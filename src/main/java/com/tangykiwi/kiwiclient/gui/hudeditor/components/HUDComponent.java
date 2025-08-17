@@ -71,7 +71,7 @@ public abstract class HUDComponent {
                             if (prev_xCollide) {
                                 renderBoundingBox(context);
                                 component.renderBoundingBox(context);
-                                if(yC1 < yC2) {
+                                if (yC1 < yC2) {
                                     x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.currentScreen.width - width);
                                     y = component.getY() - height;
                                 } else {
@@ -116,6 +116,11 @@ public abstract class HUDComponent {
         if (newY < component.getY() + component.getHeight() &&
             newY + height > component.getY()) yCollide = true;
         else yCollide = false;
+
+        if (xCollide != yCollide) {
+            xCollide = false;
+            yCollide = false;
+        }
     }
 
     public void renderBoundingBox(DrawContext context) {
