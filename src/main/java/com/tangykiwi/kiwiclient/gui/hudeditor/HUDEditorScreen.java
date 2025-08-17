@@ -5,6 +5,8 @@ import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.glfw.GLFW;
+
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.Base;
 import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
@@ -20,9 +22,11 @@ import com.tangykiwi.kiwiclient.gui.hudeditor.components.SpeedComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.TPSComponent;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
+import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 
@@ -84,6 +88,11 @@ public class HUDEditorScreen extends Base {
             mouseX >= width / 2 + 2 && mouseX <= width / 2 + 50 && mouseY >= 0 && mouseY <= 12 ? 0x60b070f0 : 0x60606090);
         fontRenderer.drawCenteredStringWithShadow(context, "ClickGUI", width / 2 - 26, 2, 0xf0f0f0);
         fontRenderer.drawCenteredStringWithShadow(context, "HUD Editor", width / 2 + 26, 2, 0xf0f0f0);
+
+        if (InputUtil.isKeyPressed(KiwiClient.mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+            RenderUtils.drawLine2D(context, KiwiClient.mc.currentScreen.width / 2F, 0F, KiwiClient.mc.currentScreen.width / 2F, (float) KiwiClient.mc.currentScreen.height, 0.5F, 0xFFFFFFFF);
+            RenderUtils.drawLine2D(context, 0F, KiwiClient.mc.currentScreen.height / 2F, (float) KiwiClient.mc.currentScreen.width, KiwiClient.mc.currentScreen.height / 2F, 0.5F, 0xFFFFFFFF);
+        }
 
         for(HUDComponent component : components) {
             component.render(context);

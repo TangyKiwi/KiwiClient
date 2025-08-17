@@ -51,9 +51,6 @@ public abstract class HUDComponent {
     public void render(DrawContext context) {
         if (dragging) {
             if (InputUtil.isKeyPressed(KiwiClient.mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-                RenderUtils.drawLine2D(context, KiwiClient.mc.currentScreen.width / 2F, 0F, KiwiClient.mc.currentScreen.width / 2F, (float) KiwiClient.mc.currentScreen.height, 0.5F, 0x00FFFFFF);
-                RenderUtils.drawLine2D(context, 0F, KiwiClient.mc.currentScreen.height / 2F, (float) KiwiClient.mc.currentScreen.width, KiwiClient.mc.currentScreen.height / 2F, 0.5F, 0x00FFFFFF);
-
                 if (x < KiwiClient.mc.currentScreen.width / 2) {
                     minX = 0;
                     maxX = KiwiClient.mc.currentScreen.width / 2;
@@ -71,6 +68,8 @@ public abstract class HUDComponent {
 
                 float newX = mouseX - dragOffX;
                 float newY = mouseY - dragOffY;
+
+                boolean collision = false;
 
                 for (HUDComponent component : HUDEditorScreen.INSTANCE.components) {
                     if (component.getName() != this.name) {
@@ -109,11 +108,13 @@ public abstract class HUDComponent {
                                     y = Math.min(Math.max(minY, mouseY - dragOffY), maxY - height);
                                 }
                             }
-                        } else {
-                            x = Math.min(Math.max(minX, mouseX - dragOffX), maxX - width);
-                            y = Math.min(Math.max(minY, mouseY - dragOffY), maxY - height);
+                            collision = prev_xCollide || prev_yCollide;
                         }
                     }
+                }
+                if(!collision) {
+                    x = Math.min(Math.max(minX, mouseX - dragOffX), maxX - width);
+                    y = Math.min(Math.max(minY, mouseY - dragOffY), maxY - height);
                 }
             } else {
                 x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.currentScreen.width - width);
