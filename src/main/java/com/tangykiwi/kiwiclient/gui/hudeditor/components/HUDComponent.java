@@ -1,13 +1,17 @@
 package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.gui.hudeditor.HUDEditorScreen;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.util.InputUtil;
 
 import java.awt.Color;
+
+import org.lwjgl.glfw.GLFW;
 
 public abstract class HUDComponent {
     private String name;
@@ -24,6 +28,7 @@ public abstract class HUDComponent {
     public int mouseX;
     public int mouseY;
 
+    public int keyDown = -1;
     public boolean lmDown = false;
     public boolean rmDown = false;
     public boolean lmHeld = false;
@@ -40,13 +45,53 @@ public abstract class HUDComponent {
 
     public void render(DrawContext context) {
         if (dragging) {
-            x = Math.max(0, mouseX - dragOffX);
-            y = Math.max(0, mouseY - dragOffY);
+            if (InputUtil.isKeyPressed(KiwiClient.mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+                // float newX = mouseX - dragOffX;
+                // float newY = mouseY - dragOffY;
+
+                // for (HUDComponent component : HUDEditorScreen.INSTANCE.components) {
+                //     if (component.getName() != this.name) {
+                //         float compX = component.getX();
+                //         float compY = component.getY();
+                //         int compW = component.getWidth();
+                //         int compH = component.getHeight();
+
+                //         // left collision
+                //         if (newX + width > compX && newX + width < compX + compW) {
+                //             // top || bottom bounds
+                //             if ((compY < newY && newY < compY + compH) || (compY < newY + height && newY + height < compY + compH)) {
+                //                 component.renderBoundingBox(context);
+                //                 y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.currentScreen.height - height);
+                //             } else {
+                //                 component.renderBoundingBox(context);
+                //                 x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.currentScreen.width - width);
+                //             }
+                //         // right collision
+                //         } else if (newX < compX + compW && newX + width > compX) {
+                //             // top || bottom bounds
+                //             if ((compY < newY && newY < compY + compH) || (compY < newY + height && newY + height < compY + compH)) {
+                //                 component.renderBoundingBox(context);
+                //                 y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.currentScreen.height - height);
+                //             } else {
+                //                 component.renderBoundingBox(context);
+                //                 x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.currentScreen.width - width);
+                //             }
+                //         }
+                //     }
+                // }
+            } else {
+                x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.currentScreen.width - width);
+                y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.currentScreen.height - height);
+            }
         }
 
         if (mouseOver((int) x, (int) y, (int) x + width, (int) y + height)) {
-            RenderUtils.drawRectWH(context, x, y, width, height, 0x60000000);
+            renderBoundingBox(context);
         }
+    }
+
+    public void renderBoundingBox(DrawContext context) {
+        RenderUtils.drawRectWH(context, x, y, width, height, 0x60000000);
     }
 
     public String getName() {
@@ -108,13 +153,18 @@ public abstract class HUDComponent {
         dragging = false;
     }
 
+    public void keyPressed(int keyCode, int scanCode, int modifiers) {
+        keyDown = keyCode;
+    }
+
     public boolean mouseOver(int minX, int minY, int maxX, int maxY) {
         return mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY < maxY;
     }
 
-    public void updateKeys(int mouseX, int mouseY, boolean lmDown, boolean rmDown, boolean lmHeld, int mwScroll) {
+    public void updateKeys(int mouseX, int mouseY, int keyDown, boolean lmDown, boolean rmDown, boolean lmHeld, int mwScroll) {
         this.mouseX = mouseX;
         this.mouseY = mouseY;
+        this.keyDown = keyDown;
         this.lmDown = lmDown;
         this.rmDown = rmDown;
         this.lmHeld = lmHeld;

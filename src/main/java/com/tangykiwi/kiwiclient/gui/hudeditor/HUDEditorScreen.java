@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.Base;
+import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
 import com.tangykiwi.kiwiclient.gui.clickgui.ClickGUIScreen;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.BiomeComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.CoordsComponent;
@@ -31,6 +32,7 @@ public class HUDEditorScreen extends Base {
 
     public List<HUDComponent> components = new ArrayList<HUDComponent>();
 
+    protected int keyDown = -1;
     protected boolean lmDown = false;
     protected boolean rmDown = false;
     protected boolean lmHeld = false;
@@ -71,7 +73,7 @@ public class HUDEditorScreen extends Base {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         for (HUDComponent component : components) {
-            component.updateKeys(mouseX, mouseY, lmDown, rmDown, lmHeld, mouseY);
+            component.updateKeys(mouseX, mouseY, keyDown, lmDown, rmDown, lmHeld, mouseY);
         }
 
         super.render(context, mouseX, mouseY, delta);
@@ -128,6 +130,16 @@ public class HUDEditorScreen extends Base {
         }
 
         return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        keyDown = keyCode;
+
+        for (HUDComponent component : components) {
+            component.keyPressed(keyCode, scanCode, modifiers);
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
