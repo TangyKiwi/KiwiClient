@@ -16,13 +16,14 @@ import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvents;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 public class CategoryWindow {
-    public List<Module> moduleList = new ArrayList<Module>();
+    // List of Modules in cat : expanded in clickgui
+    public LinkedHashMap<Module, Boolean> modList = new LinkedHashMap<>();
 
     public int x, y;
     public int width, height;
@@ -59,7 +60,9 @@ public class CategoryWindow {
         this.fontRenderer = KiwiClient.fontManager.getSize(8, FontManager.Type.CONSOLAS);
         this.fontHeight = fontRenderer.getStringHeight(title);
 
-        moduleList = KiwiClient.moduleManager.getModulesInCat(this.category);
+        for (Module m : KiwiClient.moduleManager.getModulesInCat(this.category)) {
+            this.modList.put(m, false);
+        }
     }
 
     public void render(DrawContext context, int mouseX, int mouseY) {
@@ -68,16 +71,22 @@ public class CategoryWindow {
             y = Math.max(0, mouseY - dragOffY);
         }
 
-        int trueLen = (int) (expanded ? y + fontHeight + 1 /*+ getHeight()*/ : y + fontHeight + 1);
+        if (rmDown && mouseOver(x, y, x + width, y + (int) fontHeight)) {
+            mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            expanded = !expanded;
+        }
+
+        int trueHeight = (int) fontHeight + 4;
+        if (expanded) trueHeight += Math.min((fontHeight + 1) * height, (fontHeight + 1) * modList.size()) + 2;
 
         /* background */
         // RenderUtils.drawRectWH(context, x, y, width, height, 0xfff7a558);
-        RenderUtils.drawRoundedQuadWH(context, x, y, width, height, 5, 90, 0xfff7a558);
+        RenderUtils.drawRoundedQuadWH(context, x, y, width, trueHeight, 5, 90, 0xfff7a558);
 
         /* expansion background */
         if(expanded) {
             // RenderUtils.drawRectXY(context, x + 1, y + fontHeight + 2, x + width - 1, y + height - 1, 0x90d9904b);
-            RenderUtils.drawRoundedQuadXY(context, x + 1, y + fontHeight + 2, x + width - 1, y + height - 1, 5, 90, 0x90d9904b);
+            RenderUtils.drawRoundedQuadXY(context, x + 1, y + fontHeight + 2, x + width - 1, y + trueHeight - 1, 5, 90, 0x90d9904b);
         }
 
         /* base title */
@@ -96,9 +105,39 @@ public class CategoryWindow {
         /* window title */
         fontRenderer.drawStringWithShadow(context, title, x + (icon == null || icon.getItem() == Items.AIR ? 4 : (blockItem ? 15 : 14)), y + 3, -1);
 
-        if (rmDown && mouseOver(x, y, x + width, y + 13)) {
-            mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-            expanded = !expanded;
+        if (expanded) {
+            int curY = (int) fontHeight + 4;
+            for (Entry<Module, Boolean> entry : modList.entrySet()) {
+                Module module = entry.getKey();
+                Boolean showSettings = entry.getValue();
+
+                if (mouseOver(x, y + curY, x + width, y + curY + (int) fontHeight + 1)) {
+                    RenderUtils.drawRoundedQuadWH(context, x + 1, y + curY + 1, width - 2, (int) fontHeight + 1, 5, 90, 0x70303070);
+
+                    if (lmDown) {
+                        module.toggle();
+                    }
+                    if (rmDown) {
+                        modList.replace(module, !showSettings);
+                        showSettings = !showSettings;
+                    }
+                    if (lmDown || rmDown) {
+                        mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+                    }
+                }
+
+                fontRenderer.drawStringWithShadow(context, module.getName(), x + 4, y + 2 + curY, module.isEnabled() ? 0x70efe0 : 0xc0c0c0);
+
+                String color = showSettings ? "\u00a7a" : "\u00a7c";
+
+                if (showSettings) {
+                    fontRenderer.drawString(context, color + "v", x + width - 8, y + 2 + curY, -1);
+                } else {
+                    fontRenderer.drawString(context, color + "\u00a7l>", x + width - 8, y + 2 + curY, -1);
+                }
+
+                curY += fontHeight + 1;
+            }
         }
     }
 
