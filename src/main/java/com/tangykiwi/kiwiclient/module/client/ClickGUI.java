@@ -13,7 +13,7 @@ public class ClickGUI extends Module {
 
     public ClickGUI() {
         super("ClickGUI", "Renders the ClickGUI", GLFW.GLFW_KEY_SEMICOLON, Category.CLIENT);
-        this.addSetting(length);
+        // this.addSetting(length);
     }
 
     @Override

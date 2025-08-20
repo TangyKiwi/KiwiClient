@@ -1,43 +1,41 @@
 package com.tangykiwi.kiwiclient.module.client;
 
 import com.google.common.eventbus.Subscribe;
-import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.HUDEditorScreen;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.HUDComponent;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.setting.ToggleSetting;
-import com.tangykiwi.kiwiclient.util.font.FontManager;
 
 public class HUD extends Module {
-    public ToggleSetting fps = new ToggleSetting("FPS", "Display your FPS", true);
-    public ToggleSetting ping = new ToggleSetting("Ping", "Display your ping", true);
-    public ToggleSetting tps = new ToggleSetting("TPS", "Display server TPS", true);
-    public ToggleSetting ip = new ToggleSetting("IP", "Display server IP", true);
-    public ToggleSetting biome = new ToggleSetting("Biome", "Display current biome", true);
-    public ToggleSetting speed = new ToggleSetting("Speed", "Display current speed", true);
-    public ToggleSetting coords = new ToggleSetting("Coords", "Display current coordinates", true);
-    public ToggleSetting nether_coords = new ToggleSetting("Nether Coords", "Display Nether/Overworld coordinates", true);
-    public ToggleSetting armor = new ToggleSetting("Armor", "Display armor status", true);
+    public static ToggleSetting fps = new ToggleSetting("FPS", "Display your FPS", true);
+    public static ToggleSetting ping = new ToggleSetting("Ping", "Display your ping", true);
+    public static ToggleSetting tps = new ToggleSetting("TPS", "Display server TPS", true);
+    public static ToggleSetting ip = new ToggleSetting("IP", "Display server IP", true);
+    public static ToggleSetting biome = new ToggleSetting("Biome", "Display current biome", true);
+    public static ToggleSetting speed = new ToggleSetting("Speed", "Display current speed", true);
+    public static ToggleSetting coords = new ToggleSetting("Coords", "Display current coordinates", true);
+    public static ToggleSetting nether_coords = new ToggleSetting("Nether Coords", "Display Nether/Overworld coordinates", true);
+    public static ToggleSetting armor = new ToggleSetting("Armor", "Display armor status", true);
 
     public HUD() {
-        super("HUD", "Displays the HUD", KEY_UNBOUND, Category.CLIENT);
-        this.addSetting(fps);
-        this.addSetting(ping);
-        this.addSetting(tps);
-        this.addSetting(ip);
-        this.addSetting(biome);
-        this.addSetting(speed);
-        this.addSetting(coords);
-        this.addSetting(nether_coords);
-        this.addSetting(armor);
+        super("HUD", "Displays the HUD", Category.CLIENT,
+            fps,
+            ping,
+            tps,
+            ip,
+            biome,
+            speed,
+            coords,
+            nether_coords,
+            armor);
     }
 
     @Subscribe
     public void onDrawOverlay(DrawOverlayEvent e) {
         for (HUDComponent component : HUDEditorScreen.INSTANCE.components) {
-            if(((ToggleSetting) getSetting(component.getName())).getSValue()) {
+            if(((ToggleSetting) getSetting(component.getName())).getValue()) {
                 component.render(e.getContext());
             }
         }

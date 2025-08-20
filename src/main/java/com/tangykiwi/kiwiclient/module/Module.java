@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.module;
 
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.module.setting.BindSetting;
 import com.tangykiwi.kiwiclient.module.setting.Setting;
 
 import java.lang.reflect.Method;
@@ -14,23 +15,26 @@ public class Module {
     private String name;
     private Category category;
     private String description;
-    private int keyCode;
     private boolean enabled = false;
-    private ArrayList<Setting<?>> settings = new ArrayList<>();
+    private ArrayList<Setting<?>> settings;
+    private BindSetting bind;
 
-    public Module(String name, String description, int keyCode, Category category) {
-        this.name = name;
-        this.description = description;
-        this.keyCode = keyCode;
-        this.category = category;
+    public Module(String name, String description, Category category) {
+        this(name, description, KEY_UNBOUND, category);
+    }
+
+    public Module(String name, String description, Category category, Setting<?>... s) {
+        this(name, description, KEY_UNBOUND, category, s);
     }
 
     public Module(String name, String description, int keyCode, Category category, Setting<?>... s) {
         this.name = name;
         this.description = description;
-        this.keyCode = keyCode;
         this.category = category;
+
         this.settings = new ArrayList<>(Arrays.asList(s));
+        bind = new BindSetting(keyCode);
+        this.settings.add(bind);
     }
 
     public String getName() {
@@ -46,11 +50,11 @@ public class Module {
     }
 
     public int getKeyCode() {
-        return keyCode;
+        return bind.getValue();
     }
 
     public void setKeyCode(int key) {
-        keyCode = key;
+        bind.setValue(key);
     }
 
     public boolean isEnabled() {

@@ -1,5 +1,9 @@
 package com.tangykiwi.kiwiclient.module.setting;
 
+import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
+
+import net.minecraft.client.gui.DrawContext;
+
 public abstract class Setting<T> {
     private String name;
     private String desc;
@@ -26,11 +30,13 @@ public abstract class Setting<T> {
         this.desc = desc;
     }
 
-    public T getSValue() {
+    public T getValue() {
         return value;
     }
 
     public void setValue(T value) {
         this.value = value;
     }
+
+    public abstract int render(DrawContext context, CategoryWindow window, int curYoffset);
 }

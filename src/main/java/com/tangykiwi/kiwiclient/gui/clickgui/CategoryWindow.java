@@ -4,6 +4,7 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.client.ClickGUI;
+import com.tangykiwi.kiwiclient.module.setting.Setting;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
@@ -32,8 +33,8 @@ public class CategoryWindow {
     private ItemStack icon;
     private boolean expanded = true;
 
-    private FontRenderer fontRenderer;
-    private float fontHeight;
+    public FontRenderer fontRenderer;
+    public float fontHeight;
 
     protected boolean dragging;
     protected int dragOffX;
@@ -106,13 +107,13 @@ public class CategoryWindow {
         fontRenderer.drawStringWithShadow(context, title, x + (icon == null || icon.getItem() == Items.AIR ? 4 : (blockItem ? 15 : 14)), y + 3, -1);
 
         if (expanded) {
-            int curY = (int) fontHeight + 4;
+            int curYoffset = (int) fontHeight + 4;
             for (Entry<Module, Boolean> entry : modList.entrySet()) {
                 Module module = entry.getKey();
                 Boolean showSettings = entry.getValue();
 
-                if (mouseOver(x, y + curY, x + width, y + curY + (int) fontHeight + 1)) {
-                    RenderUtils.drawRoundedQuadWH(context, x + 1, y + curY + 1, width - 2, (int) fontHeight + 1, 5, 90, 0x70303070);
+                if (mouseOver(x, y + curYoffset, x + width, y + curYoffset + (int) fontHeight + 1)) {
+                    RenderUtils.drawRoundedQuadWH(context, x + 1, y + curYoffset + 1, width - 2, (int) fontHeight + 1, 5, 90, 0x70303070);
 
                     if (lmDown) {
                         module.toggle();
@@ -126,17 +127,23 @@ public class CategoryWindow {
                     }
                 }
 
-                fontRenderer.drawStringWithShadow(context, module.getName(), x + 4, y + 2 + curY, module.isEnabled() ? 0x70efe0 : 0xc0c0c0);
+                fontRenderer.drawStringWithShadow(context, module.getName(), x + 4, y + 2 + curYoffset, module.isEnabled() ? 0x70efe0 : 0xc0c0c0);
 
                 String color = showSettings ? "\u00a7a" : "\u00a7c";
 
                 if (showSettings) {
-                    fontRenderer.drawString(context, color + "v", x + width - 8, y + 2 + curY, -1);
-                } else {
-                    fontRenderer.drawString(context, color + "\u00a7l>", x + width - 8, y + 2 + curY, -1);
-                }
+                    fontRenderer.drawString(context, color + "v", x + width - 8, y + 2 + curYoffset, -1);
+                    curYoffset += fontHeight + 1;
 
-                curY += fontHeight + 1;
+                    for (Setting<?> s : module.getSettings()) {
+                        int additionalOffset = s.render(context, this, curYoffset);
+                        curYoffset += additionalOffset;
+                        trueHeight += additionalOffset;
+                    }
+                } else {
+                    fontRenderer.drawString(context, color + "\u00a7l>", x + width - 8, y + 2 + curYoffset, -1);
+                    curYoffset += fontHeight + 1;
+                }
             }
         }
     }
