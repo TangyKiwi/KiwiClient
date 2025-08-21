@@ -20,15 +20,18 @@ public class SpeedComponent extends HUDComponent {
             return;
         }
 
+        renderString = String.format("Speed: %.1f b/s", getSpeed());
+        setWidth((int) fontRenderer.getStringWidth(renderString));
+        fontRenderer.drawString(context, renderString, getX(), getY(), 0xFFAA00);
+    }
+    
+    public static double getSpeed() {
         double tX = Math.abs(mc.player.getX() - mc.player.lastX);
         double tY = Math.abs(mc.player.getY() - mc.player.lastY);
         double tZ = Math.abs(mc.player.getZ() - mc.player.lastZ);
         double length = Math.sqrt(tX * tX + tY * tY + tZ * tZ);
 
         double bps = length * 20;
-        renderString = String.format("Speed: %.1f b/s", bps);
-        setWidth((int) fontRenderer.getStringWidth(renderString));
-        fontRenderer.drawString(context, renderString, getX(), getY(), 0xFFAA00);
+        return bps;
     }
-    
 }
