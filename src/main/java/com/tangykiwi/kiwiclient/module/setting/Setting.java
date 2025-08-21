@@ -8,6 +8,7 @@ public abstract class Setting<T> {
     private String name;
     private String desc;
     private T value;
+    public int height;
 
     public Setting(String name, String desc) {
         this.name = name;
@@ -38,5 +39,9 @@ public abstract class Setting<T> {
         this.value = value;
     }
 
-    public abstract int render(DrawContext context, CategoryWindow window, int curYoffset);
+    public int getHeight() {
+        return height;
+    }
+
+    public abstract void render(DrawContext context, CategoryWindow window, int curYoffset);
 }

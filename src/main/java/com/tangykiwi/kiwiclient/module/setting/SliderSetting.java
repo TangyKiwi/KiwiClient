@@ -44,8 +44,8 @@ public class SliderSetting extends Setting<Double> {
     }
 
     @Override
-    public int render(DrawContext context, CategoryWindow window, int curYoffset) {
+    public void render(DrawContext context, CategoryWindow window, int curYoffset) {
         int fontHeight = (int) window.fontHeight;
-        return fontHeight + 1;
+        height = fontHeight + 1;
     }
 }

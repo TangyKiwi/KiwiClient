@@ -78,7 +78,7 @@ public class CategoryWindow {
         }
 
         int trueHeight = (int) fontHeight + 4;
-        if (expanded) trueHeight += Math.min((fontHeight + 1) * height, (fontHeight + 1) * modList.size()) + 2;
+        if (expanded) trueHeight += Math.min((fontHeight + 1) * height, (fontHeight + 1) * modList.size() + getSettingsHeight()) + 2;
 
         /* background */
         // RenderUtils.drawRectWH(context, x, y, width, height, 0xfff7a558);
@@ -136,9 +136,8 @@ public class CategoryWindow {
                     curYoffset += fontHeight + 1;
 
                     for (Setting<?> s : module.getSettings()) {
-                        int additionalOffset = s.render(context, this, curYoffset);
-                        curYoffset += additionalOffset;
-                        trueHeight += additionalOffset;
+                        s.render(context, this, curYoffset);
+                        curYoffset += s.getHeight();
                     }
                 } else {
                     fontRenderer.drawString(context, color + "\u00a7l>", x + width - 8, y + 2 + curYoffset, -1);
@@ -146,6 +145,19 @@ public class CategoryWindow {
                 }
             }
         }
+    }
+
+    public int getSettingsHeight() {
+        int height = 0;
+        for (Entry<Module, Boolean> entry : modList.entrySet()) {
+            Module module = entry.getKey();
+            if (entry.getValue()) {
+                for (Setting<?> s : module.getSettings()) {
+                    height += s.getHeight();
+                }
+            }
+        }
+        return height;
     }
 
     public void mouseClicked(double mouseX, double mouseY, int button) {

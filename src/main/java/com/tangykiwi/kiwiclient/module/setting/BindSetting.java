@@ -20,14 +20,17 @@ public class BindSetting extends Setting<Integer> {
     }
 
     @Override
-    public int render(DrawContext context, CategoryWindow window, int curYoffset) {
+    public void render(DrawContext context, CategoryWindow window, int curYoffset) {
         int x = window.x;
         int y = window.y + curYoffset;
         int width = window.width;
         FontRenderer fontRenderer = window.fontRenderer;
         int fontHeight = (int) window.fontHeight;
-        if (window.mouseOver(x, y, x + width, y + fontHeight)) {
-            context.fill(x + 1, y, x + width, y + fontHeight, 0x70303070);
+
+        context.fill(x + 1, y, x + 2, y + fontHeight + 1, 0xff8070b0);
+
+        if (window.mouseOver(x, y + 1, x + width, y + fontHeight + 1)) {
+            context.fill(x + 1, y + 1, x + width - 1, y + fontHeight + 1, 0x70303070);
         }
 
         if (window.keyDown >= 0 && window.keyDown != GLFW.GLFW_KEY_ESCAPE && window.mouseOver(x, y, x + width, y + fontHeight)) {
@@ -40,8 +43,8 @@ public class BindSetting extends Setting<Integer> {
         if (name == null) name = "KEY" + getValue();
         else if (name.isEmpty()) name = "NONE";
 
-        fontRenderer.drawStringWithShadow(context, "Bind: " + name + (window.mouseOver(x, y, x + width, y + fontHeight) ? "..." : ""), x + 3, y + 2, 0xcfe0cf);
+        fontRenderer.drawString(context, "Bind: " + name + (window.mouseOver(x, y, x + width, y + fontHeight) ? "..." : ""), x + 3, y + 2, 0xcfe0cf);
 
-        return fontHeight + 1;
+        height = fontHeight + 1;
     }
 }

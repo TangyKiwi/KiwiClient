@@ -23,15 +23,21 @@ public class ToggleSetting extends Setting<Boolean> {
     }
 
     @Override
-    public int render(DrawContext context, CategoryWindow window, int curYoffset) {
+    public void render(DrawContext context, CategoryWindow window, int curYoffset) {
         int x = window.x;
         int y = window.y + curYoffset;
         int width = window.width;
         FontRenderer fontRenderer = window.fontRenderer;
         int fontHeight = (int) window.fontHeight;
 
+        context.fill(x + 1, y, x + 2, y + fontHeight + 1, 0xff8070b0);
+
+        if (window.mouseOver(x, y + 1, x + width, y + fontHeight + 1)) {
+            context.fill(x + 1, y + 1, x + width - 1, y + fontHeight + 1, 0x70303070);
+        }
+
         String color = getValue() ? "\u00a7a" : "\u00a7c";
-        fontRenderer.drawStringWithShadow(context, color + this.getName(), x + 3, y + 2, 0xffffff);
+        fontRenderer.drawString(context, color + this.getName(), x + 3, y + 2, -1);
 
         if (window.lmDown && window.mouseOver(x, y, x + width, y + fontHeight)) {
             setValue(!getValue());
@@ -39,6 +45,6 @@ public class ToggleSetting extends Setting<Boolean> {
                 PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
         }
 
-        return fontHeight + 1;
+        height = fontHeight + 1;
     }
 }
