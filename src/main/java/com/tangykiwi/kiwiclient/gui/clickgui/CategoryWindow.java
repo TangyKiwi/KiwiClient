@@ -29,9 +29,9 @@ public class CategoryWindow {
     public int x, y;
     public int width, height;
     private Category category;
-    private String title;
+    public String title;
     private ItemStack icon;
-    private boolean expanded = true;
+    public boolean expanded = true;
 
     public FontRenderer fontRenderer;
     public float fontHeight;

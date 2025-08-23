@@ -21,7 +21,7 @@ public class ClickGUIScreen extends Base {
     public static ClickGUIScreen INSTANCE = new ClickGUIScreen();
     public FontRenderer fontRenderer;
 
-    List<CategoryWindow> windows = new ArrayList<CategoryWindow>();
+    public List<CategoryWindow> windows = new ArrayList<CategoryWindow>();
 
     protected int keyDown = -1;
     protected boolean lmDown = false;
@@ -132,5 +132,12 @@ public class ClickGUIScreen extends Base {
         mwhScroll = (int) horizontalAmount;
         mwvScroll = (int) verticalAmount;
         return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
+    }
+
+    public CategoryWindow getWindow(String windowName) {
+        for (CategoryWindow w : windows) {
+            if (w.title.equals(windowName)) return w;
+        }
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.module.setting;
 
+import com.google.gson.JsonElement;
 import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
 
 import net.minecraft.client.gui.DrawContext;
@@ -44,4 +45,8 @@ public abstract class Setting<T> {
     }
 
     public abstract void render(DrawContext context, CategoryWindow window, int curYoffset);
+
+    public abstract void read(JsonElement je);
+
+    public abstract JsonElement write();
 }

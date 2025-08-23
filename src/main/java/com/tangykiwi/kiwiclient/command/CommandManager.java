@@ -17,6 +17,7 @@ public class CommandManager {
 
     public void init() {
         add(new Ez());
+        add(new ResetClickGUI());
         add(new Toggle());
 
         COMMANDS.sort(Comparator.comparing(Command::getName));

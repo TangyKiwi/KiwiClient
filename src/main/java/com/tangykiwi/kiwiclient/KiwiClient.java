@@ -5,6 +5,7 @@ import com.tangykiwi.kiwiclient.command.CommandManager;
 import com.tangykiwi.kiwiclient.gui.clickgui.ClickGUIScreen;
 import com.tangykiwi.kiwiclient.gui.hudeditor.HUDEditorScreen;
 import com.tangykiwi.kiwiclient.module.ModuleManager;
+import com.tangykiwi.kiwiclient.util.ConfigManager;
 import com.tangykiwi.kiwiclient.util.discord.Discord;
 import com.tangykiwi.kiwiclient.util.discord.DiscordEventHandlers;
 import com.tangykiwi.kiwiclient.util.discord.DiscordRichPresence;
@@ -75,6 +76,12 @@ public class KiwiClient implements ModInitializer {
 	public static void postInit() {
 		ClickGUIScreen.INSTANCE.initWindows();
 		HUDEditorScreen.INSTANCE.initComponents();
+
+		LOGGER.info("Loading configs");
+		ConfigManager.init();
+		ConfigManager.loadModules("default");
+		ConfigManager.loadClickGUI("default");
+		ConfigManager.loadHUD("default");
 	}
 
 	public static void startRPC() {

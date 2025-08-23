@@ -2,6 +2,8 @@ package com.tangykiwi.kiwiclient.module.setting;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
@@ -47,5 +49,15 @@ public class ModeSetting extends Setting<Integer> {
         }
 
         height = fontHeight + 1;
+    }
+
+    @Override
+    public void read(JsonElement je) {
+        setValue(je.getAsInt());
+    }
+
+    @Override
+    public JsonElement write() {
+        return new JsonPrimitive(getValue());
     }
 }

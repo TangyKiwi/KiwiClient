@@ -2,6 +2,8 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.util.ConfigManager;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -28,6 +30,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tangykiwi.kiwiclient.KiwiClient.LOGGER;
 import static com.tangykiwi.kiwiclient.KiwiClient.discord;
 import static com.tangykiwi.kiwiclient.KiwiClient.discordRPC;
 
@@ -114,5 +117,10 @@ public class MinecraftClientMixin {
     @Inject(method = "stop", at = @At("HEAD"))
     public void shutdown(CallbackInfo info) {
         discord.Discord_Shutdown();
+
+        LOGGER.info("Saving configs");
+        ConfigManager.saveModules("default");
+        ConfigManager.saveClickGUI("default");
+        ConfigManager.saveHUD("default");
     }
 }

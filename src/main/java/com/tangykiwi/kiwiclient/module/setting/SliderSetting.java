@@ -3,6 +3,8 @@ package com.tangykiwi.kiwiclient.module.setting;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
 
 import net.minecraft.client.gui.DrawContext;
@@ -47,5 +49,15 @@ public class SliderSetting extends Setting<Double> {
     public void render(DrawContext context, CategoryWindow window, int curYoffset) {
         int fontHeight = (int) window.fontHeight;
         height = fontHeight + 1;
+    }
+
+    @Override
+    public void read(JsonElement je) {
+        setValue(je.getAsDouble());
+    }
+
+    @Override
+    public JsonElement write() {
+        return new JsonPrimitive(getValue());
     }
 }

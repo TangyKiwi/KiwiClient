@@ -4,6 +4,8 @@ import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 import com.tangykiwi.kiwiclient.module.Module;
@@ -46,5 +48,15 @@ public class BindSetting extends Setting<Integer> {
         fontRenderer.drawString(context, "Bind: " + name + (window.mouseOver(x, y, x + width, y + fontHeight) ? "..." : ""), x + 3, y + 2, 0xcfe0cf);
 
         height = fontHeight + 1;
+    }
+
+    @Override
+    public void read(JsonElement je) {
+        setValue(je.getAsInt());
+    }
+
+    @Override
+    public JsonElement write() {
+        return new JsonPrimitive(getValue());
     }
 }

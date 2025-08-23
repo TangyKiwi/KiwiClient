@@ -156,4 +156,11 @@ public class HUDEditorScreen extends Base {
         mwvScroll = (int) verticalAmount;
         return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
     }
+
+    public HUDComponent getComponent(String componentName) {
+        for (HUDComponent c : components) {
+            if (c.getName().equals(componentName)) return c;
+        }
+        return null;
+    }
 }
