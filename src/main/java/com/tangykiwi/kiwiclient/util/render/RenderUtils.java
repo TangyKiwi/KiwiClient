@@ -2,7 +2,6 @@ package com.tangykiwi.kiwiclient.util.render;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 
-import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.render.*;

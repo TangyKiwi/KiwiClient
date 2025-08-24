@@ -9,13 +9,14 @@ import org.lwjgl.glfw.GLFW;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.Base;
-import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
 import com.tangykiwi.kiwiclient.gui.clickgui.ClickGUIScreen;
+import com.tangykiwi.kiwiclient.gui.hudeditor.components.ArmorComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.BiomeComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.CoordsComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.FPSComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.HUDComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.IPComponent;
+import com.tangykiwi.kiwiclient.gui.hudeditor.components.InventoryComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.NetherCoordsComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.PingComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.SpeedComponent;
@@ -49,6 +50,7 @@ public class HUDEditorScreen extends Base {
     }
 
     public void initComponents() {
+        int w = mc.getWindow().getScaledWidth();
         int h = mc.getWindow().getScaledHeight();
         int i = 0;
         components.add(new NetherCoordsComponent(0.3F, h - i * 6 + 2));
@@ -67,6 +69,9 @@ public class HUDEditorScreen extends Base {
         i++;
         components.add(new FPSComponent(0.3F, h - i * 6 + 2));
         i++;
+
+        components.add(new InventoryComponent(w - 164, h - 56));
+        components.add(new ArmorComponent(w / 2, h / 2));
     }
 
     @Override

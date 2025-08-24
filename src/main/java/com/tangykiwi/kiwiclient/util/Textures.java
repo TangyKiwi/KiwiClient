@@ -8,6 +8,7 @@ public class Textures {
     public static Identifier EARS = Identifier.of("kiwiclient:textures/cosmetic/ears.png");
     public static Identifier DUCK = Identifier.of("kiwiclient:textures/hud/duck.png");
     public static Identifier DUCK_GIF = Identifier.of("kiwiclient:textures/hud/duck_gif.png");
+    public static Identifier INV_BG = Identifier.of("kiwiclient:textures/hud/inv_bg.png");
     public static Identifier CAPE = Identifier.of("kiwiclient:textures/cosmetic/cape/cape.png");
     public static Identifier CAPE2 = Identifier.of("kiwiclient:textures/cosmetic/cape/gura_cape.png");
     public static Identifier CAPE3 = Identifier.of("kiwiclient:textures/cosmetic/cape/ahri_nsfw_cape.png");

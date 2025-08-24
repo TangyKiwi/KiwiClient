@@ -18,6 +18,7 @@ public class HUD extends Module {
     public static ToggleSetting coords = new ToggleSetting("Coords", "Display current coordinates", true);
     public static ToggleSetting nether_coords = new ToggleSetting("Nether Coords", "Display Nether/Overworld coordinates", true);
     public static ToggleSetting armor = new ToggleSetting("Armor", "Display armor status", true);
+    public static ToggleSetting inventory = new ToggleSetting("Inventory", "Display your inventory", true);
 
     public HUD() {
         super("HUD", "Displays the HUD", Category.CLIENT,
@@ -29,7 +30,8 @@ public class HUD extends Module {
             speed,
             coords,
             nether_coords,
-            armor);
+            armor,
+            inventory);
     }
 
     @Subscribe
