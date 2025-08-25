@@ -10,6 +10,7 @@
     "KeyboardMixin",
     "MinecraftClientMixin",
     "ShaderLoaderMixin",
+    "SimpleOptionMixin",
     "SplashOverlayMixin",
     "TitleScreenMixin"
   ],

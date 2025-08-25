@@ -4,6 +4,8 @@ import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.module.client.*;
+import com.tangykiwi.kiwiclient.module.combat.TriggerBot;
+import com.tangykiwi.kiwiclient.module.render.FullBright;
 
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -16,8 +18,21 @@ public class ModuleManager {
     public ArrayList<Module> moduleList = new ArrayList<Module>();
 
     public void init() {
+        // client
         moduleList.add(new ClickGUI());
         moduleList.add(new HUD());
+
+        // combat
+        moduleList.add(new TriggerBot());
+
+        // movement
+
+        // other
+
+        // player
+
+        // render
+        moduleList.add(new FullBright());
     }
 
     public ArrayList<Module> getEnabledMods() {

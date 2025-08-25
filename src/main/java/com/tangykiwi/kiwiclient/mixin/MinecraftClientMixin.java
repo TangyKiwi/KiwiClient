@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.util.ConfigManager;
 
 import net.minecraft.client.MinecraftClient;
@@ -39,6 +40,12 @@ public class MinecraftClientMixin {
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;setOverlay(Lnet/minecraft/client/gui/screen/Overlay;)V", shift = At.Shift.BEFORE))
     private void init(RunArgs args, CallbackInfo callback) {
         KiwiClient.postInit();
+    }
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void onPreTick(CallbackInfo info) {
+        TickEvent event = new TickEvent();
+        KiwiClient.eventBus.post(event);
     }
 
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setIcon(Lnet/minecraft/resource/ResourcePack;Lnet/minecraft/client/util/Icons;)V"))
