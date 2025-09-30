@@ -49,4 +49,16 @@ public abstract class Setting<T> {
     public abstract void read(JsonElement je);
 
     public abstract JsonElement write();
+
+    public ModeSetting asMode() {
+        return (ModeSetting) this;
+    }
+
+    public ToggleSetting asToggle() {
+        return (ToggleSetting) this;
+    }
+
+    public BindSetting asBind() {
+        return (BindSetting) this;
+    }
 }

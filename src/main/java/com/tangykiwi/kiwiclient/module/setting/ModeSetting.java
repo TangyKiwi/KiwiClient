@@ -15,13 +15,13 @@ public class ModeSetting extends Setting<Integer> {
     public String[] modes;
     // value = index of current mode
 
-    public ModeSetting(String name, String desc, String[] modes) {
+    public ModeSetting(String name, String desc, String... modes) {
         super(name, desc);
         this.modes = modes;
         this.setValue(0);
     }
 
-    public ModeSetting(String name, String desc, String[] modes, int index) {
+    public ModeSetting(String name, String desc, int index, String... modes) {
         super(name, desc);
         this.modes = modes;
         this.setValue(index);

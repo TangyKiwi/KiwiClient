@@ -1,6 +1,5 @@
 package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 
-import static com.tangykiwi.kiwiclient.KiwiClient.LOGGER;
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 import java.util.ArrayList;
