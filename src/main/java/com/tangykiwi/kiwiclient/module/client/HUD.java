@@ -45,7 +45,7 @@ public class HUD extends Module {
     @Subscribe
     public void onDrawOverlay(DrawOverlayEvent e) {
         for (HUDComponent component : HUDEditorScreen.INSTANCE.components) {
-            if(((ToggleSetting) getSetting(component.getName())).getValue()) {
+            if(getSetting(component.getName()).asToggle().getValue()) {
                 component.render(e.getContext());
             }
         }

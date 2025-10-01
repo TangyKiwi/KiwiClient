@@ -10,7 +10,6 @@ import com.tangykiwi.kiwiclient.module.render.FullBright;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
-import net.minecraft.client.font.Font;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 

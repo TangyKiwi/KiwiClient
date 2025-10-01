@@ -25,14 +25,14 @@ public class ActiveModsComponent extends HUDComponent {
 
         ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods(fontRenderer);
         if (UD == 0) Collections.reverse(enabledMods);
-        setX(LR == 0 ? 0 : KiwiClient.mc.currentScreen.width - fontRenderer.getStringWidth(enabledMods.get(0).getName()) - 1);
+        setX((LR == 0) ? 0 : KiwiClient.mc.getWindow().getScaledWidth() - fontRenderer.getStringWidth(enabledMods.get(0).getName()) - 2);
         setWidth((int) fontRenderer.getStringWidth(enabledMods.get(0).getName()));
 
         int curY = (int) getY();
         int colorOffset = 0;
 
         for (Module m : enabledMods) {
-            int curX = LR == 0 ? 0 : (int) (KiwiClient.mc.currentScreen.width - fontRenderer.getStringWidth(m.getName()));
+            int curX = ((LR == 0) ? 0 : (int) (KiwiClient.mc.getWindow().getScaledWidth() - fontRenderer.getStringWidth(m.getName()) - 2));
             fontRenderer.drawString(context, m.getName(), curX, curY, RenderUtils.getRainbow(4, 0.8f, 1, colorOffset * 150));
             curY += fontRenderer.getStringHeight(m.getName());
             colorOffset++;
