@@ -51,6 +51,7 @@ public class ToggleSetting extends Setting<Boolean> {
         int width = window.width;
         FontRenderer fontRenderer = window.fontRenderer;
         int fontHeight = (int) window.fontHeight;
+        height = fontHeight + 1;
 
         context.fill(x + 1, y, x + 2, y + fontHeight + 1, 0xff8070b0);
 
@@ -75,12 +76,14 @@ public class ToggleSetting extends Setting<Boolean> {
             }
 
             if (expanded) {
+                fontRenderer.drawString(context, color + "v", x + width - 8, y + 2, -1);
                 context.fill(x + 2, y + fontHeight, x + 3, y + getHeight() - 1, 0xff8070b0);
-                height += fontHeight + 1;
                 for (Setting<?> s : children) {
-                    s.render(context, window, height);
+                    s.render(context, window, curYoffset + height);
                     height += s.getHeight();
                 }
+            } else {
+                fontRenderer.drawString(context, color + "\u00a7l>", x + width - 8, y + 2, -1);
             }
         }
     }

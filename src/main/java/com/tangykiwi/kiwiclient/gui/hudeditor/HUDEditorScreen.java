@@ -10,6 +10,7 @@ import org.lwjgl.glfw.GLFW;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.Base;
 import com.tangykiwi.kiwiclient.gui.clickgui.ClickGUIScreen;
+import com.tangykiwi.kiwiclient.gui.hudeditor.components.ActiveModsComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.ArmorComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.BiomeComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.CoordsComponent;
@@ -72,6 +73,8 @@ public class HUDEditorScreen extends Base {
 
         components.add(new InventoryComponent(w - 164, h - 56));
         components.add(new ArmorComponent(w / 2, h / 2));
+
+        components.add(new ActiveModsComponent(0, 0));
     }
 
     @Override

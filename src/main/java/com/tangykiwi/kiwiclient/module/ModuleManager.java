@@ -2,15 +2,21 @@ package com.tangykiwi.kiwiclient.module;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
+import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.module.client.*;
 import com.tangykiwi.kiwiclient.module.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.module.render.FullBright;
+import com.tangykiwi.kiwiclient.util.font.FontManager;
+import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
+import net.minecraft.client.font.Font;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
@@ -35,7 +41,7 @@ public class ModuleManager {
         moduleList.add(new FullBright());
     }
 
-    public ArrayList<Module> getEnabledMods() {
+    public ArrayList<Module> getEnabledMods(FontRenderer fontRenderer) {
         ArrayList<Module> enabledMods = new ArrayList<Module>();
 
         for (Module m : moduleList) {
@@ -44,7 +50,7 @@ public class ModuleManager {
             }
         }
 
-        // add module comparator logic for font renderer
+        Collections.sort(enabledMods, new ModuleComparator(fontRenderer));
 
         return enabledMods;
     }
@@ -75,6 +81,29 @@ public class ModuleManager {
             if(m.getCategory().equals(cat)) modulesInCat.add(m);
         }
         return modulesInCat;
+    }
+
+    public static class ModuleComparator implements Comparator<Module> {
+        public FontRenderer fontRenderer;
+
+        public ModuleComparator() {
+            this.fontRenderer = KiwiClient.fontManager.getSize(8, FontManager.Type.CONSOLAS);
+        }
+
+        public ModuleComparator(FontRenderer fontRenderer) {
+            this.fontRenderer = fontRenderer;
+        }
+
+        @Override
+        public int compare(Module a, Module b) {
+            float aWidth = this.fontRenderer.getStringWidth(a.getName());
+            float bWidth = this.fontRenderer.getStringWidth(b.getName());
+            if(aWidth > bWidth) return -1;
+            else if(aWidth < bWidth) return 1;
+            else if(aWidth == bWidth && a.getName().compareTo(b.getName()) < 0) return -1;
+            else if(aWidth == bWidth && a.getName().compareTo(b.getName()) > 0) return 1;
+            return 0;
+        }
     }
 
     @Subscribe

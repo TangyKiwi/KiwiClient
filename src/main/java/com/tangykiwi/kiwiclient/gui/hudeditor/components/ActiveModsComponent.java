@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.module.Module;
@@ -21,10 +22,10 @@ public class ActiveModsComponent extends HUDComponent {
         // 0 = Up, 1 = Down
         int LR = KiwiClient.moduleManager.getModule("HUD").getSetting("ActiveMods").asToggle().getSetting("LR").asMode().getValue();
         int UD = KiwiClient.moduleManager.getModule("HUD").getSetting("ActiveMods").asToggle().getSetting("UD").asMode().getValue();
-        int yMult = UD == 0 ? -1 : 1;
 
-        ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods();
-        setX(LR == 0 ? 0 : KiwiClient.mc.currentScreen.width -  fontRenderer.getStringWidth(enabledMods.get(0).getName()));
+        ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods(fontRenderer);
+        if (UD == 0) Collections.reverse(enabledMods);
+        setX(LR == 0 ? 0 : KiwiClient.mc.currentScreen.width - fontRenderer.getStringWidth(enabledMods.get(0).getName()) - 1);
         setWidth((int) fontRenderer.getStringWidth(enabledMods.get(0).getName()));
 
         int curY = (int) getY();
@@ -33,7 +34,7 @@ public class ActiveModsComponent extends HUDComponent {
         for (Module m : enabledMods) {
             int curX = LR == 0 ? 0 : (int) (KiwiClient.mc.currentScreen.width - fontRenderer.getStringWidth(m.getName()));
             fontRenderer.drawString(context, m.getName(), curX, curY, RenderUtils.getRainbow(4, 0.8f, 1, colorOffset * 150));
-            curY += yMult * fontRenderer.getStringHeight(m.getName());
+            curY += fontRenderer.getStringHeight(m.getName());
             colorOffset++;
         }
 
