@@ -1,7 +1,5 @@
 package com.tangykiwi.kiwiclient.module.client;
 
-import java.util.Arrays;
-
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.DrawOverlayEvent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.HUDEditorScreen;
