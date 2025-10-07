@@ -234,8 +234,6 @@ public class FontRenderer implements Closeable {
             RenderSystem.setShaderTexture(lineStart, null);
             List<DrawEntry> objects = GLYPH_PAGE_CACHE.get(identifier);
 
-            // bb = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
-
             int len = objects.size();
             int i = 0;
             for (DrawEntry object : objects) {
@@ -266,16 +264,9 @@ public class FontRenderer implements Closeable {
                     cr, cg, cb, a,
                     scissor
                 ));
-
-                // bb.vertex(stack, xo + 0, yo + h * mult, 0).texture(u1, v2).color(cr, cg, cb, a);
-                // bb.vertex(stack, xo + w, yo + h * mult, 0).texture(u2, v2).color(cr, cg, cb, a);
-                // bb.vertex(stack, xo + w, yo + 0, 0).texture(u2, v1).color(cr, cg, cb, a);
-                // bb.vertex(stack, xo + 0, yo + 0, 0).texture(u1, v1).color(cr, cg, cb, a);
             }
-            // RenderLayer.getText(identifier).draw(bb.end());
         }
 
-        // RenderUtils.endRender();
         stack.popMatrix();
         GLYPH_PAGE_CACHE.clear();
     }
