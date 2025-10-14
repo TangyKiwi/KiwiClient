@@ -15,21 +15,23 @@ public class DiscordRPC {
     private static Core core;
 
     public void start() {
-        final CreateParams params = new CreateParams();
-        params.setClientID(790758093113917491L);
-        params.setFlags(CreateParams.Flags.NO_REQUIRE_DISCORD);
-        activity.timestamps().setStart(Instant.now());
+        new Thread(() -> {
+            final CreateParams params = new CreateParams();
+            params.setClientID(790758093113917491L);
+            params.setFlags(CreateParams.Flags.NO_REQUIRE_DISCORD);
+            activity.timestamps().setStart(Instant.now());
 
-        try (Core core = new Core(params)) {
-            DiscordRPC.core = core;
-            activity.assets().setLargeImage("discord_background");
-            activity.setDetails("Loading");
-            activity.addButton(new ActivityButton("Download", "https://github.com/TangyKiwi/KiwiClient"));
-            update();
-        } catch (RuntimeException e) {
-            LOGGER.error("Failed to start Discord RPC");
-            e.printStackTrace();
-        }
+            try (Core core = new Core(params)) {
+                DiscordRPC.core = core;
+                activity.assets().setLargeImage("discord_background");
+                activity.setDetails("Loading");
+                activity.addButton(new ActivityButton("Download", "https://github.com/TangyKiwi/KiwiClient"));
+                update();
+            } catch (RuntimeException e) {
+                LOGGER.error("Failed to start Discord RPC");
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     public void update() {
