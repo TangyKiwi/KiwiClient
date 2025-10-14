@@ -6,9 +6,7 @@ import com.tangykiwi.kiwiclient.gui.clickgui.ClickGUIScreen;
 import com.tangykiwi.kiwiclient.gui.hudeditor.HUDEditorScreen;
 import com.tangykiwi.kiwiclient.module.ModuleManager;
 import com.tangykiwi.kiwiclient.util.ConfigManager;
-import com.tangykiwi.kiwiclient.util.discord.Discord;
-import com.tangykiwi.kiwiclient.util.discord.DiscordEventHandlers;
-import com.tangykiwi.kiwiclient.util.discord.DiscordRichPresence;
+import com.tangykiwi.kiwiclient.util.DiscordRPC;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import net.fabricmc.api.ModInitializer;
 
@@ -30,8 +28,7 @@ public class KiwiClient implements ModInitializer {
 
 	public static MinecraftClient mc;
 
-	public static DiscordRichPresence discordRPC;
-	public static Discord discord = Discord.INSTANCE;
+	public static DiscordRPC discordRPC;
 
 	public static EventBus eventBus = new EventBus();
 
@@ -55,8 +52,9 @@ public class KiwiClient implements ModInitializer {
 		mc = MinecraftClient.getInstance();
 
 		LOGGER.info("Initializing DiscordRPC");
-		discordRPC = new DiscordRichPresence();
-		startRPC();
+		discordRPC = new DiscordRPC();
+		discordRPC.start();
+
 		LOGGER.info("DiscordRPC running!");
 
 		LOGGER.info("Initializing FontManager");
@@ -81,17 +79,5 @@ public class KiwiClient implements ModInitializer {
 		ConfigManager.loadModules("default");
 		ConfigManager.loadClickGUI("default");
 		ConfigManager.loadHUD("default");
-	}
-
-	public static void startRPC() {
-		DiscordEventHandlers handlers = new DiscordEventHandlers();
-		discord.Discord_Initialize("790758093113917491", handlers, true, "");
-		discordRPC.startTimestamp = System.currentTimeMillis() / 1000L;
-		discordRPC.largeImageKey = "discord_background";
-		discordRPC.details = "Loading";
-		discordRPC.button_label_1 = "Download";
-		discordRPC.button_url_1 = "https://github.com/TangyKiwi/KiwiClient";
-
-		discord.Discord_UpdatePresence(discordRPC);
 	}
 }

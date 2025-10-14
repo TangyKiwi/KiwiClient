@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.LOGGER;
-import static com.tangykiwi.kiwiclient.KiwiClient.discord;
 import static com.tangykiwi.kiwiclient.KiwiClient.discordRPC;
 
 @Mixin(MinecraftClient.class)
@@ -93,37 +92,38 @@ public class MinecraftClientMixin {
         ClientPlayNetworkHandler clientPlayNetworkHandler = client.getNetworkHandler();
         if (clientPlayNetworkHandler != null && clientPlayNetworkHandler.getConnection().isOpen()) {
             title += " | ";
-            discordRPC.details = "Playing";
+
+            discordRPC.activity.setDetails("Playing");
             if (client.getServer() != null && !client.getServer().isRemote()) {
                 title += I18n.translate("title.singleplayer");
-                discordRPC.state = "Singleplayer";
+                discordRPC.activity.setState("Singleplayer");
             } else if (client.getCurrentServerEntry().isRealm()) {
                 title += I18n.translate("title.multiplayer.realms");
-                discordRPC.state = "Realms";
+                discordRPC.activity.setState("Realms");
             } else if (client.getServer() == null && (client.getCurrentServerEntry() == null || !client.getCurrentServerEntry().isLocal())) {
                 title += I18n.translate("title.multiplayer.other");
 //                if(KiwiClient.moduleManager.getModule(NoIP.class).isEnabled()) {
-                    discordRPC.state = "Multiplayer";
+                    discordRPC.activity.setState("Multiplayer");
 //                } else {
 //                    discordRPC.state = client.getCurrentServerEntry().address;
 //                }
             } else {
                 title += I18n.translate("title.multiplayer.lan");
-                discordRPC.state = "LAN Server";
+                discordRPC.activity.setState("LAN Server");
             }
         } else {
-            discordRPC.details = "Idle";
-            discordRPC.state = "Main Menu";
+            discordRPC.activity.setDetails("Idle");
+            discordRPC.activity.setState("Main Menu");
         }
 
-        discord.Discord_UpdatePresence(discordRPC);
+        discordRPC.update();
 
         info.setReturnValue(title);
     }
 
     @Inject(method = "stop", at = @At("HEAD"))
     public void shutdown(CallbackInfo info) {
-        discord.Discord_Shutdown();
+        discordRPC.shutdown();
 
         LOGGER.info("Saving configs");
         ConfigManager.saveModules("default");

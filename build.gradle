@@ -31,6 +31,8 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
+	include(implementation("com.github.JnCrMx:discord-game-sdk4j:v1.0.0"))
+
 	// Set<String> apiModules = [
 	// 		"fabric-api-base",
 	// 		"fabric-item-group-api-v1",
@@ -44,7 +46,6 @@ dependencies {
 	// }
 	
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
 
 	modCompileOnly("maven.modrinth:sodium:${project.sodium_version}") { transitive = false }
 
