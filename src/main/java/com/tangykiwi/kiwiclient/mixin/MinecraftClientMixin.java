@@ -43,8 +43,12 @@ public class MinecraftClientMixin {
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void onPreTick(CallbackInfo info) {
-        TickEvent event = new TickEvent();
-        KiwiClient.eventBus.post(event);
+        KiwiClient.eventBus.post(TickEvent.Pre.get());
+    }
+
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void onPostTick(CallbackInfo info) {
+        KiwiClient.eventBus.post(TickEvent.Post.get());
     }
 
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setIcon(Lnet/minecraft/resource/ResourcePack;Lnet/minecraft/client/util/Icons;)V"))

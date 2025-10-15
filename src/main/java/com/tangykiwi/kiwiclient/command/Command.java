@@ -73,4 +73,10 @@ public abstract class Command {
         String prefix = "§a[§6KiwiClient§a]§r";
         KiwiClient.mc.inGameHud.getChatHud().addMessage(Text.literal(prefix + " " + text));
     }
+
+    public void addMessage(Text text) {
+        String prefix = "§a[§6KiwiClient§a]§r ";
+        KiwiClient.mc.inGameHud.getChatHud().addMessage(Text.literal(prefix).append(text));
+        
+    }
 }

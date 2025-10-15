@@ -16,7 +16,7 @@ public class FullBright extends Module {
     }
 
     @Subscribe
-    public void onTick(TickEvent e) {
+    public void onTick(TickEvent.Post e) {
         if (mc.options.getGamma().getValue() < 16) {
             SimpleOption<Double> gammaOption = mc.options.getGamma();
             @SuppressWarnings("unchecked")

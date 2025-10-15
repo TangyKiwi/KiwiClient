@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ChatInputSuggestorMixin",
+    "ClientConnectionMixin",
+    "ClientPlayNetworkHandlerAccessor",
     "ClientPlayNetworkHandlerMixin",
     "GuiRendererMixin",
     "InGameHudMixin",

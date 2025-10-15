@@ -21,7 +21,7 @@ public class TriggerBot extends Module {
     }
 
     @Subscribe
-    public void onTick(TickEvent e) {
+    public void onTick(TickEvent.Pre e) {
         ClientPlayerEntity player = mc.player;
 
         if(player == null || !player.isAlive() || player.isSpectator() || player.getAttackCooldownProgress(0) < 1 || mc.currentScreen instanceof HandledScreen) return;
