@@ -7,6 +7,7 @@ import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.module.client.*;
 import com.tangykiwi.kiwiclient.module.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.module.render.FullBright;
+import com.tangykiwi.kiwiclient.module.render.NoRender;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
@@ -38,6 +39,7 @@ public class ModuleManager {
 
         // render
         moduleList.add(new FullBright());
+        moduleList.add(new NoRender());
     }
 
     public ArrayList<Module> getEnabledMods(FontRenderer fontRenderer) {
