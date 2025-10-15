@@ -46,7 +46,7 @@ public abstract class SplashOverlayMixin {
 
         float f = reloadCompleteTime > -1L ? (float) (l - reloadCompleteTime) / 1000.0F : -1.0F;
         float g = reloadStartTime > -1L ? (float) (l - reloadStartTime) / 500.0F : -1.0F;
-        float h = 0.0F;
+        // float h = 0.0F;
         int k;
         if (f >= 1.0F) {
             if (mc.currentScreen != null)
@@ -54,20 +54,20 @@ public abstract class SplashOverlayMixin {
 
             k = MathHelper.ceil((1.0F - MathHelper.clamp(f - 1.0F, 0.0F, 1.0F)) * 255.0F);
             context.fill(0, 0, i, j, withAlpha(new Color(0x070015).getRGB(), k));
-            h = 1.0F - MathHelper.clamp(f - 1.0F, 0.0F, 1.0F);
+            // h = 1.0F - MathHelper.clamp(f - 1.0F, 0.0F, 1.0F);
         } else if (reloading) {
             if (mc.currentScreen != null && g < 1.0F)
                 mc.currentScreen.render(context, mouseX, mouseY, delta);
 
             k = MathHelper.ceil(MathHelper.clamp((double) g, 0.15, 1.0) * 255.0);
             context.fill(0, 0, i, j, withAlpha(new Color(0x070015).getRGB(), k));
-            h = MathHelper.clamp(g, 0.0F, 1.0F);
+            // h = MathHelper.clamp(g, 0.0F, 1.0F);
         } else {
             k = new Color(0x070015).getRGB();
-            float m = (float) (k >> 16 & 255) / 255.0F;
-            float n = (float) (k >> 8 & 255) / 255.0F;
-            float o = (float) (k & 255) / 255.0F;
-            h = 1.0F;
+            // float m = (float) (k >> 16 & 255) / 255.0F;
+            // float n = (float) (k >> 8 & 255) / 255.0F;
+            // float o = (float) (k & 255) / 255.0F;
+            // h = 1.0F;
         }
 
         k = (int) ((double) context.getScaledWindowWidth() * 0.5);

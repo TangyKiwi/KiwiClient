@@ -88,13 +88,13 @@ public class FontManager {
             this.type = type;
         }
 
-        public int size() {
-            return size;
-        }
+        // public int size() {
+        //     return size;
+        // }
 
-        public Type type() {
-            return type;
-        }
+        // public Type type() {
+        //     return type;
+        // }
 
         @Override
         public boolean equals(Object obj) {

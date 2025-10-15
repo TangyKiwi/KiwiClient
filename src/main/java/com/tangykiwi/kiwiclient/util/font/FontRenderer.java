@@ -234,15 +234,15 @@ public class FontRenderer implements Closeable {
             RenderSystem.setShaderTexture(lineStart, null);
             List<DrawEntry> objects = GLYPH_PAGE_CACHE.get(identifier);
 
-            int len = objects.size();
-            int i = 0;
+            // int len = objects.size();
+            // int i = 0;
             for (DrawEntry object : objects) {
                 float mult = 1;
                 // mult is test code for cutting off rendering vertically
 //                if (i < len / 2) {
 //                    mult = 0.5F;
 //                }
-                i++;
+                // i++;
                 float xo = object.atX;
                 float yo = object.atY;
                 float cr = object.r;
