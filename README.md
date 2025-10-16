@@ -158,8 +158,3 @@ If you use **ANY** code from the source:
 [JexClient](https://github.com/DustinRepo/JexClient)  
 [Wurst](https://github.com/Wurst-Imperium/Wurst7)  
 [ThunderHack-Recode](https://github.com/Pan4ur/ThunderHack-Recode)  
-[Font Renderer](https://github.com/SprayDown/CustomFont-Rendering)
-
-**Resource Pack**:  
-[Vanilla Tweaks](https://vanillatweaks.net/picker/resource-packs/)  
-[Kyomin's Sus Bed](https://www.mediafire.com/file/xero5355lcpa48e/%2521_%25C2%25A74Bedless_Noob_%25C2%25A7b200k_%255B128x%255D.zip/file)
