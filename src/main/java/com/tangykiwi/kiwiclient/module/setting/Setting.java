@@ -50,15 +50,19 @@ public abstract class Setting<T> {
 
     public abstract JsonElement write();
 
+    public BindSetting asBind() {
+        return (BindSetting) this;
+    }
+
     public ModeSetting asMode() {
         return (ModeSetting) this;
     }
 
-    public ToggleSetting asToggle() {
-        return (ToggleSetting) this;
+    public SliderSetting asSlider() {
+        return (SliderSetting) this;
     }
 
-    public BindSetting asBind() {
-        return (BindSetting) this;
+    public ToggleSetting asToggle() {
+        return (ToggleSetting) this;
     }
 }

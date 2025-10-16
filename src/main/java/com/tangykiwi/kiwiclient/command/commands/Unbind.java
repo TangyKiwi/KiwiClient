@@ -9,19 +9,18 @@ import com.tangykiwi.kiwiclient.module.Module;
 
 import net.minecraft.command.CommandSource;
 
-public class Toggle extends Command {
-
-    public Toggle() {
-        super("toggle", "Toggles a module on / off", "t");
+public class Unbind extends Command {
+    public Unbind() {
+        super("unbind", "Unbinds a module's keybind.", "ub");
     }
 
-    @Override
+   @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(argument("module", ModuleArgumentType.module())
             .executes(context -> {
                 Module m = ModuleArgumentType.getModule(context, "module");
-                m.toggle();
-                addMessage("Toggled §d" + m.getName() + " §a" + (m.isEnabled() ? "ON" : "OFF"));
+                m.setKeyCode(-1);
+                addMessage("Unbound §d" + m.getName());
                 return SINGLE_SUCCESS;
             })
         );

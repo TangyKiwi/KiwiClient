@@ -6,6 +6,7 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.module.client.*;
 import com.tangykiwi.kiwiclient.module.combat.TriggerBot;
+import com.tangykiwi.kiwiclient.module.movement.Speed;
 import com.tangykiwi.kiwiclient.module.render.FullBright;
 import com.tangykiwi.kiwiclient.module.render.NoRender;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
@@ -32,6 +33,7 @@ public class ModuleManager {
         moduleList.add(new TriggerBot());
 
         // movement
+        moduleList.add(new Speed());
 
         // other
 
