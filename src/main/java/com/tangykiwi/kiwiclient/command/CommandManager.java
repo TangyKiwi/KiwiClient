@@ -21,6 +21,7 @@ public class CommandManager {
         add(new ResetHUD());
         add(new Server());
         add(new Toggle());
+        add(new Unbind());
 
         COMMANDS.sort(Comparator.comparing(Command::getName));
     }
