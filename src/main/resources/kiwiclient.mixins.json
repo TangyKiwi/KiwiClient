@@ -12,6 +12,7 @@
     "InGameHudMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
+    "ScreenMixin",
     "ShaderLoaderMixin",
     "SimpleOptionMixin",
     "SplashOverlayMixin",
