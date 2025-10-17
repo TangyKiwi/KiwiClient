@@ -11,7 +11,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
-import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
@@ -64,15 +63,15 @@ public class SliderSetting extends Setting<Double> {
         int fontHeight = (int) window.fontHeight;
         height = fontHeight + 1;
 
-        context.fill(x + 1, y, x + 2, y + fontHeight + 1, 0xff8070b0);
+        context.fill(x + 1, y + 1, x + 2, y + fontHeight + 1, 0xff8070b0);
 
-        boolean mo = window.mouseOver(x, y + 1, x + width, y + height + 1);
+        boolean mo = window.mouseOver(x + 1, y + 1, x + width, y + height + 1);
         if (mo) {
-            context.fill(x + 1, y, x + width - 1, y + height, 0x70303070);
+            context.fill(x + 1, y + 1, x + width - 1, y + height, 0x70303070);
         }
 
         int pixels = (int) Math.round(MathHelper.clamp(width * ((getValue() - min) / (max - min)), 0, width));
-        context.fill(x + 2, y, x + pixels, y + height, mo ? 0xf02068c0 : 0xf02070b0);
+        context.fill(x + 2, y + 1, x + pixels, y + height, mo ? 0xf02068c0 : 0xf02070b0);
         // RenderUtils.fillGradient(x + 1, y, x + pixels, y + fontHeight, mo ? 0xf03078b0 : 0xf03080a0, mo ? 0xf02068c0 : 0xf02070b0);
 
         fontRenderer.drawString(context, getName() + ": " + (decimals == 0 ? Integer.toString(getValueInt()) : getValue()),

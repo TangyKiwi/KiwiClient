@@ -53,7 +53,7 @@ public class ToggleSetting extends Setting<Boolean> {
         int fontHeight = (int) window.fontHeight;
         height = fontHeight + 1;
 
-        context.fill(x + 1, y, x + 2, y + fontHeight + 1, 0xff8070b0);
+        context.fill(x + 1, y + 1, x + 2, y + fontHeight + 1, 0xff8070b0);
 
         if (window.mouseOver(x, y + 1, x + width, y + fontHeight + 1)) {
             context.fill(x + 1, y + 1, x + width - 1, y + fontHeight + 1, 0x70303070);

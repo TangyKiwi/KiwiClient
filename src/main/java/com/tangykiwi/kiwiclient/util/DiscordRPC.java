@@ -19,7 +19,7 @@ public class DiscordRPC {
     public void start() {
         CreateParams params = new CreateParams();
         params.setClientID(790758093113917491L);
-        params.setFlags(CreateParams.getDefaultFlags());
+        params.setFlags(CreateParams.Flags.SUPPRESS_EXCEPTIONS);
 
         core = new Core(params);
         core.setLogHook(LogLevel.DEBUG, (level, message) -> LOGGER.info(message));

@@ -107,7 +107,7 @@ public class CategoryWindow {
         fontRenderer.drawStringWithShadow(context, title, x + (icon == null || icon.getItem() == Items.AIR ? 4 : (blockItem ? 15 : 14)), y + 3, -1);
 
         if (expanded) {
-            int curYoffset = (int) fontHeight + 4;
+            int curYoffset = (int) fontHeight + 3;
             for (Entry<Module, Boolean> entry : modList.entrySet()) {
                 Module module = entry.getKey();
                 Boolean showSettings = entry.getValue();
@@ -133,7 +133,7 @@ public class CategoryWindow {
 
                 if (showSettings) {
                     fontRenderer.drawString(context, color + "v", x + width - 8, y + 2 + curYoffset, -1);
-                    curYoffset += fontHeight + 1;
+                    curYoffset += fontHeight + 2;
 
                     for (Setting<?> s : module.getSettings()) {
                         s.render(context, this, curYoffset);
