@@ -14,7 +14,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.render.BlockRenderLayer;
-import net.minecraft.client.render.RenderLayer;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 

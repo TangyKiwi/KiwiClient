@@ -2,7 +2,6 @@ package com.tangykiwi.kiwiclient.event;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.BlockRenderLayer;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
