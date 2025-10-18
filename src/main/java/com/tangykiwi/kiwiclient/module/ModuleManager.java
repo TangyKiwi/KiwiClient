@@ -9,6 +9,7 @@ import com.tangykiwi.kiwiclient.module.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.module.movement.Fly;
 import com.tangykiwi.kiwiclient.module.movement.NoFall;
 import com.tangykiwi.kiwiclient.module.movement.Speed;
+import com.tangykiwi.kiwiclient.module.other.DummyModule;
 import com.tangykiwi.kiwiclient.module.player.AntiHunger;
 import com.tangykiwi.kiwiclient.module.render.FullBright;
 import com.tangykiwi.kiwiclient.module.render.NoRender;
@@ -42,6 +43,7 @@ public class ModuleManager {
         moduleList.add(new Speed());
 
         // other
+        moduleList.add(new DummyModule());
 
         // player
         moduleList.add(new AntiHunger());

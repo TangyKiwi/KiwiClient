@@ -39,6 +39,10 @@ public class AntiHunger extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onSendPacket(PacketEvent.Send event) {
+        if (mc.player == null) {
+            return;
+        }
+        
         if (ignorePacket && event.packet instanceof PlayerMoveC2SPacket) {
             ignorePacket = false;
             return;
