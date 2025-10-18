@@ -7,6 +7,7 @@ import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.module.client.*;
 import com.tangykiwi.kiwiclient.module.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.module.movement.Fly;
+import com.tangykiwi.kiwiclient.module.movement.NoFall;
 import com.tangykiwi.kiwiclient.module.movement.Speed;
 import com.tangykiwi.kiwiclient.module.player.AntiHunger;
 import com.tangykiwi.kiwiclient.module.render.FullBright;
@@ -36,6 +37,7 @@ public class ModuleManager {
 
         // movement
         moduleList.add(new Fly());
+        moduleList.add(new NoFall());
         moduleList.add(new Speed());
 
         // other
