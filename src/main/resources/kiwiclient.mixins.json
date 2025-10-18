@@ -12,6 +12,7 @@
     "InGameHudMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
+    "PlayerMoveC2SPacketAccessor",
     "ScreenMixin",
     "ShaderLoaderMixin",
     "SimpleOptionMixin",

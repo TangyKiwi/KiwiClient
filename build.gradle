@@ -85,9 +85,9 @@ tasks {
 	}	
 }
 
-// tasks.named("runClient") {
-//     args "--msa-nostore"
-// }
+tasks.named("runClient") {
+    args "--msa-nostore"
+}
 
 // configure the maven publication
 publishing {

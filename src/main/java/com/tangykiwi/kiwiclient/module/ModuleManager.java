@@ -7,6 +7,7 @@ import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.module.client.*;
 import com.tangykiwi.kiwiclient.module.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.module.movement.Speed;
+import com.tangykiwi.kiwiclient.module.player.AntiHunger;
 import com.tangykiwi.kiwiclient.module.render.FullBright;
 import com.tangykiwi.kiwiclient.module.render.NoRender;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
@@ -38,6 +39,7 @@ public class ModuleManager {
         // other
 
         // player
+        moduleList.add(new AntiHunger());
 
         // render
         moduleList.add(new FullBright());
