@@ -5,6 +5,7 @@
   "mixins": [
     "ChatInputSuggestorMixin",
     "ClientConnectionMixin",
+    "ClientPlayerEntityAccessor",
     "ClientPlayNetworkHandlerAccessor",
     "ClientPlayNetworkHandlerMixin",
     "FogRendererMixin",
