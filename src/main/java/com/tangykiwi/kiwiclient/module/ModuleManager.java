@@ -12,6 +12,7 @@ import com.tangykiwi.kiwiclient.module.movement.Speed;
 import com.tangykiwi.kiwiclient.module.player.AntiHunger;
 import com.tangykiwi.kiwiclient.module.render.FullBright;
 import com.tangykiwi.kiwiclient.module.render.NoRender;
+import com.tangykiwi.kiwiclient.module.render.XRay;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
@@ -48,6 +49,7 @@ public class ModuleManager {
         // render
         moduleList.add(new FullBright());
         moduleList.add(new NoRender());
+        moduleList.add(new XRay());
     }
 
     public ArrayList<Module> getEnabledMods(FontRenderer fontRenderer) {

@@ -20,8 +20,8 @@ public class ActiveModsComponent extends HUDComponent {
 
         // 0 = Left, 1 = Right
         // 0 = Up, 1 = Down
-        int LR = KiwiClient.moduleManager.getModule("HUD").getSetting("ActiveMods").asToggle().getSetting("LR").asMode().getValue();
-        int UD = KiwiClient.moduleManager.getModule("HUD").getSetting("ActiveMods").asToggle().getSetting("UD").asMode().getValue();
+        int LR = KiwiClient.moduleManager.getModule("HUD").getSetting("ActiveMods").asToggle().getChild("LR").asMode().getValue();
+        int UD = KiwiClient.moduleManager.getModule("HUD").getSetting("ActiveMods").asToggle().getChild("UD").asMode().getValue();
 
         ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods(fontRenderer);
         if (UD == 0) Collections.reverse(enabledMods);

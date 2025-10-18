@@ -37,11 +37,15 @@ public class ToggleSetting extends Setting<Boolean> {
         return this;
     }
 
-    public Setting<?> getSetting(String name) {
+    public Setting<?> getChild(String name) {
         for (Setting<?> s : children) {
             if (s.getName().equals(name)) return s;
         }
         return null;
+    }
+
+    public Setting<?> getChild(int index) {
+        return children.get(index);
     }
 
     @Override
