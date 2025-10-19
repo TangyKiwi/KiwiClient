@@ -2,11 +2,14 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
+import com.tangykiwi.kiwiclient.module.render.Freecam;
 import com.tangykiwi.kiwiclient.util.ConfigManager;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.texture.NativeImage;
@@ -125,9 +128,18 @@ public class MinecraftClientMixin {
         info.setReturnValue(title);
     }
 
+    @Inject(at = @At("HEAD"), method = "setScreen", cancellable = true)
+    public void openScreen(Screen screen, CallbackInfo info) {
+        OpenScreenEvent event = new OpenScreenEvent(screen);
+        KiwiClient.eventBus.post(event);
+        if (event.isCancelled()) info.cancel();
+    }
+
     @Inject(method = "stop", at = @At("HEAD"))
     public void shutdown(CallbackInfo info) {
         discordRPC.shutdown();
+
+        KiwiClient.moduleManager.getModule(Freecam.class).setEnabled(false);
 
         LOGGER.info("Saving configs");
         ConfigManager.saveModules("default");

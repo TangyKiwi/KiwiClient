@@ -11,6 +11,7 @@ import com.tangykiwi.kiwiclient.module.movement.NoFall;
 import com.tangykiwi.kiwiclient.module.movement.Speed;
 import com.tangykiwi.kiwiclient.module.other.DummyModule;
 import com.tangykiwi.kiwiclient.module.player.AntiHunger;
+import com.tangykiwi.kiwiclient.module.render.Freecam;
 import com.tangykiwi.kiwiclient.module.render.FullBright;
 import com.tangykiwi.kiwiclient.module.render.NoRender;
 import com.tangykiwi.kiwiclient.module.render.XRay;
@@ -49,6 +50,7 @@ public class ModuleManager {
         moduleList.add(new AntiHunger());
 
         // render
+        moduleList.add(new Freecam());
         moduleList.add(new FullBright());
         moduleList.add(new NoRender());
         moduleList.add(new XRay());
