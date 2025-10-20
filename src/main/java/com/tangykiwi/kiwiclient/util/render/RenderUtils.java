@@ -1,14 +1,25 @@
 package com.tangykiwi.kiwiclient.util.render;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.tangykiwi.kiwiclient.util.render.state.CustomCircleRenderState;
+import com.tangykiwi.kiwiclient.util.render.state.CustomLineRenderState;
+import com.tangykiwi.kiwiclient.util.render.state.CustomQuadRenderState;
+import com.tangykiwi.kiwiclient.util.render.state.CustomRoundedQuadRenderState;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.render.*;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.RotationAxis;
 
 import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
+import org.joml.Matrix4f;
 
 import java.awt.*;
 
@@ -122,4 +133,66 @@ public class RenderUtils {
 
         matrices.popMatrix();
     }
+
+    public static void drawBoxOutline(MatrixStack matrixStack, BlockPos blockPos, int color, float lineWidth, Direction... excludeDirs) {
+        drawBoxOutline(matrixStack, new Box(blockPos), color, lineWidth, excludeDirs);
+    }
+
+    public static void drawBoxOutline(MatrixStack matrixStack, Box box, int color, float lineWidth, Direction... excludeDirs) {
+        Matrix4f matrices = matrixStack.peek().getPositionMatrix();
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
+
+        float x1 = (float) box.minX;
+        float y1 = (float) box.minY;
+        float z1 = (float) box.minZ;
+        float x2 = (float) box.maxX;
+        float y2 = (float) box.maxY;
+        float z2 = (float) box.maxZ;
+
+        RenderSystem.lineWidth(lineWidth);
+
+        // bottom
+        bufferBuilder.vertex(matrices, x1, y1, z1).color(color);
+        bufferBuilder.vertex(matrices, x2, y1, z1).color(color);
+        bufferBuilder.vertex(matrices, x2, y1, z1).color(color);
+        bufferBuilder.vertex(matrices, x2, y1, z2).color(color);
+        bufferBuilder.vertex(matrices, x2, y1, z2).color(color);
+        bufferBuilder.vertex(matrices, x1, y1, z2).color(color);
+        bufferBuilder.vertex(matrices, x1, y1, z2).color(color);
+        bufferBuilder.vertex(matrices, x1, y1, z1).color(color);
+
+        // top
+        bufferBuilder.vertex(matrices, x1, y2, z1).color(color);
+        bufferBuilder.vertex(matrices, x2, y2, z1).color(color);
+        bufferBuilder.vertex(matrices, x2, y2, z1).color(color);
+        bufferBuilder.vertex(matrices, x2, y2, z2).color(color);
+        bufferBuilder.vertex(matrices, x2, y2, z2).color(color);
+        bufferBuilder.vertex(matrices, x1, y2, z2).color(color);
+        bufferBuilder.vertex(matrices, x1, y2, z2).color(color);
+        bufferBuilder.vertex(matrices, x1, y2, z1).color(color);
+
+        // side
+        bufferBuilder.vertex(matrices, x1, y1, z1).color(color);
+        bufferBuilder.vertex(matrices, x1, y2, z1).color(color);
+        bufferBuilder.vertex(matrices, x2, y1, z1).color(color);
+        bufferBuilder.vertex(matrices, x2, y2, z1).color(color);
+        bufferBuilder.vertex(matrices, x2, y1, z2).color(color);
+        bufferBuilder.vertex(matrices, x2, y2, z2).color(color);
+        bufferBuilder.vertex(matrices, x1, y1, z2).color(color);
+        bufferBuilder.vertex(matrices, x1, y2, z2).color(color);
+
+        CustomRenderLayers.LINES.draw(bufferBuilder.end());
+    }
+
+    public static MatrixStack matrixFrom(double x, double y, double z) {
+		MatrixStack matrices = new MatrixStack();
+
+		Camera camera = mc.gameRenderer.getCamera();
+		matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));
+
+		matrices.translate(x - camera.getPos().x, y - camera.getPos().y, z - camera.getPos().z);
+
+		return matrices;
+	}
 }

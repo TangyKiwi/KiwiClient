@@ -2,8 +2,8 @@ package com.tangykiwi.kiwiclient.util.font;
 
 import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.tangykiwi.kiwiclient.util.render.CustomFontRenderState;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
+import com.tangykiwi.kiwiclient.util.render.state.CustomFontRenderState;
 
 import it.unimi.dsi.fastutil.chars.Char2IntArrayMap;
 import it.unimi.dsi.fastutil.chars.Char2ObjectArrayMap;

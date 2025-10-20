@@ -4,8 +4,8 @@ import java.awt.Color;
 
 import org.joml.Matrix3x2f;
 
-import com.tangykiwi.kiwiclient.util.render.CustomQuadRenderState;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
+import com.tangykiwi.kiwiclient.util.render.state.CustomQuadRenderState;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;

@@ -57,6 +57,7 @@ public class Freecam extends Module {
 
     @Override
     public void onDisable() {
+        this.unpress();
         mc.chunkCullingEnabled = true;
         mc.options.setPerspective(perspective);
         super.onDisable();

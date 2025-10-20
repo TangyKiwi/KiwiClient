@@ -1,7 +1,12 @@
 package com.tangykiwi.kiwiclient.module.other;
 
+import static com.tangykiwi.kiwiclient.KiwiClient.mc;
+
+import com.google.common.eventbus.Subscribe;
+import com.tangykiwi.kiwiclient.event.WorldRenderEvent;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
+import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -12,4 +17,9 @@ public class DummyModule extends Module {
     }
 
     ItemStack item = Items.DIAMOND_HELMET.getDefaultStack();
+
+    @Subscribe
+    public void onWorldRender(WorldRenderEvent.Post event) {
+        RenderUtils.drawBoxOutline(event.getMatrixStack(), event.getOffsetPos(mc.player.getBlockPos()), 0xFFFF0000, 1.0f);
+    }
 }
