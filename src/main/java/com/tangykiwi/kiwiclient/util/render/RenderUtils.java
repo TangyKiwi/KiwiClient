@@ -1,7 +1,8 @@
 package com.tangykiwi.kiwiclient.util.render;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.mixin.WorldRendererMixin;
 import com.tangykiwi.kiwiclient.util.render.state.CustomCircleRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomLineRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomQuadRenderState;
@@ -14,12 +15,16 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Boxes;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 
 import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import java.awt.*;
 
@@ -134,54 +139,92 @@ public class RenderUtils {
         matrices.popMatrix();
     }
 
-    public static void drawBoxOutline(MatrixStack matrixStack, BlockPos blockPos, int color, float lineWidth, Direction... excludeDirs) {
+    public static void drawLine(MatrixStack matrixStack, float x1, float y1, float z1, float x2, float y2, float z2, int color, double lineWidth) {
+        Matrix4f matrices = matrixStack.peek().getPositionMatrix();
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR_NORMAL);
+
+        Vector3f normal = getNormal(x1, y1, z1, x2, y2, z2);
+        bufferBuilder.vertex(matrices, x1, y1, z1).color(color).normal(matrixStack.peek(), normal.x(), normal.y(), normal.z());
+        bufferBuilder.vertex(matrices, x2, y2, z2).color(color).normal(matrixStack.peek(), normal.x(), normal.y(), normal.z());
+
+        CustomRenderLayers.LINES.apply(lineWidth).draw(bufferBuilder.end());
+    }
+
+    public static Vector3f getNormal(float x1, float y1, float z1, float x2, float y2, float z2) {
+        float dx = x2 - x1;
+        float dy = y2 - y1;
+        float dz = z2 - z1;
+        float normalSqrt = MathHelper.sqrt(dx * dx + dy * dy + dz * dz);
+        return new Vector3f(dx / normalSqrt, dy / normalSqrt, dz / normalSqrt);
+    }
+
+    public static void drawBoxOutline(MatrixStack matrixStack, BlockPos blockPos, int color, double lineWidth, Direction... excludeDirs) {
         drawBoxOutline(matrixStack, new Box(blockPos), color, lineWidth, excludeDirs);
     }
 
-    public static void drawBoxOutline(MatrixStack matrixStack, Box box, int color, float lineWidth, Direction... excludeDirs) {
-        Matrix4f matrices = matrixStack.peek().getPositionMatrix();
-        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
+    public static void drawBoxOutline(MatrixStack matrixStack, Box box, int color, double lineWidth, Direction... excludeDirs) {
+        // Matrix4f matrices = matrixStack.peek().getPositionMatrix();
+        // BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
 
+        MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
+
+        box = box.offset(new Vec3d(box.minX, box.minY, box.minZ).negate());
         float x1 = (float) box.minX;
-        float y1 = (float) box.minY;
+        float y1 = (float) box.minY;    
         float z1 = (float) box.minZ;
         float x2 = (float) box.maxX;
         float y2 = (float) box.maxY;
         float z2 = (float) box.maxZ;
 
-        RenderSystem.lineWidth(lineWidth);
-
-        // bottom
-        bufferBuilder.vertex(matrices, x1, y1, z1).color(color);
-        bufferBuilder.vertex(matrices, x2, y1, z1).color(color);
-        bufferBuilder.vertex(matrices, x2, y1, z1).color(color);
-        bufferBuilder.vertex(matrices, x2, y1, z2).color(color);
-        bufferBuilder.vertex(matrices, x2, y1, z2).color(color);
-        bufferBuilder.vertex(matrices, x1, y1, z2).color(color);
-        bufferBuilder.vertex(matrices, x1, y1, z2).color(color);
-        bufferBuilder.vertex(matrices, x1, y1, z1).color(color);
+        // bottom 
+        drawLine(matrices, x1, y1, z1, x2, y1, z1, color, lineWidth);
+        drawLine(matrices, x2, y1, z1, x2, y1, z2, color, lineWidth);
+        drawLine(matrices, x2, y1, z2, x1, y1, z2, color, lineWidth);
+        drawLine(matrices, x1, y1, z2, x1, y1, z1, color, lineWidth);
 
         // top
-        bufferBuilder.vertex(matrices, x1, y2, z1).color(color);
-        bufferBuilder.vertex(matrices, x2, y2, z1).color(color);
-        bufferBuilder.vertex(matrices, x2, y2, z1).color(color);
-        bufferBuilder.vertex(matrices, x2, y2, z2).color(color);
-        bufferBuilder.vertex(matrices, x2, y2, z2).color(color);
-        bufferBuilder.vertex(matrices, x1, y2, z2).color(color);
-        bufferBuilder.vertex(matrices, x1, y2, z2).color(color);
-        bufferBuilder.vertex(matrices, x1, y2, z1).color(color);
+        drawLine(matrices, x1, y2, z1, x2, y2, z1, color, lineWidth);
+        drawLine(matrices, x2, y2, z1, x2, y2, z2, color, lineWidth);
+        drawLine(matrices, x2, y2, z2, x1, y2, z2, color, lineWidth);
+        drawLine(matrices, x1, y2, z2, x1, y2, z1, color, lineWidth);
 
-        // side
-        bufferBuilder.vertex(matrices, x1, y1, z1).color(color);
-        bufferBuilder.vertex(matrices, x1, y2, z1).color(color);
-        bufferBuilder.vertex(matrices, x2, y1, z1).color(color);
-        bufferBuilder.vertex(matrices, x2, y2, z1).color(color);
-        bufferBuilder.vertex(matrices, x2, y1, z2).color(color);
-        bufferBuilder.vertex(matrices, x2, y2, z2).color(color);
-        bufferBuilder.vertex(matrices, x1, y1, z2).color(color);
-        bufferBuilder.vertex(matrices, x1, y2, z2).color(color);
+        // sides
+        drawLine(matrices, x1, y1, z1, x1, y2, z1, color, lineWidth);
+        drawLine(matrices, x2, y1, z1, x2, y2, z1, color, lineWidth);
+        drawLine(matrices, x2, y1, z2, x2, y2, z2, color, lineWidth);
+        drawLine(matrices, x1, y1, z2, x1, y2, z2, color, lineWidth);
 
-        CustomRenderLayers.LINES.draw(bufferBuilder.end());
+        // // bottom
+        // bufferBuilder.vertex(matrices, x1, y1, z1).color(color);
+        // bufferBuilder.vertex(matrices, x2, y1, z1).color(color);
+        // bufferBuilder.vertex(matrices, x2, y1, z1).color(color);
+        // bufferBuilder.vertex(matrices, x2, y1, z2).color(color);
+        // bufferBuilder.vertex(matrices, x2, y1, z2).color(color);
+        // bufferBuilder.vertex(matrices, x1, y1, z2).color(color);
+        // bufferBuilder.vertex(matrices, x1, y1, z2).color(color);
+        // bufferBuilder.vertex(matrices, x1, y1, z1).color(color);
+
+        // // top
+        // bufferBuilder.vertex(matrices, x1, y2, z1).color(color);
+        // bufferBuilder.vertex(matrices, x2, y2, z1).color(color);
+        // bufferBuilder.vertex(matrices, x2, y2, z1).color(color);
+        // bufferBuilder.vertex(matrices, x2, y2, z2).color(color);
+        // bufferBuilder.vertex(matrices, x2, y2, z2).color(color);
+        // bufferBuilder.vertex(matrices, x1, y2, z2).color(color);
+        // bufferBuilder.vertex(matrices, x1, y2, z2).color(color);
+        // bufferBuilder.vertex(matrices, x1, y2, z1).color(color);
+
+        // // side
+        // bufferBuilder.vertex(matrices, x1, y1, z1).color(color);
+        // bufferBuilder.vertex(matrices, x1, y2, z1).color(color);
+        // bufferBuilder.vertex(matrices, x2, y1, z1).color(color);
+        // bufferBuilder.vertex(matrices, x2, y2, z1).color(color);
+        // bufferBuilder.vertex(matrices, x2, y1, z2).color(color);
+        // bufferBuilder.vertex(matrices, x2, y2, z2).color(color);
+        // bufferBuilder.vertex(matrices, x1, y1, z2).color(color);
+        // bufferBuilder.vertex(matrices, x1, y2, z2).color(color);
+
+        // CustomRenderLayers.LINES.draw(bufferBuilder.end());
     }
 
     public static MatrixStack matrixFrom(double x, double y, double z) {

@@ -13,12 +13,15 @@ import com.tangykiwi.kiwiclient.event.PacketEvent;
 
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.timeout.TimeoutException;
 import net.minecraft.network.ClientConnection;
+import net.minecraft.network.handler.PacketEncoderException;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BundleS2CPacket;
+import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
 
-@Mixin(ClientConnection.class)
+@Mixin(value = ClientConnection.class, priority = 1010)
 public class ClientConnectionMixin {
     @Inject(method = "channelRead0(Lio/netty/channel/ChannelHandlerContext;Lnet/minecraft/network/packet/Packet;)V",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/network/ClientConnection;handlePacket(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/listener/PacketListener;)V", shift = At.Shift.BEFORE), cancellable = true)
@@ -48,5 +51,13 @@ public class ClientConnectionMixin {
     @Inject(method = "send(Lnet/minecraft/network/packet/Packet;Lio/netty/channel/ChannelFutureListener;)V", at = @At("TAIL"))
     private void onSendPacketTail(Packet<?> packet, @Nullable ChannelFutureListener channelFutureListener, CallbackInfo ci) {
         KiwiClient.eventBus.post(new PacketEvent.Sent(packet, (ClientConnection) (Object) this));
+    }
+
+    @Inject(method = "exceptionCaught", at = @At("HEAD"), cancellable = true)
+    private void exceptionCaught(ChannelHandlerContext context, Throwable throwable, CallbackInfo ci) {
+        if (!(throwable instanceof TimeoutException) && !(throwable instanceof PacketEncoderException)) {
+            ci.cancel();
+            return;
+        }
     }
 }

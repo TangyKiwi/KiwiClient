@@ -20,6 +20,6 @@ public class DummyModule extends Module {
 
     @Subscribe
     public void onWorldRender(WorldRenderEvent.Post event) {
-        RenderUtils.drawBoxOutline(event.getMatrixStack(), event.getOffsetPos(mc.player.getBlockPos()), 0xFFFF0000, 1.0f);
+        RenderUtils.drawBoxOutline(event.getMatrixStack(), mc.player.getBlockPos(), 0xFFFF0000, 4);
     }
 }

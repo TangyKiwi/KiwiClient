@@ -32,9 +32,9 @@ public class CustomRenderPipelines {
         .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
         .build());
 
-    public static final RenderPipeline LINES = add(RenderPipeline.builder(RenderPipelines.POSITION_COLOR_SNIPPET)
+    public static final RenderPipeline LINES = add(RenderPipeline.builder(RenderPipelines.RENDERTYPE_LINES_SNIPPET)
         .withLocation(Identifier.of("kiwiclient", "pipeline/lines"))
-        .withVertexFormat(VertexFormats.POSITION_COLOR, VertexFormat.DrawMode.DEBUG_LINES)
+        .withVertexFormat(VertexFormats.POSITION_COLOR_NORMAL, VertexFormat.DrawMode.LINES)
         .withBlend(BlendFunction.TRANSLUCENT)
         .withCull(false)
         .withDepthWrite(false)
