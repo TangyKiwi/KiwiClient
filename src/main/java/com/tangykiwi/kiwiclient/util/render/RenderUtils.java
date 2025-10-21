@@ -1,13 +1,12 @@
 package com.tangykiwi.kiwiclient.util.render;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.tangykiwi.kiwiclient.KiwiClient;
-import com.tangykiwi.kiwiclient.mixin.WorldRendererMixin;
 import com.tangykiwi.kiwiclient.util.render.state.CustomCircleRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomLineRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomQuadRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomRoundedQuadRenderState;
 
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.render.*;
@@ -15,7 +14,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Boxes;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
@@ -150,6 +148,18 @@ public class RenderUtils {
         CustomRenderLayers.LINES.apply(lineWidth).draw(bufferBuilder.end());
     }
 
+    public static void drawQuad(MatrixStack matrixStack, float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4, int color) {
+        Matrix4f matrices = matrixStack.peek().getPositionMatrix();
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_NORMAL);
+
+        bufferBuilder.vertex(matrices, x1,  y1,  z1).color(color);
+        bufferBuilder.vertex(matrices, x2,  y2,  z2).color(color);
+        bufferBuilder.vertex(matrices, x3,  y3,  z3).color(color);
+        bufferBuilder.vertex(matrices, x4,  y4,  z4).color(color);
+
+        CustomRenderLayers.QUADS.draw(bufferBuilder.end());
+    }
+
     public static Vector3f getNormal(float x1, float y1, float z1, float x2, float y2, float z2) {
         float dx = x2 - x1;
         float dy = y2 - y1;
@@ -158,13 +168,12 @@ public class RenderUtils {
         return new Vector3f(dx / normalSqrt, dy / normalSqrt, dz / normalSqrt);
     }
 
-    public static void drawBoxOutline(MatrixStack matrixStack, BlockPos blockPos, int color, double lineWidth, Direction... excludeDirs) {
-        drawBoxOutline(matrixStack, new Box(blockPos), color, lineWidth, excludeDirs);
+    public static void drawBoxOutline(BlockPos blockPos, int color, double lineWidth, Direction... excludeDirs) {
+        drawBoxOutline(new Box(blockPos), color, lineWidth, excludeDirs);
     }
 
-    public static void drawBoxOutline(MatrixStack matrixStack, Box box, int color, double lineWidth, Direction... excludeDirs) {
-        // Matrix4f matrices = matrixStack.peek().getPositionMatrix();
-        // BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
+    public static void drawBoxOutline(Box box, int color, double lineWidth, Direction... excludeDirs) {
+        if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
         MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
 
@@ -193,38 +202,47 @@ public class RenderUtils {
         drawLine(matrices, x2, y1, z1, x2, y2, z1, color, lineWidth);
         drawLine(matrices, x2, y1, z2, x2, y2, z2, color, lineWidth);
         drawLine(matrices, x1, y1, z2, x1, y2, z2, color, lineWidth);
+    }
 
-        // // bottom
-        // bufferBuilder.vertex(matrices, x1, y1, z1).color(color);
-        // bufferBuilder.vertex(matrices, x2, y1, z1).color(color);
-        // bufferBuilder.vertex(matrices, x2, y1, z1).color(color);
-        // bufferBuilder.vertex(matrices, x2, y1, z2).color(color);
-        // bufferBuilder.vertex(matrices, x2, y1, z2).color(color);
-        // bufferBuilder.vertex(matrices, x1, y1, z2).color(color);
-        // bufferBuilder.vertex(matrices, x1, y1, z2).color(color);
-        // bufferBuilder.vertex(matrices, x1, y1, z1).color(color);
+    public static void drawBoxFilled(BlockPos blockPos, int color, Direction... excludeDirs) {
+        drawBoxFilled(new Box(blockPos), color, excludeDirs);
+    }
 
-        // // top
-        // bufferBuilder.vertex(matrices, x1, y2, z1).color(color);
-        // bufferBuilder.vertex(matrices, x2, y2, z1).color(color);
-        // bufferBuilder.vertex(matrices, x2, y2, z1).color(color);
-        // bufferBuilder.vertex(matrices, x2, y2, z2).color(color);
-        // bufferBuilder.vertex(matrices, x2, y2, z2).color(color);
-        // bufferBuilder.vertex(matrices, x1, y2, z2).color(color);
-        // bufferBuilder.vertex(matrices, x1, y2, z2).color(color);
-        // bufferBuilder.vertex(matrices, x1, y2, z1).color(color);
+    public static void drawBoxFilled(Box box, int color, Direction... excludeDirs) {
+        if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
-        // // side
-        // bufferBuilder.vertex(matrices, x1, y1, z1).color(color);
-        // bufferBuilder.vertex(matrices, x1, y2, z1).color(color);
-        // bufferBuilder.vertex(matrices, x2, y1, z1).color(color);
-        // bufferBuilder.vertex(matrices, x2, y2, z1).color(color);
-        // bufferBuilder.vertex(matrices, x2, y1, z2).color(color);
-        // bufferBuilder.vertex(matrices, x2, y2, z2).color(color);
-        // bufferBuilder.vertex(matrices, x1, y1, z2).color(color);
-        // bufferBuilder.vertex(matrices, x1, y2, z2).color(color);
+        MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
 
-        // CustomRenderLayers.LINES.draw(bufferBuilder.end());
+        box = box.offset(new Vec3d(box.minX, box.minY, box.minZ).negate());
+        float x1 = (float) box.minX;
+        float y1 = (float) box.minY;    
+        float z1 = (float) box.minZ;
+        float x2 = (float) box.maxX;
+        float y2 = (float) box.maxY;
+        float z2 = (float) box.maxZ;
+
+        // bottom
+        drawQuad(matrices, x1, y1, z1, x2, y1, z1, x2, y1, z2, x1, y1, z2, color);
+
+        // top
+        drawQuad(matrices, x1, y2, z1, x2, y2, z1, x2, y2, z2, x1, y2, z2, color);
+
+        // front
+        drawQuad(matrices, x1, y1, z1, x1, y2, z1, x2, y2, z1, x2, y1, z1, color);
+        
+        // back
+        drawQuad(matrices, x1, y1, z2, x1, y2, z2, x2, y2, z2, x2, y1, z2, color);
+
+        // left
+        drawQuad(matrices, x1, y1, z1, x1, y2, z1, x1, y2, z2, x1, y1, z2, color);
+
+        // right
+        drawQuad(matrices, x2, y1, z1, x2, y2, z1, x2, y2, z2, x2, y1, z2, color);
+    }
+
+    public static void drawBoxBoth(Box box, int color, double lineWidth, Direction... excludeDirs) {
+        drawBoxFilled(box, color, excludeDirs);
+        drawBoxOutline(box, color, lineWidth, excludeDirs);
     }
 
     public static MatrixStack matrixFrom(double x, double y, double z) {

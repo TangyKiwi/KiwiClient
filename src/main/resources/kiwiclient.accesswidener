@@ -5,3 +5,5 @@ accessible	field	net/minecraft/client/gui/DrawContext	state	Lnet/minecraft/clien
 
 accessible  field   net/minecraft/client/gl/RenderPipelines	   GUI_SNIPPET	Lcom/mojang/blaze3d/pipeline/RenderPipeline$Snippet;
 accessible  class   net/minecraft/client/gui/render/GuiRenderer$Draw
+
+accessible  field   net/minecraft/client/render/WorldRenderer   frustum     Lnet/minecraft/client/render/Frustum;
