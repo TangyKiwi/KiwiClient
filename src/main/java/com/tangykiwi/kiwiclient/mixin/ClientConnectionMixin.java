@@ -57,7 +57,6 @@ public class ClientConnectionMixin {
     private void exceptionCaught(ChannelHandlerContext context, Throwable throwable, CallbackInfo ci) {
         if (!(throwable instanceof TimeoutException) && !(throwable instanceof PacketEncoderException)) {
             ci.cancel();
-            return;
         }
     }
 }

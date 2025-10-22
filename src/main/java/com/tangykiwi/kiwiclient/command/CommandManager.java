@@ -21,6 +21,7 @@ public class CommandManager {
         add(new ResetClickGUI());
         add(new ResetHUD());
         add(new Server());
+        add(new SetSeedRay());
         add(new Toggle());
         add(new Unbind());
 

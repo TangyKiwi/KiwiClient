@@ -14,6 +14,7 @@ import com.tangykiwi.kiwiclient.module.player.AntiHunger;
 import com.tangykiwi.kiwiclient.module.render.Freecam;
 import com.tangykiwi.kiwiclient.module.render.FullBright;
 import com.tangykiwi.kiwiclient.module.render.NoRender;
+import com.tangykiwi.kiwiclient.module.render.SeedRay;
 import com.tangykiwi.kiwiclient.module.render.XRay;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
@@ -53,6 +54,7 @@ public class ModuleManager {
         moduleList.add(new Freecam());
         moduleList.add(new FullBright());
         moduleList.add(new NoRender());
+        moduleList.add(new SeedRay());
         moduleList.add(new XRay());
     }
 

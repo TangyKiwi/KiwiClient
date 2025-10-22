@@ -27,6 +27,11 @@ public class ToggleSetting extends Setting<Boolean> {
         this.setValue(false);
     }
 
+    public ToggleSetting(String name, boolean enabled) {
+        super(name, "");
+        this.setValue(enabled);
+    }
+
     public ToggleSetting(String name, String desc, boolean enabled) {
         super(name, desc);
         this.setValue(enabled);
