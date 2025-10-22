@@ -6,7 +6,6 @@ import com.tangykiwi.kiwiclient.util.render.state.CustomLineRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomQuadRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomRoundedQuadRenderState;
 
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.render.*;
@@ -150,7 +149,7 @@ public class RenderUtils {
 
     public static void drawQuad(MatrixStack matrixStack, float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4, int color) {
         Matrix4f matrices = matrixStack.peek().getPositionMatrix();
-        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_NORMAL);
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 
         bufferBuilder.vertex(matrices, x1,  y1,  z1).color(color);
         bufferBuilder.vertex(matrices, x2,  y2,  z2).color(color);
@@ -209,7 +208,7 @@ public class RenderUtils {
     }
 
     public static void drawBoxFilled(Box box, int color, Direction... excludeDirs) {
-        if (!mc.worldRenderer.frustum.isVisible(box)) return;
+        // if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
         MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
 
@@ -238,11 +237,6 @@ public class RenderUtils {
 
         // right
         drawQuad(matrices, x2, y1, z1, x2, y2, z1, x2, y2, z2, x2, y1, z2, color);
-    }
-
-    public static void drawBoxBoth(Box box, int color, double lineWidth, Direction... excludeDirs) {
-        drawBoxFilled(box, color, excludeDirs);
-        drawBoxOutline(box, color, lineWidth, excludeDirs);
     }
 
     public static MatrixStack matrixFrom(double x, double y, double z) {
