@@ -208,7 +208,7 @@ public class RenderUtils {
     }
 
     public static void drawBoxFilled(Box box, int color, Direction... excludeDirs) {
-        // if (!mc.worldRenderer.frustum.isVisible(box)) return;
+        if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
         MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
 

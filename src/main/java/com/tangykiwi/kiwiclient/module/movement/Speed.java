@@ -21,6 +21,8 @@ public class Speed extends Module {
 
     @Subscribe
     public void onTick(TickEvent e) {
+        if (mc.player == null) return;
+
         if (mc.options.sneakKey.isPressed())
             return;
 

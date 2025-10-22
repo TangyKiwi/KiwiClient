@@ -66,6 +66,8 @@ public class Freecam extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onTick(TickEvent.Post event) {
+        if (mc.player == null) return;
+
         if (mc.cameraEntity.isInsideWall()) {
             mc.getCameraEntity().noClip = true;
         }
