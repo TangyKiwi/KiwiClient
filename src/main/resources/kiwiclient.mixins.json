@@ -23,6 +23,7 @@
     "HeightRangePlacementModifierAccessor",
     "InGameHudMixin",
     "KeyboardMixin",
+    "LightmapTextureManagerMixin",
     "MinecraftClientMixin",
     "PlayerMoveC2SPacketAccessor",
     "RarityFilterPlacementModifierAccessor",
@@ -31,7 +32,9 @@
     "ShaderLoaderMixin",
     "SimpleOptionMixin",
     "SodiumBlockOcclusionCacheMixin",
+    "SodiumWorldRendererMixin",
     "SplashOverlayMixin",
+    "StatusEffectFogModifierMixin",
     "TitleScreenMixin",
     "WorldRendererMixin"
   ],

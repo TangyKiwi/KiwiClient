@@ -58,6 +58,7 @@ public class Fly extends Module{
     @Subscribe
     @AllowConcurrentEvents
     public void onPreTick(TickEvent.Pre event) {
+        if (mc.player == null) return;
         float currentYaw = mc.player.getYaw();
         if (mc.player.fallDistance >= 3f && currentYaw == lastYaw && mc.player.getVelocity().length() < 0.003d) {
             mc.player.setYaw(currentYaw + (flip ? 1 : -1));
@@ -69,6 +70,7 @@ public class Fly extends Module{
     @Subscribe
     @AllowConcurrentEvents
     public void onPostTick(TickEvent.Post event) {
+        if (mc.player == null) return;
         if (delayLeft > 0) delayLeft--;
 
         if (offLeft <= 0 && delayLeft <= 0) {
