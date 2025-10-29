@@ -9,6 +9,7 @@
     "BlockModelRendererMixin",
     "CameraMixin",
     "ChatInputSuggestorMixin",
+    "ChatScreenMixin",
     "ClientConnectionMixin",
     "ClientPlayerEntityAccessor",
     "ClientPlayNetworkHandlerAccessor",
@@ -35,6 +36,7 @@
     "SodiumWorldRendererMixin",
     "SplashOverlayMixin",
     "StatusEffectFogModifierMixin",
+    "StringHelperMixin",
     "TitleScreenMixin",
     "WorldRendererMixin"
   ],

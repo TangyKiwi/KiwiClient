@@ -18,6 +18,8 @@ public class CommandManager {
     public void init() {
         add(new Ez());
         add(new FF());
+        add(new Gamemode());
+        add(new NBT());
         add(new ResetClickGUI());
         add(new ResetHUD());
         add(new Server());

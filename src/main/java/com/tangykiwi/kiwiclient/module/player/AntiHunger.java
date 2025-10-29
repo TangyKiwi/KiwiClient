@@ -5,7 +5,7 @@ import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.PacketEvent;
-import com.tangykiwi.kiwiclient.event.TickEvent;
+import com.tangykiwi.kiwiclient.event.SendMovementPacketEvent;
 import com.tangykiwi.kiwiclient.mixin.PlayerMoveC2SPacketAccessor;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
@@ -15,7 +15,6 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 public class AntiHunger extends Module {
     private boolean lastOnGround;
-    private boolean sendOnGroundTruePacket;
     private boolean ignorePacket;
 
     public AntiHunger() {
@@ -26,14 +25,7 @@ public class AntiHunger extends Module {
 
     @Override
     public void onEnable() {
-        super.onEnable();
-
-        if (mc.player == null) {
-            lastOnGround = true;
-        } else {
-            lastOnGround = mc.player.isOnGround();
-        }
-        sendOnGroundTruePacket = true;
+        lastOnGround = mc.player.isOnGround();
     }
 
     @Subscribe
@@ -63,19 +55,13 @@ public class AntiHunger extends Module {
 
     @Subscribe
     @AllowConcurrentEvents
-    public void onTick(TickEvent event) {
+    public void onSendMovementPacketsHead(SendMovementPacketEvent.Pre event) {
         if (mc.player == null) {
             return;
         }
 
-        if (mc.player.isOnGround() && !lastOnGround && !sendOnGroundTruePacket) sendOnGroundTruePacket = true;
-
-        if (mc.player.isOnGround() && sendOnGroundTruePacket && getSetting(1).asToggle().getValue()) {
+        if (mc.player.isOnGround() && !lastOnGround && getSetting(1).asToggle().getValue()) {
             ignorePacket = true;
-            mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true, true));
-            ignorePacket = false;
-
-            sendOnGroundTruePacket = false;
         }
 
         lastOnGround = mc.player.isOnGround();

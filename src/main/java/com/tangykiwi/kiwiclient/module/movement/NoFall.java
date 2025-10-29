@@ -8,6 +8,7 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.PacketEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.mixin.PlayerMoveC2SPacketAccessor;
+import com.tangykiwi.kiwiclient.mixininterface.IPlayerMoveC2SPacket;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.setting.ModeSetting;
@@ -23,17 +24,21 @@ public class NoFall extends Module {
     @Subscribe
     @AllowConcurrentEvents
     public void onTick(TickEvent e) {
-        if (mc.player != null && mc.player.fallDistance > 2.5f && getSetting(0).asMode().getValue() == 0) {
+        if (mc.player.getAbilities().creativeMode) return;
+        if (mc.player != null && getSetting(0).asMode().getValue() == 0) {
             if (mc.player.isGliding()) return;
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true, false));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true, mc.player.horizontalCollision));
         }
     }
 
     @Subscribe
     @AllowConcurrentEvents
     public void onPacketSend(PacketEvent.Send event) {
-        if(getSetting(0).asMode().getValue() == 1 && event.packet instanceof PlayerMoveC2SPacket) {
-            if(KiwiClient.moduleManager.getModule(Fly.class).isEnabled()) {
+        if(getSetting(0).asMode().getValue() == 0 || !(event.packet instanceof PlayerMoveC2SPacket) || ((IPlayerMoveC2SPacket) event.packet).getTag() == 1337) {
+            return;
+        }
+        if(getSetting(0).asMode().getValue() == 1) {
+            if(!KiwiClient.moduleManager.getModule(Fly.class).isEnabled()) {
                 if (mc.player.isGliding()) return;
                 if (mc.player.getVelocity().y > -0.5) return;
                 ((PlayerMoveC2SPacketAccessor) event.packet).setOnGround(true);
