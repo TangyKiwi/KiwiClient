@@ -25,7 +25,13 @@ public class AntiHunger extends Module {
 
     @Override
     public void onEnable() {
-        lastOnGround = mc.player.isOnGround();
+        if (mc.player == null) {
+            lastOnGround = true;
+        } else {
+            lastOnGround = mc.player.isOnGround();
+        }
+
+        super.onEnable();
     }
 
     @Subscribe

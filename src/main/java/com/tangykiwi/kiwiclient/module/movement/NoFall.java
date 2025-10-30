@@ -23,9 +23,10 @@ public class NoFall extends Module {
 
     @Subscribe
     @AllowConcurrentEvents
-    public void onTick(TickEvent e) {
+    public void onTick(TickEvent.Pre e) {
+        if (mc.player == null) return;
         if (mc.player.getAbilities().creativeMode) return;
-        if (mc.player != null && getSetting(0).asMode().getValue() == 0) {
+        if (getSetting(0).asMode().getValue() == 0) {
             if (mc.player.isGliding()) return;
             mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true, mc.player.horizontalCollision));
         }

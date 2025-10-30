@@ -69,7 +69,7 @@ public class ModuleManager {
             }
         }
 
-        Collections.sort(enabledMods, new ModuleComparator(fontRenderer));
+        if (fontRenderer != null) Collections.sort(enabledMods, new ModuleComparator(fontRenderer));
 
         return enabledMods;
     }

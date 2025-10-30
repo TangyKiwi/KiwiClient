@@ -136,20 +136,22 @@ public class SeedRay extends Module{
 
     @Override
     public void onEnable() {
-        super.onEnable();
-
         if (worldSeed == null) {
             Command.addMessage("Please input a seed using ,seedray <seed>");
             setEnabled(false);
         }
 
         reload();
+
+        super.onEnable();
     }
 
     @Override
     public void onDisable() {
         this.chunkRenderers.clear();
         this.oreConfig = null;
+
+        super.onDisable();
     }
 
     public void reload() {

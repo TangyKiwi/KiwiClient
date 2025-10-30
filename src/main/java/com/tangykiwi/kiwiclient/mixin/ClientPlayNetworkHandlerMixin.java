@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.tangykiwi.kiwiclient.KiwiClient;
+import com.tangykiwi.kiwiclient.module.Module;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,6 +24,13 @@ public class ClientPlayNetworkHandlerMixin {
 
             mc.inGameHud.getChatHud().addToMessageHistory(message);
             ci.cancel();
+        }
+    }
+
+    @Inject(method = "onGameJoin", at = @At("TAIL"))
+    private void onGameJoin(CallbackInfo ci) {
+        for (Module m : KiwiClient.moduleManager.getEnabledMods(null)) {
+            m.onEnable();
         }
     }
 }
