@@ -26,6 +26,7 @@ public class CommandManager {
         add(new SetSeedRay());
         add(new Toggle());
         add(new Unbind());
+        add(new VClip());
 
         COMMANDS.sort(Comparator.comparing(Command::getName));
     }

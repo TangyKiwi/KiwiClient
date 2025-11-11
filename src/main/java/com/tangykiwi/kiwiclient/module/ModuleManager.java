@@ -12,6 +12,7 @@ import com.tangykiwi.kiwiclient.module.movement.NoFall;
 import com.tangykiwi.kiwiclient.module.movement.Speed;
 import com.tangykiwi.kiwiclient.module.other.DummyModule;
 import com.tangykiwi.kiwiclient.module.player.AntiHunger;
+import com.tangykiwi.kiwiclient.module.player.FastBreak;
 import com.tangykiwi.kiwiclient.module.render.Freecam;
 import com.tangykiwi.kiwiclient.module.render.FullBright;
 import com.tangykiwi.kiwiclient.module.render.NoRender;
@@ -51,6 +52,7 @@ public class ModuleManager {
 
         // player
         moduleList.add(new AntiHunger());
+        moduleList.add(new FastBreak());
 
         // render
         moduleList.add(new Freecam());

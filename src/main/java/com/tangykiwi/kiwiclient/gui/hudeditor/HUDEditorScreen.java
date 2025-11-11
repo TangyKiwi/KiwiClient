@@ -20,6 +20,7 @@ import com.tangykiwi.kiwiclient.gui.hudeditor.components.IPComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.InventoryComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.NetherCoordsComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.PingComponent;
+import com.tangykiwi.kiwiclient.gui.hudeditor.components.PlayerWaypointsComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.SpeedComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.TPSComponent;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
@@ -75,6 +76,7 @@ public class HUDEditorScreen extends Base {
         components.add(new ArmorComponent(w / 2, h / 2));
 
         components.add(new ActiveModsComponent(0, 0));
+        // components.add(new PlayerWaypointsComponent(0, 0));
     }
 
     @Override
