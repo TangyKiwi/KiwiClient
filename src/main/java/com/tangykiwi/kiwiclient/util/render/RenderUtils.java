@@ -10,6 +10,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -210,5 +211,17 @@ public class RenderUtils {
 		matrices.translate(x - camera.getPos().x, y - camera.getPos().y, z - camera.getPos().z);
 
 		return matrices;
+	}
+
+    public static Vec3d getInterpolationOffset(Entity e) {
+		if (mc.isPaused()) {
+			return Vec3d.ZERO;
+		}
+
+		double tickDelta = mc.getRenderTickCounter().getTickProgress(true);
+		return new Vec3d(
+				e.getX() - MathHelper.lerp(tickDelta, e.lastRenderX, e.getX()),
+				e.getY() - MathHelper.lerp(tickDelta, e.lastRenderY, e.getY()),
+				e.getZ() - MathHelper.lerp(tickDelta, e.lastRenderZ, e.getZ()));
 	}
 }

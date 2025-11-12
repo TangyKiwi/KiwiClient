@@ -5,19 +5,11 @@ import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.module.client.*;
-import com.tangykiwi.kiwiclient.module.combat.TriggerBot;
-import com.tangykiwi.kiwiclient.module.movement.Fly;
-import com.tangykiwi.kiwiclient.module.movement.InvMove;
-import com.tangykiwi.kiwiclient.module.movement.NoFall;
-import com.tangykiwi.kiwiclient.module.movement.Speed;
-import com.tangykiwi.kiwiclient.module.other.DummyModule;
-import com.tangykiwi.kiwiclient.module.player.AntiHunger;
-import com.tangykiwi.kiwiclient.module.player.FastBreak;
-import com.tangykiwi.kiwiclient.module.render.Freecam;
-import com.tangykiwi.kiwiclient.module.render.FullBright;
-import com.tangykiwi.kiwiclient.module.render.NoRender;
-import com.tangykiwi.kiwiclient.module.render.SeedRay;
-import com.tangykiwi.kiwiclient.module.render.XRay;
+import com.tangykiwi.kiwiclient.module.combat.*;
+import com.tangykiwi.kiwiclient.module.movement.*;
+import com.tangykiwi.kiwiclient.module.other.*;
+import com.tangykiwi.kiwiclient.module.player.*;
+import com.tangykiwi.kiwiclient.module.render.*;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
@@ -59,6 +51,7 @@ public class ModuleManager {
         moduleList.add(new FullBright());
         moduleList.add(new NoRender());
         moduleList.add(new SeedRay());
+        moduleList.add(new Tracers());
         moduleList.add(new XRay());
     }
 
