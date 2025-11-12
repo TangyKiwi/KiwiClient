@@ -6,6 +6,7 @@ import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.setting.SliderSetting;
 import com.tangykiwi.kiwiclient.module.setting.ToggleSetting;
+import com.tangykiwi.kiwiclient.util.EntityUtils;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 import net.minecraft.entity.Entity;
@@ -36,18 +37,18 @@ public class Tracers extends Module {
                 .rotateY(-(float) Math.toRadians(mc.gameRenderer.getCamera().getYaw()))
                 .add(mc.cameraEntity.getEyePos());
 
-            int color = getColor(e);
-            color = ((int)(opacity * 255) << 24) | (color & 0x00FFFFFF);
+            int color = -1;
 
-            // if(EntityUtils.isPlayer(e) && e != mc.player && e != mc.cameraEntity && getSetting(2).asToggle().state) {
-            //     color = getColor(e);
-            // } else if(EntityUtils.isAnimal(e) && getSetting(3).asToggle().state) {
-            //     color = getColor(e);
-            // } else if(EntityUtils.isMob(e) && getSetting(4).asToggle().state) {
-            //     color = getColor(e);
-            // }
+            if(EntityUtils.isPlayer(e) && e != mc.player && e != mc.cameraEntity && getSetting("Players").asToggle().getValue()) {
+                color = getColor(e);
+            } else if(EntityUtils.isAnimal(e) && getSetting("Animals").asToggle().getValue()) {
+                color = getColor(e);
+            } else if(EntityUtils.isMob(e) && getSetting("Mobs").asToggle().getValue()) {
+                color = getColor(e);
+            }
 
             if (color != -1) {
+                color = ((int)(opacity * 255) << 24) | (color & 0x00FFFFFF);
                 RenderUtils.drawLine(vec2.x, vec2.y, vec2.z, vec.x, vec.y + e.getHeight() / 2, vec.z, color, width);
             }
         }
