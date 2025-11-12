@@ -11,8 +11,6 @@ import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
-import java.awt.*;
-
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 public class Tracers extends Module {
@@ -38,7 +36,8 @@ public class Tracers extends Module {
                 .rotateY(-(float) Math.toRadians(mc.gameRenderer.getCamera().getYaw()))
                 .add(mc.cameraEntity.getEyePos());
 
-            Color color = getColor(e);
+            int color = getColor(e);
+            color = ((int)(opacity * 255) << 24) | (color & 0x00FFFFFF);
 
             // if(EntityUtils.isPlayer(e) && e != mc.player && e != mc.cameraEntity && getSetting(2).asToggle().state) {
             //     color = getColor(e);
@@ -48,13 +47,13 @@ public class Tracers extends Module {
             //     color = getColor(e);
             // }
 
-            if (color != null) {
-                RenderUtils.drawLine(vec2.x, vec2.y, vec2.z, vec.x, vec.y + e.getHeight() / 2, vec.z, color.getRGB(), width);
+            if (color != -1) {
+                RenderUtils.drawLine(vec2.x, vec2.y, vec2.z, vec.x, vec.y + e.getHeight() / 2, vec.z, color, width);
             }
         }
     }
 
-    private Color getColor(Entity e) {
+    private int getColor(Entity e) {
         double px = mc.player.getX();
         double py = mc.player.getY();
         double pz = mc.player.getZ();
@@ -71,7 +70,7 @@ public class Tracers extends Module {
         return transitionOfHueRange(ratio, 0, 120);
     }
 
-    public Color transitionOfHueRange(double percentage, int startHue, int endHue) {
+    public int transitionOfHueRange(double percentage, int startHue, int endHue) {
         double hue = ((percentage * (endHue - startHue)) + startHue) / 360;
 
         double saturation = 1.0;
@@ -80,10 +79,10 @@ public class Tracers extends Module {
         return hslColorToRgb(hue, saturation, lightness);
     }
 
-    public Color hslColorToRgb(double hue, double saturation, double lightness) {
+    public int hslColorToRgb(double hue, double saturation, double lightness) {
         if (saturation == 0.0) {
             int grey = percToColor(lightness);
-            return new Color(grey, grey, grey);
+            return (grey << 16) | (grey << 8) | grey;
         }
 
         double q;
@@ -99,7 +98,7 @@ public class Tracers extends Module {
         int green = percToColor(hueToRgb(p, q, hue));
         int blue = percToColor(hueToRgb(p, q, hue - oneThird));
 
-        return new Color(red, green, blue);
+        return (red << 16) | (green << 8) | blue;
     }
 
     public double hueToRgb(double p, double q, double t) {
