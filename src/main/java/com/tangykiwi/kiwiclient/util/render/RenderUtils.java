@@ -136,28 +136,35 @@ public class RenderUtils {
         matrices.popMatrix();
     }
 
-    public static void drawLine(MatrixStack matrixStack, float x1, float y1, float z1, float x2, float y2, float z2, int color, double lineWidth) {
-        Matrix4f matrices = matrixStack.peek().getPositionMatrix();
+    public static void drawLine(double x1, double y1, double z1, double x2, double y2, double z2, int color, double lineWidth) {
+        MatrixStack matrices = matrixFrom(x1, y1, z1);
         BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR_NORMAL);
-
-        Vector3f normal = getNormal(x1, y1, z1, x2, y2, z2);
-        bufferBuilder.vertex(matrices, x1, y1, z1).color(color).normal(matrixStack.peek(), normal.x(), normal.y(), normal.z());
-        bufferBuilder.vertex(matrices, x2, y2, z2).color(color).normal(matrixStack.peek(), normal.x(), normal.y(), normal.z());
-
+        Vertexer.vertexLine(matrices, bufferBuilder, 0, 0, 0, (float)(x2 - x1), (float)(y2 - y1), (float)(z2 - z1), color);
         CustomRenderLayers.LINES.apply(lineWidth).draw(bufferBuilder.end());
     }
 
-    public static void drawQuad(MatrixStack matrixStack, float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4, int color) {
-        Matrix4f matrices = matrixStack.peek().getPositionMatrix();
-        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+    // public static void drawLine(MatrixStack matrixStack, float x1, float y1, float z1, float x2, float y2, float z2, int color, double lineWidth) {
+    //     Matrix4f matrices = matrixStack.peek().getPositionMatrix();
+    //     BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR_NORMAL);
 
-        bufferBuilder.vertex(matrices, x1,  y1,  z1).color(color);
-        bufferBuilder.vertex(matrices, x2,  y2,  z2).color(color);
-        bufferBuilder.vertex(matrices, x3,  y3,  z3).color(color);
-        bufferBuilder.vertex(matrices, x4,  y4,  z4).color(color);
+    //     Vector3f normal = getNormal(x1, y1, z1, x2, y2, z2);
+    //     bufferBuilder.vertex(matrices, x1, y1, z1).color(color).normal(matrixStack.peek(), normal.x(), normal.y(), normal.z());
+    //     bufferBuilder.vertex(matrices, x2, y2, z2).color(color).normal(matrixStack.peek(), normal.x(), normal.y(), normal.z());
 
-        CustomRenderLayers.QUADS.draw(bufferBuilder.end());
-    }
+    //     CustomRenderLayers.LINES.apply(lineWidth).draw(bufferBuilder.end());
+    // }
+
+    // public static void drawQuad(MatrixStack matrixStack, float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4, int color) {
+    //     Matrix4f matrices = matrixStack.peek().getPositionMatrix();
+    //     BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+
+    //     bufferBuilder.vertex(matrices, x1,  y1,  z1).color(color);
+    //     bufferBuilder.vertex(matrices, x2,  y2,  z2).color(color);
+    //     bufferBuilder.vertex(matrices, x3,  y3,  z3).color(color);
+    //     bufferBuilder.vertex(matrices, x4,  y4,  z4).color(color);
+
+    //     CustomRenderLayers.QUADS.draw(bufferBuilder.end());
+    // }
 
     public static Vector3f getNormal(float x1, float y1, float z1, float x2, float y2, float z2) {
         float dx = x2 - x1;
@@ -175,32 +182,9 @@ public class RenderUtils {
         if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
         MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
-
-        box = box.offset(new Vec3d(box.minX, box.minY, box.minZ).negate());
-        float x1 = (float) box.minX;
-        float y1 = (float) box.minY;    
-        float z1 = (float) box.minZ;
-        float x2 = (float) box.maxX;
-        float y2 = (float) box.maxY;
-        float z2 = (float) box.maxZ;
-
-        // bottom 
-        drawLine(matrices, x1, y1, z1, x2, y1, z1, color, lineWidth);
-        drawLine(matrices, x2, y1, z1, x2, y1, z2, color, lineWidth);
-        drawLine(matrices, x2, y1, z2, x1, y1, z2, color, lineWidth);
-        drawLine(matrices, x1, y1, z2, x1, y1, z1, color, lineWidth);
-
-        // top
-        drawLine(matrices, x1, y2, z1, x2, y2, z1, color, lineWidth);
-        drawLine(matrices, x2, y2, z1, x2, y2, z2, color, lineWidth);
-        drawLine(matrices, x2, y2, z2, x1, y2, z2, color, lineWidth);
-        drawLine(matrices, x1, y2, z2, x1, y2, z1, color, lineWidth);
-
-        // sides
-        drawLine(matrices, x1, y1, z1, x1, y2, z1, color, lineWidth);
-        drawLine(matrices, x2, y1, z1, x2, y2, z1, color, lineWidth);
-        drawLine(matrices, x2, y1, z2, x2, y2, z2, color, lineWidth);
-        drawLine(matrices, x1, y1, z2, x1, y2, z2, color, lineWidth);
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR_NORMAL);
+        Vertexer.vertexBoxOutline(matrices, bufferBuilder, box.offset(new Vec3d(box.minX, box.minY, box.minZ).negate()), color, excludeDirs);
+        CustomRenderLayers.LINES.apply(lineWidth).draw(bufferBuilder.end());
     }
 
     public static void drawBoxFilled(BlockPos blockPos, int color, Direction... excludeDirs) {
@@ -211,32 +195,9 @@ public class RenderUtils {
         if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
         MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
-
-        box = box.offset(new Vec3d(box.minX, box.minY, box.minZ).negate());
-        float x1 = (float) box.minX;
-        float y1 = (float) box.minY;    
-        float z1 = (float) box.minZ;
-        float x2 = (float) box.maxX;
-        float y2 = (float) box.maxY;
-        float z2 = (float) box.maxZ;
-
-        // bottom
-        drawQuad(matrices, x1, y1, z1, x2, y1, z1, x2, y1, z2, x1, y1, z2, color);
-
-        // top
-        drawQuad(matrices, x1, y2, z1, x2, y2, z1, x2, y2, z2, x1, y2, z2, color);
-
-        // front
-        drawQuad(matrices, x1, y1, z1, x1, y2, z1, x2, y2, z1, x2, y1, z1, color);
-        
-        // back
-        drawQuad(matrices, x1, y1, z2, x1, y2, z2, x2, y2, z2, x2, y1, z2, color);
-
-        // left
-        drawQuad(matrices, x1, y1, z1, x1, y2, z1, x1, y2, z2, x1, y1, z2, color);
-
-        // right
-        drawQuad(matrices, x2, y1, z1, x2, y2, z1, x2, y2, z2, x2, y1, z2, color);
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        Vertexer.vertexBoxFilled(matrices, bufferBuilder, box.offset(new Vec3d(box.minX, box.minY, box.minZ).negate()), color, excludeDirs);
+        CustomRenderLayers.QUADS.draw(bufferBuilder.end());
     }
 
     public static MatrixStack matrixFrom(double x, double y, double z) {
