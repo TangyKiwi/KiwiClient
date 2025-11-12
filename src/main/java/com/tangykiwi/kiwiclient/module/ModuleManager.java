@@ -7,10 +7,12 @@ import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.module.client.*;
 import com.tangykiwi.kiwiclient.module.combat.TriggerBot;
 import com.tangykiwi.kiwiclient.module.movement.Fly;
+import com.tangykiwi.kiwiclient.module.movement.InvMove;
 import com.tangykiwi.kiwiclient.module.movement.NoFall;
 import com.tangykiwi.kiwiclient.module.movement.Speed;
 import com.tangykiwi.kiwiclient.module.other.DummyModule;
 import com.tangykiwi.kiwiclient.module.player.AntiHunger;
+import com.tangykiwi.kiwiclient.module.player.FastBreak;
 import com.tangykiwi.kiwiclient.module.render.Freecam;
 import com.tangykiwi.kiwiclient.module.render.FullBright;
 import com.tangykiwi.kiwiclient.module.render.NoRender;
@@ -41,6 +43,7 @@ public class ModuleManager {
 
         // movement
         moduleList.add(new Fly());
+        moduleList.add(new InvMove());
         moduleList.add(new NoFall());
         moduleList.add(new Speed());
 
@@ -49,6 +52,7 @@ public class ModuleManager {
 
         // player
         moduleList.add(new AntiHunger());
+        moduleList.add(new FastBreak());
 
         // render
         moduleList.add(new Freecam());
@@ -67,7 +71,7 @@ public class ModuleManager {
             }
         }
 
-        Collections.sort(enabledMods, new ModuleComparator(fontRenderer));
+        if (fontRenderer != null) Collections.sort(enabledMods, new ModuleComparator(fontRenderer));
 
         return enabledMods;
     }

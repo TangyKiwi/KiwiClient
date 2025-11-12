@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
+import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.render.Freecam;
 import com.tangykiwi.kiwiclient.util.ConfigManager;
 
@@ -16,12 +17,14 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.Icons;
 import net.minecraft.client.util.MacWindowUtil;
 import net.minecraft.client.util.Window;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.resource.ResourcePack;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -39,6 +42,8 @@ import static com.tangykiwi.kiwiclient.KiwiClient.discordRPC;
 
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
+    @Shadow public ClientWorld world;
+
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;setOverlay(Lnet/minecraft/client/gui/screen/Overlay;)V", shift = At.Shift.BEFORE))
     private void init(RunArgs args, CallbackInfo callback) {
         KiwiClient.postInit();
@@ -133,6 +138,15 @@ public class MinecraftClientMixin {
         OpenScreenEvent event = new OpenScreenEvent(screen);
         KiwiClient.eventBus.post(event);
         if (event.isCancelled()) info.cancel();
+    }
+
+    @Inject(method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;Z)V", at = @At("HEAD"))
+    private void onDisconnect(Screen screen, boolean transferring, CallbackInfo info) {
+        if (world != null) {
+            for (Module m : KiwiClient.moduleManager.getEnabledMods(null)) {
+                m.onDisable();
+            }
+        }
     }
 
     @Inject(method = "stop", at = @At("HEAD"))
