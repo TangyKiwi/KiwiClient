@@ -70,7 +70,7 @@ public class SliderSetting extends Setting<Double> {
             context.fill(x + 1, y + 1, x + width - 1, y + height, 0x70303070);
         }
 
-        int pixels = (int) Math.round(MathHelper.clamp(width * ((getValue() - min) / (max - min)), 0, width));
+        int pixels = (int) Math.round(MathHelper.clamp((width - 1) * ((getValue() - min) / (max - min)), 0, width));
         context.fill(x + 2, y + 1, x + pixels, y + height, mo ? 0xf02068c0 : 0xf02070b0);
         // RenderUtils.fillGradient(x + 1, y, x + pixels, y + fontHeight, mo ? 0xf03078b0 : 0xf03080a0, mo ? 0xf02068c0 : 0xf02070b0);
 
