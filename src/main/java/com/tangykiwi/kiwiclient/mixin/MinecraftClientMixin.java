@@ -19,7 +19,6 @@ import net.minecraft.client.util.Icons;
 import net.minecraft.client.util.MacWindowUtil;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.command.EntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.resource.ResourcePack;
 import org.lwjgl.glfw.GLFW;

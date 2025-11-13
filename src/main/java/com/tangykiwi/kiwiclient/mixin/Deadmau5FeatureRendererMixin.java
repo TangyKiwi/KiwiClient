@@ -5,7 +5,6 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.tangykiwi.kiwiclient.KiwiClient;
-import com.tangykiwi.kiwiclient.module.other.Cape;
 import com.tangykiwi.kiwiclient.module.other.Deadmau5Ears;
 import com.tangykiwi.kiwiclient.util.Textures;
 
@@ -16,7 +15,6 @@ import net.minecraft.client.render.entity.feature.Deadmau5FeatureRenderer;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
 
 @Mixin(Deadmau5FeatureRenderer.class)
 public class Deadmau5FeatureRendererMixin {
