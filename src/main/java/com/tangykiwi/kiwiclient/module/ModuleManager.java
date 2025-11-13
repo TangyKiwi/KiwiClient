@@ -40,6 +40,8 @@ public class ModuleManager {
         moduleList.add(new Speed());
 
         // other
+        moduleList.add(new Cape());
+        moduleList.add(new Deadmau5Ears());
         moduleList.add(new DummyModule());
 
         // player
