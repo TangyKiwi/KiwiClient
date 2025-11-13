@@ -47,6 +47,7 @@ public class ModuleManager {
         moduleList.add(new FastBreak());
 
         // render
+        moduleList.add(new ESP());
         moduleList.add(new Freecam());
         moduleList.add(new FullBright());
         moduleList.add(new NoRender());

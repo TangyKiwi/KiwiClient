@@ -5,6 +5,7 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.module.Module;
+import com.tangykiwi.kiwiclient.module.render.ESP;
 import com.tangykiwi.kiwiclient.module.render.Freecam;
 import com.tangykiwi.kiwiclient.util.ConfigManager;
 
@@ -18,6 +19,8 @@ import net.minecraft.client.util.Icons;
 import net.minecraft.client.util.MacWindowUtil;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.command.EntitySelector;
+import net.minecraft.entity.Entity;
 import net.minecraft.resource.ResourcePack;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWImage;
@@ -39,6 +42,7 @@ import java.util.List;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.LOGGER;
 import static com.tangykiwi.kiwiclient.KiwiClient.discordRPC;
+import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
@@ -131,6 +135,14 @@ public class MinecraftClientMixin {
         discordRPC.update();
 
         info.setReturnValue(title);
+    }
+
+    @Inject(method = "hasOutline", at = @At("HEAD"), cancellable = true)
+    private void outlineEntities(Entity entity, CallbackInfoReturnable<Boolean> ci) {
+        ESP esp = (ESP) KiwiClient.moduleManager.getModule(ESP.class);
+        if (esp.isEnabled() && esp.getSetting("Mode").asMode().getValue() == 0 && entity != mc.player) {
+            ci.setReturnValue(true);
+        }
     }
 
     @Inject(at = @At("HEAD"), method = "setScreen", cancellable = true)
