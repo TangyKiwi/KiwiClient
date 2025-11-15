@@ -16,12 +16,14 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
+import static com.tangykiwi.kiwiclient.KiwiClient.mc;
+
 @Mixin(CapeFeatureRenderer.class)
 public class CapeFeatureRendererMixin {
     @ModifyExpressionValue(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/render/entity/state/PlayerEntityRenderState;FF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/SkinTextures;capeTexture()Lnet/minecraft/util/Identifier;"))
     private Identifier enableCapeRendering(Identifier original, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, PlayerEntityRenderState playerEntityRenderState, float f, float g) {
         Cape cape = (Cape) KiwiClient.moduleManager.getModule(Cape.class);
-        if (cape.isEnabled()) {
+        if (cape.isEnabled() && playerEntityRenderState.name.equals(mc.player.getName().getString())) {
             return cape.getCape();
         }
         return original;
