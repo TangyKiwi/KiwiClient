@@ -16,11 +16,13 @@ import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 
+import static com.tangykiwi.kiwiclient.KiwiClient.mc;
+
 @Mixin(Deadmau5FeatureRenderer.class)
 public class Deadmau5FeatureRendererMixin {
     @ModifyExpressionValue(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/render/entity/state/PlayerEntityRenderState;FF)V", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/entity/state/PlayerEntityRenderState;name:Ljava/lang/String;"))
     private String enableEarRendering(String original, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, PlayerEntityRenderState playerEntityRenderState, float f, float g) {
-        if (KiwiClient.moduleManager.getModule(Deadmau5Ears.class).isEnabled()) {
+        if (KiwiClient.moduleManager.getModule(Deadmau5Ears.class).isEnabled() && original.equals(mc.player.getName().getString())) {
             return "deadmau5";
         }
         return original;

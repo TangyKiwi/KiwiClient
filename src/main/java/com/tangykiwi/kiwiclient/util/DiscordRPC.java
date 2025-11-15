@@ -34,7 +34,9 @@ public class DiscordRPC {
     }
 
     public void update() {
-        core.activityManager().updateActivity(activity);
+        if (core.isDiscordRunning()) {
+            core.activityManager().updateActivity(activity);
+        }
     }
 
     public void shutdown() {
