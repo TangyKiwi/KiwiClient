@@ -6,12 +6,16 @@ import com.tangykiwi.kiwiclient.util.render.state.CustomLineRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomQuadRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomRoundedQuadRenderState;
 
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.font.TextRenderer.TextLayerType;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
+import net.minecraft.client.gui.render.state.GuiRenderState;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -21,6 +25,9 @@ import net.minecraft.util.math.Vec3d;
 
 import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
+import org.joml.Matrix4f;
+import org.joml.Options;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.awt.*;
@@ -141,6 +148,43 @@ public class RenderUtils {
         BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR_NORMAL);
         Vertexer.vertexLine(matrices, bufferBuilder, 0, 0, 0, (float)(x2 - x1), (float)(y2 - y1), (float)(z2 - z1), color);
         CustomRenderLayers.LINES.apply(lineWidth).draw(bufferBuilder.end());
+    }
+
+    public static void drawQuad(double x1, double y1, double z1, double x2, double y2, double z2, int color) {
+        MatrixStack matrices = matrixFrom(x1, y1, z1);
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        float dx = (float)(x2 - x1);
+        float dy = (float)(y2 - y1);
+        float dz = (float)(z2 - z1);
+        Vertexer.vertexQuad(matrices, bufferBuilder, 0, 0, 0, 0, 0, dz, dx, dy, dz, 0, dy, 0, 2, color);
+        CustomRenderLayers.QUADS.draw(bufferBuilder.end());
+    }
+
+    public static void drawWorldText(MatrixStack matrices, Quaternionf rotation, float height, String text, int color, VertexConsumerProvider vertexConsumers, TextRenderer textRenderer, float scale) {
+        matrices.push();
+        matrices.translate(0, height + 0.2f, 0);
+        matrices.scale(3, 3, 3);
+        // matrices.multiply(rotation);
+
+        float max_x = -0.5f;
+        float min_x = 0.5f;
+        float min_y = 0;
+        float max_y = 0.1f;
+        float z = -0.0001f;
+
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        Matrix4f model = matrices.peek().getPositionMatrix();
+        bufferBuilder.vertex(model, min_x, min_y, z).light(0xF000F0).color(color);
+        bufferBuilder.vertex(model, max_x, min_y, z).light(0xF000F0).color(color);
+        bufferBuilder.vertex(model, max_x, max_y, z).light(0xF000F0).color(color);
+        bufferBuilder.vertex(model, min_x, max_y, z).light(0xF000F0).color(color);
+        CustomRenderLayers.QUADS.draw(bufferBuilder.end());
+
+        matrices.push();
+        matrices.scale(0.01f, -0.01f, 0.01f);
+        textRenderer.draw(text, -(textRenderer.getWidth(text)) / 2f, -9, 0xFFFFFFFF, false, matrices.peek().getPositionMatrix(), vertexConsumers, TextLayerType.SEE_THROUGH, 0, 0xF000F0);
+        matrices.pop();
+        matrices.pop();
     }
 
     // public static void drawLine(MatrixStack matrixStack, float x1, float y1, float z1, float x2, float y2, float z2, int color, double lineWidth) {

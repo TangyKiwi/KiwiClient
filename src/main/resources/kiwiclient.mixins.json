@@ -23,6 +23,8 @@
     "DownloaderMixin",
     "ElytraFeatureRendererMixin",
     "EntityMixin",
+    "EntityRendererMixin",
+    "EntityRenderStateMixin",
     "FluidRendererMixin",
     "FogRendererMixin",
     "GameOptionsMixin",

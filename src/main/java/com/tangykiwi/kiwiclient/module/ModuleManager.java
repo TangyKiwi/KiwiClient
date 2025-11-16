@@ -52,6 +52,7 @@ public class ModuleManager {
         moduleList.add(new ESP());
         moduleList.add(new Freecam());
         moduleList.add(new FullBright());
+        moduleList.add(new Nametags());
         moduleList.add(new NoRender());
         moduleList.add(new SeedRay());
         moduleList.add(new Tracers());
