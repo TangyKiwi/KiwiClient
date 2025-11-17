@@ -19,6 +19,7 @@ import com.tangykiwi.kiwiclient.util.EntityUtils;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
 import net.minecraft.client.render.LightmapTextureManager;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -27,8 +28,12 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.component.Component;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAttachmentType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemDisplayContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -67,23 +72,42 @@ public class EntityRendererMixin {
 	}
 
 	private void customRenderLabel(EntityRenderState state, Text text, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-      Vec3d vec3d = ((IEntityRenderState) state).getLabelPos();
-      if (vec3d != null) {
-        int i = "deadmau5".equals(text.getString()) ? -10 : 0;
-        matrices.push();
-        matrices.translate(vec3d.x, vec3d.y + 0.5, vec3d.z);
-        matrices.multiply(dispatcher.getRotation());
+		IEntityRenderState iState = (IEntityRenderState) state;
+    	Vec3d vec3d = iState.getLabelPos();
+      	if (vec3d != null) {
+			int i = "deadmau5".equals(text.getString()) ? -10 : 0;
+			matrices.push();
+			matrices.translate(vec3d.x, vec3d.y + 0.5, vec3d.z);
+			matrices.multiply(dispatcher.getRotation());
+			double d = Math.sqrt(state.squaredDistanceToCamera);
+			float scale = (float) Math.max(1, d / 10);
+			matrices.push();
+			matrices.scale(scale * 0.025F, -scale * 0.025F, scale * 0.025F);
+			Matrix4f matrix4f = matrices.peek().getPositionMatrix();
+			float f = (float)(-textRenderer.getWidth(text)) / 2.0F;
+			int j = (int)(mc.options.getTextBackgroundOpacity(0.25F) * 255.0F) << 24;
+			textRenderer.draw(text, f, (float)i, -2130706433, false, matrix4f, vertexConsumers, TextLayerType.SEE_THROUGH, j, light);
+			textRenderer.draw(text, f, (float)i, -1, false, matrix4f, vertexConsumers, TextLayerType.SEE_THROUGH, 0, LightmapTextureManager.applyEmission(light, 2));
+			matrices.pop();
 
-		double d = Math.sqrt(state.squaredDistanceToCamera);
-		float scale = (float) Math.max(1, d / 10);
-        matrices.scale(scale * 0.025F, -scale * 0.025F, scale * 0.025F);
-        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
-        float f = (float)(-textRenderer.getWidth(text)) / 2.0F;
-        int j = (int)(mc.options.getTextBackgroundOpacity(0.25F) * 255.0F) << 24;
-        textRenderer.draw(text, f, (float)i, -2130706433, false, matrix4f, vertexConsumers, TextLayerType.SEE_THROUGH, j, light);
-		textRenderer.draw(text, f, (float)i, -1, false, matrix4f, vertexConsumers, TextLayerType.SEE_THROUGH, 0, LightmapTextureManager.applyEmission(light, 2));
-        matrices.pop();
-      }
+			if (iState.getEntity() instanceof LivingEntity livingEntity) {
+				int[] xOffsets = {-101, -67, -33, 33, 67, 101};
+				for (int k = 0; k < 6; k++) {
+					ItemStack itemStack = getItem(livingEntity, k);
+					if (!itemStack.isEmpty()) {
+						// KiwiClient.LOGGER.info(livingEntity.getName().getString() + " : " + itemStack.getName().getString());
+						matrices.push();
+						matrices.scale(scale * 0.5F, scale * 0.5F, scale * 0.5F);
+						float xOffset = (float) xOffsets[k];
+						// matrices.translate(xOffset, 34, 0);
+						mc.getItemRenderer().renderItem(itemStack, ItemDisplayContext.NONE, 0xF000F0, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, mc.world, 0);
+						matrices.pop();
+					}
+				}
+			}
+
+			matrices.pop();
+      	}
    }
 
     @Inject(method = "updateRenderState", at = @At("HEAD"))
@@ -120,6 +144,7 @@ public class EntityRendererMixin {
 			int count = itemEntity.getStack().getCount();
 			label.append(Text.literal(" [x").append(Integer.toString(count)).append("]"));
 		}
+		iState.setEntity(entity);
 		iState.setLabel(label);
 		iState.setLabelPos(entity.getAttachments().getPointNullable(EntityAttachmentType.NAME_TAG, 0, entity.getLerpedYaw(tickDelta)));
 	}
@@ -137,4 +162,16 @@ public class EntityRendererMixin {
 		
 		return Formatting.GREEN;
 	}
+
+	private ItemStack getItem(LivingEntity entity, int index) {
+        return switch (index) {
+            case 0 -> entity.getMainHandStack();
+            case 1 -> entity.getEquippedStack(EquipmentSlot.HEAD);
+            case 2 -> entity.getEquippedStack(EquipmentSlot.CHEST);
+            case 3 -> entity.getEquippedStack(EquipmentSlot.LEGS);
+            case 4 -> entity.getEquippedStack(EquipmentSlot.FEET);
+            case 5 -> entity.getOffHandStack();
+            default -> ItemStack.EMPTY;
+        };
+    }
 }
