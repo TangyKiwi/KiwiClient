@@ -7,10 +7,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Share;
-import com.llamalad7.mixinextras.sugar.ref.LocalDoubleRef;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.mixininterface.IEntityRenderState;
 import com.tangykiwi.kiwiclient.module.render.Nametags;
@@ -25,13 +21,11 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.component.Component;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAttachmentType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
@@ -91,16 +85,15 @@ public class EntityRendererMixin {
 			matrices.pop();
 
 			if (iState.getEntity() instanceof LivingEntity livingEntity) {
-				int[] xOffsets = {-101, -67, -33, 33, 67, 101};
+				int[] xOffsets = {-45, -27, -9, 9, 27, 45};
 				for (int k = 0; k < 6; k++) {
 					ItemStack itemStack = getItem(livingEntity, k);
 					if (!itemStack.isEmpty()) {
 						// KiwiClient.LOGGER.info(livingEntity.getName().getString() + " : " + itemStack.getName().getString());
 						matrices.push();
+						matrices.translate(xOffsets[k] * 0.025F, 10 * 0.025F, 0);
 						matrices.scale(scale * 0.5F, scale * 0.5F, scale * 0.5F);
-						float xOffset = (float) xOffsets[k];
-						// matrices.translate(xOffset, 34, 0);
-						mc.getItemRenderer().renderItem(itemStack, ItemDisplayContext.NONE, 0xF000F0, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, mc.world, 0);
+						mc.getItemRenderer().renderItem(itemStack, ItemDisplayContext.GUI, 0xF000F0, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, iState.getEntity().getWorld(), 0);
 						matrices.pop();
 					}
 				}
@@ -115,7 +108,7 @@ public class EntityRendererMixin {
         Nametags nametags = (Nametags) KiwiClient.moduleManager.getModule(Nametags.class);
         if (nametags.isEnabled()) {
 			IEntityRenderState iState = (IEntityRenderState) state;
-			if (EntityUtils.isPlayer(entity) && nametags.getSetting("Players").asToggle().getValue()) {
+			if (EntityUtils.isOtherServerPlayer(entity) && nametags.getSetting("Players").asToggle().getValue()) {
 				setLabelAndPos(entity, state, tickDelta);
 			}
 			else if (EntityUtils.isAnimal(entity) && nametags.getSetting("Animals").asToggle().getValue()) {
