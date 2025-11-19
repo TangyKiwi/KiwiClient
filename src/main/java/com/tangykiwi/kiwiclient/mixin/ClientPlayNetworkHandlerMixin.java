@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Either;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.client.HUD;
+import com.tangykiwi.kiwiclient.util.TickRate;
 
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.WaypointS2CPacket;
@@ -18,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,6 +44,10 @@ public class ClientPlayNetworkHandlerMixin {
         for (Module m : KiwiClient.moduleManager.getEnabledMods(null)) {
             m.onEnable();
         }
+
+        Arrays.fill(KiwiClient.tickRate.tickRates, 0);
+        KiwiClient.tickRate.nextIndex = 0;
+        KiwiClient.tickRate.timeGameJoined = KiwiClient.tickRate.timeLastTimeUpdate = System.currentTimeMillis();
     }
 
     // @Inject(method = "onWaypoint", at = @At("HEAD"))
