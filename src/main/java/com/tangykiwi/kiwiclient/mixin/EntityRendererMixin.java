@@ -17,9 +17,11 @@ import net.minecraft.client.font.TextRenderer.TextLayerType;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
+import net.minecraft.client.render.entity.EntityRenderManager;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.state.EntityRenderState;
+import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAttachmentType;
@@ -38,13 +40,13 @@ import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin {
 	@Shadow
-	protected EntityRenderDispatcher dispatcher;
+	protected EntityRenderManager dispatcher;
 
 	@Shadow
    	private TextRenderer textRenderer;
 
 	@Inject(method = "renderLabelIfPresent", at = @At("HEAD"), cancellable = true)
-	public void renderLabelIfPresent(EntityRenderState state, Text text, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
+	public void renderLabelIfPresent(EntityRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraRenderState, CallbackInfo ci) {
 		Nametags nametags = (Nametags) KiwiClient.moduleManager.getModule(Nametags.class);
 		if (nametags.isEnabled()) {
 			IEntityRenderState iState = (IEntityRenderState) state;
@@ -54,16 +56,16 @@ public class EntityRendererMixin {
 		}
 	}
 
-	@Inject(method = "render", at = @At("HEAD"))
-	public void render(EntityRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
-		Nametags nametags = (Nametags) KiwiClient.moduleManager.getModule(Nametags.class);
-		if (nametags.isEnabled()) {
-			IEntityRenderState iState = (IEntityRenderState) state;
-			if (iState.getLabel() != null) {
-				customRenderLabel(state, iState.getLabel(), matrices, vertexConsumers, light);
-			}
-		}
-	}
+	// @Inject(method = "render", at = @At("HEAD"))
+	// public void render(EntityRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState, CallbackInfo ci) {
+	// 	Nametags nametags = (Nametags) KiwiClient.moduleManager.getModule(Nametags.class);
+	// 	if (nametags.isEnabled()) {
+	// 		IEntityRenderState iState = (IEntityRenderState) state;
+	// 		if (iState.getLabel() != null) {
+	// 			customRenderLabel(state, iState.getLabel(), matrices);
+	// 		}
+	// 	}
+	// }
 
 	private void customRenderLabel(EntityRenderState state, Text text, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
 		IEntityRenderState iState = (IEntityRenderState) state;
@@ -72,7 +74,7 @@ public class EntityRendererMixin {
 			int i = "deadmau5".equals(text.getString()) ? -10 : 0;
 			matrices.push();
 			matrices.translate(vec3d.x, vec3d.y + 0.5, vec3d.z);
-			matrices.multiply(dispatcher.getRotation());
+			matrices.multiply(dispatcher.camera.getRotation());
 			double d = Math.sqrt(state.squaredDistanceToCamera);
 			float scale = (float) Math.max(1, d / 10);
 			matrices.push();

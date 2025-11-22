@@ -50,7 +50,7 @@ public abstract class HUDComponent {
 
     public void render(DrawContext context) {
         if (dragging) {
-            if (InputUtil.isKeyPressed(KiwiClient.mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+            if (InputUtil.isKeyPressed(KiwiClient.mc.getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
                 if (x < KiwiClient.mc.currentScreen.width / 2) {
                     minX = 0;
                     maxX = KiwiClient.mc.currentScreen.width / 2;

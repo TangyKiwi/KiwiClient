@@ -23,7 +23,7 @@ public class NetherCoordsComponent extends HUDComponent {
         }
 
         Boolean nether = mc.world.getRegistryKey().getValue().getPath().contains("nether");
-        Vec3d vec2 = mc.player.getPos();
+        Vec3d vec2 = mc.player.getEntityPos();
         double altx = vec2.x / 8;
         double altz = vec2.z / 8;
 

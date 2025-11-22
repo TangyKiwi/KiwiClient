@@ -23,7 +23,7 @@ public record CustomRoundedQuadRenderState(RenderPipeline pipeline,
     }
 
     @Override
-    public void setupVertices(VertexConsumer vertices, float depth) {
+    public void setupVertices(VertexConsumer vertices) {
         double[][] map = new double[][] { new double[] { x2 - rad, y2 - rad, rad }, new double[] { x2 - rad, y1 + rad, rad },
                 new double[] { x1 + rad, y1 + rad, rad }, new double[] { x1 + rad, y2 - rad, rad } };
         for (int i = 0; i < 4; i++) {
@@ -36,16 +36,16 @@ public record CustomRoundedQuadRenderState(RenderPipeline pipeline,
                 float cos = (float) (Math.cos(rad1) * rad);
                 float sin2 = (float) (Math.sin(rad2) * rad);
                 float cos2 = (float) (Math.cos(rad2) * rad);
-                vertices.vertex(pose(), x1 + (x2 - x1) / 2f, y1 + (y2 - y1) / 2f, depth).color(color());
-                vertices.vertex(pose(), (float) current[0] + sin, (float) current[1] + cos, depth).color(color());
-                vertices.vertex(pose(), (float) current[0] + sin2, (float) current[1] + cos2, depth).color(color());
+                vertices.vertex(pose(), x1 + (x2 - x1) / 2f, y1 + (y2 - y1) / 2f).color(color());
+                vertices.vertex(pose(), (float) current[0] + sin, (float) current[1] + cos).color(color());
+                vertices.vertex(pose(), (float) current[0] + sin2, (float) current[1] + cos2).color(color());
             }
             float rad1 = (float) Math.toRadians((360 / 4d + i * 90d));
             float sin = (float) (Math.sin(rad1) * rad);
             float cos = (float) (Math.cos(rad1) * rad);
-            vertices.vertex(pose(), x1 + (x2 - x1) / 2f, y1 + (y2 - y1) / 2f, depth).color(color());
-            vertices.vertex(pose(), (float) current[0] + sin, (float) current[1] + cos, depth).color(color());
-            vertices.vertex(pose(), (float) map[(i + 1) % 4][0] + sin, (float) map[(i + 1) % 4][1] + cos, depth).color(color());
+            vertices.vertex(pose(), x1 + (x2 - x1) / 2f, y1 + (y2 - y1) / 2f).color(color());
+            vertices.vertex(pose(), (float) current[0] + sin, (float) current[1] + cos).color(color());
+            vertices.vertex(pose(), (float) map[(i + 1) % 4][0] + sin, (float) map[(i + 1) % 4][1] + cos).color(color());
         }
     }
     

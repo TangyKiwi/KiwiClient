@@ -131,7 +131,7 @@ public class ModuleManager {
         if(mc.currentScreen != null) return;
 
         // figure out handling for F keys and command prefix
-        if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3)) return;
+        if (InputUtil.isKeyPressed(mc.getWindow(), GLFW.GLFW_KEY_F3)) return;
 //
 //        if(InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_COMMA)) {
 //            mc.setScreen(new ChatScreen(""));

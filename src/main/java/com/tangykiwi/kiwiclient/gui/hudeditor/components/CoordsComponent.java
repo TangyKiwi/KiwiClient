@@ -23,7 +23,7 @@ public class CoordsComponent extends HUDComponent {
             return;
         }
 
-        Vec3d vec = mc.player.getPos();
+        Vec3d vec = mc.player.getEntityPos();
         float yaw = MathHelper.wrapDegrees(mc.getCameraEntity().getYaw());
         String dir = "";
         if(yaw > 157.5) dir = "N -Z";

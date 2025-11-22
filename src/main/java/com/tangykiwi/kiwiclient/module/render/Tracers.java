@@ -30,16 +30,16 @@ public class Tracers extends Module {
         float opacity = getSetting(1).asSlider().getValueFloat();
 
         for(Entity e : mc.world.getEntities()) {
-            Vec3d vec = e.getPos().subtract(RenderUtils.getInterpolationOffset(e));
+            Vec3d vec = e.getEntityPos().subtract(RenderUtils.getInterpolationOffset(e));
 
             Vec3d vec2 = new Vec3d(0, 0, 75)
                 .rotateX(-(float) Math.toRadians(mc.gameRenderer.getCamera().getPitch()))
                 .rotateY(-(float) Math.toRadians(mc.gameRenderer.getCamera().getYaw()))
-                .add(mc.cameraEntity.getEyePos());
+                .add(mc.getCameraEntity().getEyePos());
 
             int color = -1;
 
-            if(EntityUtils.isPlayer(e) && e != mc.player && e != mc.cameraEntity && getSetting("Players").asToggle().getValue()) {
+            if(EntityUtils.isPlayer(e) && e != mc.player && e != mc.getCameraEntity() && getSetting("Players").asToggle().getValue()) {
                 color = getColor(e);
             } else if(EntityUtils.isAnimal(e) && getSetting("Animals").asToggle().getValue()) {
                 color = getColor(e);

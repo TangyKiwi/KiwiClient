@@ -24,13 +24,13 @@ public record CustomLineRenderState(RenderPipeline pipeline,
     }
 
     @Override
-    public void setupVertices(VertexConsumer vertices, float depth) {
+    public void setupVertices(VertexConsumer vertices) {
         var offset = new Vector2d(x2() - x(), y2() - y()).perpendicular().normalize().mul(thickness() * .5d);
 
-        vertices.vertex(pose, (float) (x() + offset.x), (float) (y() + offset.y), depth).color(color());
-        vertices.vertex(pose, (float) (x() - offset.x), (float) (y() - offset.y), depth).color(color());
-        vertices.vertex(pose, (float) (x2() - offset.x), (float) (y2() - offset.y), depth).color(color());
-        vertices.vertex(pose, (float) (x2() + offset.x), (float) (y2() + offset.y), depth).color(color());
+        vertices.vertex(pose, (float) (x() + offset.x), (float) (y() + offset.y)).color(color());
+        vertices.vertex(pose, (float) (x() - offset.x), (float) (y() - offset.y)).color(color());
+        vertices.vertex(pose, (float) (x2() - offset.x), (float) (y2() - offset.y)).color(color());
+        vertices.vertex(pose, (float) (x2() + offset.x), (float) (y2() + offset.y)).color(color());
     }
 
     @Nullable

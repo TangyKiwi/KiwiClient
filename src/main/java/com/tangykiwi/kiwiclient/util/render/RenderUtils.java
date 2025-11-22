@@ -223,7 +223,7 @@ public class RenderUtils {
     }
 
     public static void drawBoxOutline(Box box, int color, double lineWidth, Direction... excludeDirs) {
-        if (!mc.worldRenderer.frustum.isVisible(box)) return;
+        // if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
         MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
         BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR_NORMAL);
@@ -236,7 +236,7 @@ public class RenderUtils {
     }
 
     public static void drawBoxFilled(Box box, int color, Direction... excludeDirs) {
-        if (!mc.worldRenderer.frustum.isVisible(box)) return;
+        // if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
         MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
         BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);

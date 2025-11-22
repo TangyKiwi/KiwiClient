@@ -121,7 +121,7 @@ public class Server extends Command {
     }
 
     public String getPing() {
-        PlayerListEntry playerEntry = mc.player.networkHandler.getPlayerListEntry(mc.player.getGameProfile().getId());
+        PlayerListEntry playerEntry = mc.player.networkHandler.getPlayerListEntry(mc.player.getGameProfile().id());
         return playerEntry == null ? "0" : Integer.toString(playerEntry.getLatency());
     }
 

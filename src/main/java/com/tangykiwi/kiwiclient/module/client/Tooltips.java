@@ -92,17 +92,4 @@ public class Tooltips extends Module {
         if (effect.getEffectType().value().isBeneficial()) return text.formatted(Formatting.BLUE);
         return text.formatted(Formatting.RED);
     }
-
-    @Subscribe
-    public void getTooltipData(TooltipDataEvent event) {
-        
-    }
-
-    public static boolean hasItems(ItemStack itemStack) {
-        ContainerComponentAccessor container = ((ContainerComponentAccessor) (Object) itemStack.get(DataComponentTypes.CONTAINER));
-        if (container != null && !container.getStacks().isEmpty()) return true;
-
-        NbtComponent blockEntityData = itemStack.get(DataComponentTypes.BLOCK_ENTITY_DATA);
-        return blockEntityData != null && blockEntityData.contains("Items");
-    }
 }

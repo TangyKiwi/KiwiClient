@@ -11,6 +11,7 @@ import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 import com.tangykiwi.kiwiclient.module.Module;
 
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.sound.SoundEvents;
@@ -41,7 +42,7 @@ public class BindSetting extends Setting<Integer> {
                 PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
         }
 
-        String name = getValue() < 0 ? "NONE" : InputUtil.fromKeyCode(getValue(), -1).getLocalizedText().getString();
+        String name = getValue() < 0 ? "NONE" : InputUtil.fromKeyCode(new KeyInput(getValue(), -1, -1)).getLocalizedText().getString();
         if (name == null) name = "KEY" + getValue();
         else if (name.isEmpty()) name = "NONE";
 

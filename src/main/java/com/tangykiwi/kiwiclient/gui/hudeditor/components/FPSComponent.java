@@ -13,7 +13,7 @@ public class FPSComponent extends HUDComponent {
     public void render(DrawContext context) {
         super.render(context);
         
-        int fps = (mc.fpsDebugString.equals("")) ? 0 : Integer.parseInt(mc.fpsDebugString.replaceAll("[^\\d]", " ").trim().replaceAll(" +", " ").split(" ")[0]);
+        int fps = mc.getCurrentFps();
         String renderString = String.format("FPS: %d", fps);
         setWidth((int) fontRenderer.getStringWidth(renderString));
         fontRenderer.drawString(context, renderString, getX(), getY(), getColorString(fps, 80, 60, 30, 15, 10, false));

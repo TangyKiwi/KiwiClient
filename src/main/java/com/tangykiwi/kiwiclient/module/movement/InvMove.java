@@ -26,12 +26,12 @@ public class InvMove extends Module {
         if (shouldInvMove(mc.currentScreen)) {
             for (KeyBinding k : new KeyBinding[] { mc.options.forwardKey, mc.options.backKey,
                     mc.options.leftKey, mc.options.rightKey, mc.options.jumpKey, mc.options.sprintKey }) {
-                k.setPressed(InputUtil.isKeyPressed(mc.getWindow().getHandle(),
+                k.setPressed(InputUtil.isKeyPressed(mc.getWindow(),
                         InputUtil.fromTranslationKey(k.getBoundKeyTranslationKey()).getCode()));
             }
 
             if (getSetting(0).asToggle().getValue()) {
-                mc.options.sneakKey.setPressed(InputUtil.isKeyPressed(mc.getWindow().getHandle(),
+                mc.options.sneakKey.setPressed(InputUtil.isKeyPressed(mc.getWindow(),
                         InputUtil.fromTranslationKey(mc.options.sneakKey.getBoundKeyTranslationKey()).getCode()));
             }
         }

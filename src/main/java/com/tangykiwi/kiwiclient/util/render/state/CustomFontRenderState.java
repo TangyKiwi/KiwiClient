@@ -25,11 +25,11 @@ public record CustomFontRenderState(RenderPipeline pipeline,
     }
 
     @Override
-    public void setupVertices(VertexConsumer vertices, float depth) {
-        vertices.vertex(pose(), xo + 0, yo + h * mult, depth).texture(u1, v2).color(cr, cg, cb, ca);
-        vertices.vertex(pose(), xo + w, yo + h * mult, depth).texture(u2, v2).color(cr, cg, cb, ca);
-        vertices.vertex(pose(), xo + w, yo + 0, depth).texture(u2, v1).color(cr, cg, cb, ca);
-        vertices.vertex(pose(), xo + 0, yo + 0, depth).texture(u1, v1).color(cr, cg, cb, ca);
+    public void setupVertices(VertexConsumer vertices) {
+        vertices.vertex(pose(), xo + 0, yo + h * mult).texture(u1, v2).color(cr, cg, cb, ca);
+        vertices.vertex(pose(), xo + w, yo + h * mult).texture(u2, v2).color(cr, cg, cb, ca);
+        vertices.vertex(pose(), xo + w, yo + 0).texture(u2, v1).color(cr, cg, cb, ca);
+        vertices.vertex(pose(), xo + 0, yo + 0).texture(u1, v1).color(cr, cg, cb, ca);
     }
 
     @Nullable

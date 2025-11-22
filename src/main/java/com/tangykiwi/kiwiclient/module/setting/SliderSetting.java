@@ -83,7 +83,7 @@ public class SliderSetting extends Setting<Double> {
                 setValue(round(percent * (max - min) / 100 + min, decimals));
             }
 
-            if (window.mwScroll != 0 && InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
+            if (window.mwScroll != 0 && InputUtil.isKeyPressed(mc.getWindow(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
                 double units = 1 / (Math.pow(10, decimals));
 
                 setValue(MathHelper.clamp(getValue() + units * window.mwScroll, min, max));

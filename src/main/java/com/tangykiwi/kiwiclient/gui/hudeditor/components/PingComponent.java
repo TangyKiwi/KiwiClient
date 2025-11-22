@@ -21,7 +21,7 @@ public class PingComponent extends HUDComponent {
             return;
         }
 
-        PlayerListEntry playerEntry = mc.player.networkHandler.getPlayerListEntry(mc.player.getGameProfile().getId());
+        PlayerListEntry playerEntry = mc.player.networkHandler.getPlayerListEntry(mc.player.getGameProfile().id());
         int ping = playerEntry == null ? 0 : playerEntry.getLatency();
         renderString = String.format("Ping: %d", ping);
         setWidth((int) fontRenderer.getStringWidth(renderString));

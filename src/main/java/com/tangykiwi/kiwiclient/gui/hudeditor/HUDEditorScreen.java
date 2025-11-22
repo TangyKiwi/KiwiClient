@@ -27,7 +27,9 @@ import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.sound.SoundEvents;
@@ -99,7 +101,7 @@ public class HUDEditorScreen extends Base {
         fontRenderer.drawCenteredStringWithShadow(context, "ClickGUI", width / 2 - 26, 2, 0xf0f0f0);
         fontRenderer.drawCenteredStringWithShadow(context, "HUD Editor", width / 2 + 26, 2, 0xf0f0f0);
 
-        if (InputUtil.isKeyPressed(KiwiClient.mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+        if (InputUtil.isKeyPressed(KiwiClient.mc.getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
             RenderUtils.drawLine2D(context, KiwiClient.mc.currentScreen.width / 2F, 0F, KiwiClient.mc.currentScreen.width / 2F, (float) KiwiClient.mc.currentScreen.height, 0.5F, 0xFFFFFFFF);
             RenderUtils.drawLine2D(context, 0F, KiwiClient.mc.currentScreen.height / 2F, (float) KiwiClient.mc.currentScreen.width, KiwiClient.mc.currentScreen.height / 2F, 0.5F, 0xFFFFFFFF);
         }
@@ -114,7 +116,10 @@ public class HUDEditorScreen extends Base {
         mwvScroll = 0;
     }
 
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(Click click, boolean doubled) {
+        double mouseX = click.x();
+        double mouseY = click.y();
+        int button = click.button();
         if (button == 0) {
             if (mouseX >= width / 2 - 50 && mouseX <= width / 2 - 2 && mouseY >= 0 && mouseY <= 12) {
 				this.client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1f));
@@ -138,27 +143,30 @@ public class HUDEditorScreen extends Base {
             }
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(click, doubled);
     }
 
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (button == 0) lmHeld = false;
+    public boolean mouseReleased(Click click) {
+        if (click.button() == 0) lmHeld = false;
 
         for (HUDComponent component : components) {
-            component.mouseReleased(mouseX, mouseY, button);
+            component.mouseReleased(click.x(), click.y(), click.button());
         }
 
-        return super.mouseReleased(mouseX, mouseY, button);
+        return super.mouseReleased(click);
     }
 
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyInput keyInput) {
+        int keyCode = keyInput.getKeycode();
+        int scanCode = keyInput.scancode();
+        int modifiers = keyInput.modifiers();
         keyDown = keyCode;
 
         for (HUDComponent component : components) {
             component.keyPressed(keyCode, scanCode, modifiers);
         }
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(keyInput);
     }
 
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {

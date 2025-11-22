@@ -24,16 +24,16 @@ public record CustomCircleRenderState(RenderPipeline pipeline,
     }
 
     @Override
-    public void setupVertices(VertexConsumer vertices, float depth) {
+    public void setupVertices(VertexConsumer vertices) {
         double angleStep = Math.toRadians(a2() - a1()) / samples();
 
 
         for (int i = samples(); i >= 0; i--) {
             double theta = Math.toRadians(a1()) + i * angleStep;
-            vertices.vertex(pose(), x(), y(), depth).color(color());
-            vertices.vertex(pose(), (float) (x() - Math.cos(theta) * rad()), (float) (y() - Math.sin(theta) * rad()), depth)
+            vertices.vertex(pose(), x(), y()).color(color());
+            vertices.vertex(pose(), (float) (x() - Math.cos(theta) * rad()), (float) (y() - Math.sin(theta) * rad()))
                 .color(color());
-            vertices.vertex(pose(), (float) (x() - Math.cos(theta + angleStep) * rad()), (float) (y() - Math.sin(theta + angleStep) * rad()), depth)
+            vertices.vertex(pose(), (float) (x() - Math.cos(theta + angleStep) * rad()), (float) (y() - Math.sin(theta + angleStep) * rad()))
                 .color(color());
         }
     }

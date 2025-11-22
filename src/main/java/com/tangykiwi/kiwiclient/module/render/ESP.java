@@ -36,15 +36,15 @@ public class ESP extends Module {
 
             for (Entity entity : mc.world.getEntities()) {
                 if (entity == mc.player || entity == mc.player.getVehicle()) continue;
-                int[] color_arr = getColor(entity);
-                if (color_arr != null) {
+                int color = getColor(entity);
+                if (color != -1) {
                     if (fill != 0 && (getSetting("Mode").asMode().getValue() == 1 || getSetting("Mode").asMode().getValue() == 3)) {
-                        int color = ((int)(fill * 255) << 24) | (color_arr[0] << 16) | (color_arr[1] << 8) | color_arr[2];
-                        RenderUtils.drawBoxFilled(entity.getBoundingBox(), color);
+                        int fillColor = ((int)(fill * 255) << 24) | color;
+                        RenderUtils.drawBoxFilled(entity.getBoundingBox(), fillColor);
                     }
                     if (getSetting("Mode").asMode().getValue() == 1 || getSetting("Mode").asMode().getValue() == 2) {
-                        int color = (255 << 24) | (color_arr[0] << 16) | (color_arr[1] << 8) | color_arr[2];
-                        RenderUtils.drawBoxOutline(entity.getBoundingBox(), color, width);
+                        int outlineColor = (255 << 24) | color;
+                        RenderUtils.drawBoxOutline(entity.getBoundingBox(), outlineColor, width);
                     }
 
                 }
@@ -52,17 +52,17 @@ public class ESP extends Module {
         }
     }
 
-    public int[] getColor(Entity entity) {
+    public int getColor(Entity entity) {
         if (EntityUtils.isPlayer(entity)) {
-            return new int[] { 255, 255, 255 };
+            return (255 << 16) | (255 << 8) | 255;
         } else if (EntityUtils.isMob(entity)) {
-            return new int[] { 255, 0, 0 };
+            return (255 << 16) | (0 << 8) | 0;
         } else if (EntityUtils.isAnimal(entity)) {
-            return new int[] { 77, 255, 77 };
+            return (77 << 16) | (255 << 8) | 77;
         } else if (entity instanceof ItemEntity || entity instanceof EndCrystalEntity || entity instanceof BoatEntity || entity instanceof AbstractMinecartEntity || entity instanceof ItemFrameEntity) {
-            return new int[] { 128, 128, 128 };
+            return (128 << 16) | (128 << 8) | 128;
         }
 
-        return null;
+        return -1;
     }
 }

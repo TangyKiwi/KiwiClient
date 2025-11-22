@@ -2,6 +2,8 @@ package com.tangykiwi.kiwiclient.module.render;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
+import java.awt.RenderingHints.Key;
+
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
@@ -10,6 +12,8 @@ import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.setting.SliderSetting;
+
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.option.Perspective;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -68,7 +72,7 @@ public class Freecam extends Module {
     public void onTick(TickEvent.Post event) {
         if (mc.player == null) return;
 
-        if (mc.cameraEntity.isInsideWall()) {
+        if (mc.getCameraEntity().isInsideWall()) {
             mc.getCameraEntity().noClip = true;
         }
         if (!perspective.isFirstPerson()) {
@@ -83,7 +87,7 @@ public class Freecam extends Module {
             double velZ = 0.0D;
 
             if(mc.crosshairTarget instanceof EntityHitResult) {
-                lookAt(((EntityHitResult) mc.crosshairTarget).getEntity().getPos());
+                lookAt(((EntityHitResult) mc.crosshairTarget).getEntity().getEntityPos());
                 target = true;
             } else if (mc.crosshairTarget instanceof BlockHitResult) {
                 lookAt(mc.crosshairTarget.getPos());
@@ -177,19 +181,19 @@ public class Freecam extends Module {
     @Subscribe
     @AllowConcurrentEvents
     private void onKey(KeyPressEvent event) {
-        int keyCode = event.getKeyCode();
+        KeyInput input = event.getKeyInput();
         boolean cancel = true;
-        if (mc.options.forwardKey.matchesKey(keyCode, 0)) {
+        if (mc.options.forwardKey.matchesKey(input)) {
             this.forward = event.getAction() != 0;
-        } else if (mc.options.backKey.matchesKey(keyCode, 0)) {
+        } else if (mc.options.backKey.matchesKey(input)) {
             this.backward = event.getAction() != 0;
-        } else if (mc.options.rightKey.matchesKey(keyCode, 0)) {
+        } else if (mc.options.rightKey.matchesKey(input)) {
             this.right = event.getAction() != 0;
-        } else if (mc.options.leftKey.matchesKey(keyCode, 0)) {
+        } else if (mc.options.leftKey.matchesKey(input)) {
             this.left = event.getAction() != 0;
-        } else if (mc.options.jumpKey.matchesKey(keyCode, 0)) {
+        } else if (mc.options.jumpKey.matchesKey(input)) {
             this.up = event.getAction() != 0;
-        } else if (mc.options.sneakKey.matchesKey(keyCode, 0)) {
+        } else if (mc.options.sneakKey.matchesKey(input)) {
             this.down = event.getAction() != 0;
         } else {
             cancel = false;

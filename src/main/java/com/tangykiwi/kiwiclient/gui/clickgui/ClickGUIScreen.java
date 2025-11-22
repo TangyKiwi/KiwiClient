@@ -7,7 +7,9 @@ import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -82,7 +84,10 @@ public class ClickGUIScreen extends Base {
         mwvScroll = 0;
     }
 
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(Click click, boolean doubled) {
+        double mouseX = click.x();
+        double mouseY = click.y();
+        int button = click.button();
         if (button == 0) {
             if (mouseX >= width / 2 - 50 && mouseX <= width / 2 - 2 && mouseY >= 0 && mouseY <= 12) {
 				this.client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1f));
@@ -105,27 +110,30 @@ public class ClickGUIScreen extends Base {
             }
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(click, doubled);
     }
 
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (button == 0) lmHeld = false;
+    public boolean mouseReleased(Click click) {
+        if (click.button() == 0) lmHeld = false;
 
         for (CategoryWindow window : windows) {
-            window.mouseReleased(mouseX, mouseY, button);
+            window.mouseReleased(click.x(), click.y(), click.button());
         }
 
-        return super.mouseReleased(mouseX, mouseY, button);
+        return super.mouseReleased(click);
     }
 
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyInput keyInput) {
+        int keyCode = keyInput.getKeycode();
+        int scanCode = keyInput.scancode();
+        int modifiers = keyInput.modifiers();
         keyDown = keyCode;
 
         for (CategoryWindow window : windows) {
             window.keyPressed(keyCode, scanCode, modifiers);
         }
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(keyInput);
     }
 
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
