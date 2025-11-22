@@ -29,6 +29,7 @@ public class ModuleManager {
         // client
         moduleList.add(new ClickGUI());
         moduleList.add(new HUD());
+        moduleList.add(new Tooltips());
 
         // combat
         moduleList.add(new TriggerBot());

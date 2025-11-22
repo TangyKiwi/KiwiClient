@@ -32,6 +32,8 @@
     "HeightContextMixin",
     "HeightRangePlacementModifierAccessor",
     "InGameHudMixin",
+    "ItemMixin",
+    "ItemStackMixin",
     "KeyboardMixin",
     "LightmapTextureManagerMixin",
     "MinecraftClientMixin",

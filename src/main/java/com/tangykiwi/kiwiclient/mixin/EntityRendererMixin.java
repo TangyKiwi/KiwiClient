@@ -83,22 +83,6 @@ public class EntityRendererMixin {
 			textRenderer.draw(text, f, (float)i, -2130706433, false, matrix4f, vertexConsumers, TextLayerType.SEE_THROUGH, j, light);
 			textRenderer.draw(text, f, (float)i, -1, false, matrix4f, vertexConsumers, TextLayerType.SEE_THROUGH, 0, LightmapTextureManager.applyEmission(light, 2));
 			matrices.pop();
-
-			if (iState.getEntity() instanceof LivingEntity livingEntity) {
-				int[] xOffsets = {-45, -27, -9, 9, 27, 45};
-				for (int k = 0; k < 6; k++) {
-					ItemStack itemStack = getItem(livingEntity, k);
-					if (!itemStack.isEmpty()) {
-						// KiwiClient.LOGGER.info(livingEntity.getName().getString() + " : " + itemStack.getName().getString());
-						matrices.push();
-						matrices.translate(xOffsets[k] * 0.025F, 10 * 0.025F, 0);
-						matrices.scale(scale * 0.5F, scale * 0.5F, scale * 0.5F);
-						mc.getItemRenderer().renderItem(itemStack, ItemDisplayContext.GUI, 0xF000F0, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, iState.getEntity().getWorld(), 0);
-						matrices.pop();
-					}
-				}
-			}
-
 			matrices.pop();
       	}
    }
