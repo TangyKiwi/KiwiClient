@@ -5,7 +5,7 @@ import net.minecraft.util.Identifier;
 public class Textures {
     public static Identifier LOGO = Identifier.of("kiwiclient", "textures/logo.png");
     public static Identifier LOGO2 = Identifier.of("kiwiclient", "textures/logo2.png");
-    public static Identifier EARS = Identifier.of("kiwiclient:textures/cosmetic/ears.png");
+    public static Identifier EARS = Identifier.of("kiwiclient:textures/cosmetic/ears2.png");
     public static Identifier DUCK = Identifier.of("kiwiclient:textures/hud/duck.png");
     public static Identifier DUCK_GIF = Identifier.of("kiwiclient:textures/hud/duck_gif.png");
     public static Identifier INV_BG = Identifier.of("kiwiclient:textures/hud/inv_bg.png");

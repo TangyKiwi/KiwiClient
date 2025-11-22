@@ -35,11 +35,13 @@ public class Fly extends Module{
 
     @Override
     public void onEnable() {
+        if (mc.player == null) return;
         if(getSetting(0).asMode().getValue() == 0 && !mc.player.isSpectator()) {
             float speed = getSetting(2).asSlider().getValueFloat();
             mc.player.getAbilities().setFlySpeed(speed / 10);
-            mc.player.getAbilities().allowFlying = true;
             mc.player.getAbilities().flying = true;
+            if (mc.player.getAbilities().creativeMode) return;
+            mc.player.getAbilities().allowFlying = true;
         }
 
         super.onEnable();
@@ -48,8 +50,8 @@ public class Fly extends Module{
     @Override
     public void onDisable() {
         if(getSetting(0).asMode().getValue() == 0 && !mc.player.isSpectator()) {
-            abilitiesOff();
             mc.player.getAbilities().setFlySpeed(0.05f);
+            abilitiesOff();            
         }
 
         super.onDisable();
@@ -58,6 +60,7 @@ public class Fly extends Module{
     @Subscribe
     @AllowConcurrentEvents
     public void onPreTick(TickEvent.Pre event) {
+        if (mc.player == null) return;
         float currentYaw = mc.player.getYaw();
         if (mc.player.fallDistance >= 3f && currentYaw == lastYaw && mc.player.getVelocity().length() < 0.003d) {
             mc.player.setYaw(currentYaw + (flip ? 1 : -1));
@@ -69,6 +72,7 @@ public class Fly extends Module{
     @Subscribe
     @AllowConcurrentEvents
     public void onPostTick(TickEvent.Post event) {
+        if (mc.player == null) return;
         if (delayLeft > 0) delayLeft--;
 
         if (offLeft <= 0 && delayLeft <= 0) {
@@ -113,7 +117,6 @@ public class Fly extends Module{
             if (mc.player.isSpectator()) return;
             mc.player.getAbilities().setFlySpeed(speed / 10);
             mc.player.getAbilities().flying = true;
-            if (mc.player.getAbilities().creativeMode) return;
             mc.player.getAbilities().allowFlying = true;
         }
     }
@@ -158,7 +161,7 @@ public class Fly extends Module{
     @Subscribe
     @AllowConcurrentEvents
     public void onPacketReceive(PacketEvent.Receive event) {
-        if (!(event.packet instanceof PlayerAbilitiesS2CPacket packet) || getSetting(0).asMode().getValue() == 0) return;
+        if (!(event.packet instanceof PlayerAbilitiesS2CPacket packet) || getSetting(0).asMode().getValue() == 1) return;
         event.cancel(); // Cancel packet, so fly won't be toggled
 
         mc.player.getAbilities().invulnerable = packet.isInvulnerable();

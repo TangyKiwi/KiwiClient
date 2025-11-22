@@ -57,8 +57,7 @@ public class ConfigManager {
                 if (mo.has("toggled")) {
                     try {
                         boolean enabled = mo.get("toggled").getAsBoolean();
-                        if (enabled) module.enable();
-                        else module.setEnabled(false);
+                        module.setEnabled(enabled);
                     } catch (Exception ex) {
                         LOGGER.error("Error enabling module " + e.getKey() + ", disabling!");
                         module.setEnabled(false);

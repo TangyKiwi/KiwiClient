@@ -19,7 +19,6 @@ import net.minecraft.network.handler.PacketEncoderException;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BundleS2CPacket;
-import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
 
 @Mixin(value = ClientConnection.class, priority = 1010)
 public class ClientConnectionMixin {

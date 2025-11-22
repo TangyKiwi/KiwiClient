@@ -3,23 +3,27 @@ package com.tangykiwi.kiwiclient.mixin;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.WorldRenderEvent;
+import com.tangykiwi.kiwiclient.module.render.ESP;
 import com.tangykiwi.kiwiclient.module.render.NoRender;
 
 import net.minecraft.client.render.Camera;
+import net.minecraft.client.render.OutlineVertexConsumerProvider;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.WeatherRendering;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.ObjectAllocator;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -43,5 +47,21 @@ public class WorldRendererMixin {
     public void onWorldRenderTail(ObjectAllocator allocator, RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f projectionMatrix, GpuBufferSlice fog, Vector4f fogColor, boolean shouldRenderSky, CallbackInfo ci) {
         WorldRenderEvent.Post event = new WorldRenderEvent.Post(positionMatrix, projectionMatrix);
         KiwiClient.eventBus.post(event);
+    }
+
+    @Inject(method = "hasBlindnessOrDarkness(Lnet/minecraft/client/render/Camera;)Z", at = @At("HEAD"), cancellable = true)
+	private void hasBlindnessOrDarkness(Camera camera, CallbackInfoReturnable<Boolean> info) {
+		if (KiwiClient.moduleManager.getModule(NoRender.class).getSetting("Blindness").asToggle().getValue() || KiwiClient.moduleManager.getModule(NoRender.class).getSetting("Darkness").asToggle().getValue()) info.setReturnValue(null);
+	}
+
+    @Inject(method = "renderEntity", at = @At("HEAD"))
+    private void onRenderEntity(Entity entity, double cameraX, double cameraY, double cameraZ, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, CallbackInfo ci) {
+        ESP esp = (ESP) KiwiClient.moduleManager.getModule(ESP.class);
+        if (esp.isEnabled() && esp.getSetting("Mode").asMode().getValue() == 0 && vertexConsumers instanceof OutlineVertexConsumerProvider outlineVertexConsumerProvider) {
+            int[] color = esp.getColor(entity);
+            if (color != null) {
+                outlineVertexConsumerProvider.setColor(color[0], color[1], color[2], 255);
+            }
+        }
     }
 }

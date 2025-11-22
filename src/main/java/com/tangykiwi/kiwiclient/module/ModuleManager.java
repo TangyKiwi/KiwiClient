@@ -5,17 +5,11 @@ import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.module.client.*;
-import com.tangykiwi.kiwiclient.module.combat.TriggerBot;
-import com.tangykiwi.kiwiclient.module.movement.Fly;
-import com.tangykiwi.kiwiclient.module.movement.NoFall;
-import com.tangykiwi.kiwiclient.module.movement.Speed;
-import com.tangykiwi.kiwiclient.module.other.DummyModule;
-import com.tangykiwi.kiwiclient.module.player.AntiHunger;
-import com.tangykiwi.kiwiclient.module.render.Freecam;
-import com.tangykiwi.kiwiclient.module.render.FullBright;
-import com.tangykiwi.kiwiclient.module.render.NoRender;
-import com.tangykiwi.kiwiclient.module.render.SeedRay;
-import com.tangykiwi.kiwiclient.module.render.XRay;
+import com.tangykiwi.kiwiclient.module.combat.*;
+import com.tangykiwi.kiwiclient.module.movement.*;
+import com.tangykiwi.kiwiclient.module.other.*;
+import com.tangykiwi.kiwiclient.module.player.*;
+import com.tangykiwi.kiwiclient.module.render.*;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
@@ -35,26 +29,34 @@ public class ModuleManager {
         // client
         moduleList.add(new ClickGUI());
         moduleList.add(new HUD());
+        moduleList.add(new Tooltips());
 
         // combat
         moduleList.add(new TriggerBot());
 
         // movement
         moduleList.add(new Fly());
+        moduleList.add(new InvMove());
         moduleList.add(new NoFall());
         moduleList.add(new Speed());
 
         // other
+        moduleList.add(new Cape());
+        moduleList.add(new Deadmau5Ears());
         moduleList.add(new DummyModule());
 
         // player
         moduleList.add(new AntiHunger());
+        moduleList.add(new FastBreak());
 
         // render
+        moduleList.add(new ESP());
         moduleList.add(new Freecam());
         moduleList.add(new FullBright());
+        moduleList.add(new Nametags());
         moduleList.add(new NoRender());
         moduleList.add(new SeedRay());
+        moduleList.add(new Tracers());
         moduleList.add(new XRay());
     }
 
@@ -67,7 +69,7 @@ public class ModuleManager {
             }
         }
 
-        Collections.sort(enabledMods, new ModuleComparator(fontRenderer));
+        if (fontRenderer != null) Collections.sort(enabledMods, new ModuleComparator(fontRenderer));
 
         return enabledMods;
     }

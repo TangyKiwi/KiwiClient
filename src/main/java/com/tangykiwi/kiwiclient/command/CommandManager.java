@@ -18,12 +18,15 @@ public class CommandManager {
     public void init() {
         add(new Ez());
         add(new FF());
+        add(new Gamemode());
+        add(new NBT());
         add(new ResetClickGUI());
         add(new ResetHUD());
         add(new Server());
         add(new SetSeedRay());
         add(new Toggle());
         add(new Unbind());
+        add(new VClip());
 
         COMMANDS.sort(Comparator.comparing(Command::getName));
     }

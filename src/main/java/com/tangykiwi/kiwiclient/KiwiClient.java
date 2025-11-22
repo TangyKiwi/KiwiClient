@@ -7,6 +7,7 @@ import com.tangykiwi.kiwiclient.gui.hudeditor.HUDEditorScreen;
 import com.tangykiwi.kiwiclient.module.ModuleManager;
 import com.tangykiwi.kiwiclient.util.ConfigManager;
 import com.tangykiwi.kiwiclient.util.DiscordRPC;
+import com.tangykiwi.kiwiclient.util.TickRate;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import net.fabricmc.api.ModInitializer;
 
@@ -35,6 +36,8 @@ public class KiwiClient implements ModInitializer {
 	public static ModuleManager moduleManager;
 	public static CommandManager commandManager;
 	public static FontManager fontManager;
+	
+	public static TickRate tickRate;
 
 	public static String PREFIX = ",";
 
@@ -79,5 +82,7 @@ public class KiwiClient implements ModInitializer {
 		ConfigManager.loadModules("default");
 		ConfigManager.loadClickGUI("default");
 		ConfigManager.loadHUD("default");
+
+		tickRate = new TickRate();
 	}
 }
