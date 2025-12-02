@@ -2,12 +2,12 @@
 <img src="https://cdn.discordapp.com/emojis/783170477115965480.gif?v=1" width="20%"/>
 </p>
 
-<h1 align="center">KiwiClient</h1>
+<h1 align="center">KiwiClient v2</h1>
 
 <div align="center">
     <img src="https://img.shields.io/github/last-commit/TangyKiwi/KiwiClient/v2" alt="GitHub last commit"/>
     <img src="https://img.shields.io/github/actions/workflow/status/TangyKiwi/KiwiClient/build.yml?branch=v2" alt="Build status"/>
-    <img src="https://img.shields.io/badge/MC-1.21.8-brightgreen.svg" alt="Minecraft"/>
+    <img src="https://img.shields.io/badge/MC-1.21.10-brightgreen.svg" alt="Minecraft"/>
     <br>
     <img src="https://img.shields.io/github/v/release/TangyKiwi/KiwiClient.svg" alt="Release"/>
     <img src="https://img.shields.io/github/languages/code-size/TangyKiwi/KiwiClient" alt="GitHub code size in bytes"/>
@@ -42,38 +42,36 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 <details>
 <summary>Client</summary>
 - ActiveMods<br>
-- BetterChat<br>
-- BetterTab<br>
+- *BetterChat<br>
+- *BetterTab<br>
 - ClickGui<br>
-- Compass<br>
-- HUD<br>
-- InventoryViewer<br>
-- MountHUD<br>  
-- NoScoreboard<br>
-- PotionTimers<br>
-- Time<br>
-- Tooltips<br>
+- *Compass<br>
+- HUD<br>  
+- *NoScoreboard<br>
+- *PotionTimers<br>
+- *Time<br>
+- *Tooltips<br>
 - VanillaSpoof<br>
 </details>
 
 <details>
 <summary>Combat</summary>
 - Criticals<br>
-- TargetHUD<br>
+- *TargetHUD<br>
 - TriggerBot<br>
 </details>
 
 <details>
 <summary>Movement</summary>
-- BoatPhase<br>
-- ElytraFly<br>
-- EntityFly<br>
-- FastBridge<br>
+- *BoatPhase<br>
+- *ElytraFly<br>
+- *EntityFly<br>
+- *FastBridge<br>
 - Fly<br>
 - InvMove<br>
 - NoFall<br>
-- NoWorldBorder<br>
-- SafeWalk<br>
+- *NoWorldBorder<br>
+- *SafeWalk<br>
 - Speed<br>
 </details>
 
@@ -81,8 +79,8 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 <summary>Player</summary>
 - AntiBlind<br>
 - AntiHunger<br>
-- AutoContainer<br>
-- AutoTool<br>
+- *AutoContainer<br>
+- *AutoTool<br>
 </details>
 
 <details>
@@ -90,52 +88,53 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - ESP<br>
 - Freecam<br>
 - Fullbright<br>
-- ItemPhysics<br>
-- LogoutSpots<br>
-- Nametags<br>
-- NoPortal<br>
+- *ItemPhysics<br>
+- *LogoutSpots<br>
+- *Nametags<br>
+- *NoPortal<br>
 - NoRender<br>
-- Search<br>
+- *Search<br>
 - SeedRay<br>
 - StorageESP<br>
-- TNTimer<br>
+- *TNTimer<br>
 - Tracers<br>
 - XRay<br>
-- Zoom<br>
+- *Zoom<br>
 </details>
 
 <details>
 <summary>Other</summary>
-- AntiHuman<br>
-- Background<br>
-- Cape<br>
-- Deadmau5Ears<br>
-- LoadingScreen<br>
+- *AntiHuman<br>
+- *Background<br>
+- *Cape<br>
+- *Deadmau5Ears<br>
+- *LoadingScreen<br>
 - MainMenu<br>
-- NoIP<br>
-- NoLO<br>
+- *NoIP<br>
+- *NoLO<br>
 </details>
+
+\* to be implemented in v2 
 
 ### Commands
 - ,bind [module] [key]
-- ,enchant [type/enchantment] [level]
+- *,enchant [type/enchantment] [level]
 - ,ez
 - ,ff
 - ,gamemode [gamemode]
-- ,give [item{nbt}] [count]
-- ,lookat [x][y][z]
+- *,give [item{nbt}] [count]
+- *,lookat [x][y][z]
 - ,resetclickgui
-- ,say [message]
-- ,searchblocks [add/rem/list] [block]
+- *,say [message]
+- *,searchblocks [add/rem/list] [block]
 - ,server
 - ,seedray [seed]
-- ,target [name]
+- *,target [name]
 - ,toggle [module]
 - ,unbind [module]
 - ,vclip [blocks]
 
-### TODO
-- Other bugs in [Issues](https://github.com/TangyKiwi/KiwiClient/issues)
+\* to be implemented in v2
 
 ## Disclaimer
 
