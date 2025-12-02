@@ -116,23 +116,23 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 
 \* to be implemented in v2 
 
-### Commands
-- ,bind [module] [key]
-- *,enchant [type/enchantment] [level]
-- ,ez
-- ,ff
-- ,gamemode [gamemode]
-- *,give [item{nbt}] [count]
-- *,lookat [x][y][z]
-- ,resetclickgui
-- *,say [message]
-- *,searchblocks [add/rem/list] [block]
-- ,server
-- ,seedray [seed]
-- *,target [name]
-- ,toggle [module]
-- ,unbind [module]
-- ,vclip [blocks]
+### Commands (`,`)
+- *bind/b [module] [key]
+- *enchant [type/enchantment] [level]
+- ez
+- ff
+- gamemode [gamemode]
+- *give [item{nbt}] [count]
+- *lookat [x][y][z]
+- resetclickgui
+- *say [message]
+- *searchblocks [add/rem/list] [block]
+- server
+- seedray [seed]
+- *target [name]
+- toggle/t [module]
+- unbind/ub [module]
+- vclip [blocks]
 
 \* to be implemented in v2
 
