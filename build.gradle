@@ -1,90 +1,74 @@
 plugins {
-	id 'fabric-loom' version '1.13-SNAPSHOT'
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 }
 
+version = project.mod_version
+group = project.maven_group
+
 base {
-	version = project.mod_version
-	group = project.maven_group
 	archivesName = project.archives_base_name
 }
 
 repositories {
-	maven {
-		url 'https://jitpack.io'
-	}
-
-	maven {
-		name = "modrinth"
-		url = "https://api.modrinth.com/maven"
-
-		content {
-			includeGroup "maven.modrinth"
-		}
-	}
-
-	mavenCentral()
-}
-
-dependencies {
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-	include(implementation("com.github.JnCrMx:discord-game-sdk4j:0067367ec5"))
-
-	Set<String> apiModules = [
-			"fabric-api-base",
-			"fabric-item-group-api-v1",
-			"fabric-renderer-api-v1",
-			"fabric-events-interaction-v0",
-			"fabric-key-binding-api-v1",
-			"fabric-lifecycle-events-v1"
-	]
-	apiModules.forEach {
-		include(modImplementation(fabricApi.module(it, project.fabric_version)))
-	}
-
-	modCompileOnly("maven.modrinth:sodium:${project.sodium_version}") { transitive = false }
-
-	modImplementation "com.ptsmods:devlogin:3.5"
+	// Add repositories to retrieve artifacts from in here.
+	// You should only use this when depending on other mods because
+	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
+	// for more information about repositories.
 }
 
 loom {
-	accessWidenerPath = file("src/main/resources/kiwiclient.accesswidener")
-}
+	splitEnvironmentSourceSets()
 
-tasks {
-	processResources {
-		def propertyMap = [
-				"version"          : project.version,
-				"commit"           : project.findProperty("commit") ?: "",
-				"minecraft_version": project.minecraft_version,
-				"loader_version"   : project.loader_version
-		]
-
-		inputs.properties(propertyMap)
-		filesMatching("fabric.mod.json") {
-			expand(propertyMap)
+	mods {
+		"modid" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
 		}
 	}
 
-	java {
-		withSourcesJar()
-
-		sourceCompatibility = JavaVersion.VERSION_21
-		targetCompatibility = JavaVersion.VERSION_21
-	}
-
-	jar {
-		from("LICENSE") {
-			rename { "${it}_${project.base.archivesName}"}
-		}
-	}	
 }
 
-tasks.named("runClient") {
-    args "--msa-nostore"
+dependencies {
+	// To change the versions see the gradle.properties file
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	// Fabric API. This is technically optional, but you probably want it anyway.
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": inputs.properties.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+}
+
+java {
+	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+	// if it is present.
+	// If you remove this line, sources will not be generated.
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}
+
+jar {
+	inputs.property "archivesName", project.base.archivesName
+
+	from("LICENSE") {
+		rename { "${it}_${inputs.properties.archivesName}"}
+	}
 }
 
 // configure the maven publication
