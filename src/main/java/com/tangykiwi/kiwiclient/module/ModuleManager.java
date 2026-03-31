@@ -30,6 +30,7 @@ public class ModuleManager {
         moduleList.add(new ClickGUI());
         moduleList.add(new HUD());
         moduleList.add(new Tooltips());
+        moduleList.add(new VanillaSpoof());
 
         // combat
         moduleList.add(new TriggerBot());
@@ -56,6 +57,7 @@ public class ModuleManager {
         moduleList.add(new Nametags());
         moduleList.add(new NoRender());
         moduleList.add(new SeedRay());
+        moduleList.add(new StorageESP());
         moduleList.add(new Tracers());
         moduleList.add(new XRay());
     }
