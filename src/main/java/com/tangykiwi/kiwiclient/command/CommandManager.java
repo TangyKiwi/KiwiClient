@@ -4,7 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.tangykiwi.kiwiclient.command.commands.*;
 
-import net.minecraft.command.CommandSource;
+import net.minecraft.commands.CommandSource;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -5,16 +5,15 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.tangykiwi.kiwiclient.KiwiClient;
-import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.command.CommandSource;
-import net.minecraft.registry.BuiltinRegistries;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.text.Text;
+
+import net.minecraft.commands.CommandSource;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
 public abstract class Command {
-    protected static final CommandRegistryAccess REGISTRY_ACCESS = CommandManager.createRegistryAccess(BuiltinRegistries.createWrapperLookup());
+    protected static final CommandRegistryAccess REGISTRY_ACCESS = CommandManager.createRegistryAccess(BuiltInRegistries.createWrapperLookup());
 
     private final String name;
     private final String description;
@@ -71,12 +70,11 @@ public abstract class Command {
 
     public static void addMessage(String text) {
         String prefix = "§a[§6KiwiClient§a]§r";
-        KiwiClient.mc.inGameHud.getChatHud().addMessage(Text.literal(prefix + " " + text));
+        KiwiClient.mc.gui.getChat().addClientSystemMessage(Component.literal(prefix + " " + text));
     }
 
-    public void addMessage(Text text) {
-        String prefix = "§a[§6KiwiClient§a]§r ";
-        KiwiClient.mc.inGameHud.getChatHud().addMessage(Text.literal(prefix).append(text));
-        
-    }
+    // public void addMessage(Text text) {
+    //     String prefix = "§a[§6KiwiClient§a]§r ";
+    //     KiwiClient.mc.inGameHud.getChatHud().addMessage(Text.literal(prefix).append(text));   
+    // }
 }

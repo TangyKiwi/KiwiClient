@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.module;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.module.client.*;
@@ -13,7 +14,6 @@ import com.tangykiwi.kiwiclient.module.render.*;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
-import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -130,10 +130,10 @@ public class ModuleManager {
     @Subscribe
     @AllowConcurrentEvents
     public void handleKeyPress(KeyPressEvent e) {
-        if(mc.currentScreen != null) return;
+        if(mc.screen != null) return;
 
         // figure out handling for F keys and command prefix
-        if (InputUtil.isKeyPressed(mc.getWindow(), GLFW.GLFW_KEY_F3)) return;
+        if (InputConstants.isKeyDown(mc.getWindow(), GLFW.GLFW_KEY_F3)) return;
 //
 //        if(InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_COMMA)) {
 //            mc.setScreen(new ChatScreen(""));

@@ -14,7 +14,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.SharedConstants;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +25,9 @@ public class KiwiClient implements ModInitializer {
 	public static final Logger LOGGER;
 	public static final ModMetadata MOD_META;
 	public static final String VERSION;
-	public static final String MC_VERSION = SharedConstants.getGameVersion().name();
+	public static final String MC_VERSION = SharedConstants.getCurrentVersion().name();
 
-	public static MinecraftClient mc;
+	public static Minecraft mc;
 
 	public static DiscordRPC discordRPC;
 
@@ -52,7 +52,7 @@ public class KiwiClient implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Initializing KiwiClient");
 
-		mc = MinecraftClient.getInstance();
+		mc = Minecraft.getInstance();
 
 		LOGGER.info("Initializing DiscordRPC");
 		discordRPC = new DiscordRPC();
