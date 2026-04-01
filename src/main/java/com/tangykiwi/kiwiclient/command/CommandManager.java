@@ -4,7 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.tangykiwi.kiwiclient.command.commands.*;
 
-import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.SharedSuggestionProvider;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,7 +12,7 @@ import java.util.Comparator;
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 public class CommandManager {
-    public final CommandDispatcher<CommandSource> DISPATCHER = new CommandDispatcher<>();
+    public final CommandDispatcher<SharedSuggestionProvider> DISPATCHER = new CommandDispatcher<>();
     public final ArrayList<Command> COMMANDS = new ArrayList<>();
 
     public void init() {
@@ -38,7 +38,7 @@ public class CommandManager {
     }
 
     public void dispatch(String message) throws CommandSyntaxException {
-        DISPATCHER.execute(message, mc.getNetworkHandler().getCommandSource());
+        DISPATCHER.execute(message, mc.getConnection().getSuggestionsProvider());
     }
 
     public Command get(String name) {

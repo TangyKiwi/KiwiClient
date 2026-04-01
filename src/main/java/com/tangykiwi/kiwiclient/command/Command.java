@@ -6,14 +6,16 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.tangykiwi.kiwiclient.KiwiClient;
 
-import net.minecraft.commands.CommandSource;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
 public abstract class Command {
-    protected static final CommandRegistryAccess REGISTRY_ACCESS = CommandManager.createRegistryAccess(BuiltInRegistries.createWrapperLookup());
+    protected static final CommandBuildContext REGISTRY_ACCESS = Commands.createValidationContext(VanillaRegistries.createLookup());
 
     private final String name;
     private final String description;
@@ -25,26 +27,26 @@ public abstract class Command {
         this.aliases = List.of(aliases);
     }
 
-    protected static <T> RequiredArgumentBuilder<CommandSource, T> argument(final String name, final ArgumentType<T> type) {
+    protected static <T> RequiredArgumentBuilder<SharedSuggestionProvider, T> argument(final String name, final ArgumentType<T> type) {
         return RequiredArgumentBuilder.argument(name, type);
     }
 
-    protected static LiteralArgumentBuilder<CommandSource> literal(final String name) {
+    protected static LiteralArgumentBuilder<SharedSuggestionProvider> literal(final String name) {
         return LiteralArgumentBuilder.literal(name);
     }
 
-    public final void registerTo(CommandDispatcher<CommandSource> dispatcher) {
+    public final void registerTo(CommandDispatcher<SharedSuggestionProvider> dispatcher) {
         register(dispatcher, name);
         for (String alias : aliases) register(dispatcher, alias);
     }
 
-    public void register(CommandDispatcher<CommandSource> dispatcher, String name) {
-        LiteralArgumentBuilder<CommandSource> builder = LiteralArgumentBuilder.literal(name);
+    public void register(CommandDispatcher<SharedSuggestionProvider> dispatcher, String name) {
+        LiteralArgumentBuilder<SharedSuggestionProvider> builder = LiteralArgumentBuilder.literal(name);
         build(builder);
         dispatcher.register(builder);
     }
 
-    public abstract void build(LiteralArgumentBuilder<CommandSource> builder);
+    public abstract void build(LiteralArgumentBuilder<SharedSuggestionProvider> builder);
 
     public String getName() {
         return name;
