@@ -8,26 +8,19 @@ import com.mojang.serialization.DataResult;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.command.ComponentMapArgumentType;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.DataCommandObject;
-import net.minecraft.command.EntityDataObject;
-import net.minecraft.command.argument.NbtPathArgumentType;
-import net.minecraft.command.argument.RegistryKeyArgumentType;
-import net.minecraft.component.*;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtHelper;
-import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.HoverEvent;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.commands.arguments.ResourceKeyArgument;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.PatchedDataComponentMap;
+import net.minecraft.core.component.TypedDataComponent;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Unit;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.Locale;
@@ -38,7 +31,7 @@ import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 public class NBT extends Command {
     private static final DynamicCommandExceptionType MALFORMED_ITEM_EXCEPTION = new DynamicCommandExceptionType(
-        error -> Text.stringifiedTranslatable("arguments.item.malformed", error)
+        error -> Component.translatableEscape("arguments.item.malformed", error)
     );
 
     public NBT() {
@@ -46,19 +39,19 @@ public class NBT extends Command {
     }
 
     @Override
-    public void build(LiteralArgumentBuilder<CommandSource> builder) {
+    public void build(LiteralArgumentBuilder<SharedSuggestionProvider> builder) {
         builder.then(literal("add").then(argument("component", ComponentMapArgumentType.componentMap(REGISTRY_ACCESS)).executes(ctx -> {
-            ItemStack stack = mc.player.getInventory().getSelectedStack();
+            ItemStack stack = mc.player.getInventory().getSelectedItem();
 
             if (validBasic(stack)) {
-                ComponentMap itemComponents = stack.getComponents();
-                ComponentMap newComponents = ComponentMapArgumentType.getComponentMap(ctx, "component");
+                DataComponentMap itemComponents = stack.getComponents();
+                DataComponentMap newComponents = ComponentMapArgumentType.getComponentMap(ctx, "component");
 
-                ComponentMap testComponents = ComponentMap.of(itemComponents, newComponents);
+                DataComponentMap testComponents = DataComponentMap.composite(itemComponents, newComponents);
                 DataResult<Unit> dataResult = ItemStack.validateComponents(testComponents);
                 dataResult.getOrThrow(MALFORMED_ITEM_EXCEPTION::create);
 
-                stack.applyComponentsFrom(testComponents);
+                stack.applyComponents(testComponents);
 
                 setStack(stack);
             }
@@ -67,30 +60,30 @@ public class NBT extends Command {
         })));
 
         builder.then(literal("set").then(argument("component", ComponentMapArgumentType.componentMap(REGISTRY_ACCESS)).executes(ctx -> {
-            ItemStack stack = mc.player.getInventory().getSelectedStack();
+            ItemStack stack = mc.player.getInventory().getSelectedItem();
 
             if (validBasic(stack)) {
-                ComponentMap components = ComponentMapArgumentType.getComponentMap(ctx, "component");
-                MergedComponentMap stackComponents = (MergedComponentMap) stack.getComponents();
+                DataComponentMap components = ComponentMapArgumentType.getComponentMap(ctx, "component");
+                PatchedDataComponentMap stackComponents = (PatchedDataComponentMap) stack.getComponents();
 
                 DataResult<Unit> dataResult = ItemStack.validateComponents(components);
                 dataResult.getOrThrow(MALFORMED_ITEM_EXCEPTION::create);
 
-                ComponentChanges.Builder changesBuilder = ComponentChanges.builder();
-                Set<ComponentType<?>> types = stackComponents.getTypes();
+                DataComponentPatch.Builder changesBuilder = DataComponentPatch.builder();
+                Set<DataComponentType<?>> types = stackComponents.keySet();
 
                 //set changes
-                for (Component<?> entry : components) {
-                    changesBuilder.add(entry);
+                for (TypedDataComponent<?> entry : components) {
+                    changesBuilder.set(entry);
                     types.remove(entry.type());
                 }
 
                 //remove the rest
-                for (ComponentType<?> type : types) {
+                for (DataComponentType<?> type : types) {
                     changesBuilder.remove(type);
                 }
 
-                stackComponents.applyChanges(changesBuilder.build());
+                stackComponents.applyPatch(changesBuilder.build());
 
                 setStack(stack);
             }
@@ -98,36 +91,36 @@ public class NBT extends Command {
             return SINGLE_SUCCESS;
         })));
 
-        builder.then(literal("remove").then(argument("component", RegistryKeyArgumentType.registryKey(RegistryKeys.DATA_COMPONENT_TYPE)).executes(ctx -> {
-            ItemStack stack = mc.player.getInventory().getSelectedStack();
+        builder.then(literal("remove").then(argument("component", ResourceKeyArgument.key(Registries.DATA_COMPONENT_TYPE)).executes(ctx -> {
+            ItemStack stack = mc.player.getInventory().getSelectedItem();
 
             if (validBasic(stack)) {
                 @SuppressWarnings("unchecked")
-                RegistryKey<ComponentType<?>> componentTypeKey = (RegistryKey<ComponentType<?>>) ctx.getArgument("component", RegistryKey.class);
+                ResourceKey<DataComponentType<?>> componentTypeKey = (ResourceKey<DataComponentType<?>>) ctx.getArgument("component", ResourceKey.class);
 
-                ComponentType<?> componentType = Registries.DATA_COMPONENT_TYPE.get(componentTypeKey);
+                DataComponentType<?> componentType = BuiltInRegistries.DATA_COMPONENT_TYPE.getValue(componentTypeKey);
 
-                MergedComponentMap components = (MergedComponentMap) stack.getComponents();
-                components.applyChanges(ComponentChanges.builder().remove(componentType).build());
+                PatchedDataComponentMap components = (PatchedDataComponentMap) stack.getComponents();
+                components.applyPatch(DataComponentPatch.builder().remove(componentType).build());
 
                 setStack(stack);
             }
 
             return SINGLE_SUCCESS;
         }).suggests((ctx, suggestionsBuilder) -> {
-            ItemStack stack = mc.player.getInventory().getSelectedStack();
+            ItemStack stack = mc.player.getInventory().getSelectedItem();
             if (stack != ItemStack.EMPTY) {
-                ComponentMap components = stack.getComponents();
+                DataComponentMap components = stack.getComponents();
                 String remaining = suggestionsBuilder.getRemaining().toLowerCase(Locale.ROOT);
 
-                CommandSource.forEachMatching(components.getTypes().stream().map(Registries.DATA_COMPONENT_TYPE::getEntry).toList(), remaining, entry -> {
-                    if (entry.getKey().isPresent()) return entry.getKey().get().getValue();
+                SharedSuggestionProvider.filterResources(components.keySet().stream().map(BuiltInRegistries.DATA_COMPONENT_TYPE::wrapAsHolder).toList(), remaining, entry -> {
+                    if (entry.unwrapKey().isPresent()) return entry.unwrapKey().get().identifier();
                     return null;
                 }, entry -> {
-                    ComponentType<?> dataComponentType = entry.value();
-                    if (dataComponentType.getCodec() != null) {
-                        if (entry.getKey().isPresent()) {
-                            suggestionsBuilder.suggest(entry.getKey().get().getValue().toString());
+                    DataComponentType<?> dataComponentType = entry.value();
+                    if (dataComponentType.codec() != null) {
+                        if (entry.unwrapKey().isPresent()) {
+                            suggestionsBuilder.suggest(entry.unwrapKey().get().identifier().toString());
                         }
                     }
                 });

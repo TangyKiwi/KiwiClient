@@ -14,8 +14,8 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.module.Module;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.network.chat.Component;
 
 public class ModuleArgumentType implements ArgumentType<Module> {
     private static final Collection<String> EXAMPLES = KiwiClient.moduleManager.moduleList
@@ -25,7 +25,7 @@ public class ModuleArgumentType implements ArgumentType<Module> {
         .collect(Collectors.toList());
 
     private static final DynamicCommandExceptionType NO_SUCH_MODULE = new DynamicCommandExceptionType(o ->
-        Text.literal("Module with name " + o + " doesn't exist."));
+        Component.literal("Module with name " + o + " doesn't exist."));
 
     public static ModuleArgumentType module() {
         return new ModuleArgumentType();
@@ -47,7 +47,7 @@ public class ModuleArgumentType implements ArgumentType<Module> {
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        return CommandSource.suggestMatching(KiwiClient.moduleManager.moduleList.stream().map(module -> module.getName()), builder);
+        return SharedSuggestionProvider.suggest(KiwiClient.moduleManager.moduleList.stream().map(module -> module.getName()), builder);
     }
 
     @Override

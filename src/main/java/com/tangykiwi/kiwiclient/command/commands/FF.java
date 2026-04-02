@@ -5,8 +5,9 @@ import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.tangykiwi.kiwiclient.command.Command;
-import net.minecraft.command.CommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.common.ClientboundDisconnectPacket;
 
 public class FF extends Command {
     public FF() {
@@ -14,11 +15,11 @@ public class FF extends Command {
     }
 
     @Override
-    public void build(LiteralArgumentBuilder<CommandSource> builder) {
+    public void build(LiteralArgumentBuilder<SharedSuggestionProvider> builder) {
         builder.executes(context -> {
             String message = "I'm gonna FF, gg go next.";
-            mc.getNetworkHandler().sendChatMessage(message);
-            mc.getNetworkHandler().getConnection().disconnect(Text.literal("Literally just FFed."));
+            mc.getConnection().sendChat(message);
+            mc.getConnection().handleDisconnect(new ClientboundDisconnectPacket(Component.literal("Literally just FFed.")));
             return SINGLE_SUCCESS;
         });
     }

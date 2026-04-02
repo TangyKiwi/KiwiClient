@@ -18,6 +18,7 @@ import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
@@ -66,20 +67,20 @@ public class ComponentMapArgumentType implements ArgumentType<DataComponentMap> 
 
 class ComponentMapReader {
     private static final DynamicCommandExceptionType UNKNOWN_COMPONENT_EXCEPTION = new DynamicCommandExceptionType(
-        id -> Component.translatable("arguments.item.component.unknown", id)
+        id -> Component.translatableEscape("arguments.item.component.unknown", id)
     );
     private static final SimpleCommandExceptionType COMPONENT_EXPECTED_EXCEPTION = new SimpleCommandExceptionType(Component.translatable("arguments.item.component.expected"));
     private static final DynamicCommandExceptionType REPEATED_COMPONENT_EXCEPTION = new DynamicCommandExceptionType(
-        type -> Component.translatable("arguments.item.component.repeated", type)
+        type -> Component.translatableEscape("arguments.item.component.repeated", type)
     );
     private static final Dynamic2CommandExceptionType MALFORMED_COMPONENT_EXCEPTION = new Dynamic2CommandExceptionType(
-        (type, error) -> Component.translatable("arguments.item.component.malformed", type, error)
+        (type, error) -> Component.translatableEscape("arguments.item.component.malformed", type, error)
     );
     private static final TagParser<Tag> SNBT_READER = TagParser.create(NbtOps.INSTANCE);
     private final DynamicOps<Tag> nbtOps;
 
     public ComponentMapReader(CommandBuildContext commandRegistryAccess) {
-        this.nbtOps = commandRegistryAccess.getOps(NbtOps.INSTANCE);
+        this.nbtOps = commandRegistryAccess.createSerializationContext(NbtOps.INSTANCE);
     }
 
     public DataComponentMap consume(StringReader reader) throws CommandSyntaxException {
@@ -162,9 +163,9 @@ class ComponentMapReader {
                 throw COMPONENT_EXPECTED_EXCEPTION.createWithContext(reader);
             } else {
                 int i = reader.getCursor();
-                Identifier identifier = Identifier.fromCommandInput(reader);
-                DataComponentType<?> dataComponentType = Registries.DATA_COMPONENT_TYPE.get(identifier);
-                if (dataComponentType != null && !dataComponentType.shouldSkipSerialization()) {
+                Identifier identifier = Identifier.read(reader);
+                DataComponentType<?> dataComponentType = BuiltInRegistries.DATA_COMPONENT_TYPE.getValue(identifier);
+                if (dataComponentType != null && !dataComponentType.isTransient()) {
                     return dataComponentType;
                 } else {
                     reader.setCursor(i);
@@ -175,10 +176,10 @@ class ComponentMapReader {
 
         private CompletableFuture<Suggestions> suggestComponentType(SuggestionsBuilder builder) {
             String string = builder.getRemaining().toLowerCase(Locale.ROOT);
-            CommandSource.forEachMatching(Registries.DATA_COMPONENT_TYPE.getEntrySet(), string, entry -> entry.getKey().getValue(), entry -> {
-                ComponentType<?> dataComponentType = entry.getValue();
-                if (dataComponentType.getCodec() != null) {
-                    Identifier identifier = entry.getKey().getValue();
+            SharedSuggestionProvider.filterResources(BuiltInRegistries.DATA_COMPONENT_TYPE.entrySet(), string, entry -> entry.getKey().identifier(), entry -> {
+                DataComponentType<?> dataComponentType = entry.getValue();
+                if (dataComponentType.codec() != null) {
+                    Identifier identifier = entry.getKey().identifier();
                     builder.suggest(identifier.toString() + "=");
                 }
             });
@@ -187,9 +188,9 @@ class ComponentMapReader {
 
         private <T> void readComponentValue(StringReader reader, DataComponentMap.Builder builder, DataComponentType<T> type) throws CommandSyntaxException {
             int i = reader.getCursor();
-            Tag nbtElement = SNBT_READER.readAsArgument(reader);
-            DataResult<T> dataResult = type.getCodecOrThrow().parse(this.nbtOps, nbtElement);
-            builder.add(type, dataResult.getOrThrow(error -> {
+            Tag nbtElement = SNBT_READER.parseAsArgument(reader);
+            DataResult<T> dataResult = type.codecOrThrow().parse(this.nbtOps, nbtElement);
+            builder.set(type, dataResult.getOrThrow(error -> {
                 reader.setCursor(i);
                 return MALFORMED_COMPONENT_EXCEPTION.createWithContext(reader, type.toString(), error);
             }));
