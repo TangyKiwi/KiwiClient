@@ -4,9 +4,9 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.tangykiwi.kiwiclient.command.Command;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.network.packet.c2s.play.VehicleMoveC2SPacket;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.network.protocol.game.ServerboundMoveVehiclePacket;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
@@ -17,7 +17,7 @@ public class VClip extends Command {
     }
 
     @Override
-    public void build(LiteralArgumentBuilder<CommandSource> builder) {
+    public void build(LiteralArgumentBuilder<SharedSuggestionProvider> builder) {
         builder.then(argument("blocks", DoubleArgumentType.doubleArg()).executes(context -> {
             double blocks = context.getArgument("blocks", Double.class);
 
@@ -27,18 +27,18 @@ public class VClip extends Command {
                 packets = 1;
             }
             
-            if (mc.player.hasVehicle()) {
+            if (mc.player.isPassenger()) {
                 for (int i = 0; i < packets - 1; i++) {
-                    mc.player.networkHandler.sendPacket(VehicleMoveC2SPacket.fromVehicle(mc.player.getVehicle()));
+                    mc.player.connection.send(ServerboundMoveVehiclePacket.fromEntity(mc.player.getVehicle()));
                 }
-                mc.player.getVehicle().setPosition(mc.player.getX(), mc.player.getY() + blocks, mc.player.getZ());
-                mc.player.networkHandler.sendPacket(VehicleMoveC2SPacket.fromVehicle(mc.player.getVehicle()));
+                mc.player.getVehicle().setPos(mc.player.getX(), mc.player.getY() + blocks, mc.player.getZ());
+                mc.player.connection.send(ServerboundMoveVehiclePacket.fromEntity(mc.player.getVehicle()));
             } else {
                 for (int i = 0; i < packets - 1; i++) {
-                    mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY(), mc.player.getZ(), true, mc.player.horizontalCollision));
+                    mc.player.connection.send(new ServerboundMovePlayerPacket.StatusOnly(true, mc.player.horizontalCollision));
                 }
-                mc.player.setPosition(mc.player.getX(), mc.player.getY() + blocks, mc.player.getZ());
-                mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + blocks, mc.player.getZ(), true, mc.player.horizontalCollision));
+                mc.player.connection.send(new ServerboundMovePlayerPacket.Pos(mc.player.getX(), mc.player.getY() + blocks, mc.player.getZ(), true, mc.player.horizontalCollision));
+                mc.player.setPos(mc.player.getX(), mc.player.getY() + blocks, mc.player.getZ());
             }
             addMessage("Vclipped §a" + Math.abs(blocks) + "§r blocks " + (blocks >= 0 ? "up" : "down"));
 

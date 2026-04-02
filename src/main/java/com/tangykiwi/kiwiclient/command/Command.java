@@ -75,8 +75,8 @@ public abstract class Command {
         KiwiClient.mc.gui.getChat().addClientSystemMessage(Component.literal(prefix + " " + text));
     }
 
-    // public void addMessage(Text text) {
-    //     String prefix = "§a[§6KiwiClient§a]§r ";
-    //     KiwiClient.mc.inGameHud.getChatHud().addMessage(Text.literal(prefix).append(text));   
-    // }
+    public void addMessage(Component text) {
+        String prefix = "§a[§6KiwiClient§a]§r ";
+        KiwiClient.mc.gui.getChat().addClientSystemMessage(Component.literal(prefix).append(text));
+    }
 }

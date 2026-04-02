@@ -8,7 +8,9 @@ import com.mojang.serialization.DataResult;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.command.ComponentMapArgumentType;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.commands.arguments.NbtPathArgument;
 import net.minecraft.commands.arguments.ResourceKeyArgument;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentPatch;
@@ -17,8 +19,17 @@ import net.minecraft.core.component.PatchedDataComponentMap;
 import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.protocol.game.ServerboundSetCreativeModeSlotPacket;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.commands.data.DataAccessor;
+import net.minecraft.server.commands.data.EntityDataAccessor;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.ItemStack;
 
@@ -130,26 +141,26 @@ public class NBT extends Command {
         })));
 
         builder.then(literal("get").executes(context -> {
-            DataCommandObject dataCommandObject = new EntityDataObject(mc.player);
-            NbtPathArgumentType.NbtPath handPath = NbtPathArgumentType.NbtPath.parse("SelectedItem");
+            DataAccessor dataCommandObject = new EntityDataAccessor(mc.player);
+            NbtPathArgument.NbtPath handPath = NbtPathArgument.NbtPath.of("SelectedItem");
 
-            MutableText text = Text.empty();
+            MutableComponent text = Component.empty();
             String nbt = "{}";
 
             try {
-                List<NbtElement> nbtElement = handPath.get(dataCommandObject.getNbt());
+                List<Tag> nbtElement = handPath.get(dataCommandObject.getData());
                 if (!nbtElement.isEmpty()) {
-                    text.append(" ").append(NbtHelper.toPrettyPrintedText(nbtElement.getFirst()));
+                    text.append(" ").append(NbtUtils.toPrettyComponent(nbtElement.getFirst()));
                     nbt = nbtElement.getFirst().toString();
                 }
             } catch (CommandSyntaxException e) {
                 text.append("{}");
             }
 
-            MutableText copyButton = Text.literal("NBT").setStyle(Style.EMPTY
-                .withFormatting(Formatting.UNDERLINE)
+            MutableComponent copyButton = Component.literal("NBT").setStyle(Style.EMPTY
+                .applyFormat(ChatFormatting.UNDERLINE)
                 .withHoverEvent(new HoverEvent.ShowText(
-                    Text.literal("Copy the NBT data to your clipboard.")
+                    Component.literal("Copy the NBT data to your clipboard.")
                 ))
                 .withClickEvent(new ClickEvent.CopyToClipboard(nbt)));
 
@@ -161,30 +172,30 @@ public class NBT extends Command {
         }));
 
         builder.then(literal("copy").executes(context -> {
-            DataCommandObject dataCommandObject = new EntityDataObject(mc.player);
-            NbtPathArgumentType.NbtPath handPath = NbtPathArgumentType.NbtPath.parse("SelectedItem");
+            DataAccessor dataCommandObject = new EntityDataAccessor(mc.player);
+            NbtPathArgument.NbtPath handPath = NbtPathArgument.NbtPath.of("SelectedItem");
 
-            MutableText text = Text.empty();
+            MutableComponent text = Component.empty();
             String nbt = "{}";
 
             try {
-                List<NbtElement> nbtElement = handPath.get(dataCommandObject.getNbt());
+                List<Tag> nbtElement = handPath.get(dataCommandObject.getData());
                 if (!nbtElement.isEmpty()) {
-                    text.append(" ").append(NbtHelper.toPrettyPrintedText(nbtElement.getFirst()));
+                    text.append(" ").append(NbtUtils.toPrettyComponent(nbtElement.getFirst()));
                     nbt = nbtElement.getFirst().toString();
                 }
             } catch (CommandSyntaxException e) {
                 text.append("{}");
             }
 
-            mc.keyboard.setClipboard(nbt);
+            mc.keyboardHandler.setClipboard(nbt);
 
             text.append(" data copied!");
 
-            MutableText copyButton = Text.literal("NBT").setStyle(Style.EMPTY
-                .withFormatting(Formatting.UNDERLINE)
+            MutableComponent copyButton = Component.literal("NBT").setStyle(Style.EMPTY
+                .applyFormat(ChatFormatting.UNDERLINE)
                 .withHoverEvent(new HoverEvent.ShowText(
-                    Text.literal("Copy the NBT data to your clipboard.")
+                    Component.literal("Copy the NBT data to your clipboard.")
                 ))
                 .withClickEvent(new ClickEvent.CopyToClipboard(nbt)));
 
@@ -196,7 +207,7 @@ public class NBT extends Command {
         }));
 
         builder.then(literal("count").then(argument("count", IntegerArgumentType.integer(-127, 127)).executes(context -> {
-            ItemStack stack = mc.player.getInventory().getSelectedStack();
+            ItemStack stack = mc.player.getInventory().getSelectedItem();
 
             if (validBasic(stack)) {
                 int count = IntegerArgumentType.getInteger(context, "count");
@@ -210,11 +221,11 @@ public class NBT extends Command {
     }
 
     private void setStack(ItemStack stack) {
-        mc.player.networkHandler.sendPacket(new CreativeInventoryActionC2SPacket(36 + mc.player.getInventory().getSelectedSlot(), stack));
+        mc.getConnection().send(new ServerboundSetCreativeModeSlotPacket(36 + mc.player.getInventory().getSelectedSlot(), stack));
     }
 
     private boolean validBasic(ItemStack stack) {
-        if (!mc.player.getAbilities().creativeMode) {
+        if (!mc.player.getAbilities().instabuild) {
             addMessage("Creative mode only.");
             return false;
         }

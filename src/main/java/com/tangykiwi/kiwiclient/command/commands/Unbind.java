@@ -7,7 +7,7 @@ import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.command.ModuleArgumentType;
 import com.tangykiwi.kiwiclient.module.Module;
 
-import net.minecraft.command.CommandSource;
+import net.minecraft.commands.SharedSuggestionProvider;
 
 public class Unbind extends Command {
     public Unbind() {
@@ -15,7 +15,7 @@ public class Unbind extends Command {
     }
 
    @Override
-    public void build(LiteralArgumentBuilder<CommandSource> builder) {
+    public void build(LiteralArgumentBuilder<SharedSuggestionProvider> builder) {
         builder.then(argument("module", ModuleArgumentType.module())
             .executes(context -> {
                 Module m = ModuleArgumentType.getModule(context, "module");
