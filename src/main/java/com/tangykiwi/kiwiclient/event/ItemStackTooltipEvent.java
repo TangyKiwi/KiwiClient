@@ -1,21 +1,22 @@
 package com.tangykiwi.kiwiclient.event;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
+import org.apache.logging.log4j.core.config.builder.api.Component;
+
 public class ItemStackTooltipEvent {
     private final ItemStack itemStack;
-    private List<Text> list;
+    private List<Component> list;
 
-    public ItemStackTooltipEvent(ItemStack itemStack, List<Text> list) {
+    public ItemStackTooltipEvent(ItemStack itemStack, List<Component> list) {
         this.itemStack = itemStack;
         this.list = list;
     }
 
-    public List<Text> list() {
+    public List<Component> list() {
         return list;
     }
 
@@ -23,23 +24,23 @@ public class ItemStackTooltipEvent {
         return itemStack;
     }
 
-    public void appendStart(Text text) {
+    public void appendStart(Component text) {
         copyIfImmutable();
         int index = list.isEmpty() ? 0 : 1;
         list.add(index, text);
     }
 
-    public void appendEnd(Text text) {
+    public void appendEnd(Component text) {
         copyIfImmutable();
         list.add(text);
     }
 
-    public void append(int index, Text text) {
+    public void append(int index, Component text) {
         copyIfImmutable();
         list.add(index, text);
     }
 
-    public void set(int index, Text text) {
+    public void set(int index, Component text) {
         copyIfImmutable();
         list.set(index, text);
     }

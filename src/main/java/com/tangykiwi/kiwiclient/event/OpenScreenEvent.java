@@ -1,6 +1,6 @@
 package com.tangykiwi.kiwiclient.event;
 
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 
 public class OpenScreenEvent extends Event {
 

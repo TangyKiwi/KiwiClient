@@ -1,16 +1,16 @@
 package com.tangykiwi.kiwiclient.event;
 
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public class DrawOverlayEvent extends Event {
 
-    private DrawContext context;
+    private GuiGraphicsExtractor context;
 
-    public DrawOverlayEvent(DrawContext context) {
+    public DrawOverlayEvent(GuiGraphicsExtractor context) {
         this.context = context;
     }
 
-    public DrawContext getContext() {
+    public GuiGraphicsExtractor getContext() {
         return context;
     }
 }

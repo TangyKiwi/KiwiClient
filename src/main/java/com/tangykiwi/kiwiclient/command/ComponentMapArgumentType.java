@@ -14,12 +14,10 @@ import com.mojang.serialization.DynamicOps;
 
 import it.unimi.dsi.fastutil.objects.ReferenceArraySet;
 import net.minecraft.commands.CommandBuildContext;
-import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.TagParser;

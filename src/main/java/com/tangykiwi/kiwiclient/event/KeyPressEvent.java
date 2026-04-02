@@ -1,17 +1,15 @@
 package com.tangykiwi.kiwiclient.event;
 
-import java.awt.RenderingHints.Key;
-
-import net.minecraft.client.input.KeyInput;
+import net.minecraft.client.input.KeyEvent;
 
 public class KeyPressEvent extends Event {
-    private KeyInput keyInput;
+    private KeyEvent keyInput;
     private int key;
     private int scanCode;
     private int modifiers;
     private int action;
 
-    public KeyPressEvent(KeyInput keyInput, int action) {
+    public KeyPressEvent(KeyEvent keyInput, int action) {
         this.keyInput = keyInput;
         this.key = keyInput.key();
         this.scanCode = keyInput.scancode();
@@ -19,7 +17,7 @@ public class KeyPressEvent extends Event {
         this.action = action;
     }
 
-    public KeyInput getKeyInput() {
+    public KeyEvent getKeyInput() {
         return keyInput;
     }
 
