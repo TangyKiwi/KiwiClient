@@ -7,14 +7,7 @@ import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +26,7 @@ public class ClickGUIScreen extends Base {
     protected int mwvScroll = 0;
 
     public ClickGUIScreen() {
-        super(Text.literal("ClickGUI"));
+        super(Component.literal("ClickGUI"));
         fontRenderer = KiwiClient.fontManager.getSize(8, FontManager.Type.CONSOLAS);
     }
 

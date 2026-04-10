@@ -3,24 +3,29 @@ package com.tangykiwi.kiwiclient.util.render;
 import java.util.OptionalDouble;
 import java.util.function.Function;
 
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderPhase;
-import net.minecraft.client.render.RenderPhase.LineWidth;
+import net.minecraft.client.renderer.rendertype.LayeringTransform;
+import net.minecraft.client.renderer.rendertype.OutputTarget;
+import net.minecraft.client.renderer.rendertype.RenderSetup;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderSetup.OutlineProperty;
+import net.minecraft.network.chat.ClickEvent.Custom;
 import net.minecraft.util.Util;
 
 public class CustomRenderLayers {
-    public static final RenderLayer QUADS;
-    public static final Function<Double, RenderLayer> LINES;
+    public static final RenderType QUADS;
+    public static final Function<Double, RenderType> LINES;
 
     static {
-        QUADS = RenderLayer.of("kiwiclient_layer_quads", 1536, CustomRenderPipelines.QUADS, RenderLayer.MultiPhaseParameters.builder()
-                .layering(RenderPhase.VIEW_OFFSET_Z_LAYERING)
-                .target(RenderPhase.ITEM_ENTITY_TARGET)
-                .build(false));
-        LINES = Util.memoize(lineWidth -> RenderLayer.of("kiwiclient_layer_lines", 1536, CustomRenderPipelines.LINES, RenderLayer.MultiPhaseParameters.builder()
-                .lineWidth(new LineWidth(lineWidth == 0d ? OptionalDouble.empty() : OptionalDouble.of(lineWidth)))
-                .layering(RenderPhase.VIEW_OFFSET_Z_LAYERING)
-                .target(RenderPhase.ITEM_ENTITY_TARGET)
-                .build(false)));
+        QUADS = RenderType.create("kiwiclient_layer_quads", RenderSetup.builder(CustomRenderPipelines.QUADS)
+                .bufferSize(1536)
+                .setLayeringTransform(LayeringTransform.VIEW_OFFSET_Z_LAYERING)
+                .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET)
+                .createRenderSetup());
+        LINES = Util.memoize(lineWidth -> RenderType.create("kiwiclient_layer_lines", RenderSetup.builder(CustomRenderPipelines.LINES)
+                .bufferSize(1536)
+                .setLayeringTransform(LayeringTransform.VIEW_OFFSET_Z_LAYERING)
+                .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET)
+                .setLineWidth(lineWidth == 0d ? OptionalDouble.empty() : OptionalDouble.of(lineWidth))
+                .createRenderSetup()));
     }
 }

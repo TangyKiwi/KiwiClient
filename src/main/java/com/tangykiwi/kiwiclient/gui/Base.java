@@ -7,18 +7,17 @@ import org.joml.Matrix3x2f;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import com.tangykiwi.kiwiclient.util.render.state.CustomQuadRenderState;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.ScreenRect;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 public abstract class Base extends Screen {
-    public Base(Text title) {
+    public Base(Component title) {
         super(title);
     }
 
     @Override
-    public void renderBackground(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+    public void renderBackground(GuiGraphicsExtractor drawContext, int mouseX, int mouseY, float delta) {
         if (this.client.world == null) {
             int colorOffset = (int) ((System.currentTimeMillis() / 75) % 100);
             if (colorOffset > 50)
