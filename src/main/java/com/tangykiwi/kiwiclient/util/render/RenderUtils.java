@@ -6,23 +6,6 @@ import com.tangykiwi.kiwiclient.util.render.state.CustomLineRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomQuadRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomRoundedQuadRenderState;
 
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.font.TextRenderer.TextLayerType;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.ScreenRect;
-import net.minecraft.client.gui.render.state.GuiRenderState;
-import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.math.Vec3d;
-
 import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
 import org.joml.Matrix4f;
@@ -36,7 +19,7 @@ import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 public class RenderUtils {
     public static int getGuiScale() {
-        return (int) mc.getWindow().getScaleFactor();
+        return (int) mc.getWindow().getGuiScale();
     }
 
     public static int getRainbowInt(float seconds, float saturation, float brightness) {

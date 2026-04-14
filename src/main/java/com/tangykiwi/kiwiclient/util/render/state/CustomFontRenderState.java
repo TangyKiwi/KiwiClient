@@ -9,6 +9,7 @@ import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -24,6 +25,13 @@ public record CustomFontRenderState(RenderPipeline pipeline,
             cr, cg, cb, ca,
             scissorArea,
             createBounds(xo, yo, w, h, mult, pose, scissorArea));
+    }
+
+    public CustomFontRenderState(GuiGraphicsExtractor context, GpuTextureView glId, float xo, float yo, float w, float h, float mult, float u1, float u2, float v1, float v2, float cr, float cg, float cb, float ca) {
+        this(RenderPipelines.GUI_TEXTURED, TextureSetup.singleTexture(glId, RenderSystem.getSamplerCache().getClampToEdge(FilterMode.NEAREST)), context.pose(), xo, yo, w, h, mult, u1, u2, v1, v2,
+            cr, cg, cb, ca,
+            context.scissorStack.peek(),
+            createBounds(xo, yo, w, h, mult, context.pose(), context.scissorStack.peek()));
     }
 
     @Override

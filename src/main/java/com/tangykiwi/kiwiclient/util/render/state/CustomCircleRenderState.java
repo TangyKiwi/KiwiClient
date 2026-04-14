@@ -7,6 +7,7 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.tangykiwi.kiwiclient.util.render.CustomRenderPipelines;
 
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
@@ -20,6 +21,12 @@ public record CustomCircleRenderState(RenderPipeline pipeline,
         float a2, float rad, int samples, int color, @Nullable ScreenRectangle scissorArea) {
         this(CustomRenderPipelines.GUI_TRIANGLE_FAN, TextureSetup.noTexture(), pose, x, y, a1, a2, rad, samples, color,
         scissorArea, createBounds(x, y, rad, pose, scissorArea));
+    }
+
+    public CustomCircleRenderState(GuiGraphicsExtractor context, float x, float y,
+        float a1, float a2, float rad, int samples, int color) {
+        this(CustomRenderPipelines.GUI_TRIANGLE_FAN, TextureSetup.noTexture(), context.pose(), x, y, a1, a2, rad, samples, color,
+            context.scissorStack.peek(), createBounds(x, y, rad, context.pose(), context.scissorStack.peek()));
     }
 
     @Override

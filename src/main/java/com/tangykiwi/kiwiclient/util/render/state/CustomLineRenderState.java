@@ -7,6 +7,7 @@ import org.joml.Vector2d;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -21,6 +22,12 @@ public record CustomLineRenderState(RenderPipeline pipeline,
         float y2, float thickness, int color, @Nullable ScreenRectangle scissorArea) {
         this(RenderPipelines.GUI, TextureSetup.noTexture(), pose, x, y, x2, y2,
             thickness, color, scissorArea, createBounds(x, y, x2, y2, pose, scissorArea));
+    }
+
+    public CustomLineRenderState(GuiGraphicsExtractor context, float x, float y, float x2,
+        float y2, float thickness, int color) {
+        this(RenderPipelines.GUI, TextureSetup.noTexture(), context.pose(), x, y, x2, y2,
+            thickness, color, context.scissorStack.peek(), createBounds(x, y, x2, y2, context.pose(), context.scissorStack.peek()));
     }
 
     @Override
