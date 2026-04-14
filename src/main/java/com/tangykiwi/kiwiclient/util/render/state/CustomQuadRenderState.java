@@ -17,11 +17,17 @@ public record CustomQuadRenderState(RenderPipeline pipeline,
 	float y2, float x3, float y3, float x4, float y4, int color1, int color2,
 	int color3, int color4, @Nullable ScreenRectangle scissorArea,
 	@Nullable ScreenRectangle bounds) implements GuiElementRenderState {
+
     public CustomQuadRenderState(Matrix3x2f pose, float x1, float y1, float x2,
         float y2, int color1, @Nullable ScreenRectangle scissorArea) {
         this(pose, x1, y2, x2, y2,
             x2, y1, x1, y1, color1, color1, color1, color1, scissorArea);
     }
+
+	public CustomQuadRenderState(GuiGraphicsExtractor context, float x1, float y1, float x2,
+		float y2, int color1) {
+		this(context.pose(), x1, y1, x2, y2, color1, context.scissorStack.peek());
+	}
 
 	public CustomQuadRenderState(Matrix3x2f pose, float x1, float y1, float x2,
 		float y2, float x3, float y3, float x4, float y4, int color1,
@@ -46,6 +52,13 @@ public record CustomQuadRenderState(RenderPipeline pipeline,
 	{
 		this(pose, x1, y1, x2, y2, x3, y3, x4, y4, color, color, color, color,
 			scissorArea);
+	}
+
+	public CustomQuadRenderState(GuiGraphicsExtractor context, float x1, float y1, float x2,
+		float y2, float x3, float y3, float x4, float y4, int color)
+	{
+		this(context.pose(), x1, y1, x2, y2, x3, y3, x4, y4, color,
+			context.scissorStack.peek());
 	}
 	
 	@Override

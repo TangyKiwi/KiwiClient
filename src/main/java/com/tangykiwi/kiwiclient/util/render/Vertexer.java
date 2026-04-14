@@ -4,33 +4,34 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Math;
 
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.AABB;
 
 public class Vertexer {
-    public static void vertexLine(MatrixStack matrices, VertexConsumer vertexConsumer, float x1, float y1, float z1, float x2, float y2, float z2, int color) {
-        Matrix4f model = matrices.peek().getPositionMatrix();
-        Matrix3f normal = matrices.peek().getNormalMatrix();
+    public static void vertexLine(PoseStack matrices, VertexConsumer vertexConsumer, float x1, float y1, float z1, float x2, float y2, float z2, int color) {
+        Matrix4f model = matrices.last().pose();
+        Matrix3f normal = matrices.last().normal();
 
         Vector3f normalVec = getNormal(normal, x1, y1, z1, x2, y2, z2);
-        vertexConsumer.vertex(model, x1, y1, z1).color(color).normal(matrices.peek(), normalVec.x(), normalVec.y(), normalVec.z());
-        vertexConsumer.vertex(model, x2, y2, z2).color(color).normal(matrices.peek(), normalVec.x(), normalVec.y(), normalVec.z());
+        vertexConsumer.addVertex(model, x1, y1, z1).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z());
+        vertexConsumer.addVertex(model, x2, y2, z2).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z());
     }
 
     public static Vector3f getNormal(Matrix3f normal, float x1, float y1, float z1, float x2, float y2, float z2) {
 		float xNormal = x2 - x1;
 		float yNormal = y2 - y1;
 		float zNormal = z2 - z1;
-		float normalSqrt = MathHelper.sqrt(xNormal * xNormal + yNormal * yNormal + zNormal * zNormal);
+		float normalSqrt = Math.sqrt(xNormal * xNormal + yNormal * yNormal + zNormal * zNormal);
 
 		return new Vector3f(xNormal / normalSqrt, yNormal / normalSqrt, zNormal / normalSqrt);
 	}
 
-    public static void vertexBoxOutline(MatrixStack matrices, VertexConsumer vertexConsumer, Box box, int color, Direction... excludeDirs) {
+    public static void vertexBoxOutline(PoseStack matrices, VertexConsumer vertexConsumer, AABB box, int color, Direction... excludeDirs) {
         float x1 = (float) box.minX;
         float y1 = (float) box.minY;    
         float z1 = (float) box.minZ;
@@ -91,7 +92,7 @@ public class Vertexer {
 	public static final int CULL_FRONT = 1;
 	public static final int CULL_NONE = 2;
 
-    public static void vertexBoxFilled(MatrixStack matrices, VertexConsumer vertexConsumer, Box box, int color, Direction... excludeDirs) {
+    public static void vertexBoxFilled(PoseStack matrices, VertexConsumer vertexConsumer, AABB box, int color, Direction... excludeDirs) {
         float x1 = (float) box.minX;
 		float y1 = (float) box.minY;
 		float z1 = (float) box.minZ;
@@ -126,20 +127,20 @@ public class Vertexer {
 		}
     }
 
-    public static void vertexQuad(MatrixStack matrices, VertexConsumer vertexConsumer, float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4, int cullMode, int color) {
-		Matrix4f model = matrices.peek().getPositionMatrix();
+    public static void vertexQuad(PoseStack matrices, VertexConsumer vertexConsumer, float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4, int cullMode, int color) {
+		Matrix4f model = matrices.last().pose();
 		if (cullMode != CULL_FRONT) {
-			vertexConsumer.vertex(model, x1, y1, z1).color(color);
-			vertexConsumer.vertex(model, x2, y2, z2).color(color);
-			vertexConsumer.vertex(model, x3, y3, z3).color(color);
-			vertexConsumer.vertex(model, x4, y4, z4).color(color);
+			vertexConsumer.addVertex(model, x1, y1, z1).setColor(color);
+			vertexConsumer.addVertex(model, x2, y2, z2).setColor(color);
+			vertexConsumer.addVertex(model, x3, y3, z3).setColor(color);
+			vertexConsumer.addVertex(model, x4, y4, z4).setColor(color);
 		}
 
 		if (cullMode != CULL_BACK) {
-			vertexConsumer.vertex(model, x4, y4, z4).color(color);
-			vertexConsumer.vertex(model, x3, y3, z3).color(color);
-			vertexConsumer.vertex(model, x2, y2, z2).color(color);
-			vertexConsumer.vertex(model, x1, y1, z1).color(color);
+			vertexConsumer.addVertex(model, x4, y4, z4).setColor(color);
+			vertexConsumer.addVertex(model, x3, y3, z3).setColor(color);
+			vertexConsumer.addVertex(model, x2, y2, z2).setColor(color);
+			vertexConsumer.addVertex(model, x1, y1, z1).setColor(color);
 		}
 	}
 }
