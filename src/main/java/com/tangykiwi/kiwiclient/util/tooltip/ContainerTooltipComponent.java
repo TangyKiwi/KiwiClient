@@ -1,8 +1,5 @@
 package com.tangykiwi.kiwiclient.util.tooltip;
 
-import org.apache.logging.log4j.core.pattern.TextRenderer;
-
-import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.mixininterface.ITooltipData;
 import com.tangykiwi.kiwiclient.util.Textures;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
@@ -11,7 +8,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 
 public class ContainerTooltipComponent implements ClientTooltipComponent, ITooltipData{

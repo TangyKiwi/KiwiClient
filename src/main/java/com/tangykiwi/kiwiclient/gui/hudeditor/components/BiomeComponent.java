@@ -6,10 +6,10 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
+
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 
 public class BiomeComponent extends HUDComponent {
     public BiomeComponent(float x, float y) {
@@ -17,7 +17,7 @@ public class BiomeComponent extends HUDComponent {
     }
 
     @Override
-    public void render(DrawContext context) {
+    public void render(GuiGraphicsExtractor context) {
         super.render(context);
 
         String renderString = "Biome: " + getBiome();
@@ -26,13 +26,13 @@ public class BiomeComponent extends HUDComponent {
     }
 
     private String getBiome() {
-        if (mc.world == null || mc.player == null) {
+        if (mc.level == null || mc.player == null) {
             return "Unknown";
         }
-
-        return mc.world.getRegistryManager().getOptional(RegistryKeys.BIOME)
+        
+        return mc.level.getRegistryManager().getOptional(RegistryKeys.BIOME)
             .map(biomeRegistry -> {
-                Identifier id = biomeRegistry.getId(mc.world.getBiome(new BlockPos.Mutable().set(mc.player.getX(), mc.player.getY(), mc.player.getZ())).value());
+                Identifier id = biomeRegistry.getId(mc.level.getBiome(new BlockPos.Mutable().set(mc.player.getX(), mc.player.getY(), mc.player.getZ())).value());
                 if (id == null) return "Unknown";
                 return Arrays.stream(id.getPath().split("_")).map(StringUtils::capitalize).collect(Collectors.joining(" "));
             })

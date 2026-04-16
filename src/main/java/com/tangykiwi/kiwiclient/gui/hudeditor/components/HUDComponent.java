@@ -1,13 +1,13 @@
 package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.hudeditor.HUDEditorScreen;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 import java.awt.Color;
 
@@ -48,22 +48,22 @@ public abstract class HUDComponent {
         this.height = (int) this.fontHeight;
     }
 
-    public void render(DrawContext context) {
+    public void render(GuiGraphicsExtractor context) {
         if (dragging) {
-            if (InputUtil.isKeyPressed(KiwiClient.mc.getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-                if (x < KiwiClient.mc.currentScreen.width / 2) {
+            if (InputConstants.isKeyDown(KiwiClient.mc.getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+                if (x < KiwiClient.mc.screen.width / 2) {
                     minX = 0;
-                    maxX = KiwiClient.mc.currentScreen.width / 2;
+                    maxX = KiwiClient.mc.screen.width / 2;
                 } else {
-                    minX = KiwiClient.mc.currentScreen.width / 2;
-                    maxX = KiwiClient.mc.currentScreen.width;
+                    minX = KiwiClient.mc.screen.width / 2;
+                    maxX = KiwiClient.mc.screen.width;
                 }
-                if (y < KiwiClient.mc.currentScreen.height / 2) {
+                if (y < KiwiClient.mc.screen.height / 2) {
                     minY = 0;
-                    maxY = KiwiClient.mc.currentScreen.height / 2;
+                    maxY = KiwiClient.mc.screen.height / 2;
                 } else {
-                    minY = KiwiClient.mc.currentScreen.height / 2;
-                    maxY = KiwiClient.mc.currentScreen.height;
+                    minY = KiwiClient.mc.screen.height / 2;
+                    maxY = KiwiClient.mc.screen.height;
                 }
 
                 float newX = mouseX - dragOffX;
@@ -117,8 +117,8 @@ public abstract class HUDComponent {
                     y = Math.min(Math.max(minY, mouseY - dragOffY), maxY - height);
                 }
             } else {
-                x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.currentScreen.width - width);
-                y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.currentScreen.height - height);
+                x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.screen.width - width);
+                y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.screen.height - height);
             }
         }
 
@@ -147,7 +147,7 @@ public abstract class HUDComponent {
         }
     }
 
-    public void renderBoundingBox(DrawContext context) {
+    public void renderBoundingBox(GuiGraphicsExtractor context) {
         RenderUtils.drawRectWH(context, x, y, width, height, 0x60000000);
     }
 

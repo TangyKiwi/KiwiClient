@@ -24,7 +24,7 @@ public class ClickGUI extends Module {
 
     @Override
     public void onDisable() {
-        if (mc.currentScreen instanceof ClickGUIScreen) {
+        if (mc.screen instanceof ClickGUIScreen) {
             mc.setScreen(null);
         }
     }
