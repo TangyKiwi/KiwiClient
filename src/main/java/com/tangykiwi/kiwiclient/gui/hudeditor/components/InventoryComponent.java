@@ -3,11 +3,12 @@ package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 import com.tangykiwi.kiwiclient.util.Textures;
+import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class InventoryComponent extends HUDComponent {
     public InventoryComponent(float x, float y) {
@@ -17,20 +18,19 @@ public class InventoryComponent extends HUDComponent {
     }
 
     @Override
-    public void render(DrawContext context) {
+    public void render(GuiGraphicsExtractor context) {
         super.render(context);
 
-        ClientPlayerEntity player = mc.player;
-        context.drawTexture(RenderPipelines.GUI_TEXTURED, Textures.INV_BG, (int) getX(), (int) getY(), 0, 0, 164, 56, 164, 56);
+        Player player = mc.player;
+        context.blit(RenderPipelines.GUI_TEXTURED, Textures.INV_BG, (int) getX(), (int) getY(), 0, 0, 164, 56, 164, 56);
 
         if (mc.player != null) {
             for (int i = 0; i < 3; i++) { 
                 for (int j = 0; j < 9; j++) {
                     int slot = (i + 1) * 9 + j;
-                    ItemStack itemStack = player.getInventory().getStack(slot);
+                    ItemStack itemStack = player.getInventory().getItem(slot);
                     if (!itemStack.isEmpty()) {
-                        context.drawItem(itemStack, (int) getX() + j * 18 + 2, (int) getY() + i * 18 + 2);
-                        context.drawStackOverlay(mc.textRenderer, itemStack, (int) getX() + j * 18 + 2, (int) getY() + i * 18 + 2);
+                        RenderUtils.drawItem(context, itemStack, (int) getX() + j * 18 + 2, (int) getY() + i * 18 + 2, 1);
                     }
                 }
             }

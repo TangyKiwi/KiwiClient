@@ -3,7 +3,7 @@ package com.tangykiwi.kiwiclient.gui.particles;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class ParticleManager {
         particles.clear();
     }
 
-    public void render(DrawContext m, int x, int y) {
+    public void render(GuiGraphicsExtractor m, int x, int y) {
         int rand;
         if (particles.size() <= 1000) {
             for (int i = 0; i < 5; i++) {
@@ -63,7 +63,7 @@ public class ParticleManager {
         drawConnections(m, x, y);
     }
 
-    public void drawConnections(DrawContext m, int x, int y) {
+    public void drawConnections(GuiGraphicsExtractor m, int x, int y) {
         List<Particle> nearbyParticles = new ArrayList<>();
         for (Particle p : particles) {
             if (getDistance(x, y, p) <= 30) {
@@ -91,18 +91,18 @@ public class ParticleManager {
     }
 
     public int getScaledWidth() {
-        return KiwiClient.mc.getWindow().getScaledWidth();
+        return KiwiClient.mc.getWindow().getGuiScaledWidth();
     }
 
     public int getScaledHeight() {
-        return KiwiClient.mc.getWindow().getScaledHeight();
+        return KiwiClient.mc.getWindow().getGuiScaledHeight();
     }
 
     public int centerWidth() {
-        return KiwiClient.mc.getWindow().getScaledWidth() / 2;
+        return KiwiClient.mc.getWindow().getGuiScaledWidth() / 2;
     }
 
     public int centerHeight() {
-        return KiwiClient.mc.getWindow().getScaledHeight() / 2;
+        return KiwiClient.mc.getWindow().getGuiScaledHeight() / 2;
     }
 }

@@ -2,8 +2,8 @@ package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.world.phys.Vec3;
 
 public class NetherCoordsComponent extends HUDComponent {
     public NetherCoordsComponent(float x, float y) {
@@ -11,19 +11,19 @@ public class NetherCoordsComponent extends HUDComponent {
     }
 
     @Override
-    public void render(DrawContext context) {
+    public void render(GuiGraphicsExtractor context) {
         super.render(context);
 
         String renderString = "(Nether) X: 0.0 Y: 0.0 Z: 0.0";
 
-        if (mc.player == null || mc.world == null) {
+        if (mc.player == null || mc.level == null) {
             setWidth((int) fontRenderer.getStringWidth(renderString));
             fontRenderer.drawString(context, renderString, getX(), getY(), 0xFFAA00);
             return;
         }
 
-        Boolean nether = mc.world.getRegistryKey().getValue().getPath().contains("nether");
-        Vec3d vec2 = mc.player.getEntityPos();
+        Boolean nether = mc.level.dimension().identifier().getPath().contains("nether");
+        Vec3 vec2 = mc.player.position();
         double altx = vec2.x / 8;
         double altz = vec2.z / 8;
 

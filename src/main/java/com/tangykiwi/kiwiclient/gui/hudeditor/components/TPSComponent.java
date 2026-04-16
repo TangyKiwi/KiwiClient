@@ -2,7 +2,7 @@ package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public class TPSComponent extends HUDComponent {
     public TPSComponent(float x, float y) {
@@ -10,7 +10,7 @@ public class TPSComponent extends HUDComponent {
     }
 
     @Override
-    public void render(DrawContext context) {
+    public void render(GuiGraphicsExtractor context) {
         super.render(context);
 
         float tps = KiwiClient.tickRate.getTickRate();

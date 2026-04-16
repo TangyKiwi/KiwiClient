@@ -27,13 +27,7 @@ import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 public class HUDEditorScreen extends Base {
     public static HUDEditorScreen INSTANCE = new HUDEditorScreen();
@@ -49,13 +43,13 @@ public class HUDEditorScreen extends Base {
     protected int mwvScroll = 0;
 
     public HUDEditorScreen() {
-        super(Text.literal("HUD Editor"));
+        super(Component.literal("HUD Editor"));
         fontRenderer = KiwiClient.fontManager.getSize(8, FontManager.Type.CONSOLAS);
     }
 
     public void initComponents() {
-        int w = mc.getWindow().getScaledWidth();
-        int h = mc.getWindow().getScaledHeight();
+        int w = mc.getWindow().getGuiScaledWidth();
+        int h = mc.getWindow().getGuiScaledHeight();
         int i = 0;
         components.add(new NetherCoordsComponent(0.3F, h - i * 6 + 2));
         i++;

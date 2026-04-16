@@ -250,8 +250,8 @@ public class RenderUtils {
 
 		double tickDelta = mc.getDeltaTracker().getGameTimeDeltaPartialTick(true);
 		return new Vec3(
-				e.getX() - MathHelper.lerp(tickDelta, e.lastRenderX, e.getX()),
-				e.getY() - MathHelper.lerp(tickDelta, e.lastRenderY, e.getY()),
-				e.getZ() - MathHelper.lerp(tickDelta, e.lastRenderZ, e.getZ()));
+				e.getX() - MathHelper.lerp(tickDelta, e.xo, e.getX()),
+				e.getY() - MathHelper.lerp(tickDelta, e.yo, e.getY()),
+				e.getZ() - MathHelper.lerp(tickDelta, e.zo, e.getZ()));
 	}
 }

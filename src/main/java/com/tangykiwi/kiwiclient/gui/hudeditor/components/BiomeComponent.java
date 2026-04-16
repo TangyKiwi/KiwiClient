@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 
 public class BiomeComponent extends HUDComponent {
     public BiomeComponent(float x, float y) {
@@ -30,9 +32,9 @@ public class BiomeComponent extends HUDComponent {
             return "Unknown";
         }
         
-        return mc.level.getRegistryManager().getOptional(RegistryKeys.BIOME)
+        return mc.level.registryAccess().lookup(Registries.BIOME)
             .map(biomeRegistry -> {
-                Identifier id = biomeRegistry.getId(mc.level.getBiome(new BlockPos.Mutable().set(mc.player.getX(), mc.player.getY(), mc.player.getZ())).value());
+                Identifier id = biomeRegistry.getKey(mc.level.getBiome(new BlockPos((int) mc.player.getX(), (int) mc.player.getY(), (int) mc.player.getZ())).value());
                 if (id == null) return "Unknown";
                 return Arrays.stream(id.getPath().split("_")).map(StringUtils::capitalize).collect(Collectors.joining(" "));
             })

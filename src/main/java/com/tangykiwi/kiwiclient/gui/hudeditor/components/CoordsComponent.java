@@ -2,9 +2,8 @@ package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.world.phys.Vec3;
 
 public class CoordsComponent extends HUDComponent {
     public CoordsComponent(float x, float y) {
@@ -12,19 +11,21 @@ public class CoordsComponent extends HUDComponent {
     }
 
     @Override
-    public void render(DrawContext context) {
+    public void render(GuiGraphicsExtractor context) {
         super.render(context);
 
         String renderString = "X: 0.0 Y: 0.0 Z: 0.0";
 
-        if (mc.player == null || mc.world == null) {
+        if (mc.player == null || mc.level == null) {
             setWidth((int) fontRenderer.getStringWidth(renderString));
             fontRenderer.drawString(context, "X: 0.0 Y: 0.0 Z: 0.0", getX(), getY(), 0xFFAA00);
             return;
         }
 
-        Vec3d vec = mc.player.getEntityPos();
-        float yaw = MathHelper.wrapDegrees(mc.getCameraEntity().getYaw());
+        Vec3 vec = mc.player.position();
+        float yaw = mc.player.getYRot() % 360;
+        if (yaw < 0) yaw += 360;
+        if (yaw > 180) yaw -= 360;
         String dir = "";
         if(yaw > 157.5) dir = "N -Z";
         else if(yaw >= 112.5) dir = "NW -X, -Z";

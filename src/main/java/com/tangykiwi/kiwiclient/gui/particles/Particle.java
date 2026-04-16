@@ -1,7 +1,7 @@
 package com.tangykiwi.kiwiclient.gui.particles;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 import java.awt.*;
 
@@ -15,7 +15,7 @@ public class Particle {
     private float speed;
     private float dx;
     private float dy;
-    public MinecraftClient mc = MinecraftClient.getInstance();
+    public Minecraft mc = Minecraft.getInstance();
 
     public Particle(float posX, float posY, float size, float speed, float alpha) {
         this.posX = posX;
@@ -25,7 +25,7 @@ public class Particle {
         this.alpha = alpha;
     }
 
-    public void render(DrawContext m) {
+    public void render(GuiGraphicsExtractor m) {
         alpha -= 0.3F;
         if (alpha <= 0) {
             alpha = 0;

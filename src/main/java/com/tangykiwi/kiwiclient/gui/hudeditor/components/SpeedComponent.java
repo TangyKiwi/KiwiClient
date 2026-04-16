@@ -2,7 +2,7 @@ package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public class SpeedComponent extends HUDComponent {
     public SpeedComponent(float x, float y) {
@@ -10,11 +10,11 @@ public class SpeedComponent extends HUDComponent {
     }
 
     @Override
-    public void render(DrawContext context) {
+    public void render(GuiGraphicsExtractor context) {
         super.render(context);
 
         String renderString = "Speed: 0.0 b/s";
-        if (mc.player == null || mc.world == null) {
+        if (mc.player == null || mc.level == null) {
             setWidth((int) fontRenderer.getStringWidth(renderString));
             fontRenderer.drawString(context, renderString, getX(), getY(), 0xFFAA00);
             return;
@@ -26,9 +26,9 @@ public class SpeedComponent extends HUDComponent {
     }
     
     public static double getSpeed() {
-        double tX = Math.abs(mc.player.getX() - mc.player.lastX);
-        double tY = Math.abs(mc.player.getY() - mc.player.lastY);
-        double tZ = Math.abs(mc.player.getZ() - mc.player.lastZ);
+        double tX = Math.abs(mc.player.getX() - mc.player.xo);
+        double tY = Math.abs(mc.player.getY() - mc.player.yo);
+        double tZ = Math.abs(mc.player.getZ() - mc.player.zo);
         double length = Math.sqrt(tX * tX + tY * tY + tZ * tZ);
 
         double bps = length * 20;
