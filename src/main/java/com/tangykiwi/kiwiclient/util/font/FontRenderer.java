@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.util.font;
 
 import com.google.common.base.Preconditions;
+import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import com.tangykiwi.kiwiclient.util.render.state.CustomFontRenderState;
@@ -10,9 +11,10 @@ import it.unimi.dsi.fastutil.chars.Char2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.ScreenRect;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.resources.Identifier;
+
 import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
 
@@ -130,7 +132,7 @@ public class FontRenderer implements Closeable {
     }
 
     private GlyphMap generateMap(char from, char to) {
-        GlyphMap gm = new GlyphMap(from, to, this.fonts, Identifier.of("renderer", "temp/" + IntStream.range(0, 32)
+        GlyphMap gm = new GlyphMap(from, to, this.fonts, Identifier.fromNamespaceAndPath("renderer", "temp/" + IntStream.range(0, 32)
                 .mapToObj(operand -> String.valueOf((char) new Random().nextInt('a', 'z' + 1)))
                 .collect(Collectors.joining())), padding);
         maps.add(gm);
@@ -159,7 +161,7 @@ public class FontRenderer implements Closeable {
         return new int[]{red, green, blue};
     }
 
-    public void drawString(DrawContext context, String s, float x, float y, int color) {
+    public void drawString(GuiGraphicsExtractor context, String s, float x, float y, int color) {
         drawString(context, s, x, y, new Color(color));
     }
 
@@ -172,9 +174,9 @@ public class FontRenderer implements Closeable {
      * @param y     Y coordinate to draw at
      * @param color Texts color
      */
-    public void drawString(DrawContext context, String s, float x, float y, Color color) {
-        Matrix3x2fStack stack = context.getMatrices();
-        ScreenRect scissor = context.scissorStack.peekLast();
+    public void drawString(GuiGraphicsExtractor context, String s, float x, float y, Color color) {
+        Matrix3x2fStack stack = context.pose();
+        ScreenRectangle scissor = context.scissorStack.peek();
         
         float r = (float) color.getRed() / 255;
         float g = (float) color.getGreen() / 255;
@@ -257,9 +259,9 @@ public class FontRenderer implements Closeable {
                 float u2 = (float) (glyph.u() + glyph.width()) / owner.width;
                 float v2 = (float) (glyph.v() + glyph.height() * mult) / owner.height;
 
-                context.state.addSimpleElement(new CustomFontRenderState(
+                context.guiRenderState.addGuiElement(new CustomFontRenderState(
                     matrix,
-                    owner.tex.getGlTextureView(),
+                    owner.tex.getTextureView(),
                     xo, yo, w, h, mult, u1, u2, v1, v2,
                     cr, cg, cb, a,
                     scissor
@@ -271,7 +273,7 @@ public class FontRenderer implements Closeable {
         GLYPH_PAGE_CACHE.clear();
     }
 
-    public void drawCenteredString(DrawContext context, String s, float x, float y, int color) {
+    public void drawCenteredString(GuiGraphicsExtractor context, String s, float x, float y, int color) {
         drawCenteredString(context, s, x, y, new Color(color));
     }
 
@@ -284,11 +286,11 @@ public class FontRenderer implements Closeable {
      * @param y     Y coordinate of the text to draw
      * @param color Texts color
      */
-    public void drawCenteredString(DrawContext context, String s, float x, float y, Color color) {
+    public void drawCenteredString(GuiGraphicsExtractor context, String s, float x, float y, Color color) {
         drawString(context, s, x - getStringWidth(s) / 2f, y, color);
     }
 
-    public void drawStringWithShadow(DrawContext context, String s, float x, float y, int color) {
+    public void drawStringWithShadow(GuiGraphicsExtractor context, String s, float x, float y, int color) {
         drawStringWithShadow(context, s, x, y, new Color(color));
     }
 
@@ -301,13 +303,13 @@ public class FontRenderer implements Closeable {
      * @param y     Y coordinate to draw at
      * @param color Texts color
      */
-    public void drawStringWithShadow(DrawContext context, String s, float x, float y, Color color) {
+    public void drawStringWithShadow(GuiGraphicsExtractor context, String s, float x, float y, Color color) {
         int c = color.getRGB();
         drawString(context, s, x + 1.0F, y + 1.0F, new Color((c & 16579836) >> 2 | c & -16777216));
         drawString(context, s, x, y, color);
     }
 
-    public void drawCenteredStringWithShadow(DrawContext context, String s, float x, float y, int color) {
+    public void drawCenteredStringWithShadow(GuiGraphicsExtractor context, String s, float x, float y, int color) {
         drawCenteredStringWithShadow(context, s, x, y, new Color(color));
     }
 
@@ -320,7 +322,7 @@ public class FontRenderer implements Closeable {
      * @param y     Y coordinate of the text to draw
      * @param color Texts color
      */
-    public void drawCenteredStringWithShadow(DrawContext context, String s, float x, float y, Color color) {
+    public void drawCenteredStringWithShadow(GuiGraphicsExtractor context, String s, float x, float y, Color color) {
         int c = color.getRGB();
         float width = getStringWidth(s);
         drawString(context, s, x - width / 2f + 1.0F, y + 1.0F, new Color((c & 16579836) >> 2 | c & -16777216));

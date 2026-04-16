@@ -41,6 +41,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+// change to LevelRenderer
 @Mixin(WorldRenderer.class)
 public class WorldRendererMixin {
     @Shadow

@@ -1,11 +1,12 @@
 package com.tangykiwi.kiwiclient.util.font;
 
+import com.mojang.blaze3d.platform.NativeImage;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import it.unimi.dsi.fastutil.chars.Char2ObjectArrayMap;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.texture.NativeImage;
-import net.minecraft.client.texture.NativeImageBackedTexture;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.resources.Identifier;
+
 import org.lwjgl.BufferUtils;
 
 import javax.imageio.ImageIO;
@@ -27,7 +28,7 @@ class GlyphMap {
     final int pixelPadding;
     private final Char2ObjectArrayMap<Glyph> glyphs = new Char2ObjectArrayMap<>();
     int width, height;
-    public NativeImageBackedTexture tex;
+    public DynamicTexture tex;
 
     boolean generated = false;
 
@@ -47,7 +48,7 @@ class GlyphMap {
     }
 
     public void destroy() {
-        MinecraftClient.getInstance().getTextureManager().destroyTexture(this.bindToTexture);
+        Minecraft.getInstance().getTextureManager().release(this.bindToTexture);
         this.glyphs.clear();
         this.width = -1;
         this.height = -1;
@@ -130,9 +131,9 @@ class GlyphMap {
 
             ByteBuffer data = BufferUtils.createByteBuffer(bytes.length).put(bytes);
             data.flip();
-            this.tex = new NativeImageBackedTexture(null, NativeImage.read(data));
-            MinecraftClient.getInstance()
-                    .execute(() -> MinecraftClient.getInstance().getTextureManager().registerTexture(bindToTexture, this.tex));
+            this.tex = new DynamicTexture(null, NativeImage.read(data));
+            Minecraft.getInstance()
+                    .execute(() -> Minecraft.getInstance().getTextureManager().register(bindToTexture, this.tex));
         } catch (Exception e) {
             KiwiClient.LOGGER.error(e.getMessage());
         }

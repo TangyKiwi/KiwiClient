@@ -1,18 +1,20 @@
 package com.tangykiwi.kiwiclient.util.tooltip;
 
+import org.apache.logging.log4j.core.pattern.TextRenderer;
+
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.mixininterface.ITooltipData;
 import com.tangykiwi.kiwiclient.util.Textures;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.entity.boss.BossBar.Color;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemStack;
 
-public class ContainerTooltipComponent implements TooltipComponent, ITooltipData{
+public class ContainerTooltipComponent implements ClientTooltipComponent, ITooltipData{
     private final ItemStack[] items;
     private final int color;
 
@@ -22,32 +24,31 @@ public class ContainerTooltipComponent implements TooltipComponent, ITooltipData
     }
 
     @Override
-    public TooltipComponent getComponent() {
+    public ClientTooltipComponent getComponent() {
         return this;
     }
 
     @Override
-    public int getHeight(TextRenderer textRenderer) {
+    public int getHeight(Font textRenderer) {
         return 67;
     }
 
     @Override
-    public int getWidth(TextRenderer textRenderer) {
+    public int getWidth(Font textRenderer) {
         return 176;
     }
 
     @Override
-    public void drawItems(TextRenderer textRenderer, int x, int y, int width, int height, DrawContext context) {
+    public void extractImage(Font textRenderer, int x, int y, int width, int height, GuiGraphicsExtractor context) {
         // Background
-        context.drawTexture(RenderPipelines.GUI_TEXTURED, Textures.INV_BG, x, y, 0, 0, 176, 67, 176, 67, color);
+        context.blit(RenderPipelines.GUI_TEXTURED, Textures.INV_BG, x, y, 0, 0, 176, 67, 176, 67, color);
 
         // Contents
         int row = 0;
         int i = 0;
 
         for (ItemStack itemStack : items) {
-            context.drawItem(itemStack, x + 8 + i * 18, y + 7 + row * 18);
-            context.drawStackOverlay(textRenderer, itemStack, x + 8 + i * 18, y + 7 + row * 18);
+            RenderUtils.drawItem(context, itemStack, x + 8 + i * 18, y + 7 + row * 18, 1);
 
             i++;
             if (i >= 9) {

@@ -19,10 +19,10 @@ public class CommandManager {
         add(new Ez());
         add(new FF());
         add(new Gamemode());
-        add(new NBT());
+        // add(new NBT());
         add(new ResetClickGUI());
         add(new ResetHUD());
-        add(new Server());
+        // add(new Server());
         add(new SetSeedRay());
         add(new Toggle());
         add(new Unbind());

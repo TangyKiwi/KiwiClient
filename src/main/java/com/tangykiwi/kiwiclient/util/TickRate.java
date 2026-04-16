@@ -3,7 +3,8 @@ package com.tangykiwi.kiwiclient.util;
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.PacketEvent;
-import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
+
+import net.minecraft.network.protocol.game.ClientboundSetTimePacket;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
@@ -21,7 +22,7 @@ public class TickRate {
     @Subscribe
     @AllowConcurrentEvents
     private void onReceivePacket(PacketEvent.Receive event) {
-        if (event.packet instanceof WorldTimeUpdateS2CPacket) {
+        if (event.packet instanceof ClientboundSetTimePacket) {
             long now = System.currentTimeMillis();
             float timeElapsed = (now - timeLastTimeUpdate) / 1000.0F;
             tickRates[nextIndex] = clamp(20.0f / timeElapsed, 0.0f, 20.0f);
@@ -36,7 +37,7 @@ public class TickRate {
     }
 
     public float getTickRate() {
-        if (mc.world == null) return 0;
+        if (mc.level == null) return 0;
         if (System.currentTimeMillis() - timeGameJoined < 4000) return 20;
 
         int numTicks = 0;

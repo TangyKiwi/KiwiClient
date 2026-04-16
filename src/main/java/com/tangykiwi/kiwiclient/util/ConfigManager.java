@@ -33,7 +33,7 @@ public class ConfigManager {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public static void init() {
-        dir = Paths.get(mc.runDirectory.getPath(), "kiwiclient/");
+        dir = Paths.get(mc.gameDirectory.getPath(), "kiwiclient/");
         if (!dir.toFile().exists()) {
             dir.toFile().mkdirs();
         }

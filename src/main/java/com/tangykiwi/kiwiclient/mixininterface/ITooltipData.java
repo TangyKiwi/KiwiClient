@@ -1,8 +1,8 @@
 package com.tangykiwi.kiwiclient.mixininterface;
 
-import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.item.tooltip.TooltipData;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 
-public interface ITooltipData extends TooltipData {
-    TooltipComponent getComponent();
+public interface ITooltipData extends TooltipComponent {
+    ClientTooltipComponent getComponent();
 }
