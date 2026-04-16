@@ -9,12 +9,13 @@ import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedHashMap;
@@ -66,14 +67,14 @@ public class CategoryWindow {
         }
     }
 
-    public void render(DrawContext context, int mouseX, int mouseY) {
+    public void render(GuiGraphicsExtractor context, int mouseX, int mouseY) {
         if (dragging) {
             x = Math.max(0, mouseX - dragOffX);
             y = Math.max(0, mouseY - dragOffY);
         }
 
         if (rmDown && mouseOver(x, y, x + width, y + (int) fontHeight)) {
-            mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
             expanded = !expanded;
         }
 
@@ -123,7 +124,7 @@ public class CategoryWindow {
                         showSettings = !showSettings;
                     }
                     if (lmDown || rmDown) {
-                        mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+                        mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                     }
                 }
 

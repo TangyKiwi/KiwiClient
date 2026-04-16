@@ -12,9 +12,9 @@ import com.google.gson.JsonPrimitive;
 import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvents;
 
 public class ToggleSetting extends Setting<Boolean> {
     // value = boolean enabled
@@ -54,7 +54,7 @@ public class ToggleSetting extends Setting<Boolean> {
     }
 
     @Override
-    public void render(DrawContext context, CategoryWindow window, int curYoffset) {
+    public void render(GuiGraphicsExtractor context, CategoryWindow window, int curYoffset) {
         int x = window.x;
         int y = window.y + curYoffset;
         int width = window.width;
@@ -74,14 +74,14 @@ public class ToggleSetting extends Setting<Boolean> {
         if (window.lmDown && window.mouseOver(x, y, x + width, y + fontHeight)) {
             setValue(!getValue());
             mc.getSoundManager().play(
-                PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
+                SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
         }
 
         if (!children.isEmpty()) {
             if (window.rmDown && window.mouseOver(x, y, x + width, y + fontHeight)){
                 expanded = !expanded;
                 mc.getSoundManager().play(
-                    PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
+                    SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
             }
 
             if (expanded) {

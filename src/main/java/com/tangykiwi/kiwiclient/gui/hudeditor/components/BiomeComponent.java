@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 

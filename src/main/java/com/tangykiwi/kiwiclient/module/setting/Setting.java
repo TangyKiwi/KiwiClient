@@ -3,7 +3,7 @@ package com.tangykiwi.kiwiclient.module.setting;
 import com.google.gson.JsonElement;
 import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
 
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public abstract class Setting<T> {
     private String name;
@@ -44,7 +44,7 @@ public abstract class Setting<T> {
         return height;
     }
 
-    public abstract void render(DrawContext context, CategoryWindow window, int curYoffset);
+    public abstract void render(GuiGraphicsExtractor context, CategoryWindow window, int curYoffset);
 
     public abstract void read(JsonElement je);
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.Base;
 import com.tangykiwi.kiwiclient.gui.clickgui.ClickGUIScreen;
@@ -20,14 +21,18 @@ import com.tangykiwi.kiwiclient.gui.hudeditor.components.IPComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.InventoryComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.NetherCoordsComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.PingComponent;
-import com.tangykiwi.kiwiclient.gui.hudeditor.components.PlayerWaypointsComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.SpeedComponent;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.TPSComponent;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
 
 public class HUDEditorScreen extends Base {
     public static HUDEditorScreen INSTANCE = new HUDEditorScreen();
@@ -76,17 +81,17 @@ public class HUDEditorScreen extends Base {
     }
 
     @Override
-    public boolean shouldPause() {
+    public boolean isPauseScreen() {
         return false;
     }
     
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         for (HUDComponent component : components) {
             component.updateKeys(mouseX, mouseY, keyDown, lmDown, rmDown, lmHeld, mouseY);
         }
 
-        super.render(context, mouseX, mouseY, delta);
+        super.extractRenderState(context, mouseX, mouseY, delta);
 
         context.fill(width / 2 - 50, -1, width / 2 - 2, 12, 
             mouseX >= width / 2 - 50 && mouseX <= width / 2 - 2 && mouseY >= 0 && mouseY <= 12 ? 0x60b070f0 : 0x60606090);
@@ -95,9 +100,9 @@ public class HUDEditorScreen extends Base {
         fontRenderer.drawCenteredStringWithShadow(context, "ClickGUI", width / 2 - 26, 2, 0xf0f0f0);
         fontRenderer.drawCenteredStringWithShadow(context, "HUD Editor", width / 2 + 26, 2, 0xf0f0f0);
 
-        if (InputUtil.isKeyPressed(KiwiClient.mc.getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-            RenderUtils.drawLine2D(context, KiwiClient.mc.currentScreen.width / 2F, 0F, KiwiClient.mc.currentScreen.width / 2F, (float) KiwiClient.mc.currentScreen.height, 0.5F, 0xFFFFFFFF);
-            RenderUtils.drawLine2D(context, 0F, KiwiClient.mc.currentScreen.height / 2F, (float) KiwiClient.mc.currentScreen.width, KiwiClient.mc.currentScreen.height / 2F, 0.5F, 0xFFFFFFFF);
+        if (InputConstants.isKeyDown(KiwiClient.mc.getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+            RenderUtils.drawLine2D(context, KiwiClient.mc.screen.width / 2F, 0F, KiwiClient.mc.screen.width / 2F, (float) KiwiClient.mc.screen.height, 0.5F, 0xFFFFFFFF);
+            RenderUtils.drawLine2D(context, 0F, KiwiClient.mc.screen.height / 2F, (float) KiwiClient.mc.screen.width, KiwiClient.mc.screen.height / 2F, 0.5F, 0xFFFFFFFF);
         }
 
         for(HUDComponent component : components) {
@@ -110,17 +115,17 @@ public class HUDEditorScreen extends Base {
         mwvScroll = 0;
     }
 
-    public boolean mouseClicked(Click click, boolean doubled) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         double mouseX = click.x();
         double mouseY = click.y();
         int button = click.button();
         if (button == 0) {
             if (mouseX >= width / 2 - 50 && mouseX <= width / 2 - 2 && mouseY >= 0 && mouseY <= 12) {
-				this.client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1f));
-				this.client.setScreen(ClickGUIScreen.INSTANCE);
+				this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+				this.minecraft.setScreen(ClickGUIScreen.INSTANCE);
 			} else if (mouseX >= width / 2 + 2 && mouseX <= width / 2 + 50 && mouseY >= 0 && mouseY <= 12) {
-				this.client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1f));
-                this.client.setScreen(INSTANCE);
+				this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                this.minecraft.setScreen(INSTANCE);
 			} else {
                 lmDown = true;
                 lmHeld = true;
@@ -140,7 +145,7 @@ public class HUDEditorScreen extends Base {
         return super.mouseClicked(click, doubled);
     }
 
-    public boolean mouseReleased(Click click) {
+    public boolean mouseReleased(MouseButtonEvent click) {
         if (click.button() == 0) lmHeld = false;
 
         for (HUDComponent component : components) {
@@ -150,8 +155,8 @@ public class HUDEditorScreen extends Base {
         return super.mouseReleased(click);
     }
 
-    public boolean keyPressed(KeyInput keyInput) {
-        int keyCode = keyInput.getKeycode();
+    public boolean keyPressed(KeyEvent keyInput) {
+        int keyCode = keyInput.key();
         int scanCode = keyInput.scancode();
         int modifiers = keyInput.modifiers();
         keyDown = keyCode;

@@ -7,7 +7,14 @@ import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,17 +54,17 @@ public class ClickGUIScreen extends Base {
     }
 
     @Override
-    public boolean shouldPause() {
+    public boolean isPauseScreen() {
         return false;
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         for (CategoryWindow window : windows) {
             window.updateKeys(mouseX, mouseY, keyDown, lmDown, rmDown, lmHeld, mwvScroll);
         }
 
-        super.render(context, mouseX, mouseY, delta);
+        super.extractRenderState(context, mouseX, mouseY, delta);
 
         for (CategoryWindow window : windows) {
             window.render(context, mouseX, mouseY);
@@ -77,17 +84,17 @@ public class ClickGUIScreen extends Base {
         mwvScroll = 0;
     }
 
-    public boolean mouseClicked(Click click, boolean doubled) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         double mouseX = click.x();
         double mouseY = click.y();
         int button = click.button();
         if (button == 0) {
             if (mouseX >= width / 2 - 50 && mouseX <= width / 2 - 2 && mouseY >= 0 && mouseY <= 12) {
-				this.client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1f));
-				this.client.setScreen(INSTANCE);
+				this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+				this.minecraft.setScreen(INSTANCE);
 			} else if (mouseX >= width / 2 + 2 && mouseX <= width / 2 + 50 && mouseY >= 0 && mouseY <= 12) {
-				this.client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1f));
-                this.client.setScreen(HUDEditorScreen.INSTANCE);
+				this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                this.minecraft.setScreen(HUDEditorScreen.INSTANCE);
 			} else {
                 lmDown = true;
                 lmHeld = true;
@@ -106,7 +113,7 @@ public class ClickGUIScreen extends Base {
         return super.mouseClicked(click, doubled);
     }
 
-    public boolean mouseReleased(Click click) {
+    public boolean mouseReleased(MouseButtonEvent click) {
         if (click.button() == 0) lmHeld = false;
 
         for (CategoryWindow window : windows) {
@@ -116,8 +123,8 @@ public class ClickGUIScreen extends Base {
         return super.mouseReleased(click);
     }
 
-    public boolean keyPressed(KeyInput keyInput) {
-        int keyCode = keyInput.getKeycode();
+    public boolean keyPressed(KeyEvent keyInput) {
+        int keyCode = keyInput.key();
         int scanCode = keyInput.scancode();
         int modifiers = keyInput.modifiers();
         keyDown = keyCode;

@@ -9,14 +9,13 @@ import org.lwjgl.glfw.GLFW;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvents;
 
 public class SliderSetting extends Setting<Double> {
     public double min;
@@ -55,7 +54,7 @@ public class SliderSetting extends Setting<Double> {
     }
 
     @Override
-    public void render(DrawContext context, CategoryWindow window, int curYoffset) {
+    public void render(GuiGraphicsExtractor context, CategoryWindow window, int curYoffset) {
         int x = window.x;
         int y = window.y + curYoffset;
         int width = window.width;
@@ -69,8 +68,7 @@ public class SliderSetting extends Setting<Double> {
         if (mo) {
             context.fill(x + 1, y + 1, x + width - 1, y + height, 0x70303070);
         }
-
-        int pixels = (int) Math.round(MathHelper.clamp((width - 1) * ((getValue() - min) / (max - min)), 0, width));
+        int pixels = (int) Math.round(Math.clamp((width - 1) * ((getValue() - min) / (max - min)), 0, width));
         context.fill(x + 2, y + 1, x + pixels, y + height, mo ? 0xf02068c0 : 0xf02070b0);
         // RenderUtils.fillGradient(x + 1, y, x + pixels, y + fontHeight, mo ? 0xf03078b0 : 0xf03080a0, mo ? 0xf02068c0 : 0xf02070b0);
 
@@ -83,11 +81,11 @@ public class SliderSetting extends Setting<Double> {
                 setValue(round(percent * (max - min) / 100 + min, decimals));
             }
 
-            if (window.mwScroll != 0 && InputUtil.isKeyPressed(mc.getWindow(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
+            if (window.mwScroll != 0 && InputConstants.isKeyDown(mc.getWindow(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
                 double units = 1 / (Math.pow(10, decimals));
 
-                setValue(MathHelper.clamp(getValue() + units * window.mwScroll, min, max));
-                mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
+                setValue(Math.clamp(getValue() + units * window.mwScroll, min, max));
+                mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
             }
         }
     }

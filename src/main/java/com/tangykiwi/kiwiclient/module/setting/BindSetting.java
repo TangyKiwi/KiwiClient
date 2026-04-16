@@ -6,15 +6,17 @@ import org.lwjgl.glfw.GLFW;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
-import com.tangykiwi.kiwiclient.module.Module;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.player.KeyboardInput;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvents;
+
+import com.tangykiwi.kiwiclient.module.Module;
 
 public class BindSetting extends Setting<Integer> {
     public BindSetting(int keyCode) {
@@ -23,7 +25,7 @@ public class BindSetting extends Setting<Integer> {
     }
 
     @Override
-    public void render(DrawContext context, CategoryWindow window, int curYoffset) {
+    public void render(GuiGraphicsExtractor context, CategoryWindow window, int curYoffset) {
         int x = window.x;
         int y = window.y + curYoffset;
         int width = window.width;
@@ -39,10 +41,10 @@ public class BindSetting extends Setting<Integer> {
         if (window.keyDown >= 0 && window.keyDown != GLFW.GLFW_KEY_ESCAPE && window.mouseOver(x, y, x + width, y + fontHeight)) {
             setValue(window.keyDown == GLFW.GLFW_KEY_DELETE ? Module.KEY_UNBOUND : window.keyDown);
             mc.getSoundManager().play(
-                PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
+                SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
         }
 
-        String name = getValue() < 0 ? "NONE" : InputUtil.fromKeyCode(new KeyInput(getValue(), -1, -1)).getLocalizedText().getString();
+        String name = getValue() < 0 ? "NONE" : InputConstants.getKey(new KeyEvent(getValue(), -1, -1)).getName();
         if (name == null) name = "KEY" + getValue();
         else if (name.isEmpty()) name = "NONE";
 

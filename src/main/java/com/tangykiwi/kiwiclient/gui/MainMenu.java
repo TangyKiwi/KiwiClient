@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.gui;
 
+import com.mojang.realmsclient.RealmsMainScreen;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.particles.ParticleManager;
 import com.tangykiwi.kiwiclient.module.client.ClickGUI;
@@ -8,21 +9,20 @@ import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
-import net.minecraft.client.gui.screen.multiplayer.MultiplayerWarningScreen;
-import net.minecraft.client.gui.screen.option.LanguageOptionsScreen;
-import net.minecraft.client.gui.screen.option.OptionsScreen;
-import net.minecraft.client.gui.screen.world.SelectWorldScreen;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
+import net.minecraft.client.gui.screens.multiplayer.SafetyScreen;
+import net.minecraft.client.gui.screens.options.LanguageSelectScreen;
+import net.minecraft.client.gui.screens.options.OptionsScreen;
+import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvents;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -37,9 +37,10 @@ public class MainMenu extends Screen {
     public static ParticleManager particleManager;
 
     public MainMenu() {
-        super(Text.translatable("narrator.screen.title"));
+        super(Component.translatable("narrator.screen.title"));
     }
 
+    @Override
     public void init() {
         buttonList.clear();
         particleManager = new ParticleManager();
@@ -53,9 +54,10 @@ public class MainMenu extends Screen {
         }
     }
 
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    @Override
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         Identifier menubg = Textures.MENU;
-        context.drawTexture(RenderPipelines.GUI_TEXTURED, menubg, 0, 0, 20 * mouseX / this.width,  20 * mouseY / this.height, this.width + 20 * mouseX / this.width, this.height + 20 * mouseY / this.height, this.width + 40, this.height + 40);
+        context.blit(RenderPipelines.GUI_TEXTURED, menubg, 0, 0, 20 * mouseX / this.width,  20 * mouseY / this.height, this.width + 20 * mouseX / this.width, this.height + 20 * mouseY / this.height, this.width + 40, this.height + 40);
         context.fillGradient(0, 0, this.width, this.height, 0x00000000, 0xff000000);
 
         String version = "v" + KiwiClient.VERSION + " - MC " + KiwiClient.MC_VERSION;
@@ -65,20 +67,20 @@ public class MainMenu extends Screen {
 
         particleManager.render(context, mouseX, mouseY);
 
-        context.drawTexture(RenderPipelines.GUI_TEXTURED, Textures.TITLE, this.width / 2 - 160, this.height / 2 - 55, 0, 0, 320, 40, 320, 40);
+        context.blit(RenderPipelines.GUI_TEXTURED, Textures.TITLE, this.width / 2 - 160, this.height / 2 - 55, 0, 0, 320, 40, 320, 40);
 
         for(GuiButton b : buttonList) {
             b.drawButton(context, mouseX, mouseY);
         }
 
-        String username = this.client.getSession().getUsername();
-        fontRenderer.drawString(context, this.client.getSession().getUsername(), 1, this.height - fontRenderer.getStringHeight(username) - 2, RenderUtils.getRainbowColor(4, 0.8f, 1));
+        String username = this.minecraft.getUser().getName();
+        fontRenderer.drawString(context, username, 1, this.height - fontRenderer.getStringHeight(username) - 2, RenderUtils.getRainbowColor(4, 0.8f, 1));
     }
 
-    public boolean mouseClicked(Click click, boolean doubled) {
+    @Override
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         double mouseX = click.x();
         double mouseY = click.y();
-        int button = click.button();
         for(int i = 0; i < 6; i++) {
             String b = BUTTONS[i];
             GuiButton guiButton = buttonList.get(i);
@@ -86,26 +88,26 @@ public class MainMenu extends Screen {
             float y = guiButton.y;
 
             if(mouseX >= x - 50 / 2.0 && mouseY >= y && mouseX <= x + 50 / 2.0 && mouseY <= y + 60) {
-                this.client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+                this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 switch(b) {
                     case "Singleplayer":
-                        this.client.setScreen(new SelectWorldScreen(this));
+                        this.minecraft.setScreen(new SelectWorldScreen(this));
                         break;
                     case "Multiplayer":
-                        Screen screen = this.client.options.skipMultiplayerWarning ? new MultiplayerScreen(this) : new MultiplayerWarningScreen(this);
-                        this.client.setScreen(screen);
+                        Screen screen = this.minecraft.options.skipMultiplayerWarning ? new JoinMultiplayerScreen(this) : new SafetyScreen(this);
+                        this.minecraft.setScreen(screen);
                         break;
                     case "Realms":
-                        this.client.setScreen(new RealmsMainScreen(this));
+                        this.minecraft.setScreen(new RealmsMainScreen(this));
                         break;
                     case "Options":
-                        this.client.setScreen(new OptionsScreen(this, this.client.options));
+                        this.minecraft.setScreen(new OptionsScreen(this, this.minecraft.options, false));
                         break;
                     case "Language":
-                        this.client.setScreen(new LanguageOptionsScreen(this, this.client.options, this.client.getLanguageManager()));
+                        this.minecraft.setScreen(new LanguageSelectScreen(this, this.minecraft.options, this.minecraft.getLanguageManager()));
                         break;
                     case "Quit":
-                        this.client.scheduleStop();
+                        this.minecraft.stop();
                         break;
                 }
             }
@@ -114,8 +116,9 @@ public class MainMenu extends Screen {
         return super.mouseClicked(click, doubled);
     }
 
-    public boolean keyPressed(KeyInput keyInput) {
-        int keyCode = keyInput.getKeycode();
+    @Override
+    public boolean keyPressed(KeyEvent keyInput) {
+        int keyCode = keyInput.key();
         ClickGUI clickGUI = (ClickGUI) moduleManager.getModule(ClickGUI.class);
         if(keyCode == clickGUI.getKeyCode()) {
             clickGUI.onEnable();
@@ -135,10 +138,10 @@ public class MainMenu extends Screen {
             this.x = x;
             this.y = y;
             this.buttonText = buttonText;
-            icon = Identifier.of("kiwiclient:textures/menu/" + buttonText.toLowerCase() + ".png");
+            icon = Identifier.parse("kiwiclient:textures/menu/" + buttonText.toLowerCase() + ".png");
         }
 
-        public void drawButton(DrawContext context, int mouseX, int mouseY) {
+        public void drawButton(GuiGraphicsExtractor context, int mouseX, int mouseY) {
             boolean hovered = mouseX >= x - 50 / 2 && mouseY >= y && mouseX <= x + 50 / 2 && mouseY <= y + 60;
             if (hovered && index < 1) {
                 movingUp = true;
@@ -154,7 +157,7 @@ public class MainMenu extends Screen {
 
             fontRenderer.drawCenteredString(context, buttonText, x, y + getPosition(index) + 55, hovered ? RenderUtils.getRainbowColor(3, 0.8f, 1) : new Color(-1));
 
-            context.drawTexture(RenderPipelines.GUI_TEXTURED, icon, (x - 50 / 2), (int) (y + getPosition(index)), 0, 0, 50, 50, 50, 50);
+            context.blit(RenderPipelines.GUI_TEXTURED, icon, (x - 50 / 2), (int) (y + getPosition(index)), 0, 0, 50, 50, 50, 50);
         }
 
         public float getPosition(int index) {
