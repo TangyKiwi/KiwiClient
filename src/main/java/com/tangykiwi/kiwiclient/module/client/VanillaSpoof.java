@@ -2,11 +2,11 @@ package com.tangykiwi.kiwiclient.module.client;
 
 import com.tangykiwi.kiwiclient.module.Module;
 
-import net.minecraft.network.packet.BrandCustomPayload;
-import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
+import net.minecraft.network.protocol.common.custom.BrandPayload;
+import net.minecraft.resources.Identifier;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.PacketEvent;
@@ -19,19 +19,19 @@ public class VanillaSpoof extends Module {
 
     @Subscribe
     public void onPacketSend(PacketEvent.Send event) {
-        if (event.packet instanceof CustomPayloadC2SPacket) {
-            Identifier id = ((CustomPayloadC2SPacket) event.packet).payload().getId().id();
+        if (event.packet instanceof ServerboundCustomPayloadPacket) {
+            Identifier id = ((ServerboundCustomPayloadPacket) event.packet).payload().type().id();
 
             String[] channels = {"fabric", "minecraft:register"};
             for (String channel : channels) {
-                if (StringUtils.containsIgnoreCase(id.toString(), channel)) {
+                if (Strings.CI.contains(id.toString(), channel)) {
                     event.cancel();
                     return;
                 }
             }
 
-            if (id.equals(BrandCustomPayload.ID.id())) {
-                CustomPayloadC2SPacket spoofedPacket = new CustomPayloadC2SPacket(new BrandCustomPayload("vanilla"));
+            if (id.equals(BrandPayload.TYPE.id())) {
+                ServerboundCustomPayloadPacket spoofedPacket = new ServerboundCustomPayloadPacket(new BrandPayload("vanilla"));
 
                 event.connection.send(spoofedPacket, null, true);
                 event.cancel();

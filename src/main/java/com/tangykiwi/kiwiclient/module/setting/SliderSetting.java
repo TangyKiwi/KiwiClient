@@ -16,6 +16,7 @@ import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 
 public class SliderSetting extends Setting<Double> {
     public double min;
@@ -68,7 +69,7 @@ public class SliderSetting extends Setting<Double> {
         if (mo) {
             context.fill(x + 1, y + 1, x + width - 1, y + height, 0x70303070);
         }
-        int pixels = (int) Math.round(Math.clamp((width - 1) * ((getValue() - min) / (max - min)), 0, width));
+        int pixels = (int) Math.round(Mth.clamp((width - 1) * ((getValue() - min) / (max - min)), 0, width));
         context.fill(x + 2, y + 1, x + pixels, y + height, mo ? 0xf02068c0 : 0xf02070b0);
         // RenderUtils.fillGradient(x + 1, y, x + pixels, y + fontHeight, mo ? 0xf03078b0 : 0xf03080a0, mo ? 0xf02068c0 : 0xf02070b0);
 
@@ -84,7 +85,7 @@ public class SliderSetting extends Setting<Double> {
             if (window.mwScroll != 0 && InputConstants.isKeyDown(mc.getWindow(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
                 double units = 1 / (Math.pow(10, decimals));
 
-                setValue(Math.clamp(getValue() + units * window.mwScroll, min, max));
+                setValue(Mth.clamp(getValue() + units * window.mwScroll, min, max));
                 mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
             }
         }

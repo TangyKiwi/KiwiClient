@@ -12,7 +12,6 @@ import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.sounds.SoundEvents;
 

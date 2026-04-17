@@ -2,7 +2,9 @@ package com.tangykiwi.kiwiclient.util.render;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.tangykiwi.kiwiclient.util.render.state.CustomCircleRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomLineRenderState;
@@ -10,17 +12,18 @@ import com.tangykiwi.kiwiclient.util.render.state.CustomQuadRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomRoundedQuadRenderState;
 
 import net.minecraft.client.Camera;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-import org.apache.logging.log4j.core.pattern.TextRenderer;
 import org.joml.Math;
 import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
@@ -29,9 +32,9 @@ import org.joml.Options;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import java.awt.*;
-
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
+
+import java.awt.Color;
 
 public class RenderUtils {
     public static int getGuiScale() {
@@ -131,14 +134,14 @@ public class RenderUtils {
     }
 
     public static void drawLine(double x1, double y1, double z1, double x2, double y2, double z2, int color, double lineWidth) {
-        MatrixStack matrices = matrixFrom(x1, y1, z1);
+        PoseStack matrices = matrixFrom(x1, y1, z1);
         BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
         Vertexer.vertexLine(matrices, bufferBuilder, 0, 0, 0, (float)(x2 - x1), (float)(y2 - y1), (float)(z2 - z1), color);
         CustomRenderLayers.LINES.apply(lineWidth).draw(bufferBuilder.build());
     }
 
     public static void drawQuad(double x1, double y1, double z1, double x2, double y2, double z2, int color) {
-        MatrixStack matrices = matrixFrom(x1, y1, z1);
+        PoseStack matrices = matrixFrom(x1, y1, z1);
         BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         float dx = (float)(x2 - x1);
         float dy = (float)(y2 - y1);
@@ -147,8 +150,8 @@ public class RenderUtils {
         CustomRenderLayers.QUADS.draw(bufferBuilder.build());
     }
 
-    public static void drawWorldText(MatrixStack matrices, Quaternionf rotation, float height, String text, int color, VertexConsumerProvider vertexConsumers, TextRenderer textRenderer, float scale) {
-        matrices.push();
+    public static void drawWorldText(PoseStack matrices, Quaternionf rotation, float height, String text, int color, VertexConsumer vertexConsumers, Font textRenderer, float scale) {
+        matrices.pushPose();
         matrices.translate(0, height + 0.2f, 0);
         matrices.scale(3, 3, 3);
         // matrices.multiply(rotation);
@@ -160,18 +163,18 @@ public class RenderUtils {
         float z = -0.0001f;
 
         BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        Matrix4f model = matrices.peek().getPositionMatrix();
+        Matrix4f model = matrices.last().pose();
         bufferBuilder.addVertex(model, min_x, min_y, z).setLight(0xF000F0).setColor(color);
         bufferBuilder.addVertex(model, max_x, min_y, z).setLight(0xF000F0).setColor(color);
         bufferBuilder.addVertex(model, max_x, max_y, z).setLight(0xF000F0).setColor(color);
         bufferBuilder.addVertex(model, min_x, max_y, z).setLight(0xF000F0).setColor(color);
         CustomRenderLayers.QUADS.draw(bufferBuilder.build());
 
-        matrices.push();
+        matrices.pushPose();
         matrices.scale(0.01f, -0.01f, 0.01f);
-        textRenderer.draw(text, -(textRenderer.getWidth(text)) / 2f, -9, 0xFFFFFFFF, false, matrices.peek().getPositionMatrix(), vertexConsumers, TextLayerType.SEE_THROUGH, 0, 0xF000F0);
-        matrices.pop();
-        matrices.pop();
+        textRenderer.draw(text, -(textRenderer.width(text)) / 2f, -9, 0xFFFFFFFF, false, matrices.last().pose(), vertexConsumers, TextLayerType.SEE_THROUGH, 0, 0xF000F0);
+        matrices.popPose();
+        matrices.popPose();
     }
 
     // public static void drawLine(MatrixStack matrixStack, float x1, float y1, float z1, float x2, float y2, float z2, int color, double lineWidth) {
@@ -212,7 +215,7 @@ public class RenderUtils {
     public static void drawBoxOutline(AABB box, int color, double lineWidth, Direction... excludeDirs) {
         // if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
-        MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
+        PoseStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
         BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
         Vertexer.vertexBoxOutline(matrices, bufferBuilder, box.move(new Vec3(box.minX, box.minY, box.minZ).reverse()), color, excludeDirs);
         CustomRenderLayers.LINES.apply(lineWidth).draw(bufferBuilder.build());
@@ -225,14 +228,14 @@ public class RenderUtils {
     public static void drawBoxFilled(AABB box, int color, Direction... excludeDirs) {
         // if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
-        MatrixStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
+        PoseStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
         BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         Vertexer.vertexBoxFilled(matrices, bufferBuilder, box.move(new Vec3(box.minX, box.minY, box.minZ).reverse()), color, excludeDirs);
         CustomRenderLayers.QUADS.draw(bufferBuilder.build());
     }
 
-    public static MatrixStack matrixFrom(double x, double y, double z) {
-		MatrixStack matrices = new MatrixStack();
+    public static PoseStack matrixFrom(double x, double y, double z) {
+		PoseStack matrices = new PoseStack();
 
 		Camera camera = mc.gameRenderer.getMainCamera();
 		matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
@@ -250,8 +253,8 @@ public class RenderUtils {
 
 		double tickDelta = mc.getDeltaTracker().getGameTimeDeltaPartialTick(true);
 		return new Vec3(
-				e.getX() - MathHelper.lerp(tickDelta, e.xo, e.getX()),
-				e.getY() - MathHelper.lerp(tickDelta, e.yo, e.getY()),
-				e.getZ() - MathHelper.lerp(tickDelta, e.zo, e.getZ()));
+				e.getX() - Mth.lerp(tickDelta, e.xo, e.getX()),
+				e.getY() - Mth.lerp(tickDelta, e.yo, e.getY()),
+				e.getZ() - Mth.lerp(tickDelta, e.zo, e.getZ()));
 	}
 }
