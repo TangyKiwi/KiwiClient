@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.util.render.state.CustomCircleRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomLineRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomQuadRenderState;
@@ -21,6 +22,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -102,18 +104,18 @@ public class RenderUtils {
         ));
     }
 
-    /**
-     * Differs from DrawContext.fillGradient as this allows renderUtils to render
-     * our intended objects "on top" of the gradient
-     */
-    public static void fillGradient(int startX, int startY, int endX, int endY, int colorStart, int colorEnd) {
-        BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        bufferBuilder.addVertex(startX, startY, 0).setColor(colorStart);
-        bufferBuilder.addVertex(startX, endY, 0).setColor(colorEnd);
-        bufferBuilder.addVertex(endX, endY, 0).setColor(colorEnd);
-        bufferBuilder.addVertex(endX, startY, 0).setColor(colorStart);
-        RenderLayer.getDebugQuads().draw(bufferBuilder.build());
-    }
+    // /**
+    //  * Differs from DrawContext.fillGradient as this allows renderUtils to render
+    //  * our intended objects "on top" of the gradient
+    //  */
+    // public static void fillGradient(int startX, int startY, int endX, int endY, int colorStart, int colorEnd) {
+    //     BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+    //     bufferBuilder.addVertex(startX, startY, 0).setColor(colorStart);
+    //     bufferBuilder.addVertex(startX, endY, 0).setColor(colorEnd);
+    //     bufferBuilder.addVertex(endX, endY, 0).setColor(colorEnd);
+    //     bufferBuilder.addVertex(endX, startY, 0).setColor(colorStart);
+    //     RenderLayer.getDebugQuads().draw(bufferBuilder.build());
+    // }
 
     public static void drawItem(GuiGraphicsExtractor drawContext, ItemStack itemStack, int x, int y, float scale) {
         drawItem(drawContext, itemStack, x, y, scale, false, null);
@@ -172,7 +174,7 @@ public class RenderUtils {
 
         matrices.pushPose();
         matrices.scale(0.01f, -0.01f, 0.01f);
-        textRenderer.draw(text, -(textRenderer.width(text)) / 2f, -9, 0xFFFFFFFF, false, matrices.last().pose(), vertexConsumers, TextLayerType.SEE_THROUGH, 0, 0xF000F0);
+        textRenderer.drawInBatch(text, -(textRenderer.width(text)) / 2f, -9, 0xFFFFFFFF, false, matrices.last().pose(), KiwiClient.mc.renderBuffers().bufferSource(), Font.DisplayMode.SEE_THROUGH, 0, 0xF000F0);
         matrices.popPose();
         matrices.popPose();
     }
@@ -238,8 +240,8 @@ public class RenderUtils {
 		PoseStack matrices = new PoseStack();
 
 		Camera camera = mc.gameRenderer.getMainCamera();
-		matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
-		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.yaw() + 180.0F));
+		matrices.multiply(camera.xRot());
+		matrices.multiply(camera.yRot());
 
 		matrices.translate(x - camera.position().x, y - camera.position().y, z - camera.position().z);
 

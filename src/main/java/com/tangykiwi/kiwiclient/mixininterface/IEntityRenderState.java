@@ -1,15 +1,15 @@
 package com.tangykiwi.kiwiclient.mixininterface;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 
 public interface IEntityRenderState {
-    void setLabel(Text label);
-    void setLabelPos(Vec3d pos);
+    void setLabel(Component label);
+    void setLabelPos(Vec3 pos);
     void setEntity(Entity entity);
 
-    Text getLabel();
-    Vec3d getLabelPos();
+    Component getLabel();
+    Vec3 getLabelPos();
     Entity getEntity();
 }

@@ -19,6 +19,8 @@ public abstract class Base extends Screen {
 
     @Override
     public void extractBackground(GuiGraphicsExtractor drawContext, int mouseX, int mouseY, float delta) {
+        Matrix3x2f matrix = new Matrix3x2f(drawContext.pose());
+        ScreenRectangle scissor = drawContext.scissorStack.peek();
         if (this.minecraft.level == null) {
             int colorOffset = (int) ((System.currentTimeMillis() / 75) % 100);
             if (colorOffset > 50)
@@ -26,9 +28,7 @@ public abstract class Base extends Screen {
 
             // smooth
             colorOffset = (int) (-(Math.cos(Math.PI * (colorOffset / 50d)) - 1) / 2 * 50);
-
-            Matrix3x2f matrix = new Matrix3x2f(drawContext.pose());
-            ScreenRectangle scissor = drawContext.scissorStack.peek();
+            
             drawContext.guiRenderState.addGuiElement(new CustomQuadRenderState(
                 matrix,
                 width, 0, 0, 0, 0, height + 16, width, height + 16,
@@ -39,7 +39,15 @@ public abstract class Base extends Screen {
                 scissor
             ));
         } else {
-            RenderUtils.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
+            drawContext.guiRenderState.addGuiElement(new CustomQuadRenderState(
+                matrix,
+                0, 0, 0, height, width, height, width, 0,
+                -1072689136,
+                -804253680,
+                -804253680,
+                -1072689136,
+                scissor
+            ));
             this.extractBlurredBackground(drawContext);
         }
     }
