@@ -9,11 +9,11 @@ import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.Hand;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class TriggerBot extends Module {
     public TriggerBot() {
@@ -22,14 +22,14 @@ public class TriggerBot extends Module {
 
     @Subscribe
     public void onTick(TickEvent.Pre e) {
-        ClientPlayerEntity player = mc.player;
+        Player player = mc.player;
 
-        if(player == null || !player.isAlive() || player.isSpectator() || player.getAttackCooldownProgress(0) < 1 || mc.currentScreen instanceof HandledScreen) return;
+        if(player == null || !player.isAlive() || player.isSpectator() || player.getCooldowns().isOnCooldown(player.getItemInHand(InteractionHand.MAIN_HAND)) || mc.screen instanceof AbstractContainerScreen) return;
 
-        Entity target = mc.targetedEntity;
-        if (target == null || (target instanceof LivingEntity && ((LivingEntity) target).isDead()) || !target.isAlive()) return;
+        Entity target = mc.crosshairPickEntity;
+        if (target == null || (target instanceof LivingEntity && ((LivingEntity) target).isDeadOrDying()) || !target.isAlive()) return;
 
-        mc.interactionManager.attackEntity(player, target);
-        player.swingHand(Hand.MAIN_HAND);
+        mc.gameMode.attack(player, target);
+        player.swing(InteractionHand.MAIN_HAND);
     }
 }
