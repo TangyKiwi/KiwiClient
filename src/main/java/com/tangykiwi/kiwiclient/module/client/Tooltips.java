@@ -9,23 +9,20 @@ import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.setting.ToggleSetting;
 
-import net.minecraft.block.entity.BeehiveBlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.BeesComponent;
-import net.minecraft.component.type.BlockStateComponent;
-import net.minecraft.component.type.ConsumableComponent;
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.component.type.SuspiciousStewEffectsComponent;
-import net.minecraft.component.type.SuspiciousStewEffectsComponent.StewEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffectUtil;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffectUtil;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.Bees;
+import net.minecraft.world.item.component.BlockItemStateProperties;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.component.SuspiciousStewEffects;
+import net.minecraft.world.item.component.SuspiciousStewEffects.Entry;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
@@ -46,19 +43,19 @@ public class Tooltips extends Module {
     public void appendTooltip(ItemStackTooltipEvent event) {
         if (getSetting("Status Effects").asToggle().getValue()) {
             if (event.itemStack().getItem() == Items.SUSPICIOUS_STEW) {
-                SuspiciousStewEffectsComponent stewEffectsComponent = event.itemStack().get(DataComponentTypes.SUSPICIOUS_STEW_EFFECTS);
+                SuspiciousStewEffects stewEffectsComponent = event.itemStack().get(DataComponents.SUSPICIOUS_STEW_EFFECTS);
                 if (stewEffectsComponent != null) {
-                    for (StewEffect effectTag : stewEffectsComponent.effects()) {
-                        StatusEffectInstance effect = new StatusEffectInstance(effectTag.effect(), effectTag.duration(), 0);
+                    for (Entry effectTag : stewEffectsComponent.effects()) {
+                        MobEffectInstance effect = new MobEffectInstance(effectTag.effect(), effectTag.duration(), 0);
                         event.appendStart(getStatusText(effect));
                     }
                 }
             } else {
-                ConsumableComponent consumable = event.itemStack().get(DataComponentTypes.CONSUMABLE);
+                Consumable consumable = event.itemStack().get(DataComponents.CONSUMABLE);
                 if (consumable != null) {
                     consumable.onConsumeEffects().stream()
-                        .filter(ApplyEffectsConsumeEffect.class::isInstance)
-                        .map(ApplyEffectsConsumeEffect.class::cast)
+                        .filter(ApplyStatusEffectsConsumeEffect.class::isInstance)
+                        .map(ApplyStatusEffectsConsumeEffect.class::cast)
                         .flatMap(apply -> apply.effects().stream())
                         .forEach(effect -> event.appendStart(getStatusText(effect)));
                 }
@@ -67,29 +64,29 @@ public class Tooltips extends Module {
 
         if (getSetting("Bees").asToggle().getValue()) {
             if (event.itemStack().getItem() == Items.BEEHIVE || event.itemStack().getItem() == Items.BEE_NEST) {
-                BlockStateComponent blockStateComponent = event.itemStack().get(DataComponentTypes.BLOCK_STATE);
+                BlockItemStateProperties blockStateComponent = event.itemStack().get(DataComponents.BLOCK_STATE);
                 if (blockStateComponent != null) {
                     String level = blockStateComponent.properties().get("honey_level");
-                    event.list().add(1, Text.literal(String.format("%sHoney level: %s%s%s.", Formatting.GRAY, Formatting.YELLOW, level, Formatting.GRAY)));
+                    event.append(1, Component.literal(String.format("%sHoney level: %s%s%s.", ChatFormatting.GRAY, ChatFormatting.YELLOW, level, ChatFormatting.GRAY)));
                 }
 
-                BeesComponent bees = event.itemStack().get(DataComponentTypes.BEES);
+                Bees bees = event.itemStack().get(DataComponents.BEES);
                 if (bees != null) {
-                    event.list().add(1, Text.literal(String.format("%sBees: %s%d%s.", Formatting.GRAY, Formatting.YELLOW, bees.bees().size(), Formatting.GRAY)));
+                    event.append(1, Component.literal(String.format("%sBees: %s%d%s.", ChatFormatting.GRAY, ChatFormatting.YELLOW, bees.bees().size(), ChatFormatting.GRAY)));
                 }
             }
         }
     }
 
-    private MutableText getStatusText(StatusEffectInstance effect) {
-        MutableText text = Text.translatable(effect.getTranslationKey());
+    private MutableComponent getStatusText(MobEffectInstance effect) {
+        MutableComponent text = Component.translatable(effect.getDescriptionId());
         if (effect.getAmplifier() != 0) {
-            text.append(String.format(" %d (%s)", effect.getAmplifier() + 1, StatusEffectUtil.getDurationText(effect, 1, mc.world.getTickManager().getTickRate()).getString()));
+            text.append(String.format(" %d (%s)", effect.getAmplifier() + 1, MobEffectUtil.formatDuration(effect, 1, mc.level.tickRateManager().tickrate()).getString()));
         } else {
-            text.append(String.format(" (%s)", StatusEffectUtil.getDurationText(effect, 1, mc.world.getTickManager().getTickRate()).getString()));
+            text.append(String.format(" (%s)", MobEffectUtil.formatDuration(effect, 1, mc.level.tickRateManager().tickrate()).getString()));
         }
 
-        if (effect.getEffectType().value().isBeneficial()) return text.formatted(Formatting.BLUE);
-        return text.formatted(Formatting.RED);
+        if (effect.getEffect().value().isBeneficial()) return text.withStyle(ChatFormatting.BLUE);
+        return text.withStyle(ChatFormatting.RED);
     }
 }
