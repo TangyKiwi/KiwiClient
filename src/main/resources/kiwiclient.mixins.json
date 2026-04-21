@@ -50,7 +50,8 @@
     "StatusEffectFogModifierMixin",
     "StringHelperMixin",
     "TitleScreenMixin",
-    "WorldRendererMixin"
+    "LevelRendererMixin",
+    "LevelChunkMixin"
   ],
   "injectors": {
     "defaultRequire": 1

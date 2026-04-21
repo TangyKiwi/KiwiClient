@@ -42,7 +42,7 @@ import net.minecraft.world.phys.Vec3;
 
 // change to LevelRenderer
 @Mixin(LevelRenderer.class)
-public class WorldRendererMixin {
+public class LevelRendererMixin {
     @WrapWithCondition(method = "extractLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/WeatherEffectRenderer;extractRenderState(Lnet/minecraft/world/level/Level;IFLnet/minecraft/world/phys/Vec3;Lnet/minecraft/client/renderer/state/level/WeatherRenderState;)V"))
     private boolean extractLevel$noWeather(WeatherEffectRenderer instance, Level level, int ticks, float partialTicks, Vec3 cameraPos, WeatherRenderState renderState) {
         NoRender noRender = (NoRender) KiwiClient.moduleManager.getModule(NoRender.class);

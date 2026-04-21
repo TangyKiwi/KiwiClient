@@ -10,3 +10,6 @@ accessible  class   net/minecraft/world/waypoint/TrackedWaypoint$Positional
 accessible  field   net/minecraft/world/waypoint/TrackedWaypoint$Positional     pos     Lnet/minecraft/util/math/Vec3i;
 
 accessible	field	net/minecraft/client/network/ClientPlayerInteractionManager	currentBreakingProgress	F
+
+# ClientChunkCacheAccessor, ClientChunkMapAccessor
+accessible   class   net/minecraft/client/multiplayer/ClientChunkCache$Storage
