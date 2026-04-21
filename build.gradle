@@ -31,7 +31,7 @@ loom {
 		}
 	}
 
-	accessWidenerPath = "src/main/resources/kiwiclient.accesswidener"
+	// accessWidenerPath = "src/main/resources/kiwiclient.accesswidener"
 }
 
 dependencies {

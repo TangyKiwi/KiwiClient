@@ -1,11 +1,10 @@
 package com.tangykiwi.kiwiclient.event;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
-
-import org.apache.logging.log4j.core.config.builder.api.Component;
 
 public class ItemStackTooltipEvent {
     private final ItemStack itemStack;

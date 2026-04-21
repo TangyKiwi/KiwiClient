@@ -22,6 +22,7 @@
     "Deadmau5FeatureRendererMixin",
     "DownloaderMixin",
     "ElytraFeatureRendererMixin",
+    "EntityAccessor",
     "EntityMixin",
     "EntityRendererMixin",
     "EntityRenderStateMixin",
@@ -29,14 +30,18 @@
     "FogRendererMixin",
     "GameOptionsMixin",
     "GuiRendererMixin",
+    "GuiGraphicsExtractorAccessor",
     "HeightContextMixin",
     "HeightRangePlacementModifierAccessor",
     "InGameHudMixin",
     "ItemMixin",
     "ItemStackMixin",
     "KeyboardMixin",
+    "LevelRendererMixin",
+    "LevelChunkMixin",
     "LightmapTextureManagerMixin",
     "MinecraftClientMixin",
+    "MobBucketItemAccessor",
     "PlayerMoveC2SPacketAccessor",
     "PlayerMoveC2SPacketMixin",
     "RarityFilterPlacementModifierAccessor",
@@ -49,9 +54,7 @@
     "SplashOverlayMixin",
     "StatusEffectFogModifierMixin",
     "StringHelperMixin",
-    "TitleScreenMixin",
-    "LevelRendererMixin",
-    "LevelChunkMixin"
+    "TitleScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
