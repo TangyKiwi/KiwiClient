@@ -9,7 +9,7 @@ import java.util.Map;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.mixin.CountPlacementModifierAccessor;
 import com.tangykiwi.kiwiclient.mixin.HeightRangePlacementModifierAccessor;
-import com.tangykiwi.kiwiclient.mixin.RarityFilterPlacementModifierAccessor;
+import com.tangykiwi.kiwiclient.mixin.RarityFilterAccessor;
 import com.tangykiwi.kiwiclient.module.render.SeedRay;
 
 import net.minecraft.client.Minecraft;
@@ -150,7 +150,7 @@ public class Ore {
                 this.heightProvider = ((HeightRangePlacementModifierAccessor) modifier).getHeight();
 
             } else if (modifier instanceof RarityFilter) {
-                this.rarity = ((RarityFilterPlacementModifierAccessor) modifier).getChance();
+                this.rarity = ((RarityFilterAccessor) modifier).getChance();
             }
         }
 

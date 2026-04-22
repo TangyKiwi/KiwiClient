@@ -1,6 +1,6 @@
 package com.tangykiwi.kiwiclient.mixininterface;
 
-public interface IPlayerMoveC2SPacket {
+public interface IServerboundMovePlayerPacket {
     int getTag();
 
     void setTag(int tag);

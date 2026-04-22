@@ -6,12 +6,13 @@ import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.PacketEvent;
 import com.tangykiwi.kiwiclient.event.SendMovementPacketEvent;
-import com.tangykiwi.kiwiclient.mixin.PlayerMoveC2SPacketAccessor;
+import com.tangykiwi.kiwiclient.mixin.ServerboundMovePlayerPacketAccessor;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.setting.ToggleSetting;
-import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 
 public class AntiHunger extends Module {
     private boolean lastOnGround;
@@ -28,7 +29,7 @@ public class AntiHunger extends Module {
         if (mc.player == null) {
             lastOnGround = true;
         } else {
-            lastOnGround = mc.player.isOnGround();
+            lastOnGround = mc.player.onGround();
         }
 
         super.onEnable();
@@ -39,21 +40,21 @@ public class AntiHunger extends Module {
     public void onSendPacket(PacketEvent.Send event) {
         if (mc.player == null) return;
         
-        if (ignorePacket && event.packet instanceof PlayerMoveC2SPacket) {
+        if (ignorePacket && event.packet instanceof ServerboundMovePlayerPacket) {
             ignorePacket = false;
             return;
         }
 
-        if (mc.player.hasVehicle() || mc.player.isSubmergedInWater() || mc.player.isTouchingWater()) return;
+        if (mc.player.isPassenger() || mc.player.isInWater() || mc.player.isUnderWater()) return;
 
-        if (event.packet instanceof ClientCommandC2SPacket packet && getSetting(0).asToggle().getValue()) {
-            if (packet.getMode() == ClientCommandC2SPacket.Mode.START_SPRINTING) {
+        if (event.packet instanceof ServerboundPlayerCommandPacket packet && getSetting(0).asToggle().getValue()) {
+            if (packet.getAction() == ServerboundPlayerCommandPacket.Action.START_SPRINTING) {
                 event.cancel();
             }
         }
 
-        if (event.packet instanceof PlayerMoveC2SPacket packet && getSetting(1).asToggle().getValue() && mc.player.isOnGround() && mc.player.fallDistance <= 0.0 && !mc.interactionManager.isBreakingBlock()) {
-            ((PlayerMoveC2SPacketAccessor) packet).setOnGround(false);
+        if (event.packet instanceof ServerboundMovePlayerPacket packet && getSetting(1).asToggle().getValue() && mc.player.onGround() && mc.player.fallDistance <= 0.0 && !mc.gameMode.isDestroying()) {
+            ((ServerboundMovePlayerPacketAccessor) packet).setOnGround(false);
         }
     }
 
@@ -64,10 +65,10 @@ public class AntiHunger extends Module {
             return;
         }
 
-        if (mc.player.isOnGround() && !lastOnGround && getSetting(1).asToggle().getValue()) {
+        if (mc.player.onGround() && !lastOnGround && getSetting(1).asToggle().getValue()) {
             ignorePacket = true;
         }
 
-        lastOnGround = mc.player.isOnGround();
+        lastOnGround = mc.player.onGround();
     }
 }

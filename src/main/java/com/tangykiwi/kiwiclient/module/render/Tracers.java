@@ -1,7 +1,7 @@
 package com.tangykiwi.kiwiclient.module.render;
 
 import com.google.common.eventbus.Subscribe;
-import com.tangykiwi.kiwiclient.event.WorldRenderEvent;
+import com.tangykiwi.kiwiclient.event.LevelRenderEvent;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.setting.SliderSetting;
@@ -9,8 +9,8 @@ import com.tangykiwi.kiwiclient.module.setting.ToggleSetting;
 import com.tangykiwi.kiwiclient.util.EntityUtils;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
@@ -25,17 +25,17 @@ public class Tracers extends Module {
     }
 
     @Subscribe
-    public void onRender(WorldRenderEvent.Post event) {
+    public void onRender(LevelRenderEvent event) {
         float width = getSetting(0).asSlider().getValueFloat();
         float opacity = getSetting(1).asSlider().getValueFloat();
 
-        for(Entity e : mc.world.getEntities()) {
-            Vec3d vec = e.getEntityPos().subtract(RenderUtils.getInterpolationOffset(e));
+        for(Entity e : mc.level.entitiesForRendering()) {
+            Vec3 vec = e.getEyePosition().subtract(RenderUtils.getInterpolationOffset(e));
 
-            Vec3d vec2 = new Vec3d(0, 0, 75)
-                .rotateX(-(float) Math.toRadians(mc.gameRenderer.getCamera().getPitch()))
-                .rotateY(-(float) Math.toRadians(mc.gameRenderer.getCamera().getYaw()))
-                .add(mc.getCameraEntity().getEyePos());
+            Vec3 vec2 = new Vec3(0, 0, 75)
+                        .xRot(-(float) Math.toRadians(mc.gameRenderer.getMainCamera().xRot()))
+                        .yRot(-(float) Math.toRadians(mc.gameRenderer.getMainCamera().yRot()))
+                        .add(mc.getCameraEntity().getEyePosition());
 
             int color = -1;
 
@@ -49,7 +49,7 @@ public class Tracers extends Module {
 
             if (color != -1) {
                 color = ((int)(opacity * 255) << 24) | (color & 0x00FFFFFF);
-                RenderUtils.drawLine(vec2.x, vec2.y, vec2.z, vec.x, vec.y + e.getHeight() / 2, vec.z, color, width);
+                RenderUtils.drawLine(vec2.x, vec2.y, vec2.z, vec.x, vec.y + e.getEyeHeight() / 2, vec.z, color, width);
             }
         }
     }

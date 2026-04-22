@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
@@ -9,18 +10,15 @@ import com.tangykiwi.kiwiclient.module.render.ESP;
 import com.tangykiwi.kiwiclient.module.render.Freecam;
 import com.tangykiwi.kiwiclient.util.ConfigManager;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.RunArgs;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.texture.NativeImage;
-import net.minecraft.client.util.Icons;
-import net.minecraft.client.util.MacWindowUtil;
-import net.minecraft.client.util.Window;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
-import net.minecraft.resource.ResourcePack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.client.server.IntegratedServer;
+import net.minecraft.network.Connection;
+import net.minecraft.world.entity.Entity;
+
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.system.MemoryStack;
@@ -29,6 +27,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -43,12 +42,13 @@ import static com.tangykiwi.kiwiclient.KiwiClient.LOGGER;
 import static com.tangykiwi.kiwiclient.KiwiClient.discordRPC;
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
-@Mixin(MinecraftClient.class)
+@Mixin(Minecraft.class)
 public class MinecraftClientMixin {
-    @Shadow public ClientWorld world;
+    @Shadow public ClientLevel level;
+    @Shadow private IntegratedServer singleplayerServer;
 
-    @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;setOverlay(Lnet/minecraft/client/gui/screen/Overlay;)V", shift = At.Shift.BEFORE))
-    private void init(RunArgs args, CallbackInfo callback) {
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void init(CallbackInfo callback) {
         KiwiClient.postInit();
     }
 
@@ -62,68 +62,68 @@ public class MinecraftClientMixin {
         KiwiClient.eventBus.post(TickEvent.Post.get());
     }
 
-    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setIcon(Lnet/minecraft/resource/ResourcePack;Lnet/minecraft/client/util/Icons;)V"))
-    private void onChangeIcon(Window instance, ResourcePack resourcePack, Icons icons) throws IOException {
-        RenderSystem.assertOnRenderThread();
+    // @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setIcon(Lnet/minecraft/resource/ResourcePack;Lnet/minecraft/client/util/Icons;)V"))
+    // private void onChangeIcon(Window instance, ResourcePack resourcePack, Icons icons) throws IOException {
+    //     RenderSystem.assertOnRenderThread();
 
-        if (GLFW.glfwGetPlatform() == 393218) {
-            MacWindowUtil.setApplicationIconImage(icons.getMacIcon(resourcePack));
-            return;
-        }
-        setWindowIcon(KiwiClient.class.getResourceAsStream("/assets/kiwiclient/icon64.png"), KiwiClient.class.getResourceAsStream("/assets/kiwiclient/icon128.png"));
-    }
+    //     if (GLFW.glfwGetPlatform() == 393218) {
+    //         MacWindowUtil.setApplicationIconImage(icons.getMacIcon(resourcePack));
+    //         return;
+    //     }
+    //     setWindowIcon(KiwiClient.class.getResourceAsStream("/assets/kiwiclient/icon64.png"), KiwiClient.class.getResourceAsStream("/assets/kiwiclient/icon128.png"));
+    // }
 
-    public void setWindowIcon(InputStream img16x16, InputStream img32x32) {
-        try (MemoryStack memorystack = MemoryStack.stackPush()) {
-            GLFWImage.Buffer buffer = GLFWImage.malloc(2, memorystack);
-            List<InputStream> imgList = List.of(img16x16, img32x32);
-            List<ByteBuffer> buffers = new ArrayList<>();
+    // public void setWindowIcon(InputStream img16x16, InputStream img32x32) {
+    //     try (MemoryStack memorystack = MemoryStack.stackPush()) {
+    //         GLFWImage.Buffer buffer = GLFWImage.malloc(2, memorystack);
+    //         List<InputStream> imgList = List.of(img16x16, img32x32);
+    //         List<ByteBuffer> buffers = new ArrayList<>();
 
-            for (int i = 0; i < imgList.size(); i++) {
-                NativeImage nativeImage = NativeImage.read(imgList.get(i));
-                ByteBuffer bytebuffer = MemoryUtil.memAlloc(nativeImage.getWidth() * nativeImage.getHeight() * 4);
+    //         for (int i = 0; i < imgList.size(); i++) {
+    //             NativeImage nativeImage = NativeImage.read(imgList.get(i));
+    //             ByteBuffer bytebuffer = MemoryUtil.memAlloc(nativeImage.getWidth() * nativeImage.getHeight() * 4);
 
-                bytebuffer.asIntBuffer().put(nativeImage.copyPixelsArgb());
-                buffer.position(i);
-                buffer.width(nativeImage.getWidth());
-                buffer.height(nativeImage.getHeight());
-                buffer.pixels(bytebuffer);
+    //             bytebuffer.asIntBuffer().put(nativeImage.copyPixelsArgb());
+    //             buffer.position(i);
+    //             buffer.width(nativeImage.getWidth());
+    //             buffer.height(nativeImage.getHeight());
+    //             buffer.pixels(bytebuffer);
 
-                buffers.add(bytebuffer);
-            }
+    //             buffers.add(bytebuffer);
+    //         }
 
-            GLFW.glfwSetWindowIcon(KiwiClient.mc.getWindow().getHandle(), buffer);
-            buffers.forEach(MemoryUtil::memFree);
-        } catch (IOException ignored) {
-        }
-    }
+    //         GLFW.glfwSetWindowIcon(KiwiClient.mc.getWindow().getHandle(), buffer);
+    //         buffers.forEach(MemoryUtil::memFree);
+    //     } catch (IOException ignored) {
+    //     }
+    // }
 
-    @Inject(method = "getWindowTitle", at = @At(value = "TAIL"), cancellable = true)
-    private void getWindowTitle(final CallbackInfoReturnable<String> info) {
-        MinecraftClient client = KiwiClient.mc;
+    @ModifyArg(method = "updateTitle", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Window;setTitle(Ljava/lang/String;)V"))
+    private String getWindowTitle(String original) {
+        Minecraft client = KiwiClient.mc;
 
         String title = KiwiClient.NAME + " v" + KiwiClient.VERSION + " - MC " + KiwiClient.MC_VERSION;
 
-        ClientPlayNetworkHandler clientPlayNetworkHandler = client.getNetworkHandler();
-        if (clientPlayNetworkHandler != null && clientPlayNetworkHandler.getConnection().isOpen()) {
+        ClientPacketListener clientPlayNetworkHandler = client.getConnection();
+        if (clientPlayNetworkHandler != null && clientPlayNetworkHandler.getConnection().isConnected()) {
             title += " | ";
 
             discordRPC.activity.setDetails("Playing");
-            if (client.getServer() != null && !client.getServer().isRemote()) {
-                title += I18n.translate("title.singleplayer");
+            if (this.singleplayerServer != null && !this.singleplayerServer.isPublished()) {
+                title += I18n.get("title.singleplayer");
                 discordRPC.activity.setState("Singleplayer");
-            } else if (client.getCurrentServerEntry().isRealm()) {
-                title += I18n.translate("title.multiplayer.realms");
+            } else if (client.getCurrentServer().isRealm()) {
+                title += I18n.get("title.multiplayer.realms");
                 discordRPC.activity.setState("Realms");
-            } else if (client.getServer() == null && (client.getCurrentServerEntry() == null || !client.getCurrentServerEntry().isLocal())) {
-                title += I18n.translate("title.multiplayer.other");
+            } else if (this.singleplayerServer == null && (client.getCurrentServer() == null || !client.getCurrentServer().isLan())) {
+                title += I18n.get("title.multiplayer.other");
 //                if(KiwiClient.moduleManager.getModule(NoIP.class).isEnabled()) {
                     discordRPC.activity.setState("Multiplayer");
 //                } else {
 //                    discordRPC.state = client.getCurrentServerEntry().address;
 //                }
             } else {
-                title += I18n.translate("title.multiplayer.lan");
+                title += I18n.get("title.multiplayer.lan");
                 discordRPC.activity.setState("LAN Server");
             }
         } else {
@@ -133,15 +133,16 @@ public class MinecraftClientMixin {
 
         discordRPC.update();
 
-        info.setReturnValue(title);
+        return title;
     }
 
-    @Inject(method = "hasOutline", at = @At("HEAD"), cancellable = true)
-    private void outlineEntities(Entity entity, CallbackInfoReturnable<Boolean> ci) {
+    @ModifyReturnValue(method = "shouldEntityAppearGlowing", at = @At("RETURN"))
+    private boolean outlineEntities(boolean original, Entity entity) {
         ESP esp = (ESP) KiwiClient.moduleManager.getModule(ESP.class);
         if (esp.isEnabled() && esp.getSetting("Mode").asMode().getValue() == 0 && entity != mc.player) {
-            ci.setReturnValue(true);
+            return true;
         }
+        return original;
     }
 
     @Inject(at = @At("HEAD"), method = "setScreen", cancellable = true)
@@ -153,7 +154,7 @@ public class MinecraftClientMixin {
 
     @Inject(method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;Z)V", at = @At("HEAD"))
     private void onDisconnect(Screen screen, boolean transferring, CallbackInfo info) {
-        if (world != null) {
+        if (level != null) {
             for (Module m : KiwiClient.moduleManager.getEnabledMods(null)) {
                 m.onDisable();
             }

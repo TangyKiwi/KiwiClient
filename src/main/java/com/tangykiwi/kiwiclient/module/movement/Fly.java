@@ -6,8 +6,8 @@ import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.PacketEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
-import com.tangykiwi.kiwiclient.mixin.ClientPlayerEntityAccessor;
-import com.tangykiwi.kiwiclient.mixin.PlayerMoveC2SPacketAccessor;
+import com.tangykiwi.kiwiclient.mixin.LocalPlayerAccessor;
+import com.tangykiwi.kiwiclient.mixin.ServerboundMovePlayerPacketAccessor;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.setting.ModeSetting;
@@ -16,6 +16,7 @@ import com.tangykiwi.kiwiclient.module.setting.SliderSetting;
 import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.Vec3;
 
 public class Fly extends Module{
@@ -80,7 +81,7 @@ public class Fly extends Module{
 
             if (getSetting(1).asMode().getValue() == 2) {
                 // Resend movement packets
-                ((ClientPlayerEntityAccessor) mc.player).setTicksSinceLastPositionPacketSent(20);
+                ((LocalPlayerAccessor) mc.player).setPositionReminder(20);
             }
         } else if (delayLeft <= 0) {
             boolean shouldReturn = false;
@@ -92,7 +93,7 @@ public class Fly extends Module{
                 }
             } else if (getSetting(1).asMode().getValue() == 2 && offLeft == 1) {
                 // Resend movement packets
-                ((ClientPlayerEntityAccessor) mc.player).setTicksSinceLastPositionPacketSent(20);
+                ((LocalPlayerAccessor) mc.player).setPositionReminder(20);
             }
 
             offLeft--;
@@ -132,7 +133,7 @@ public class Fly extends Module{
             // if the packet is a LookAndOnGround packet or an OnGroundOnly packet then we need to
             // make it a Full packet or a PositionAndOnGround packet respectively, so it has a Y value
             ServerboundMovePlayerPacket fullPacket;
-            if (packet.changesLook()) {
+            if (packet.hasRotation()) {
                 fullPacket = new ServerboundMovePlayerPacket.PosRot(
                     mc.player.getX(),
                     mc.player.getY(),
@@ -187,7 +188,7 @@ public class Fly extends Module{
     }
 
     private boolean isEntityOnAir(Entity entity) {
-        return entity.level().getStatesInBox(entity.getBoundingBox().expand(0.0625).stretch(0.0, -0.55, 0.0)).allMatch(AbstractBlock.AbstractBlockState::isAir);
+        return entity.level().getBlockStates(entity.getBoundingBox().inflate(0.0625).expandTowards(0.0, -0.55, 0.0)).allMatch(BlockBehaviour.BlockStateBase::isAir);
     }
 
     public float getOffGroundSpeed() {

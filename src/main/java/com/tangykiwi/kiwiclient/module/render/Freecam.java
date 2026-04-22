@@ -6,6 +6,7 @@ import java.awt.RenderingHints.Key;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.tangykiwi.kiwiclient.event.KeyPressEvent;
 import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
@@ -13,16 +14,16 @@ import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.setting.SliderSetting;
 
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.option.Perspective;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.CameraType;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 
 public class Freecam extends Module {
-    public Vec3d pos;
-    public Vec3d prevPos;
+    public Vec3 pos;
+    public Vec3 prevPos;
     public float yaw;
     public float pitch;
     public float prevYaw;
@@ -34,7 +35,8 @@ public class Freecam extends Module {
     private boolean left;
     private boolean up;
     private boolean down;
-    private Perspective perspective;
+    private boolean sneaking;
+    private CameraType perspective;
 
     public Freecam() {
         super("Freecam", "Detaches your camera", Category.RENDER,
@@ -46,14 +48,22 @@ public class Freecam extends Module {
         if (mc.player == null) {
             this.toggle();
         } else {
-            mc.chunkCullingEnabled = false;
-            this.yaw = mc.player.getYaw();
-            this.pitch = mc.player.getPitch();
-            this.pos = mc.gameRenderer.getCamera().getPos();
-            this.prevPos = mc.gameRenderer.getCamera().getPos();
+            mc.levelRenderer.allChanged();
+            this.yaw = mc.player.getYRot();
+            this.pitch = mc.player.getXRot();
+            this.pos = mc.gameRenderer.getMainCamera().position();
+            this.prevPos = mc.gameRenderer.getMainCamera().position();
             this.prevYaw = this.yaw;
             this.prevPitch = this.pitch;
-            this.perspective = mc.options.getPerspective();
+            this.perspective = mc.options.getCameraType();
+
+            this.forward = InputConstants.isKeyDown(mc.getWindow(), InputConstants.KEY_UP);
+            this.backward = InputConstants.isKeyDown(mc.getWindow(), InputConstants.KEY_DOWN);
+            this.right = InputConstants.isKeyDown(mc.getWindow(), InputConstants.KEY_RIGHT);
+            this.left = InputConstants.isKeyDown(mc.getWindow(), InputConstants.KEY_LEFT);
+            this.up = InputConstants.isKeyDown(mc.getWindow(), InputConstants.KEY_SPACE);
+            this.down = InputConstants.isKeyDown(mc.getWindow(), InputConstants.KEY_LSHIFT);
+            this.sneaking = mc.options.keyShift.isDown();
             this.unpress();
             super.onEnable();
         }
@@ -62,8 +72,8 @@ public class Freecam extends Module {
     @Override
     public void onDisable() {
         this.unpress();
-        mc.chunkCullingEnabled = true;
-        mc.options.setPerspective(perspective);
+        mc.execute(mc.levelRenderer::allChanged);
+        mc.options.setCameraType(perspective);
         super.onDisable();
     }
 
@@ -72,25 +82,25 @@ public class Freecam extends Module {
     public void onTick(TickEvent.Post event) {
         if (mc.player == null) return;
 
-        if (mc.getCameraEntity().isInsideWall()) {
-            mc.getCameraEntity().noClip = true;
+        if (mc.getCameraEntity().isInWall()) {
+            mc.getCameraEntity().noPhysics = true;
         }
         if (!perspective.isFirstPerson()) {
-            mc.options.setPerspective(Perspective.FIRST_PERSON);
+            mc.options.setCameraType(CameraType.FIRST_PERSON);
         }
 
-        if (mc.currentScreen == null) {
-            Vec3d forward = Vec3d.fromPolar(0.0F, this.yaw);
-            Vec3d right = Vec3d.fromPolar(0.0F, this.yaw + 90.0F);
+        if (mc.screen == null) {
+            Vec3 forward = Vec3.directionFromRotation(0.0F, this.yaw);
+            Vec3 right = Vec3.directionFromRotation(0.0F, this.yaw + 90.0F);
             double velX = 0.0D;
             double velY = 0.0D;
             double velZ = 0.0D;
 
-            if(mc.crosshairTarget instanceof EntityHitResult) {
-                lookAt(((EntityHitResult) mc.crosshairTarget).getEntity().getEntityPos());
+            if(mc.hitResult instanceof EntityHitResult ehr) {
+                lookAt(ehr.getLocation());
                 target = true;
-            } else if (mc.crosshairTarget instanceof BlockHitResult) {
-                lookAt(mc.crosshairTarget.getPos());
+            } else if (mc.hitResult instanceof BlockHitResult bhr) {
+                lookAt(bhr.getLocation());
                 target = true;
             } else {
                 target = false;
@@ -138,15 +148,15 @@ public class Freecam extends Module {
             }
 
             this.prevPos = this.pos;
-            this.pos = new Vec3d(this.pos.x + velX, this.pos.y + velY, this.pos.z + velZ);
+            this.pos = new Vec3(this.pos.x + velX, this.pos.y + velY, this.pos.z + velZ);
         }
     }
 
-    private void lookAt(Vec3d pos) {
-        Vec3d player = mc.player.getEyePos();
-        double dirx = player.getX() - pos.x;
-        double diry = player.getY() - pos.y;
-        double dirz = player.getZ() - pos.z;
+    private void lookAt(Vec3 pos) {
+        Vec3 player = mc.player.getEyePosition();
+        double dirx = player.x - pos.x;
+        double diry = player.y - pos.y;
+        double dirz = player.z - pos.z;
         double len = Math.sqrt(dirx * dirx + diry * diry + dirz * dirz);
         dirx /= len;
         diry /= len;
@@ -156,17 +166,17 @@ public class Freecam extends Module {
         pitch = pitch * 180.0 / Math.PI;
         yaw = yaw * 180.0 / Math.PI;
         yaw += 90f;
-        mc.player.setYaw((float) yaw);
-        mc.player.setPitch((float) pitch);
+        mc.player.setYRot((float) yaw);
+        mc.player.setXRot((float) pitch);
     }
 
     private void unpress() {
-        mc.options.forwardKey.setPressed(false);
-        mc.options.backKey.setPressed(false);
-        mc.options.rightKey.setPressed(false);
-        mc.options.leftKey.setPressed(false);
-        mc.options.jumpKey.setPressed(false);
-        mc.options.sneakKey.setPressed(false);
+        mc.options.keyUp.setDown(false);
+        mc.options.keyDown.setDown(false);
+        mc.options.keyRight.setDown(false);
+        mc.options.keyLeft.setDown(false);
+        mc.options.keyJump.setDown(false);
+        mc.options.keyShift.setDown(false);
     }
 
     @Subscribe
@@ -181,19 +191,19 @@ public class Freecam extends Module {
     @Subscribe
     @AllowConcurrentEvents
     private void onKey(KeyPressEvent event) {
-        KeyInput input = event.getKeyInput();
+        KeyEvent input = event.getKeyInput();
         boolean cancel = true;
-        if (mc.options.forwardKey.matchesKey(input)) {
+        if (mc.options.keyUp.matches(input)) {
             this.forward = event.getAction() != 0;
-        } else if (mc.options.backKey.matchesKey(input)) {
+        } else if (mc.options.keyDown.matches(input)) {
             this.backward = event.getAction() != 0;
-        } else if (mc.options.rightKey.matchesKey(input)) {
+        } else if (mc.options.keyRight.matches(input)) {
             this.right = event.getAction() != 0;
-        } else if (mc.options.leftKey.matchesKey(input)) {
+        } else if (mc.options.keyLeft.matches(input)) {
             this.left = event.getAction() != 0;
-        } else if (mc.options.jumpKey.matchesKey(input)) {
+        } else if (mc.options.keyJump.matches(input)) {
             this.up = event.getAction() != 0;
-        } else if (mc.options.sneakKey.matchesKey(input)) {
+        } else if (mc.options.keyShift.matches(input)) {
             this.down = event.getAction() != 0;
         } else {
             cancel = false;
@@ -209,26 +219,26 @@ public class Freecam extends Module {
         this.prevPitch = this.pitch;
         this.yaw = (float)((double)this.yaw + deltaX);
         this.pitch = (float)((double)this.pitch + deltaY);
-        this.pitch = MathHelper.clamp(this.pitch, -90.0F, 90.0F);
+        this.pitch = Mth.clamp(this.pitch, -90.0F, 90.0F);
     }
 
     public double getX(float tickDelta) {
-        return MathHelper.lerp(tickDelta, this.prevPos.x, this.pos.x);
+        return Mth.lerp(tickDelta, this.prevPos.x, this.pos.x);
     }
 
     public double getY(float tickDelta) {
-        return MathHelper.lerp(tickDelta, this.prevPos.y, this.pos.y);
+        return Mth.lerp(tickDelta, this.prevPos.y, this.pos.y);
     }
 
     public double getZ(float tickDelta) {
-        return MathHelper.lerp(tickDelta, this.prevPos.z, this.pos.z);
+        return Mth.lerp(tickDelta, this.prevPos.z, this.pos.z);
     }
 
     public double getYaw(float tickDelta) {
-        return MathHelper.lerp(tickDelta, this.prevYaw, this.yaw);
+        return Mth.lerp(tickDelta, this.prevYaw, this.yaw);
     }
 
     public double getPitch(float tickDelta) {
-        return MathHelper.lerp(tickDelta, this.prevPitch, this.pitch);
+        return Mth.lerp(tickDelta, this.prevPitch, this.pitch);
     }
 }

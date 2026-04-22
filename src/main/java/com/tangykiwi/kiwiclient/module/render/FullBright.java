@@ -8,7 +8,7 @@ import com.tangykiwi.kiwiclient.mixininterface.ISimpleOption;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 
-import net.minecraft.client.option.SimpleOption;
+import net.minecraft.client.OptionInstance;
 
 public class FullBright extends Module {
     public FullBright() {
@@ -17,18 +17,18 @@ public class FullBright extends Module {
 
     @Subscribe
     public void onTick(TickEvent.Post e) {
-        if (mc.options.getGamma().getValue() < 16) {
-            SimpleOption<Double> gammaOption = mc.options.getGamma();
+        if (mc.options.gamma().get() < 16) {
+            OptionInstance<Double> gammaOption = mc.options.gamma();
             @SuppressWarnings("unchecked")
             ISimpleOption<Double> gammaOption2 = (ISimpleOption<Double>)(Object)gammaOption;
-            gammaOption2.forceSetValue(gammaOption.getValue() + 0.5);
+            gammaOption2.forceSetValue(gammaOption.get() + 0.5);
         }
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
-        SimpleOption<Double> gammaOption = mc.options.getGamma();
+        OptionInstance<Double> gammaOption = mc.options.gamma();
         @SuppressWarnings("unchecked")
         ISimpleOption<Double> gammaOption2 = (ISimpleOption<Double>)(Object)gammaOption;
         gammaOption2.forceSetValue(1.0);

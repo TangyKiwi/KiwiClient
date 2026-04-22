@@ -7,11 +7,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.tangykiwi.kiwiclient.util.render.CustomRenderPipelines;
 
-import net.minecraft.client.gl.ShaderLoader;
+import net.minecraft.client.renderer.ShaderManager;
 
-@Mixin(ShaderLoader.class)
-public abstract class ShaderLoaderMixin {
-    @Inject(method = "apply(Lnet/minecraft/client/gl/ShaderLoader$Definitions;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V", at = @At("TAIL"))
+@Mixin(ShaderManager.class)
+public abstract class ShaderManagerMixin {
+    @Inject(method = "apply(Lnet/minecraft/client/renderer/ShaderManager$Configs;Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)V", at = @At("TAIL"))
     private void reloadPipelines(CallbackInfo info) {
         CustomRenderPipelines.precompile();
     }

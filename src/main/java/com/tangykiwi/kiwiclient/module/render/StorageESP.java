@@ -2,23 +2,30 @@ package com.tangykiwi.kiwiclient.module.render;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
+import com.tangykiwi.kiwiclient.event.LevelRenderEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
-import com.tangykiwi.kiwiclient.event.WorldRenderEvent;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.setting.ModeSetting;
 import com.tangykiwi.kiwiclient.module.setting.SliderSetting;
 import com.tangykiwi.kiwiclient.util.WorldUtils;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.block.entity.*;
-import net.minecraft.block.enums.ChestType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.entity.BarrelBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
+import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
+import net.minecraft.world.level.block.entity.TrappedChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.ChestType;
+import net.minecraft.world.phys.AABB;
+
 import org.lwjgl.glfw.GLFW;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
@@ -63,25 +70,25 @@ public class StorageESP extends Module {
 
     @Subscribe
     @AllowConcurrentEvents
-    public void onRender(WorldRenderEvent.Post event) {
+    public void onRender(LevelRenderEvent event) {
         for (Map.Entry<BlockEntity, Integer> e: blockEntities.entrySet()) {
-            if (blacklist.contains(e.getKey().getPos())) {
+            if (blacklist.contains(e.getKey().getBlockPos())) {
                 continue;
             }
 
-            Box box = new Box(e.getKey().getPos());
+            AABB box = new AABB(e.getKey().getBlockPos());
 
-            Block block = e.getKey().getCachedState().getBlock();
+            Block block = e.getKey().getBlockState().getBlock();
 
             if (block == Blocks.CHEST || block == Blocks.TRAPPED_CHEST || block == Blocks.ENDER_CHEST) {
-                box = box.contract(0.06);
-                box = box.offset(0, -0.06, 0);
+                box = box.deflate(0.06);
+                box = box.expandTowards(0, -0.06, 0);
 
-                Direction dir = getChestDirection(e.getKey().getPos());
+                Direction dir = getChestDirection(e.getKey().getBlockPos());
                 if (dir != null) {
-                    box = box.expand(Math.abs(dir.getOffsetX()) / 2d, 0, Math.abs(dir.getOffsetZ()) / 2d);
-                    box = box.offset(dir.getOffsetX() / 2d, 0, dir.getOffsetZ() / 2d);
-                    blacklist.add(e.getKey().getPos().offset(dir));
+                    box = box.inflate(Math.abs(dir.getStepX()) / 2d, 0, Math.abs(dir.getStepZ()) / 2d);
+                    box = box.expandTowards(dir.getStepX() / 2d, 0, dir.getStepZ() / 2d);
+                    blacklist.add(e.getKey().getBlockPos().offset(dir.getUnitVec3i()));
                 }
             }
 
@@ -124,10 +131,10 @@ public class StorageESP extends Module {
 
     /** returns the direction of the other chest if its linked, otherwise null **/
     private Direction getChestDirection(BlockPos pos) {
-        BlockState state = mc.world.getBlockState(pos);
+        BlockState state = mc.level.getBlockState(pos);
 
-        if (state.getBlock() instanceof ChestBlock && state.get(ChestBlock.CHEST_TYPE) != ChestType.SINGLE) {
-            return ChestBlock.getFacing(state);
+        if (state.getBlock() instanceof ChestBlock && state.getValue(ChestBlock.TYPE) != ChestType.SINGLE) {
+            return ChestBlock.getConnectedDirection(state);
         }
 
         return null;

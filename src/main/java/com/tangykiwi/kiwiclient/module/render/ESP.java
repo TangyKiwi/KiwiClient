@@ -3,7 +3,7 @@ package com.tangykiwi.kiwiclient.module.render;
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 import com.google.common.eventbus.Subscribe;
-import com.tangykiwi.kiwiclient.event.WorldRenderEvent;
+import com.tangykiwi.kiwiclient.event.LevelRenderEvent;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.setting.ModeSetting;
@@ -11,12 +11,8 @@ import com.tangykiwi.kiwiclient.module.setting.SliderSetting;
 import com.tangykiwi.kiwiclient.util.EntityUtils;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.decoration.EndCrystalEntity;
-import net.minecraft.entity.decoration.ItemFrameEntity;
-import net.minecraft.entity.vehicle.AbstractMinecartEntity;
-import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 
 public class ESP extends Module {
     public ESP() {
@@ -29,12 +25,12 @@ public class ESP extends Module {
     // shader handling done in MinecraftClientMixin, WorldRendererMixin
 
     @Subscribe
-    public void onWorldRenderPost(WorldRenderEvent.Post event) {
+    public void onWorldRenderPost(LevelRenderEvent event) {
         if (getSetting("Mode").asMode().getValue() != 0) {
             double width = getSetting("Box").asSlider().getValueD();
             float fill = getSetting("Fill").asSlider().getValueFloat();
 
-            for (Entity entity : mc.world.getEntities()) {
+            for (Entity entity : mc.level.entitiesForRendering()) {
                 if (entity == mc.player || entity == mc.player.getVehicle()) continue;
                 int color = getColor(entity);
                 if (color != -1) {
@@ -59,10 +55,7 @@ public class ESP extends Module {
             return (255 << 16) | (0 << 8) | 0;
         } else if (EntityUtils.isAnimal(entity)) {
             return (77 << 16) | (255 << 8) | 77;
-        } else if (entity instanceof ItemEntity || entity instanceof EndCrystalEntity || entity instanceof BoatEntity || entity instanceof AbstractMinecartEntity || entity instanceof ItemFrameEntity) {
-            return (128 << 16) | (128 << 8) | 128;
         }
-
-        return -1;
+        return (128 << 16) | (128 << 8) | 128;
     }
 }

@@ -10,12 +10,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.module.render.Freecam;
 
-import net.minecraft.entity.Entity;
-
+import net.minecraft.world.entity.Entity;
 
 @Mixin(Entity.class)
 public class EntityMixin {
-    @Inject(method = "changeLookDirection", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "turn", at = @At("HEAD"), cancellable = true)
     private void updateChangeLookDirection(double cursorDeltaX, double cursorDeltaY, CallbackInfo ci) {
         if ((Object) this != mc.player) return;
 

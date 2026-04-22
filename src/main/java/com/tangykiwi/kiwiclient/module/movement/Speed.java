@@ -9,8 +9,7 @@ import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.setting.SliderSetting;
 import com.tangykiwi.kiwiclient.module.setting.ToggleSetting;
 
-import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.phys.Vec3;
 
 public class Speed extends Module {
     public Speed() {
@@ -23,23 +22,20 @@ public class Speed extends Module {
     public void onTick(TickEvent e) {
         if (mc.player == null) return;
 
-        if (mc.options.sneakKey.isPressed())
+        if (mc.options.keyShift.isDown())
             return;
 
-        if ((mc.player.forwardSpeed != 0 || mc.player.sidewaysSpeed != 0)) {
+        if ((mc.player.zza  != 0 || mc.player.xxa != 0)) {
             if (!mc.player.isSprinting()) {
-                mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_SPRINTING));
+                mc.player.setSprinting(true);
             }
 
-            mc.player.setVelocity(new Vec3d(0, mc.player.getVelocity().y, 0));
-            mc.player.updateVelocity(getSetting(0).asSlider().getValueFloat(),
-                    new Vec3d(mc.player.sidewaysSpeed, 0, mc.player.forwardSpeed));
+            double multi = getSetting(0).asSlider().getValue() + 1.0;
+            Vec3 vel = mc.player.getDeltaMovement();
+            mc.player.setDeltaMovement(vel.x * multi, vel.y, vel.z * multi);
 
-            double vel = Math.abs(mc.player.getVelocity().getX()) + Math.abs(mc.player.getVelocity().getZ());
-
-            if (getSetting(1).asToggle().getValue() && vel >= 0.12 && mc.player.isOnGround()) {
-                mc.player.updateVelocity(vel >= 0.3 ? 0.0f : 0.15f, new Vec3d(mc.player.sidewaysSpeed, 0, mc.player.forwardSpeed));
-                mc.player.jump();
+            if (getSetting(1).asToggle().getValue() && mc.player.onGround()) {
+                mc.player.jumpFromGround();
             }
         }
     }

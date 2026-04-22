@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Axis;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.util.render.state.CustomCircleRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomLineRenderState;
@@ -19,6 +20,7 @@ import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.AxisDirection;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
@@ -240,8 +242,8 @@ public class RenderUtils {
 		PoseStack matrices = new PoseStack();
 
 		Camera camera = mc.gameRenderer.getMainCamera();
-		matrices.multiply(camera.xRot());
-		matrices.multiply(camera.yRot());
+        matrices.mulPose(Axis.XP.rotationDegrees(camera.xRot()));
+        matrices.mulPose(Axis.YP.rotationDegrees(camera.yRot()));
 
 		matrices.translate(x - camera.position().x, y - camera.position().y, z - camera.position().z);
 

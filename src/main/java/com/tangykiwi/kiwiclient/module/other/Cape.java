@@ -6,7 +6,7 @@ import com.tangykiwi.kiwiclient.module.setting.ModeSetting;
 import com.tangykiwi.kiwiclient.module.setting.ToggleSetting;
 import com.tangykiwi.kiwiclient.util.Textures;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 
 public class Cape extends Module {
     private long lastFrameTime = 0L;
@@ -36,9 +36,9 @@ public class Cape extends Module {
             int currentFrameNo = this.lastFrame + 1 > 32 ? 1 : this.lastFrame + 1;
             this.lastFrame = currentFrameNo;
             this.lastFrameTime = time;
-            return Identifier.of(String.format("kiwiclient:textures/cosmetic/cape/gif/cape%d.png", currentFrameNo));
+            return Identifier.parse(String.format("kiwiclient:textures/cosmetic/cape/gif/cape%d.png", currentFrameNo));
         } else {
-            return Identifier.of(String.format("kiwiclient:textures/cosmetic/cape/gif/cape%d.png", this.lastFrame));
+            return Identifier.parse(String.format("kiwiclient:textures/cosmetic/cape/gif/cape%d.png", this.lastFrame));
         }
     }
 

@@ -8,10 +8,12 @@ import com.tangykiwi.kiwiclient.module.render.FullBright;
 import com.tangykiwi.kiwiclient.module.render.NoRender;
 import com.tangykiwi.kiwiclient.module.render.XRay;
 
-import net.minecraft.client.render.LightmapTextureManager;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.profiler.Profiler;
+import net.minecraft.client.renderer.Lightmap;
+import net.minecraft.client.renderer.state.LightmapRenderState;
+import net.minecraft.util.ARGB;
+import net.minecraft.util.profiling.Profiler;
+import net.minecraft.world.entity.LivingEntity;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,16 +22,18 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(LightmapTextureManager.class)
-public abstract class LightmapTextureManagerMixin {
+@Mixin(Lightmap.class)
+public abstract class LightmapMixin {
     @Shadow
     @Final
     private GpuTexture glTexture;
 
     @Inject(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V", shift = At.Shift.AFTER), cancellable = true)
-    private void update$skip(float tickProgress, CallbackInfo ci, @Local Profiler profiler) {
+    private void update$skip(LightmapRenderState renderState, CallbackInfo ci) {
         if (KiwiClient.moduleManager.getModule(FullBright.class).isEnabled() || KiwiClient.moduleManager.getModule(XRay.class).isEnabled()) {
-            RenderSystem.getDevice().createCommandEncoder().clearColorTexture(glTexture, ColorHelper.getArgb(255, 255, 255, 255));
+            var profiler = Profiler.get();
+            profiler.push("lightmap");
+            RenderSystem.getDevice().createCommandEncoder().clearColorTexture(glTexture, ARGB.color(255, 255, 255, 255));
             profiler.pop();
             ci.cancel();
         }
