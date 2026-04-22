@@ -137,11 +137,11 @@ public class RenderUtils {
         matrices.popMatrix();
     }
 
-    public static void drawLine(double x1, double y1, double z1, double x2, double y2, double z2, int color, double lineWidth) {
+    public static void drawLine(double x1, double y1, double z1, double x2, double y2, double z2, int color, float lineWidth) {
         PoseStack matrices = matrixFrom(x1, y1, z1);
         BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
-        Vertexer.vertexLine(matrices, bufferBuilder, 0, 0, 0, (float)(x2 - x1), (float)(y2 - y1), (float)(z2 - z1), color);
-        CustomRenderLayers.LINES.apply(lineWidth).draw(bufferBuilder.build());
+        Vertexer.vertexLine(matrices, bufferBuilder, 0, 0, 0, (float)(x2 - x1), (float)(y2 - y1), (float)(z2 - z1), color, lineWidth);
+        CustomRenderLayers.LINES.draw(bufferBuilder.build());
     }
 
     public static void drawQuad(double x1, double y1, double z1, double x2, double y2, double z2, int color) {
@@ -212,17 +212,17 @@ public class RenderUtils {
         return new Vector3f(dx / normalSqrt, dy / normalSqrt, dz / normalSqrt);
     }
 
-    public static void drawBoxOutline(BlockPos blockPos, int color, double lineWidth, Direction... excludeDirs) {
+    public static void drawBoxOutline(BlockPos blockPos, int color, float lineWidth, Direction... excludeDirs) {
         drawBoxOutline(new AABB(blockPos), color, lineWidth, excludeDirs);
     }
 
-    public static void drawBoxOutline(AABB box, int color, double lineWidth, Direction... excludeDirs) {
+    public static void drawBoxOutline(AABB box, int color, float lineWidth, Direction... excludeDirs) {
         // if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
         PoseStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
         BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
-        Vertexer.vertexBoxOutline(matrices, bufferBuilder, box.move(new Vec3(box.minX, box.minY, box.minZ).reverse()), color, excludeDirs);
-        CustomRenderLayers.LINES.apply(lineWidth).draw(bufferBuilder.build());
+        Vertexer.vertexBoxOutline(matrices, bufferBuilder, box.move(new Vec3(box.minX, box.minY, box.minZ).reverse()), color, lineWidth, excludeDirs);
+        CustomRenderLayers.LINES.draw(bufferBuilder.build());
     }
 
     public static void drawBoxFilled(BlockPos blockPos, int color, Direction... excludeDirs) {

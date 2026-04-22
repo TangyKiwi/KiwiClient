@@ -13,13 +13,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;
 
 public class Vertexer {
-    public static void vertexLine(PoseStack matrices, VertexConsumer vertexConsumer, float x1, float y1, float z1, float x2, float y2, float z2, int color) {
+    public static void vertexLine(PoseStack matrices, VertexConsumer vertexConsumer, float x1, float y1, float z1, float x2, float y2, float z2, int color, float lineWidth) {
         Matrix4f model = matrices.last().pose();
         Matrix3f normal = matrices.last().normal();
 
         Vector3f normalVec = getNormal(normal, x1, y1, z1, x2, y2, z2);
-        vertexConsumer.addVertex(model, x1, y1, z1).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z());
-        vertexConsumer.addVertex(model, x2, y2, z2).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z());
+        vertexConsumer.addVertex(model, x1, y1, z1).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z()).setLineWidth(lineWidth);
+        vertexConsumer.addVertex(model, x2, y2, z2).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z()).setLineWidth(lineWidth);
     }
 
     public static Vector3f getNormal(Matrix3f normal, float x1, float y1, float z1, float x2, float y2, float z2) {
@@ -31,7 +31,7 @@ public class Vertexer {
 		return new Vector3f(xNormal / normalSqrt, yNormal / normalSqrt, zNormal / normalSqrt);
 	}
 
-    public static void vertexBoxOutline(PoseStack matrices, VertexConsumer vertexConsumer, AABB box, int color, Direction... excludeDirs) {
+    public static void vertexBoxOutline(PoseStack matrices, VertexConsumer vertexConsumer, AABB box, int color, float lineWidth, Direction... excludeDirs) {
         float x1 = (float) box.minX;
         float y1 = (float) box.minY;    
         float z1 = (float) box.minZ;
@@ -47,44 +47,44 @@ public class Vertexer {
 		boolean exUp = ArrayUtils.contains(excludeDirs, Direction.UP);
 
         if (!exDown) {
-            vertexLine(matrices, vertexConsumer, x1, y1, z1, x2, y1, z1, color);
-            vertexLine(matrices, vertexConsumer, x2, y1, z1, x2, y1, z2, color);
-            vertexLine(matrices, vertexConsumer, x2, y1, z2, x1, y1, z2, color);
-            vertexLine(matrices, vertexConsumer, x1, y1, z2, x1, y1, z1, color);
+            vertexLine(matrices, vertexConsumer, x1, y1, z1, x2, y1, z1, color, lineWidth);
+            vertexLine(matrices, vertexConsumer, x2, y1, z1, x2, y1, z2, color, lineWidth);
+            vertexLine(matrices, vertexConsumer, x2, y1, z2, x1, y1, z2, color, lineWidth);
+            vertexLine(matrices, vertexConsumer, x1, y1, z2, x1, y1, z1, color, lineWidth);
         }
 		if (!exWest) {
-			if (exDown) vertexLine(matrices, vertexConsumer, x1, y1, z1, x1, y1, z2, color);
-			vertexLine(matrices, vertexConsumer, x1, y1, z2, x1, y2, z2, color);
-			vertexLine(matrices, vertexConsumer, x1, y1, z1, x1, y2, z1, color);
-			if (exUp) vertexLine(matrices, vertexConsumer, x1, y2, z1, x1, y2, z2, color);
+			if (exDown) vertexLine(matrices, vertexConsumer, x1, y1, z1, x1, y1, z2, color, lineWidth);
+			vertexLine(matrices, vertexConsumer, x1, y1, z2, x1, y2, z2, color, lineWidth);
+			vertexLine(matrices, vertexConsumer, x1, y1, z1, x1, y2, z1, color, lineWidth);
+			if (exUp) vertexLine(matrices, vertexConsumer, x1, y2, z1, x1, y2, z2, color, lineWidth);
 		}
 
 		if (!exEast) {
-			if (exDown) vertexLine(matrices, vertexConsumer, x2, y1, z1, x2, y1, z2, color);
-			vertexLine(matrices, vertexConsumer, x2, y1, z2, x2, y2, z2, color);
-			vertexLine(matrices, vertexConsumer, x2, y1, z1, x2, y2, z1, color);
-			if (exUp) vertexLine(matrices, vertexConsumer, x2, y2, z1, x2, y2, z2, color);
+			if (exDown) vertexLine(matrices, vertexConsumer, x2, y1, z1, x2, y1, z2, color, lineWidth);
+			vertexLine(matrices, vertexConsumer, x2, y1, z2, x2, y2, z2, color, lineWidth);
+			vertexLine(matrices, vertexConsumer, x2, y1, z1, x2, y2, z1, color, lineWidth);
+			if (exUp) vertexLine(matrices, vertexConsumer, x2, y2, z1, x2, y2, z2, color, lineWidth);
 		}
 
 		if (!exNorth) {
-			if (exDown) vertexLine(matrices, vertexConsumer, x1, y1, z1, x2, y1, z1, color);
-			if (exEast) vertexLine(matrices, vertexConsumer, x2, y1, z1, x2, y2, z1, color);
-			if (exWest) vertexLine(matrices, vertexConsumer, x1, y1, z1, x1, y2, z1, color);
-			if (exUp) vertexLine(matrices, vertexConsumer, x1, y2, z1, x2, y2, z1, color);
+			if (exDown) vertexLine(matrices, vertexConsumer, x1, y1, z1, x2, y1, z1, color, lineWidth);
+			if (exEast) vertexLine(matrices, vertexConsumer, x2, y1, z1, x2, y2, z1, color, lineWidth);
+			if (exWest) vertexLine(matrices, vertexConsumer, x1, y1, z1, x1, y2, z1, color, lineWidth);
+			if (exUp) vertexLine(matrices, vertexConsumer, x1, y2, z1, x2, y2, z1, color, lineWidth);
 		}
 
 		if (!exSouth) {
-			if (exDown) vertexLine(matrices, vertexConsumer, x1, y1, z2, x2, y1, z2, color);
-			if (exEast) vertexLine(matrices, vertexConsumer, x2, y1, z2, x2, y2, z2, color);
-			if (exWest) vertexLine(matrices, vertexConsumer, x1, y1, z2, x1, y2, z2, color);
-			if (exUp) vertexLine(matrices, vertexConsumer, x1, y2, z2, x2, y2, z2, color);
+			if (exDown) vertexLine(matrices, vertexConsumer, x1, y1, z2, x2, y1, z2, color, lineWidth);
+			if (exEast) vertexLine(matrices, vertexConsumer, x2, y1, z2, x2, y2, z2, color, lineWidth);
+			if (exWest) vertexLine(matrices, vertexConsumer, x1, y1, z2, x1, y2, z2, color, lineWidth);
+			if (exUp) vertexLine(matrices, vertexConsumer, x1, y2, z2, x2, y2, z2, color, lineWidth);
 		}
 
 		if (!exUp) {
-			vertexLine(matrices, vertexConsumer, x1, y2, z1, x2, y2, z1, color);
-			vertexLine(matrices, vertexConsumer, x2, y2, z1, x2, y2, z2, color);
-			vertexLine(matrices, vertexConsumer, x2, y2, z2, x1, y2, z2, color);
-			vertexLine(matrices, vertexConsumer, x1, y2, z2, x1, y2, z1, color);
+			vertexLine(matrices, vertexConsumer, x1, y2, z1, x2, y2, z1, color, lineWidth);
+			vertexLine(matrices, vertexConsumer, x2, y2, z1, x2, y2, z2, color, lineWidth);
+			vertexLine(matrices, vertexConsumer, x2, y2, z2, x1, y2, z2, color, lineWidth);
+			vertexLine(matrices, vertexConsumer, x1, y2, z2, x1, y2, z1, color, lineWidth);
 		}
     }
 

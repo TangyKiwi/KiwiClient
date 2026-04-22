@@ -98,7 +98,7 @@ public class StorageESP extends Module {
             }
 
             if (getSetting(0).asMode().asMode().getValue() == 0 || getSetting(0).asMode().asMode().getValue() == 1) {
-                RenderUtils.drawBoxOutline(box, (int)(opacity * 255) << 24 | e.getValue(), getSetting(1).asSlider().getValue());
+                RenderUtils.drawBoxOutline(box, (int)(opacity * 255) << 24 | e.getValue(), getSetting(1).asSlider().getValueFloat());
             }
         }
 

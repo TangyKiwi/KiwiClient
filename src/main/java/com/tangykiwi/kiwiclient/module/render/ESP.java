@@ -27,7 +27,7 @@ public class ESP extends Module {
     @Subscribe
     public void onWorldRenderPost(LevelRenderEvent event) {
         if (getSetting("Mode").asMode().getValue() != 0) {
-            double width = getSetting("Box").asSlider().getValueD();
+            float width = getSetting("Box").asSlider().getValueFloat();
             float fill = getSetting("Fill").asSlider().getValueFloat();
 
             for (Entity entity : mc.level.entitiesForRendering()) {

@@ -43,7 +43,7 @@ import static com.tangykiwi.kiwiclient.KiwiClient.discordRPC;
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 @Mixin(Minecraft.class)
-public class MinecraftClientMixin {
+public class MinecraftMixin {
     @Shadow public ClientLevel level;
     @Shadow private IntegratedServer singleplayerServer;
 
