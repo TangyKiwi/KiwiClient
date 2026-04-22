@@ -233,7 +233,8 @@ public class FontRenderer implements Closeable {
             xOffset += glyph.width();
         }
         for (Identifier identifier : GLYPH_PAGE_CACHE.keySet()) {
-            RenderSystem.setShaderTexture(lineStart, null);
+            // FIND THE REPLACEMENT FOR THIS
+            // RenderSystem.setShaderTexture(lineStart, null);
             List<DrawEntry> objects = GLYPH_PAGE_CACHE.get(identifier);
 
             // int len = objects.size();
