@@ -1,6 +1,5 @@
 package com.tangykiwi.kiwiclient.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.GpuTexture;
 import com.tangykiwi.kiwiclient.KiwiClient;
@@ -26,21 +25,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class LightmapMixin {
     @Shadow
     @Final
-    private GpuTexture glTexture;
+    private GpuTexture texture;
 
-    @Inject(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V", shift = At.Shift.AFTER), cancellable = true)
+    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void update$skip(LightmapRenderState renderState, CallbackInfo ci) {
         if (KiwiClient.moduleManager.getModule(FullBright.class).isEnabled() || KiwiClient.moduleManager.getModule(XRay.class).isEnabled()) {
             var profiler = Profiler.get();
             profiler.push("lightmap");
-            RenderSystem.getDevice().createCommandEncoder().clearColorTexture(glTexture, ARGB.color(255, 255, 255, 255));
+            RenderSystem.getDevice().createCommandEncoder().clearColorTexture(texture, ARGB.color(255, 255, 255, 255));
             profiler.pop();
             ci.cancel();
         }
     }
 
-    @Inject(method = "getDarkness", at = @At("HEAD"), cancellable = true)
-	private void getDarknessFactor(LivingEntity entity, float factor, float tickProgress, CallbackInfoReturnable<Float> info) {
-		if (KiwiClient.moduleManager.getModule(NoRender.class).getSetting("Darkness").asToggle().getValue()) info.setReturnValue(0.0f);
-	}
+    // @Inject(method = "getDarkness", at = @At("HEAD"), cancellable = true)
+	// private void getDarknessFactor(LivingEntity entity, float factor, float tickProgress, CallbackInfoReturnable<Float> info) {
+	// 	if (KiwiClient.moduleManager.getModule(NoRender.class).getSetting("Darkness").asToggle().getValue()) info.setReturnValue(0.0f);
+	// }
 }

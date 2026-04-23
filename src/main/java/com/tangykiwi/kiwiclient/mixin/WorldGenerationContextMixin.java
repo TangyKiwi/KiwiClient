@@ -15,8 +15,7 @@ public abstract class WorldGenerationContextMixin {
         return instance == null ? -9999999 : instance.getMinY();
     }
 
-
-    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/chunk/ChunkGenerator;getWorldHeight()I"))
+    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/chunk/ChunkGenerator;getGenDepth()I"))
     private int onHeight(ChunkGenerator instance) {
         return instance == null ? 100000000 : instance.getGenDepth();
     }

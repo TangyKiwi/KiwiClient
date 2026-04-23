@@ -14,6 +14,7 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 
 import java.util.ArrayList;
@@ -40,17 +41,17 @@ public class ClickGUIScreen extends Base {
     public void initWindows() {
 
         int i = 10;
-        windows.add(new CategoryWindow(i, 18, 85, Category.PLAYER, new ItemStack(Items.PLAYER_HEAD)));
+        windows.add(new CategoryWindow(i, 18, 85, Category.PLAYER, /*new ItemStack(Items.PLAYER_HEAD)*/ null));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, Category.COMBAT, new ItemStack(Items.DIAMOND_SWORD)));
+        windows.add(new CategoryWindow(i, 18, 85, Category.COMBAT, /*new ItemStack(Items.DIAMOND_SWORD)*/ null));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, Category.RENDER, new ItemStack(Items.ENDER_EYE)));
+        windows.add(new CategoryWindow(i, 18, 85, Category.RENDER, /*new ItemStack(Items.ENDER_EYE)*/ null));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, Category.MOVEMENT, new ItemStack(Items.DIAMOND_BOOTS)));
+        windows.add(new CategoryWindow(i, 18, 85, Category.MOVEMENT, /*new ItemStack(Items.DIAMOND_BOOTS)*/ null));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, Category.CLIENT, new ItemStack(Items.GLASS_PANE)));
+        windows.add(new CategoryWindow(i, 18, 85, Category.CLIENT, /*new ItemStack(Items.GLASS_PANE)*/ null));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, Category.OTHER, new ItemStack(Items.COMMAND_BLOCK)));
+        windows.add(new CategoryWindow(i, 18, 85, Category.OTHER, /*new ItemStack(Items.COMMAND_BLOCK)*/ null));
     }
 
     @Override

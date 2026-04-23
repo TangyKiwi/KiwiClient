@@ -22,16 +22,37 @@ repositories {
 }
 
 loom {
-	splitEnvironmentSourceSets()
+// 	splitEnvironmentSourceSets()
 
-	mods {
-		"modid" {
-			sourceSet sourceSets.main
-			sourceSet sourceSets.client
-		}
-	}
+// 	mods {
+// 		"kiwiclient" {
+// 			sourceSet sourceSets.main
+// 			sourceSet sourceSets.client
+// 		}
+// 	}
 
-	// accessWidenerPath = "src/main/resources/kiwiclient.accesswidener"
+	accessWidenerPath = file("src/main/resources/kiwiclient.classtweaker")
+}
+
+tasks {
+    processResources {
+        def buildNumber = providers.gradleProperty("build_number").getOrElse("")
+        def commit = providers.gradleProperty("commit").getOrElse("")
+
+        def propertyMap = [
+            version           : project.version,
+            build_number      : buildNumber,
+            commit            : commit,
+            minecraft_version : project.minecraft_version,
+            loader_version    : project.loader_version
+        ]
+
+        inputs.properties(propertyMap)
+
+        filesMatching("fabric.mod.json") {
+            expand(propertyMap)
+        }
+    }
 }
 
 dependencies {

@@ -22,7 +22,7 @@
 	"mixins": [
 		"kiwiclient.mixins.json"
 	],
-	"accessWidener": "kiwiclient.accesswidener",
+	"accessWidener": "kiwiclient.classtweaker",
 	"custom": {
 		"kiwiclient:commit": "${commit}"
 	},

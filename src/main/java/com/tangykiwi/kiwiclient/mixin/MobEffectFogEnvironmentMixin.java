@@ -17,13 +17,13 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(MobEffectFogEnvironment.class)
 public abstract class MobEffectFogEnvironmentMixin {
     @Shadow
-    public abstract Holder<MobEffect> getStatusEffect();
+    public abstract Holder<MobEffect> getMobEffect();
 
-    @ModifyReturnValue(method = "shouldApply", at = @At("RETURN"))
+    @ModifyReturnValue(method = "isApplicable", at = @At("RETURN"))
     private boolean modifyShouldApply(boolean original) {
         Module noRender = KiwiClient.moduleManager.getModule(NoRender.class);
-        if (getStatusEffect() == MobEffects.BLINDNESS) return original && !noRender.getSetting("Blindness").asToggle().getValue();
-        if (getStatusEffect() == MobEffects.DARKNESS) return original && !noRender.getSetting("Darkness").asToggle().getValue();
+        if (getMobEffect() == MobEffects.BLINDNESS) return original && !noRender.getSetting("Blindness").asToggle().getValue();
+        if (getMobEffect() == MobEffects.DARKNESS) return original && !noRender.getSetting("Darkness").asToggle().getValue();
         return original;
     }
 }

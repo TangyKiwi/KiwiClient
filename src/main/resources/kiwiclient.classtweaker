@@ -1,0 +1,4 @@
+classTweaker v1 official
+
+# ClientChunkCacheAccessor, ClientChunkMapAccessor
+accessible   class   net/minecraft/client/multiplayer/ClientChunkCache$Storage

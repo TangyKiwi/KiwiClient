@@ -8,15 +8,10 @@ import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-
 public class DummyModule extends Module {
     public DummyModule() {
         super("DummyModule", "Dummy Module", -1, Category.OTHER);
     }
-
-    ItemStack item = Items.DIAMOND_HELMET.getDefaultInstance();
 
     @Subscribe
     public void onWorldRender(LevelRenderEvent event) {

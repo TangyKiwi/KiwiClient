@@ -152,8 +152,8 @@ public class MinecraftMixin {
         if (event.isCancelled()) info.cancel();
     }
 
-    @Inject(method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;Z)V", at = @At("HEAD"))
-    private void onDisconnect(Screen screen, boolean transferring, CallbackInfo info) {
+    @Inject(method = "disconnect(Lnet/minecraft/client/gui/screens/Screen;ZZ)V", at = @At("HEAD"))
+    private void onDisconnect(Screen screen, boolean keepResourcePacks, boolean stopSound, CallbackInfo info) {
         if (level != null) {
             for (Module m : KiwiClient.moduleManager.getEnabledMods(null)) {
                 m.onDisable();
