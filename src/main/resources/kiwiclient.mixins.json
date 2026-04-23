@@ -12,6 +12,7 @@
     "EntityMixin",
     "FogRendererMixin",
     "GuiGraphicsExtractorAccessor",
+    "GuiRendererMixin",
     "HeightRangePlacementModifierAccessor",
     "ItemMixin",
     "ItemStackMixin",
