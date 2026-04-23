@@ -2,7 +2,8 @@ package com.tangykiwi.kiwiclient.command.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.tangykiwi.kiwiclient.command.Command;
-import net.minecraft.commands.SharedSuggestionProvider;
+
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 import net.minecraft.world.level.GameType;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
@@ -14,7 +15,7 @@ public class Gamemode extends Command {
     }
 
     @Override
-    public void build(LiteralArgumentBuilder<SharedSuggestionProvider> builder) {
+    public void build(LiteralArgumentBuilder<ClientSuggestionProvider> builder) {
         for (GameType gameMode : GameType.values()) {
             builder.then(literal(gameMode.name()).executes(context -> {
                 mc.gameMode.setLocalMode(gameMode);

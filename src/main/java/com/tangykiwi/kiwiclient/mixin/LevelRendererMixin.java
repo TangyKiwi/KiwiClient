@@ -56,7 +56,7 @@ public class LevelRendererMixin {
         return true;
     }
 
-    @Inject(method = "renderLevel", at = @At("HEAD"))
+    @Inject(method = "renderLevel", at = @At("TAIL"))
     private void onRenderLevelHead(GraphicsResourceAllocator resourceAllocator, DeltaTracker deltaTracker, boolean renderOutline, CameraRenderState cameraState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, ChunkSectionsToRender chunkSectionsToRender, CallbackInfo ci) {
         PoseStack poseStack = new PoseStack();
         poseStack.mulPose(modelViewMatrix);

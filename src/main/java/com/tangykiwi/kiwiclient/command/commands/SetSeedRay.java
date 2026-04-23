@@ -8,7 +8,7 @@ import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.module.render.SeedRay;
 
-import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 
 public class SetSeedRay extends Command{
     public SetSeedRay() {
@@ -16,7 +16,7 @@ public class SetSeedRay extends Command{
     }
 
     @Override
-    public void build(LiteralArgumentBuilder<SharedSuggestionProvider> builder) {
+    public void build(LiteralArgumentBuilder<ClientSuggestionProvider> builder) {
         builder.then(argument("seed", StringArgumentType.string()).executes(context -> {
             long seed;
             try {

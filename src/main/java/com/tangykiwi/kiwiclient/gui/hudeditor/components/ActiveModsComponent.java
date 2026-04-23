@@ -2,9 +2,11 @@ package com.tangykiwi.kiwiclient.gui.hudeditor.components;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.module.Module;
+import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -13,6 +15,13 @@ public class ActiveModsComponent extends HUDComponent {
     public ActiveModsComponent(float x, float y) {
         super("ActiveMods", x, y);
     }
+
+    ArrayList<Module> fakeMods = new ArrayList<>(List.of(
+        new Module("Active Mods", "", Category.OTHER),
+        new Module("will be", "", Category.OTHER),
+        new Module("shown", "", Category.OTHER),
+        new Module("here", "", Category.OTHER)
+    ));
     
     @Override
     public void render(GuiGraphicsExtractor context) {
@@ -25,6 +34,9 @@ public class ActiveModsComponent extends HUDComponent {
 
         ArrayList<Module> enabledMods = KiwiClient.moduleManager.getEnabledMods(fontRenderer);
         if (UD == 0) Collections.reverse(enabledMods);
+        if (enabledMods.isEmpty()) {
+            enabledMods = fakeMods;
+        }
         setX((LR == 0) ? 0 : KiwiClient.mc.getWindow().getGuiScaledWidth() - fontRenderer.getStringWidth(enabledMods.get(0).getName()) - 2);
         setWidth((int) fontRenderer.getStringWidth(enabledMods.get(0).getName()));
 

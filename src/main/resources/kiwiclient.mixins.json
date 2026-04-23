@@ -5,6 +5,10 @@
   "mixins": [
     "ClientChunkCacheAccessor",
     "ClientChunkMapAccessor",
+    "ClientPacketListenerAccessor",
+    "ClientPacketListenerMixin",
+    "ClientTooltipComponentMixin",
+    "CommandSuggestionsMixin",
     "ConnectionMixin",
     "CountPlacementModifierAccessor",
     "CreativeModeInventoryScreenAccessor",
@@ -12,6 +16,7 @@
     "EntityMixin",
     "FogRendererMixin",
     "GuiGraphicsExtractorAccessor",
+    "GuiMixin",
     "GuiRendererMixin",
     "HeightRangePlacementModifierAccessor",
     "ItemMixin",

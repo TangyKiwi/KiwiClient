@@ -7,7 +7,7 @@ import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.gui.clickgui.CategoryWindow;
 import com.tangykiwi.kiwiclient.gui.clickgui.ClickGUIScreen;
 
-import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 
 public class ResetClickGUI extends Command {
     public ResetClickGUI() {
@@ -15,7 +15,7 @@ public class ResetClickGUI extends Command {
     }
 
     @Override
-    public void build(LiteralArgumentBuilder<SharedSuggestionProvider> builder) {
+    public void build(LiteralArgumentBuilder<ClientSuggestionProvider> builder) {
         builder.executes(context -> {
             int i = 10;
             for (CategoryWindow w : ClickGUIScreen.INSTANCE.windows) {

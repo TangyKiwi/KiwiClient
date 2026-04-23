@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
-
 import net.minecraft.client.gui.render.GuiRenderer;
 
 @Mixin(GuiRenderer.class)

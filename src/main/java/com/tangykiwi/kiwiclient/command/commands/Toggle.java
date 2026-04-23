@@ -7,7 +7,7 @@ import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.command.ModuleArgumentType;
 import com.tangykiwi.kiwiclient.module.Module;
 
-import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 
 public class Toggle extends Command {
 
@@ -16,7 +16,7 @@ public class Toggle extends Command {
     }
 
     @Override
-    public void build(LiteralArgumentBuilder<SharedSuggestionProvider> builder) {
+    public void build(LiteralArgumentBuilder<ClientSuggestionProvider> builder) {
         builder.then(argument("module", ModuleArgumentType.module())
             .executes(context -> {
                 Module m = ModuleArgumentType.getModule(context, "module");

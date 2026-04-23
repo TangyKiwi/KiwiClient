@@ -8,7 +8,7 @@ import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.gui.hudeditor.HUDEditorScreen;
 import com.tangykiwi.kiwiclient.gui.hudeditor.components.HUDComponent;
 
-import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 
 public class ResetHUD extends Command {
     public ResetHUD() {
@@ -16,7 +16,7 @@ public class ResetHUD extends Command {
     }
  
     @Override
-    public void build(LiteralArgumentBuilder<SharedSuggestionProvider> builder) {
+    public void build(LiteralArgumentBuilder<ClientSuggestionProvider> builder) {
         builder.executes(context -> {
             int w = mc.getWindow().getGuiScaledWidth();
             int h = mc.getWindow().getGuiScaledHeight();

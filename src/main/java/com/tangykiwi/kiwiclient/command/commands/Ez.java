@@ -3,7 +3,7 @@ package com.tangykiwi.kiwiclient.command.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.tangykiwi.kiwiclient.command.Command;
 
-import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.client.multiplayer.ClientSuggestionProvider;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
@@ -22,7 +22,7 @@ public class Ez extends Command {
             "╚══════╝╚══════╝"};
 
     @Override
-    public void build(LiteralArgumentBuilder<SharedSuggestionProvider> builder) {
+    public void build(LiteralArgumentBuilder<ClientSuggestionProvider> builder) {
         builder.executes(context -> {
             for(String message : messages) {
                 mc.getConnection().sendChat(message);

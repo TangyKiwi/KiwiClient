@@ -243,7 +243,7 @@ public class RenderUtils {
 
 		Camera camera = mc.gameRenderer.getMainCamera();
         matrices.mulPose(Axis.XP.rotationDegrees(camera.xRot()));
-        matrices.mulPose(Axis.YP.rotationDegrees(camera.yRot()));
+        matrices.mulPose(Axis.YP.rotationDegrees(camera.yRot() + 180.0F));
 
 		matrices.translate(x - camera.position().x, y - camera.position().y, z - camera.position().z);
 
