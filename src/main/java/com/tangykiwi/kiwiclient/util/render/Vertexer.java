@@ -18,8 +18,8 @@ public class Vertexer {
         Matrix3f normal = matrices.last().normal();
 
         Vector3f normalVec = getNormal(normal, x1, y1, z1, x2, y2, z2);
-        vertexConsumer.addVertex(model, x1, y1, z1).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z())/*.setLineWidth(lineWidth)*/;
-        vertexConsumer.addVertex(model, x2, y2, z2).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z())/*.setLineWidth(lineWidth)*/;
+        vertexConsumer.addVertex(model, x1, y1, z1).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z()).setLineWidth(lineWidth);
+        vertexConsumer.addVertex(model, x2, y2, z2).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z()).setLineWidth(lineWidth);
     }
 
     public static Vector3f getNormal(Matrix3f normal, float x1, float y1, float z1, float x2, float y2, float z2) {
