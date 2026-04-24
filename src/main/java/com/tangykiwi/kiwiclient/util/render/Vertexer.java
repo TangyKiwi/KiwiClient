@@ -9,7 +9,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 
 public class Vertexer {
@@ -26,9 +25,8 @@ public class Vertexer {
 		float xNormal = x2 - x1;
 		float yNormal = y2 - y1;
 		float zNormal = z2 - z1;
-		float normalSqrt = Mth.sqrt(xNormal * xNormal + yNormal * yNormal + zNormal * zNormal);
 
-		return new Vector3f(xNormal / normalSqrt, yNormal / normalSqrt, zNormal / normalSqrt);
+		return new Vector3f(xNormal, yNormal, zNormal).normalize();
 	}
 
     public static void vertexBoxOutline(PoseStack matrices, VertexConsumer vertexConsumer, AABB box, int color, float lineWidth, Direction... excludeDirs) {

@@ -139,7 +139,7 @@ public class RenderUtils {
 
     public static void drawLine(double x1, double y1, double z1, double x2, double y2, double z2, int color, float lineWidth) {
         PoseStack matrices = matrixFrom(x1, y1, z1);
-        BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
+        BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL_LINE_WIDTH);
         Vertexer.vertexLine(matrices, bufferBuilder, 0, 0, 0, (float)(x2 - x1), (float)(y2 - y1), (float)(z2 - z1), color, lineWidth);
         CustomRenderLayers.LINES.draw(bufferBuilder.build());
     }
@@ -220,7 +220,7 @@ public class RenderUtils {
         // if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
         PoseStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
-        BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
+        BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL_LINE_WIDTH);
         Vertexer.vertexBoxOutline(matrices, bufferBuilder, box.move(new Vec3(box.minX, box.minY, box.minZ).reverse()), color, lineWidth, excludeDirs);
         CustomRenderLayers.LINES.draw(bufferBuilder.build());
     }
