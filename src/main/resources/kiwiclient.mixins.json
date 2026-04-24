@@ -12,6 +12,7 @@
     "ConnectionMixin",
     "CountPlacementModifierAccessor",
     "CreativeModeInventoryScreenAccessor",
+    "CreativeModeTabsMixin",
     "EntityAccessor",
     "EntityMixin",
     "FogRendererMixin",

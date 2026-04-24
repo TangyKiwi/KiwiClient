@@ -4,12 +4,12 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.joml.Math;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 
 public class Vertexer {
@@ -18,15 +18,15 @@ public class Vertexer {
         Matrix3f normal = matrices.last().normal();
 
         Vector3f normalVec = getNormal(normal, x1, y1, z1, x2, y2, z2);
-        vertexConsumer.addVertex(model, x1, y1, z1).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z()).setLineWidth(lineWidth);
-        vertexConsumer.addVertex(model, x2, y2, z2).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z()).setLineWidth(lineWidth);
+        vertexConsumer.addVertex(model, x1, y1, z1).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z())/*.setLineWidth(lineWidth)*/;
+        vertexConsumer.addVertex(model, x2, y2, z2).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z())/*.setLineWidth(lineWidth)*/;
     }
 
     public static Vector3f getNormal(Matrix3f normal, float x1, float y1, float z1, float x2, float y2, float z2) {
 		float xNormal = x2 - x1;
 		float yNormal = y2 - y1;
 		float zNormal = z2 - z1;
-		float normalSqrt = Math.sqrt(xNormal * xNormal + yNormal * yNormal + zNormal * zNormal);
+		float normalSqrt = Mth.sqrt(xNormal * xNormal + yNormal * yNormal + zNormal * zNormal);
 
 		return new Vector3f(xNormal / normalSqrt, yNormal / normalSqrt, zNormal / normalSqrt);
 	}

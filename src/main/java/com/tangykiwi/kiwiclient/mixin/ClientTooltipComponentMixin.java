@@ -12,7 +12,7 @@ import com.tangykiwi.kiwiclient.mixininterface.ITooltipData;
 @Mixin(ClientTooltipComponent.class)
 public interface ClientTooltipComponentMixin {
     @Inject(method = "create(Lnet/minecraft/world/inventory/tooltip/TooltipComponent;)Lnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipComponent;", at = @At("HEAD"), cancellable = true)
-    private static void shortcutMeteorTooltipData(TooltipComponent component, CallbackInfoReturnable<ClientTooltipComponent> cir) {
+    private static void shortcutTooltip(TooltipComponent component, CallbackInfoReturnable<ClientTooltipComponent> cir) {
         if (component instanceof ITooltipData) cir.setReturnValue(null);
     }
 }

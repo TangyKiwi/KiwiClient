@@ -81,13 +81,13 @@ public class StorageESP extends Module {
             Block block = e.getKey().getBlockState().getBlock();
 
             if (block == Blocks.CHEST || block == Blocks.TRAPPED_CHEST || block == Blocks.ENDER_CHEST) {
-                box = box.deflate(0.06);
-                box = box.expandTowards(0, -0.06, 0);
+                box = box.inflate(-0.06, -0.06, -0.06);
+                box = box.move(0, -0.06, 0);
 
                 Direction dir = getChestDirection(e.getKey().getBlockPos());
                 if (dir != null) {
                     box = box.inflate(Math.abs(dir.getStepX()) / 2d, 0, Math.abs(dir.getStepZ()) / 2d);
-                    box = box.expandTowards(dir.getStepX() / 2d, 0, dir.getStepZ() / 2d);
+                    box = box.move(dir.getStepX() / 2d, 0, dir.getStepZ() / 2d);
                     blacklist.add(e.getKey().getBlockPos().offset(dir.getUnitVec3i()));
                 }
             }
