@@ -1,8 +1,6 @@
 package com.tangykiwi.kiwiclient.util.font;
 
 import com.google.common.base.Preconditions;
-import com.mojang.blaze3d.systems.RenderPass;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import com.tangykiwi.kiwiclient.util.render.state.CustomFontRenderState;
 
@@ -233,7 +231,7 @@ public class FontRenderer implements Closeable {
             xOffset += glyph.width();
         }
         for (Identifier identifier : GLYPH_PAGE_CACHE.keySet()) {
-            // FIND THE REPLACEMENT FOR THIS
+            // this is not needed anymore?
             // RenderSystem.setShaderTexture(lineStart, null);
             List<DrawEntry> objects = GLYPH_PAGE_CACHE.get(identifier);
 

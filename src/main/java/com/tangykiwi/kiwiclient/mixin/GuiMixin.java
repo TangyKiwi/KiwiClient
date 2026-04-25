@@ -26,7 +26,7 @@ public class GuiMixin {
         if (!mc.getDebugOverlay().showDebugScreen()) {
             context.blit(RenderPipelines.GUI_TEXTURED, Textures.DUCK_GIF, 0, 0, 0, frame * 76, 55, 76, 55, 1144);
 
-            if (mc.player != null && mc.player.getDeltaMovement().lengthSqr() > 0) {
+            if (mc.player != null && SpeedComponent.getSpeed() > 0) {
                 tick += 1;
                 if (tick == 5) {
                     frame = (frame + 1) % 15;

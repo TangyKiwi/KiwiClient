@@ -44,7 +44,7 @@ public class ContainerTooltipComponent implements ClientTooltipComponent, IToolt
         int i = 0;
 
         for (ItemStack itemStack : items) {
-            RenderUtils.drawItem(context, itemStack, x + 8 + i * 18, y + 7 + row * 18, 1);
+            RenderUtils.drawItem(context, itemStack, x + 8 + i * 18, y + 7 + row * 18, 1, true, null);
 
             i++;
             if (i >= 9) {

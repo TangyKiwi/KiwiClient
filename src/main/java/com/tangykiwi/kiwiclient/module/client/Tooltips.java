@@ -237,8 +237,7 @@ public class Tooltips extends Module {
                 DyeColor dye = shulkerBlock.getColor();
                 if (dye == null) return 0xFFFFFF;
 
-                final int color = dye.getTextureDiffuseColor();
-                return (color >> 16) & 0xFF | ((color >> 8) & 0xFF) << 8 | (color & 0xFF) << 16;
+                return dye.getTextureDiffuseColor();
             }
         }
 
