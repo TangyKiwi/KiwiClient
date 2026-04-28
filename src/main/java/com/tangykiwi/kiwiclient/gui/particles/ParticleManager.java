@@ -20,7 +20,7 @@ public class ParticleManager {
 
     public void render(GuiGraphicsExtractor m, int x, int y) {
         int rand;
-        if (particles.size() <= 1000) {
+        if (particles.size() <= 500) {
             for (int i = 0; i < 5; i++) {
                 rand = random(0, 4);
                 Particle particle = new Particle(centerWidth() + random(-getScaledWidth(), getScaledWidth()), centerHeight() + random(-getScaledHeight(), getScaledHeight()), random(1, 2), 0.15f, random(90, 150));
