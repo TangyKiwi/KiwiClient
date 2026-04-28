@@ -13,7 +13,7 @@ import org.joml.Vector3f;
 
 import com.tangykiwi.kiwiclient.mixininterface.ITooltipData;
 
-public class EntityTooltipComponent implements ClientTooltipComponent, ITooltipData {
+public class EntityTooltipComponent implements ITooltipData, ClientTooltipComponent {
     protected final LivingEntity entity;
     private static double spin;
 

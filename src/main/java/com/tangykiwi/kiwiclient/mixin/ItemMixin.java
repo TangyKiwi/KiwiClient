@@ -15,10 +15,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 @Mixin(Item.class)
-public class ItemMixin {
+public abstract class ItemMixin {
     @Inject(method = "getTooltipImage", at = @At("HEAD"), cancellable = true)
     private void onTooltipData(ItemStack stack, CallbackInfoReturnable<Optional<TooltipComponent>> cir) {
-        TooltipDataEvent event = new TooltipDataEvent(stack);
+        TooltipDataEvent event = TooltipDataEvent.get(stack);
         KiwiClient.eventBus.post(event);
         if (event.tooltipData != null) {
             cir.setReturnValue(Optional.of(event.tooltipData));

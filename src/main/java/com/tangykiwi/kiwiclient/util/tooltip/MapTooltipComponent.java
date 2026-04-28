@@ -16,7 +16,7 @@ import net.minecraft.world.item.MapItem;
 import net.minecraft.world.level.saveddata.maps.MapId;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 
-public class MapTooltipComponent implements ClientTooltipComponent, ITooltipData {
+public class MapTooltipComponent implements ITooltipData, ClientTooltipComponent {
     private static final Identifier TEXTURE_MAP_BACKGROUND = Identifier.parse("textures/map/map_background.png");
     private final int mapId;
     private final MapRenderState mapRenderState = new MapRenderState();

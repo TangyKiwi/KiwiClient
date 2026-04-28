@@ -10,7 +10,7 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.world.item.ItemStack;
 
-public class ContainerTooltipComponent implements ClientTooltipComponent, ITooltipData{
+public class ContainerTooltipComponent implements ITooltipData, ClientTooltipComponent {
     private final ItemStack[] items;
     private final int color;
 

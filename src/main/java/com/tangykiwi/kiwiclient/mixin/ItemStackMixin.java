@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 @Mixin(ItemStack.class)
-public class ItemStackMixin {
+public abstract class ItemStackMixin {
     @ModifyReturnValue(method = "getTooltipLines", at = @At("RETURN"))
     private List<Component> onGetTooltip(List<Component> original) {
         if (mc.level != null) {

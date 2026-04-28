@@ -17,7 +17,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
-public class BannerTooltipComponent implements ClientTooltipComponent, ITooltipData {
+public class BannerTooltipComponent implements ITooltipData, ClientTooltipComponent {
     private final DyeColor color;
     private final BannerPatternLayers patterns;
     private final BannerFlagModel bannerFlag;

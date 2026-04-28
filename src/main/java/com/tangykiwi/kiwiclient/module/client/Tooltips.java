@@ -1,7 +1,9 @@
 package com.tangykiwi.kiwiclient.module.client;
 
+import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.mojang.serialization.DataResult;
+import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.ItemStackTooltipEvent;
 import com.tangykiwi.kiwiclient.event.TooltipDataEvent;
 import com.tangykiwi.kiwiclient.mixin.EntityAccessor;
@@ -64,7 +66,6 @@ public class Tooltips extends Module {
     public Tooltips() {
         super("Tooltips", "Displays advanced tooltips.", Category.CLIENT,
             new ToggleSetting("Status Effects", "Shows effects and duration of status effects in items", true),
-            new ToggleSetting("Bees", "Shows honey level and number of bees in hives/nests", true),
             new ToggleSetting("Shulker Boxes", "Shows contents of shulker boxes", true),
             new ToggleSetting("Ender Chest", "Shows contents of your ender chest", true),
             new ToggleSetting("Maps", "Shows a preview of maps in tooltips", true),
@@ -77,6 +78,8 @@ public class Tooltips extends Module {
 
     @Subscribe
     public void appendTooltip(ItemStackTooltipEvent event) {
+        if(event.list().isEmpty()) return;
+
         if (getSetting("Status Effects").asToggle().getValue()) {
             if (event.itemStack().getItem() == Items.SUSPICIOUS_STEW) {
                 SuspiciousStewEffects stewEffectsComponent = event.itemStack().get(DataComponents.SUSPICIOUS_STEW_EFFECTS);
@@ -85,6 +88,7 @@ public class Tooltips extends Module {
                         MobEffectInstance effect = new MobEffectInstance(effectTag.effect(), effectTag.duration(), 0);
                         event.appendStart(getStatusText(effect));
                     }
+                    KiwiClient.LOGGER.info("Added suspicious stew effects to tooltip");
                 }
             } else {
                 Consumable consumable = event.itemStack().get(DataComponents.CONSUMABLE);
@@ -98,20 +102,20 @@ public class Tooltips extends Module {
             }
         }
 
-        if (getSetting("Bees").asToggle().getValue()) {
-            if (event.itemStack().getItem() == Items.BEEHIVE || event.itemStack().getItem() == Items.BEE_NEST) {
-                BlockItemStateProperties blockStateComponent = event.itemStack().get(DataComponents.BLOCK_STATE);
-                if (blockStateComponent != null) {
-                    String level = blockStateComponent.properties().get("honey_level");
-                    event.append(1, Component.literal(String.format("%sHoney level: %s%s%s.", ChatFormatting.GRAY, ChatFormatting.YELLOW, level, ChatFormatting.GRAY)));
-                }
+        // if (getSetting("Bees").asToggle().getValue()) {
+        //     if (event.itemStack().getItem() == Items.BEEHIVE || event.itemStack().getItem() == Items.BEE_NEST) {
+        //         BlockItemStateProperties blockStateComponent = event.itemStack().get(DataComponents.BLOCK_STATE);
+        //         if (blockStateComponent != null) {
+        //             String level = blockStateComponent.properties().get("honey_level");
+        //             event.append(1, Component.literal(String.format("%sHoney level: %s%s%s.", ChatFormatting.GRAY, ChatFormatting.YELLOW, level, ChatFormatting.GRAY)));
+        //         }
 
-                Bees bees = event.itemStack().get(DataComponents.BEES);
-                if (bees != null) {
-                    event.append(1, Component.literal(String.format("%sBees: %s%d%s.", ChatFormatting.GRAY, ChatFormatting.YELLOW, bees.bees().size(), ChatFormatting.GRAY)));
-                }
-            }
-        }
+        //         Bees bees = event.itemStack().get(DataComponents.BEES);
+        //         if (bees != null) {
+        //             event.append(1, Component.literal(String.format("%sBees: %s%d%s.", ChatFormatting.GRAY, ChatFormatting.YELLOW, bees.bees().size(), ChatFormatting.GRAY)));
+        //         }
+        //     }
+        // }
     }
 
     private MutableComponent getStatusText(MobEffectInstance effect) {
@@ -128,7 +132,7 @@ public class Tooltips extends Module {
 
     @Subscribe
     public void appendTooltip(TooltipDataEvent event) {
-        if (getSetting("Shulker Boxes").asToggle().getValue()) {
+        if (getSetting("Shulker Boxes").asToggle().getValue() && hasItems(event.itemStack)) {
             getItems(event.itemStack, PREVIEW);
             event.tooltipData = new ContainerTooltipComponent(PREVIEW, getShulkerColor(event.itemStack));
         }
