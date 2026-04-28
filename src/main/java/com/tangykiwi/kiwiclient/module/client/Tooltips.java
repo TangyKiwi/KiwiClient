@@ -1,6 +1,5 @@
 package com.tangykiwi.kiwiclient.module.client;
 
-import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.mojang.serialization.DataResult;
 import com.tangykiwi.kiwiclient.KiwiClient;
@@ -39,8 +38,6 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MobBucketItem;
-import net.minecraft.world.item.component.Bees;
-import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.SuspiciousStewEffects;
@@ -101,21 +98,6 @@ public class Tooltips extends Module {
                 }
             }
         }
-
-        // if (getSetting("Bees").asToggle().getValue()) {
-        //     if (event.itemStack().getItem() == Items.BEEHIVE || event.itemStack().getItem() == Items.BEE_NEST) {
-        //         BlockItemStateProperties blockStateComponent = event.itemStack().get(DataComponents.BLOCK_STATE);
-        //         if (blockStateComponent != null) {
-        //             String level = blockStateComponent.properties().get("honey_level");
-        //             event.append(1, Component.literal(String.format("%sHoney level: %s%s%s.", ChatFormatting.GRAY, ChatFormatting.YELLOW, level, ChatFormatting.GRAY)));
-        //         }
-
-        //         Bees bees = event.itemStack().get(DataComponents.BEES);
-        //         if (bees != null) {
-        //             event.append(1, Component.literal(String.format("%sBees: %s%d%s.", ChatFormatting.GRAY, ChatFormatting.YELLOW, bees.bees().size(), ChatFormatting.GRAY)));
-        //         }
-        //     }
-        // }
     }
 
     private MutableComponent getStatusText(MobEffectInstance effect) {
