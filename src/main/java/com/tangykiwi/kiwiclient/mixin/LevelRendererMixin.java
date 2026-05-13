@@ -8,6 +8,7 @@ import org.joml.Vector4f;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -31,6 +32,7 @@ import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.WeatherEffectRenderer;
 import net.minecraft.client.renderer.chunk.ChunkSectionsToRender;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
@@ -43,6 +45,9 @@ import net.minecraft.world.phys.Vec3;
 // change to LevelRenderer
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
+    @Shadow @Final
+    private EntityRenderDispatcher entityRenderDispatcher;
+
     @WrapWithCondition(method = "extractLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/WeatherEffectRenderer;extractRenderState(Lnet/minecraft/world/level/Level;IFLnet/minecraft/world/phys/Vec3;Lnet/minecraft/client/renderer/state/level/WeatherRenderState;)V"))
     private boolean extractLevel$noWeather(WeatherEffectRenderer instance, Level level, int ticks, float partialTicks, Vec3 cameraPos, WeatherRenderState renderState) {
         NoRender noRender = (NoRender) KiwiClient.moduleManager.getModule(NoRender.class);
@@ -72,29 +77,4 @@ public class LevelRendererMixin {
         }
         return original;
     }
-
-//     @Inject(method = "submitEntities", at = @At("TAIL"), cancellable = true)
-//     private void pushEntityRenders(PoseStack matrices, LevelRenderState renderStates, SubmitNodeCollector queue, CallbackInfo ci) {
-//         Vec3 vec3d = renderStates.cameraRenderState.pos;
-//         double d = vec3d.x();
-//         double e = vec3d.y();
-//         double f = vec3d.z();
-
-//         EntityRenderState entityRenderState;
-//         for(Iterator var11 = renderStates.entityRenderStates.iterator(); var11.hasNext(); this.entityRenderManager.extractRenderState(entityRenderState, renderStates.cameraRenderState, entityRenderState.x - d, entityRenderState.y - e, entityRenderState.z - f, matrices, queue)) {
-//             entityRenderState = (EntityRenderState)var11.next();
-//             ESP esp = (ESP) KiwiClient.moduleManager.getModule(ESP.class);
-//             if (esp.isEnabled() && esp.getSetting("Mode").asMode().getValue() == 0) {
-//                 if (entityRenderState.entityType == EntityType.PLAYER) {
-//                     entityRenderState.outlineColor = (255 << 24) | (255 << 16) | (255 << 8) | 255;
-//                 } else if (EntityUtils.isMob(entityRenderState.entityType)) {
-//                     entityRenderState.outlineColor = (255 << 24) | (255 << 16) | (0 << 8) | 0;
-//                 } else if (EntityUtils.isAnimal(entityRenderState.entityType)) {
-//                     entityRenderState.outlineColor = (255 << 24) | (77 << 16) | (255 << 8) | 77;
-//                 } else {
-//                     entityRenderState.outlineColor = (255 << 24) | (128 << 16) | (128 << 8) | 128;
-//                 }
-//             }   
-//         }
-//    }
 }
