@@ -43,7 +43,7 @@ public class BindSetting extends Setting<Integer> {
                 SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
         }
 
-        String name = getValue() < 0 ? "NONE" : InputConstants.getKey(new KeyEvent(getValue(), -1, -1)).getName();
+        String name = getValue() < 0 ? "NONE" : InputConstants.getKey(new KeyEvent(getValue(), -1, -1)).getDisplayName().getString();
         if (name == null) name = "KEY" + getValue();
         else if (name.isEmpty()) name = "NONE";
 
