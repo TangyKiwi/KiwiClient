@@ -27,7 +27,7 @@ import java.util.Arrays;
 public class XRay extends Module {
 
     private double gamma;
-    private ArrayList<Block> blocks = new ArrayList<Block>(Arrays.asList(
+    public ArrayList<Block> blocks = new ArrayList<Block>(Arrays.asList(
         Blocks.COAL_ORE,
         Blocks.DEEPSLATE_COAL_ORE,
         Blocks.COAL_BLOCK,
@@ -71,16 +71,16 @@ public class XRay extends Module {
         gamma = mc.options.gamma().get();
     }
 
-    // @Override
-    // public void onDisable() {
-    //     OptionInstance<Double> gammaOption = mc.options.gamma();
-    //     @SuppressWarnings("unchecked")
-    //     ISimpleOption<Double> gammaOption2 = (ISimpleOption<Double>)(Object)gammaOption;
-    //     gammaOption2.forceSetValue(gamma);
-    //     mc.levelRenderer.allChanged();
+    @Override
+    public void onDisable() {
+        // OptionInstance<Double> gammaOption = mc.options.gamma();
+        // @SuppressWarnings("unchecked")
+        // ISimpleOption<Double> gammaOption2 = (ISimpleOption<Double>)(Object)gammaOption;
+        // gammaOption2.forceSetValue(gamma);
+        mc.levelRenderer.allChanged();
 
-    //     super.onDisable();
-    // }
+        super.onDisable();
+    }
 
     // @Subscribe
     // @AllowConcurrentEvents
@@ -99,17 +99,14 @@ public class XRay extends Module {
     }
 
     public boolean modifyDrawSide(BlockState state, BlockGetter view, BlockPos pos, Direction facing, boolean returns) {
-        if (!returns && !isBlocked(state.getBlock(), pos)) {
-            BlockPos adjPos = pos.relative(facing);
-            BlockState adjState = view.getBlockState(adjPos);
-            return adjState.getFaceOcclusionShape(facing.getOpposite()) != Shapes.block() || adjState.getBlock() != state.getBlock() || !adjState.isSolidRender() || isBlocked(adjState.getBlock(), adjPos);
-        }
+        return blocks.contains(state.getBlock());
+        // if (!returns && blocks.contains(state.getBlock())) {
+        //     BlockPos adjPos = pos.relative(facing);
+        //     BlockState adjState = view.getBlockState(adjPos);
+        //     return adjState.getFaceOcclusionShape(facing.getOpposite()) != Shapes.block() || adjState.getBlock() != state.getBlock() || !adjState.isSolidRender() || !blocks.contains(adjState.getBlock());
+        // }
 
-        return returns;
-    }
-
-    public boolean isBlocked(Block block, BlockPos blockPos) {
-        return !(blocks.contains(block) && (blockPos == null || isExposed(blockPos)));
+        // return returns;
     }
 
     private static final ThreadLocal<BlockPos.MutableBlockPos> EXPOSED_POS = ThreadLocal.withInitial(BlockPos.MutableBlockPos::new);

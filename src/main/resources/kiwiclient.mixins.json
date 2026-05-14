@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BlockBehaviourMixin",
+    "BlockMixin",
     "ClientChunkCacheAccessor",
     "ClientChunkMapAccessor",
     "ClientPacketListenerAccessor",
@@ -35,6 +36,7 @@
     "MinecraftMixin",
     "MobBucketItemAccessor",
     "MobEffectFogEnvironmentMixin",
+    "ModelBlockRendererMixin",
     "OptionInstanceMixin",
     "OptionsMixin",
     "RarityFilterAccessor",
@@ -44,6 +46,7 @@
     "ShaderManagerMixin",
     "TitleScreenMixin",
     "TooltipDisplayMixin",
+    "VisGraphMixin",
     "WorldGenerationContextMixin"
   ],
   "injectors": {
