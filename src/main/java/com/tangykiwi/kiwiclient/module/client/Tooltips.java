@@ -85,7 +85,6 @@ public class Tooltips extends Module {
                         MobEffectInstance effect = new MobEffectInstance(effectTag.effect(), effectTag.duration(), 0);
                         event.appendStart(getStatusText(effect));
                     }
-                    KiwiClient.LOGGER.info("Added suspicious stew effects to tooltip");
                 }
             } else {
                 Consumable consumable = event.itemStack().get(DataComponents.CONSUMABLE);

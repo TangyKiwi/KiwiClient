@@ -3,6 +3,7 @@
   "package": "com.tangykiwi.kiwiclient.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "BlockBehaviourMixin",
     "ClientChunkCacheAccessor",
     "ClientChunkMapAccessor",
     "ClientPacketListenerAccessor",

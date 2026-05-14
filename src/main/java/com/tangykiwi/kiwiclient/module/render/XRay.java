@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.module.render;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
+import com.tangykiwi.kiwiclient.event.ChunkOcclusionEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.mixininterface.ISimpleOption;
 import com.tangykiwi.kiwiclient.module.Category;
@@ -10,8 +11,13 @@ import com.tangykiwi.kiwiclient.module.setting.SliderSetting;
 import com.tangykiwi.kiwiclient.module.setting.ToggleSetting;
 
 import net.minecraft.client.OptionInstance;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.Shapes;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
@@ -53,14 +59,8 @@ public class XRay extends Module {
     ));
 
     public XRay() {
-        super("XRay", "Shows ores", KEY_UNBOUND, Category.RENDER,
-        new ToggleSetting("Fluids", "Show fluids, toggle xray to see changes", true),
-        new ToggleSetting("Opacity", "Changes opacity of non xray blocks", false).withChildren(
-                new SliderSetting("Value", "Opacity level", 0, 255, 128, 0)));
-    }
-
-    public boolean isVisible(Block block) {
-        return !isEnabled() || blocks.contains(block);
+        super("XRay", "Shows ores", KEY_UNBOUND, Category.RENDER
+        /*new ToggleSetting("Fluids", "Show fluids, toggle xray to see changes", true)*/);
     }
 
     @Override
@@ -71,74 +71,55 @@ public class XRay extends Module {
         gamma = mc.options.gamma().get();
     }
 
-    @Override
-    public void onDisable() {
-        OptionInstance<Double> gammaOption = mc.options.gamma();
-        @SuppressWarnings("unchecked")
-        ISimpleOption<Double> gammaOption2 = (ISimpleOption<Double>)(Object)gammaOption;
-        gammaOption2.forceSetValue(gamma);
-        mc.levelRenderer.allChanged();
+    // @Override
+    // public void onDisable() {
+    //     OptionInstance<Double> gammaOption = mc.options.gamma();
+    //     @SuppressWarnings("unchecked")
+    //     ISimpleOption<Double> gammaOption2 = (ISimpleOption<Double>)(Object)gammaOption;
+    //     gammaOption2.forceSetValue(gamma);
+    //     mc.levelRenderer.allChanged();
 
-        super.onDisable();
-    }
+    //     super.onDisable();
+    // }
+
+    // @Subscribe
+    // @AllowConcurrentEvents
+    // public void onTick(TickEvent e) {
+    //     OptionInstance<Double> gammaOption = mc.options.gamma();
+    //     @SuppressWarnings("unchecked")
+    //     ISimpleOption<Double> gammaOption2 = (ISimpleOption<Double>)(Object)gammaOption;
+    //     gammaOption2.forceSetValue(16.0);
+    // }
+
+    // light handling in BlockBehaviorMixin
 
     @Subscribe
-    @AllowConcurrentEvents
-    public void onTick(TickEvent e) {
-        OptionInstance<Double> gammaOption = mc.options.gamma();
-        @SuppressWarnings("unchecked")
-        ISimpleOption<Double> gammaOption2 = (ISimpleOption<Double>)(Object)gammaOption;
-        gammaOption2.forceSetValue(16.0);
+    public void onChunkOcclusion(ChunkOcclusionEvent e) {
+        e.cancel();
     }
 
-    // @Subscribe
-    // @AllowConcurrentEvents
-    // public void onRenderBlockLight(RenderBlockEvent.Light event) {
-    //     event.setLight(1f);
-    // }
+    public boolean modifyDrawSide(BlockState state, BlockGetter view, BlockPos pos, Direction facing, boolean returns) {
+        if (!returns && !isBlocked(state.getBlock(), pos)) {
+            BlockPos adjPos = pos.relative(facing);
+            BlockState adjState = view.getBlockState(adjPos);
+            return adjState.getFaceOcclusionShape(facing.getOpposite()) != Shapes.block() || adjState.getBlock() != state.getBlock() || !adjState.isSolidRender() || isBlocked(adjState.getBlock(), adjPos);
+        }
 
-    // @Subscribe
-    // @AllowConcurrentEvents
-    // public void onRenderBlockOpaque(RenderBlockEvent.Opaque event) {
-    //     event.setOpaque(true);
-    // }
+        return returns;
+    }
 
-    // @Subscribe
-    // @AllowConcurrentEvents
-    // public void onRenderBlockDrawSide(RenderBlockEvent.ShouldDrawSide event) {
-    //     if (blocks.contains(event.getState().getBlock())) {
-    //         event.setDrawSide(true);
-    //     } else if (!getSetting(1).asToggle().getValue()) {
-    //         event.setDrawSide(false);
-    //     }
-    // }
+    public boolean isBlocked(Block block, BlockPos blockPos) {
+        return !(blocks.contains(block) && (blockPos == null || isExposed(blockPos)));
+    }
 
-    // @Subscribe
-    // @AllowConcurrentEvents
-    // public void onRenderBlockTesselate(RenderBlockEvent.Tesselate event) {
-    //     if (!blocks.contains(event.getState().getBlock())) {
-    //         if(getSetting(1).asToggle().getValue()) {
-    //             event.getVertexConsumer().color(-1, -1, -1, getSetting(1).asToggle().getChild(0).asSlider().getValueInt());
-    //         }
-    //         else {
-    //             event.setCancelled(true);
-    //         }
-    //     }
-    // }
+    private static final ThreadLocal<BlockPos.MutableBlockPos> EXPOSED_POS = ThreadLocal.withInitial(BlockPos.MutableBlockPos::new);
 
-    // @Subscribe
-    // @AllowConcurrentEvents
-    // public void onRenderBlockLayer(RenderBlockEvent.Layer event) {
-    //     if (getSetting(1).asToggle().getValue() && !blocks.contains(event.getState().getBlock())) {
-    //         event.setLayer(BlockRenderLayer.TRANSLUCENT);
-    //     }
-    // }
+    public boolean isExposed(BlockPos blockPos) {
+        for (Direction direction : Direction.values()) {
+            if (!mc.level.getBlockState(EXPOSED_POS.get().setWithOffset(blockPos, direction)).isSolidRender())
+                return true;
+        }
 
-    // @Subscribe
-    // @AllowConcurrentEvents
-    // public void onRenderFluid(RenderFluidEvent event) {
-    //     if (!getSetting(0).asToggle().getValue()) {
-    //         event.setCancelled(true);
-    //     }
-    // }
+        return false;
+    }
 }
