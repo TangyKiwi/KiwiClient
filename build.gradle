@@ -31,6 +31,13 @@ loom {
 // 		}
 // 	}
 
+	runs {
+        client {
+            vmArg "-Ddevauth.enabled=true"
+			vmArg "-Ddevauth.account=main"
+        }
+    }
+
 	accessWidenerPath = file("src/main/resources/kiwiclient.classtweaker")
 }
 
@@ -65,7 +72,6 @@ dependencies {
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	include(implementation("com.github.JnCrMx:discord-game-sdk4j:0067367ec5"))
-	
 }
 
 processResources {
