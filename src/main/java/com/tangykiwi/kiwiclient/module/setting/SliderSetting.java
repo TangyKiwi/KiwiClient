@@ -73,7 +73,7 @@ public class SliderSetting extends Setting<Double> {
         context.fill(x + 2, y + 1, x + pixels, y + height, mo ? 0xf02068c0 : 0xf02070b0);
         // RenderUtils.fillGradient(x + 1, y, x + pixels, y + fontHeight, mo ? 0xf03078b0 : 0xf03080a0, mo ? 0xf02068c0 : 0xf02070b0);
 
-        fontRenderer.drawString(context, getName() + ": " + (decimals == 0 ? Integer.toString(getValueInt()) : getValue()),
+        fontRenderer.drawString(context, getName() + ": " + (decimals == 0 ? Integer.toString(getValueInt()) : getValueD()),
                 x + 3, y + 2, 0xcfe0cf);
 
         if (mo) {

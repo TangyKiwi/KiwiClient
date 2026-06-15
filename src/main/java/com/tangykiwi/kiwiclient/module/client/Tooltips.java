@@ -65,10 +65,10 @@ public class Tooltips extends Module {
             new ToggleSetting("Status Effects", "Shows effects and duration of status effects in items", true),
             new ToggleSetting("Shulker Boxes", "Shows contents of shulker boxes", true),
             new ToggleSetting("Ender Chest", "Shows contents of your ender chest", true),
-            new ToggleSetting("Maps", "Shows a preview of maps in tooltips", true),
-            new ToggleSetting("Banners", "Shows a preview of banner patterns in tooltips", true).withChildren(
+            new ToggleSetting("Maps", "Shows a preview of maps in tooltips", true).withChildren(
                 new SliderSetting("Scale", "Map preview scale", 0.1, 1, 1, 1)
             ),
+            new ToggleSetting("Banners", "Shows a preview of banner patterns in tooltips", true),
             new ToggleSetting("Fish", "Shows mob in water bucket", true)
         );
     }
