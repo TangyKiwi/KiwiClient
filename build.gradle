@@ -72,15 +72,7 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-	include(implementation("com.github.JnCrMx:discord-game-sdk4j:0067367ec5"))
-}
-
-processResources {
-	inputs.property "version", project.version
-
-	filesMatching("fabric.mod.json") {
-		expand "version": inputs.properties.version
-	}
+	include(implementation(files("discord-game-sdk4j-0067367ec5.jar")))
 }
 
 tasks.withType(JavaCompile).configureEach {
