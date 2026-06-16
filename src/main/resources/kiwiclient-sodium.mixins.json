@@ -1,0 +1,13 @@
+{
+  "required": false,
+  "package": "com.tangykiwi.kiwiclient.mixin.sodium",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "AbstractBlockRenderContextMixin",
+    "BlockRendererMixin",
+    "LightDataAccessMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

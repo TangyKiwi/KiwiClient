@@ -20,7 +20,8 @@
 		]
 	},
 	"mixins": [
-		"kiwiclient.mixins.json"
+		"kiwiclient.mixins.json",
+		"kiwiclient-sodium.mixins.json"
 	],
 	"accessWidener": "kiwiclient.classtweaker",
 	"custom": {

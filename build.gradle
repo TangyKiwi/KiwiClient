@@ -20,6 +20,13 @@ repositories {
 	maven {
 		url 'https://jitpack.io'
 	}
+	maven {
+        name = "modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 loom {
@@ -71,6 +78,8 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	include(implementation("maven.modrinth:sodium:${project.sodium_version}"))
 
 	implementation(files("discord-game-sdk4j-0067367ec5.jar"))
 }
