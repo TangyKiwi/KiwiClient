@@ -2,10 +2,8 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
-import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.blaze3d.vertex.PoseStack;
