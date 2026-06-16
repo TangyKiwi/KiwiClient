@@ -5,6 +5,7 @@
   "mixins": [
     "BlockBehaviourMixin",
     "BlockMixin",
+    "CapeLayerMixin",
     "ClientChunkCacheAccessor",
     "ClientChunkMapAccessor",
     "ClientPacketListenerAccessor",
@@ -17,6 +18,8 @@
     "CreativeModeTabsMixin",
     "EntityAccessor",
     "EntityMixin",
+    "EntityRenderDispatcherMixin",
+    "EntityRenderStateMixin",
     "FogRendererMixin",
     "GuiGraphicsExtractorAccessor",
     "GuiGraphicsExtractorMixin",
