@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.LoadingOverlay;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.server.packs.resources.ReloadInstance;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 import org.spongepowered.asm.mixin.Final;
@@ -72,11 +73,15 @@ public abstract class LoadingOverlayMixin {
 
         k = (int) ((double) context.guiWidth() * 0.5);
         int p = (int) ((double) context.guiHeight() * 0.5);
-
-        context.blit(RenderPipelines.GUI_TEXTURED, Textures.LOGO2, k - 175, p - 35, 0, 0, (int) (350 * currentProgress), 70, 350, 70);
+        int barY = (int)((double) context.guiHeight() * 0.8325);
 
         float t = this.reload.getActualProgress();
         this.currentProgress = Mth.clamp(this.currentProgress * 0.95F + t * 0.050000012F, 0.0F, 1.0F);
+
+        int blitAlpha = ARGB.color(Math.round((1.0F - Mth.clamp(f, 0.0F, 1.0F)) * 255.0F), 255, 255, 255);
+        context.blit(RenderPipelines.GUI_TEXTURED, Textures.LOGO2, k - 175, p - 35, 0, 0, (int) (350 * currentProgress), 70, 350, 70, blitAlpha);
+        this.extractProgressBar(context, i / 2 - 175, barY - 5, i / 2 + 175, barY + 5, 1.0F - Mth.clamp(f, 0.0F, 1.0F));
+
 
         if (f >= 2.0F) {
             mc.setOverlay(null);
@@ -100,4 +105,15 @@ public abstract class LoadingOverlayMixin {
     private static int withAlpha(int color, int alpha) {
         return color & 16777215 | alpha << 24;
     }
+
+    private void extractProgressBar(final GuiGraphicsExtractor graphics, final int x0, final int y0, final int x1, final int y1, final float fade) {
+        int width = Mth.ceil((float)(x1 - x0 - 2) * this.currentProgress);
+        int alpha = Math.round(fade * 255.0F);
+        int white = ARGB.color(alpha, 255, 162, 42);
+        graphics.fill(x0 + 2, y0 + 2, x0 + width, y1 - 2, white);
+        graphics.fill(x0 + 1, y0, x1 - 1, y0 + 1, white);
+        graphics.fill(x0 + 1, y1, x1 - 1, y1 - 1, white);
+        graphics.fill(x0, y0, x0 + 1, y1, white);
+        graphics.fill(x1, y0, x1 - 1, y1, white);
+   }
 }

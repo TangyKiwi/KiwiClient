@@ -33,13 +33,4 @@ public abstract class CapeLayerMixin {
         }
         return original;
     }
-
-    // @Redirect(method = "submit", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;showCape:Z", opcode = Opcodes.GETFIELD))
-    // private boolean enableCapeRendering(AvatarRenderState original, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, AvatarRenderState state, float yRot, float xRot) {
-    //     Cape cape = (Cape) KiwiClient.moduleManager.getModule(Cape.class);
-    //     if (cape.isEnabled()) {
-    //         return true;
-    //     }
-    //     return original.showCape;
-    // }
 }   
