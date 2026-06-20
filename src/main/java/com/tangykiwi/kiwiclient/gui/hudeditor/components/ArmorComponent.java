@@ -5,13 +5,11 @@ import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import com.tangykiwi.kiwiclient.util.render.DisplayItemUtils;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 public class ArmorComponent extends HUDComponent {
     public ArmorComponent(float x, float y) {
