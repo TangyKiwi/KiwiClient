@@ -9,6 +9,7 @@ import com.tangykiwi.kiwiclient.module.Module;
 import com.tangykiwi.kiwiclient.module.setting.SliderSetting;
 import com.tangykiwi.kiwiclient.module.setting.ToggleSetting;
 
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 public class Speed extends Module {
@@ -22,19 +23,29 @@ public class Speed extends Module {
     public void onTick(TickEvent e) {
         if (mc.player == null) return;
 
-        if (mc.options.keyShift.isDown())
-            return;
+        if (mc.options.keyShift.isDown()) return;
 
-        if ((mc.player.zza  != 0 || mc.player.xxa != 0)) {
+        if (mc.player.zza != 0 || mc.player.xxa != 0) {
             if (!mc.player.isSprinting()) {
                 mc.player.setSprinting(true);
             }
 
-            double multi = getSetting(0).asSlider().getValue() + 1.0;
             Vec3 vel = mc.player.getDeltaMovement();
-            mc.player.setDeltaMovement(vel.x * multi, vel.y, vel.z * multi);
+            float yaw = Mth.wrapDegrees(mc.player.getYRot()); // degrees
+            double yawRad = Math.toRadians(yaw); // radians
+            
+            float strafe = mc.player.xxa;
+            float forward = mc.player.zza;
+            float newStrafe = strafe * Mth.cos((float) yawRad) - forward * Mth.sin((float) yawRad);
+            float newForward = forward * Mth.cos((float) yawRad) + strafe * Mth.sin((float) yawRad);
 
-            if (getSetting(1).asToggle().getValue() && mc.player.onGround()) {
+            mc.player.setDeltaMovement(new Vec3(0, vel.y, 0));
+            mc.player.addDeltaMovement(new Vec3(newStrafe, 0, newForward).scale(getSetting("Speed").asSlider().getValue()));
+
+            double newvel = Math.abs(mc.player.getDeltaMovement().x) + Math.abs(mc.player.getDeltaMovement().z);
+
+            if (getSetting(1).asToggle().getValue() && newvel >= 0.12 && mc.player.onGround()) {
+                mc.player.addDeltaMovement(new Vec3(newStrafe, 0, newForward).scale(newvel > 0.3 ? 0.0f : 0.15f));
                 mc.player.jumpFromGround();
             }
         }
