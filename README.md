@@ -7,7 +7,7 @@
 <div align="center">
     <img src="https://img.shields.io/github/last-commit/TangyKiwi/KiwiClient/v2" alt="GitHub last commit"/>
     <img src="https://img.shields.io/github/actions/workflow/status/TangyKiwi/KiwiClient/build.yml?branch=v2" alt="Build status"/>
-    <img src="https://img.shields.io/badge/MC-26.1-brightgreen.svg" alt="Minecraft"/>
+    <img src="https://img.shields.io/badge/MC-26.1.2-brightgreen.svg" alt="Minecraft"/>
     <br>
     <img src="https://img.shields.io/github/v/release/TangyKiwi/KiwiClient.svg" alt="Release"/>
     <img src="https://img.shields.io/github/languages/code-size/TangyKiwi/KiwiClient" alt="GitHub code size in bytes"/>
@@ -40,16 +40,30 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 
 <details>
 <summary>Client</summary>
-- ActiveMods<br>
 - *BetterChat<br>
 - *BetterTab<br>
 - ClickGui<br>
+    <details>
+    <summary>HUD</summary>
+    - ActiveMods<br>
+    - Armor<br>
+    - Biome<br>
+    - Coords<br>
+    - FPS<br>
+    - Inventory<br>
+    - IP<br>
+    - NetherCoords<br>
+    - Ping<br>
+    - *Waypoints<br>
+    - Speed<br>
+    - TPS<br>
+    </details>
 - *Compass<br>
 - HUD<br>  
 - *NoScoreboard<br>
 - *PotionTimers<br>
 - *Time<br>
-- *Tooltips<br>
+- Tooltips<br>
 - VanillaSpoof<br>
 </details>
 
@@ -76,10 +90,10 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 
 <details>
 <summary>Player</summary>
-- AntiBlind<br>
 - AntiHunger<br>
 - *AutoContainer<br>
 - *AutoTool<br>
+- *FastBreak<br>
 </details>
 
 <details>
@@ -105,10 +119,10 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 <summary>Other</summary>
 - *AntiHuman<br>
 - *Background<br>
-- *Cape<br>
+- Cape<br>
 - *Deadmau5Ears<br>
 - *LoadingScreen<br>
-- MainMenu<br>
+- *MainMenu<br>
 - *NoIP<br>
 - *NoLO<br>
 </details>
@@ -124,9 +138,10 @@ DiscordRPC ("_You use the hacc, then proudly quacc._")
 - *give [item{nbt}] [count]
 - *lookat [x][y][z]
 - resetclickgui
+- resethud
 - *say [message]
 - *searchblocks [add/rem/list] [block]
-- server
+- *server
 - seedray [seed]
 - *target [name]
 - toggle/t [module]
@@ -149,8 +164,11 @@ If you use **ANY** code from the source:
 
 
 ## Credits
+A lot of code has been *skidded* from these clients. Code has been adapted or improved upon to fit for KiwiClient.
+
 **Clients**:  
 [Meteor Client](https://github.com/MeteorDevelopment/meteor-client)  
+[Aoba](https://github.com/Cocolots/Aoba-Client/)
 [BleachHack](https://github.com/BleachDrinker420/BleachHack)  
 [Atomic](https://gitlab.com/0x151/atomic)  
 [JexClient](https://github.com/DustinRepo/JexClient)  
