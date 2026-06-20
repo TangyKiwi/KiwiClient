@@ -29,7 +29,6 @@ import net.minecraft.client.renderer.state.level.WeatherRenderState;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-// change to LevelRenderer
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
     @Shadow @Final

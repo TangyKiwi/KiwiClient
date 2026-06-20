@@ -5,6 +5,8 @@
   "mixins": [
     "BlockBehaviourMixin",
     "BlockMixin",
+    "CameraAccessor",
+    "CameraMixin",
     "CapeLayerMixin",
     "ClientChunkCacheAccessor",
     "ClientChunkMapAccessor",
