@@ -5,6 +5,7 @@ import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import com.tangykiwi.kiwiclient.util.render.DisplayItemUtils;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -30,28 +31,26 @@ public class ArmorComponent extends HUDComponent {
             armor.add(player.getInventory().getItem(38));
             armor.add(player.getInventory().getItem(37));
             armor.add(player.getInventory().getItem(36));
-        } else {
-            armor.add(new ItemStack(Items.DIAMOND_HELMET, 1));
-            armor.add(new ItemStack(Items.DIAMOND_CHESTPLATE, 1));
-            armor.add(new ItemStack(Items.DIAMOND_LEGGINGS, 1));
-            armor.add(new ItemStack(Items.DIAMOND_BOOTS, 1));
-        }
 
-        for (int i = 0; i < 4; i++) {
-            ItemStack is = armor.get(i);
-            if (is.isEmpty()) continue;
-            RenderUtils.drawItem(context, is, (int) getX() + i * 20 + 2, (int) getY(), 1);
+            for (int i = 0; i < 4; i++) {
+                ItemStack is = armor.get(i);
+                if (is.isEmpty()) continue;
+                RenderUtils.drawItem(context, is, (int) getX() + i * 20 + 2, (int) getY(), 1);
 
-            if (is.isDamageableItem()) {
-                String dur = is.getMaxDamage() - is.getDamageValue() + "";
-                int durColor = 0xFF5555FF;
-                try {
-                    durColor = Color.HSBtoRGB(((float) (is.getMaxDamage() - is.getDamageValue()) / is.getMaxDamage()) / 3.0F, 1.0F, 1.0F);
-                } catch (Exception e) {
+                if (is.isDamageableItem()) {
+                    String dur = is.getMaxDamage() - is.getDamageValue() + "";
+                    int durColor = 0xFF5555FF;
+                    try {
+                        durColor = Color.HSBtoRGB(((float) (is.getMaxDamage() - is.getDamageValue()) / is.getMaxDamage()) / 3.0F, 1.0F, 1.0F);
+                    } catch (Exception e) {
+                    }
+
+                    fontRenderer.drawString(context, dur, (int) getX() + i * 20 + 10 - fontRenderer.getStringWidth(dur) / 2, (int) getY() + 16, durColor);
                 }
-
-                fontRenderer.drawString(context, dur, (int) getX() + i * 20 + 10 - fontRenderer.getStringWidth(dur) / 2, (int) getY() + 16, durColor);
             }
+        } else {
+            String text = "Armor HUD";
+            fontRenderer.drawString(context, text, (int) getX() + getWidth() / 2 - fontRenderer.getStringWidth(text) / 2, (int) getY() + getHeight() / 2 - fontRenderer.getStringHeight(text) / 2, 0xFFFFFFFF);
         }
     }
 }

@@ -6,6 +6,7 @@ import com.tangykiwi.kiwiclient.gui.hudeditor.HUDEditorScreen;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
+import com.tangykiwi.kiwiclient.util.render.DisplayItemUtils;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
@@ -41,17 +42,17 @@ public class ClickGUIScreen extends Base {
     public void initWindows() {
 
         int i = 10;
-        windows.add(new CategoryWindow(i, 18, 85, Category.PLAYER, /*new ItemStack(Items.PLAYER_HEAD)*/ null));
+        windows.add(new CategoryWindow(i, 18, 85, Category.PLAYER, DisplayItemUtils.toStack(Items.PLAYER_HEAD)));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, Category.COMBAT, /*new ItemStack(Items.DIAMOND_SWORD)*/ null));
+        windows.add(new CategoryWindow(i, 18, 85, Category.COMBAT, DisplayItemUtils.toStack(Items.DIAMOND_SWORD)));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, Category.RENDER, /*new ItemStack(Items.ENDER_EYE)*/ null));
+        windows.add(new CategoryWindow(i, 18, 85, Category.RENDER, DisplayItemUtils.toStack(Items.ENDER_EYE)));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, Category.MOVEMENT, /*new ItemStack(Items.DIAMOND_BOOTS)*/ null));
+        windows.add(new CategoryWindow(i, 18, 85, Category.MOVEMENT, DisplayItemUtils.toStack(Items.FEATHER)));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, Category.CLIENT, /*new ItemStack(Items.GLASS_PANE)*/ null));
+        windows.add(new CategoryWindow(i, 18, 85, Category.CLIENT, DisplayItemUtils.toStack(Items.GLASS_PANE)));
         i += 90;
-        windows.add(new CategoryWindow(i, 18, 85, Category.OTHER, /*new ItemStack(Items.COMMAND_BLOCK)*/ null));
+        windows.add(new CategoryWindow(i, 18, 85, Category.OTHER, DisplayItemUtils.toStack(Items.COMMAND_BLOCK)));
     }
 
     @Override
