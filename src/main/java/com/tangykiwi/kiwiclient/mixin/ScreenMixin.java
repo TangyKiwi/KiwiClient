@@ -11,6 +11,7 @@ import com.tangykiwi.kiwiclient.gui.MainMenu;
 import com.tangykiwi.kiwiclient.util.Textures;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.options.OptionsScreen;
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
@@ -22,7 +23,10 @@ import net.minecraft.resources.Identifier;
 public class ScreenMixin {
     @Inject(method = "extractMenuBackgroundTexture", at = @At("HEAD"), cancellable = true)
     private static void renderBackgroundTexture(GuiGraphicsExtractor context, Identifier texture, int x, int y, float u, float v, int width, int height, CallbackInfo ci) {
-        if(!(mc.screen instanceof PackSelectionScreen) && !(mc.screen instanceof MainMenu) && !(mc.screen instanceof SocialInteractionsScreen) /**&& !(mc.screen instanceof GameMenuScreen)**/) {            
+        if(!(mc.screen instanceof PackSelectionScreen) && !(mc.screen instanceof MainMenu) 
+            && !(mc.screen instanceof SocialInteractionsScreen) && !(mc.screen instanceof PauseScreen)
+            // lazy Iris shader pack check
+            && !(mc.screen.getTitle().getString().equals("Shader Packs"))) {            
             ci.cancel();
 
             if(mc.screen instanceof OptionsScreen) {
