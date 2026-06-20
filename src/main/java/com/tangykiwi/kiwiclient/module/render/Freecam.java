@@ -2,8 +2,6 @@ package com.tangykiwi.kiwiclient.module.render;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
-import java.awt.RenderingHints.Key;
-
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.mojang.blaze3d.platform.InputConstants;

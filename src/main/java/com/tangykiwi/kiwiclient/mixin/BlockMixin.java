@@ -20,7 +20,6 @@ public abstract class BlockMixin {
 
         if (xray.isEnabled()) {
             cir.setReturnValue(xray.blocks.contains(state.getBlock()));
-            // return xray.modifyDrawSide(state, level, neighborPos.relative(direction.getOpposite()), direction, original);
         }
     }
 }
