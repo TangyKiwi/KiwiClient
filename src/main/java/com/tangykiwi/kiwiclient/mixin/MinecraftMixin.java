@@ -49,7 +49,7 @@ public class MinecraftMixin {
     @Shadow public ClientLevel level;
     @Shadow private IntegratedServer singleplayerServer;
 
-	@Inject(at = @At("TAIL"), method = "onResourceLoadFinished(Lnet/minecraft/client/Minecraft$GameLoadCookie;)V")
+	@Inject(at = @At("TAIL"), method = "<init>"/*method = "onResourceLoadFinished(Lnet/minecraft/client/Minecraft$GameLoadCookie;)V"*/)
     private void init(CallbackInfo callback) {
         KiwiClient.postInit();
     }
