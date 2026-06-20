@@ -33,6 +33,7 @@ public class ModuleManager {
         moduleList.add(new VanillaSpoof());
 
         // combat
+        moduleList.add(new Criticals());
         moduleList.add(new TriggerBot());
 
         // movement

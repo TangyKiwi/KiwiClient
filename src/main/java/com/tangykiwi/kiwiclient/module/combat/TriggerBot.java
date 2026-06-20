@@ -7,6 +7,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.Random;
 
 import com.google.common.eventbus.Subscribe;
+import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
@@ -48,7 +49,12 @@ public class TriggerBot extends Module {
         Entity target = mc.crosshairPickEntity;
         if (target == null || (target instanceof LivingEntity && ((LivingEntity) target).isDeadOrDying()) || !target.isAlive()) return;
 
+        Criticals criticals = (Criticals) KiwiClient.moduleManager.getModule(Criticals.class);
+        if (criticals.isEnabled()) {
+            criticals.doCritical(target);
+        }
         mc.gameMode.attack(player, target);
+        
         if (delay.getValue()) {
             lastAttack = System.currentTimeMillis();
             randomDelay = (long) (delay.getChild(0).asSlider().getValueD() * (1 + random.nextGaussian() * 0.18));
