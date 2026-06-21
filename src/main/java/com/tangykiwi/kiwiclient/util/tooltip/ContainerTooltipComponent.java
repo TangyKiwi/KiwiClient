@@ -37,7 +37,7 @@ public class ContainerTooltipComponent implements ITooltipData, ClientTooltipCom
     @Override
     public void extractImage(Font textRenderer, int x, int y, int width, int height, GuiGraphicsExtractor context) {
         // Background
-        context.blit(RenderPipelines.GUI_TEXTURED, Textures.INV_BG, x, y, 0, 0, 176, 67, 176, 67, color);
+        context.blit(RenderPipelines.GUI_TEXTURED, Textures.CONTAINER, x, y, 0, 0, 176, 67, 176, 67, color);
 
         // Contents
         int row = 0;

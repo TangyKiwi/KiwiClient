@@ -9,6 +9,7 @@ public class Textures {
     public static Identifier DUCK = Identifier.fromNamespaceAndPath("kiwiclient", "textures/hud/duck.png");
     public static Identifier DUCK_GIF = Identifier.fromNamespaceAndPath("kiwiclient", "textures/hud/duck_gif.png");
     public static Identifier INV_BG = Identifier.fromNamespaceAndPath("kiwiclient", "textures/hud/inv_bg.png");
+    public static Identifier CONTAINER = Identifier.fromNamespaceAndPath("kiwiclient", "textures/hud/container.png");
     public static Identifier CAPE = Identifier.fromNamespaceAndPath("kiwiclient", "textures/cosmetic/cape/cape.png");
     public static Identifier CAPE2 = Identifier.fromNamespaceAndPath("kiwiclient", "textures/cosmetic/cape/gura_cape.png");
     public static Identifier CAPE3 = Identifier.fromNamespaceAndPath("kiwiclient", "textures/cosmetic/cape/ahri_nsfw_cape.png");
