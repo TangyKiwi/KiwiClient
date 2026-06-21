@@ -49,7 +49,7 @@ public class Tracers extends Module {
 
             if (color != -1) {
                 color = ((int)(opacity * 255) << 24) | (color & 0x00FFFFFF);
-                RenderUtils.drawLine(vec2.x, vec2.y, vec2.z, vec.x, vec.y + e.getEyeHeight() / 2, vec.z, color, width);
+                RenderUtils.drawLine(vec2.x, vec2.y, vec2.z, vec.x, vec.y, vec.z, color, width);
             }
         }
     }
