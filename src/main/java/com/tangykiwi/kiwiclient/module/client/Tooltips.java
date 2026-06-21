@@ -2,7 +2,6 @@ package com.tangykiwi.kiwiclient.module.client;
 
 import com.google.common.eventbus.Subscribe;
 import com.mojang.serialization.DataResult;
-import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.ItemStackTooltipEvent;
 import com.tangykiwi.kiwiclient.event.TooltipDataEvent;
 import com.tangykiwi.kiwiclient.mixin.EntityAccessor;

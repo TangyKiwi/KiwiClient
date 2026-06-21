@@ -3,6 +3,7 @@
   "package": "com.tangykiwi.kiwiclient.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AbstractContainerScreenMixin",
     "BlockBehaviourMixin",
     "BlockMixin",
     "CameraAccessor",
@@ -24,6 +25,7 @@
     "EntityRenderDispatcherMixin",
     "EntityRenderStateMixin",
     "FogRendererMixin",
+    "GameRendererMixin",
     "GuiGraphicsExtractorAccessor",
     "GuiGraphicsExtractorMixin",
     "GuiMixin",
@@ -51,7 +53,6 @@
     "ServerboundMovePlayerPacketMixin",
     "ShaderManagerMixin",
     "TitleScreenMixin",
-    "TooltipDisplayMixin",
     "VisGraphMixin",
     "WingsLayerMixin",
     "WorldGenerationContextMixin"
