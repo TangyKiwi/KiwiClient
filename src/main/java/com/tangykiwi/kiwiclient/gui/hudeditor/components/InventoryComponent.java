@@ -30,7 +30,7 @@ public class InventoryComponent extends HUDComponent {
                     int slot = (i + 1) * 9 + j;
                     ItemStack itemStack = player.getInventory().getItem(slot);
                     if (!itemStack.isEmpty()) {
-                        RenderUtils.drawItem(context, itemStack, (int) getX() + j * 18 + 2, (int) getY() + i * 18 + 2, 1);
+                        RenderUtils.drawItem(context, itemStack, (int) getX() + j * 18 + 2, (int) getY() + i * 18 + 2, 1, true, null);
                     }
                 }
             }
