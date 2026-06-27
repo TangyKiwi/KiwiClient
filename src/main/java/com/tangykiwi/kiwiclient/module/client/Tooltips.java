@@ -219,7 +219,7 @@ public class Tooltips extends Module {
 
             if (block instanceof ShulkerBoxBlock shulkerBlock) {
                 DyeColor dye = shulkerBlock.getColor();
-                if (dye == null) return 0xFFFFFF;
+                if (dye == null) return 0xFFFFFFFF;
 
                 return dye.getTextureDiffuseColor();
             }
