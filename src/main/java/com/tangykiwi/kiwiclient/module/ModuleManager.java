@@ -37,6 +37,7 @@ public class ModuleManager {
         moduleList.add(new TriggerBot());
 
         // movement
+        moduleList.add(new EntityFly());
         moduleList.add(new Fly());
         moduleList.add(new InvMove());
         moduleList.add(new NoFall());
