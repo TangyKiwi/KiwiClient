@@ -40,7 +40,7 @@ public class ESP extends Module {
                     }
                     if (getSetting("Mode").asMode().getValue() == 1 || getSetting("Mode").asMode().getValue() == 2) {
                         int outlineColor = (255 << 24) | color;
-                        RenderUtils.drawBoxOutline(entity.getBoundingBox(), outlineColor, width);
+                        RenderUtils.drawBoxOutline(event.getPoseStack(), entity.getBoundingBox(), outlineColor, width);
                     }
 
                 }

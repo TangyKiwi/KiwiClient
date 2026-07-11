@@ -8,9 +8,9 @@ import com.tangykiwi.kiwiclient.module.render.XRay;
 
 import net.minecraft.client.renderer.Lightmap;
 import net.minecraft.client.renderer.state.LightmapRenderState;
-import net.minecraft.util.ARGB;
 import net.minecraft.util.profiling.Profiler;
 
+import org.joml.Vector4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,7 +29,7 @@ public abstract class LightmapMixin {
         if (KiwiClient.moduleManager.getModule(FullBright.class).isEnabled() || KiwiClient.moduleManager.getModule(XRay.class).isEnabled()) {
             var profiler = Profiler.get();
             profiler.push("lightmap");
-            RenderSystem.getDevice().createCommandEncoder().clearColorTexture(texture, ARGB.color(255, 255, 255, 255));
+            RenderSystem.getDevice().createCommandEncoder().clearColorTexture(texture, new Vector4f(1));
             profiler.pop();
             ci.cancel();
         }

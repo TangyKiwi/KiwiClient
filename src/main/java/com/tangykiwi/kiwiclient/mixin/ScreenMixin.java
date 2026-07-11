@@ -22,7 +22,7 @@ public class ScreenMixin {
         if(!texture.getPath().contains("inworld_menu_background.png")) {            
             ci.cancel();
 
-            if(mc.screen instanceof OptionsScreen) {
+            if(mc.gui.screen() instanceof OptionsScreen) {
                 context.blit(RenderPipelines.GUI_TEXTURED, Textures.MENU3, x, y, u, v, width, height, width, height);
             } else {
                 context.blit(RenderPipelines.GUI_TEXTURED, Textures.MENU2, x, y, u, v, width, height, width, height);

@@ -91,20 +91,20 @@ public class MainMenu extends Screen {
                 this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 switch(b) {
                     case "Singleplayer":
-                        this.minecraft.setScreen(new SelectWorldScreen(this));
+                        this.minecraft.setScreenAndShow(new SelectWorldScreen(this));
                         break;
                     case "Multiplayer":
                         Screen screen = this.minecraft.options.skipMultiplayerWarning ? new JoinMultiplayerScreen(this) : new SafetyScreen(this);
-                        this.minecraft.setScreen(screen);
+                        this.minecraft.setScreenAndShow(screen);
                         break;
                     case "Realms":
-                        this.minecraft.setScreen(new RealmsMainScreen(this));
+                        this.minecraft.setScreenAndShow(new RealmsMainScreen(this));
                         break;
                     case "Options":
-                        this.minecraft.setScreen(new OptionsScreen(this, this.minecraft.options, false));
+                        this.minecraft.setScreenAndShow(new OptionsScreen(this, this.minecraft.options, false));
                         break;
                     case "Language":
-                        this.minecraft.setScreen(new LanguageSelectScreen(this, this.minecraft.options, this.minecraft.getLanguageManager()));
+                        this.minecraft.setScreenAndShow(new LanguageSelectScreen(this, this.minecraft.options, this.minecraft.getLanguageManager()));
                         break;
                     case "Quit":
                         this.minecraft.stop();

@@ -26,11 +26,10 @@ public abstract class GameRendererMixin {
     @Final
     private RenderBuffers renderBuffers;
 
-    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/render/GuiRenderer;<init>(Lnet/minecraft/client/renderer/state/gui/GuiRenderState;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/feature/FeatureRenderDispatcher;Ljava/util/List;)V"))
-    private List<PictureInPictureRenderer<?>> addSpecialRenderers(List<PictureInPictureRenderer<?>> list) {
+    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/render/GuiRenderer;<init>(Lnet/minecraft/client/renderer/state/gui/GuiRenderState;Lnet/minecraft/client/renderer/feature/FeatureRenderDispatcher;Ljava/util/List;)V"))    private List<PictureInPictureRenderer<?>> addSpecialRenderers(List<PictureInPictureRenderer<?>> list) {
         List<PictureInPictureRenderer<?>> result = new ArrayList<>(list.size() + 1);
         result.addAll(list);
-        result.add(new CustomBannerGuiElementRenderer(renderBuffers.bufferSource(), minecraft.getAtlasManager()));
+        result.add(new CustomBannerGuiElementRenderer(minecraft.getAtlasManager()));
         return result;
     }
 }

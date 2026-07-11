@@ -91,10 +91,10 @@ public class ClickGUIScreen extends Base {
         if (button == 0) {
             if (mouseX >= width / 2 - 50 && mouseX <= width / 2 - 2 && mouseY >= 0 && mouseY <= 12) {
 				this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
-				this.minecraft.setScreen(INSTANCE);
+                this.minecraft.setScreenAndShow(INSTANCE);
 			} else if (mouseX >= width / 2 + 2 && mouseX <= width / 2 + 50 && mouseY >= 0 && mouseY <= 12) {
 				this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
-                this.minecraft.setScreen(HUDEditorScreen.INSTANCE);
+                this.minecraft.setScreenAndShow(HUDEditorScreen.INSTANCE);
 			} else {
                 lmDown = true;
                 lmHeld = true;

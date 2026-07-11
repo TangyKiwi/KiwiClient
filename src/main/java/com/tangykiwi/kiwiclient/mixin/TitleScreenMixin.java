@@ -15,7 +15,7 @@ public class TitleScreenMixin {
 
     @Inject(method = "init()V", at = @At("HEAD"))
     private void init(CallbackInfo info) {
-        KiwiClient.mc.setScreen(new MainMenu());
+        KiwiClient.mc.setScreenAndShow(new MainMenu());
         discordRPC.activity.setDetails("Idle");
         discordRPC.activity.setState("Main Menu");
         discordRPC.update();

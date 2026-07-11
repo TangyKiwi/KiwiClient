@@ -44,7 +44,7 @@ public class TriggerBot extends Module {
 
         Player player = mc.player;
 
-        if(player == null || !player.isAlive() || player.isSpectator() || player.getAttackStrengthScale(1) < 1 || mc.screen instanceof AbstractContainerScreen) return;
+        if(player == null || !player.isAlive() || player.isSpectator() || player.getAttackStrengthScale(1) < 1 || mc.gui.screen() instanceof AbstractContainerScreen) return;
 
         Entity target = mc.crosshairPickEntity;
         if (target == null || (target instanceof LivingEntity && ((LivingEntity) target).isDeadOrDying()) || !target.isAlive()) return;

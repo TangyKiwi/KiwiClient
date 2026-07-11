@@ -17,6 +17,7 @@ import com.tangykiwi.kiwiclient.util.EntityUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
@@ -27,7 +28,7 @@ public abstract class EntityMixin {
     private void setESPColor(CallbackInfoReturnable<Integer> ci) {
         ESP esp = (ESP) KiwiClient.moduleManager.getModule(ESP.class);
         if (esp.isEnabled() && esp.getSetting("Mode").asMode().getValue() == 0) {
-            if (this.getType() == EntityType.PLAYER) {
+            if (this.getType() == EntityTypes.PLAYER) {
                 ci.setReturnValue((255 << 24) | (255 << 16) | (255 << 8) | 255);
             } else if (EntityUtils.isMob(this.getType())) {
                 ci.setReturnValue((255 << 24) | (255 << 16) | (0 << 8) | 0);
@@ -47,7 +48,7 @@ public abstract class EntityMixin {
         Freecam freecam = (Freecam) KiwiClient.moduleManager.getModule(Freecam.class);
 
         if (freecam.isEnabled()) {
-            Camera camera = mc.gameRenderer.getMainCamera();
+            Camera camera = mc.gameRenderer.mainCamera();
             CameraAccessor iCamera = (CameraAccessor) camera;
 
             float yaw = camera.yRot() + (float) cursorDeltaX * 0.15f;

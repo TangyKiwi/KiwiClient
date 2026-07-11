@@ -147,7 +147,7 @@ public class MinecraftMixin {
         return original;
     }
 
-    @Inject(at = @At("HEAD"), method = "setScreen", cancellable = true)
+    @Inject(at = @At("HEAD"), method = "setScreenAndShow", cancellable = true)
     public void openScreen(Screen screen, CallbackInfo info) {
         OpenScreenEvent event = new OpenScreenEvent(screen);
         KiwiClient.eventBus.post(event);

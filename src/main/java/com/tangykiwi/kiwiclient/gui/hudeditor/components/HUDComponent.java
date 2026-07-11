@@ -51,19 +51,19 @@ public abstract class HUDComponent {
     public void render(GuiGraphicsExtractor context) {
         if (dragging) {
             if (InputConstants.isKeyDown(KiwiClient.mc.getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-                if (x < KiwiClient.mc.screen.width / 2) {
+                if (x < KiwiClient.mc.gui.screen().width / 2) {
                     minX = 0;
-                    maxX = KiwiClient.mc.screen.width / 2;
+                    maxX = KiwiClient.mc.gui.screen().width / 2;
                 } else {
-                    minX = KiwiClient.mc.screen.width / 2;
-                    maxX = KiwiClient.mc.screen.width;
+                    minX = KiwiClient.mc.gui.screen().width / 2;
+                    maxX = KiwiClient.mc.gui.screen().width;
                 }
-                if (y < KiwiClient.mc.screen.height / 2) {
+                if (y < KiwiClient.mc.gui.screen().height / 2) {
                     minY = 0;
-                    maxY = KiwiClient.mc.screen.height / 2;
+                    maxY = KiwiClient.mc.gui.screen().height / 2;
                 } else {
-                    minY = KiwiClient.mc.screen.height / 2;
-                    maxY = KiwiClient.mc.screen.height;
+                    minY = KiwiClient.mc.gui.screen().height / 2;
+                    maxY = KiwiClient.mc.gui.screen().height;
                 }
 
                 float newX = mouseX - dragOffX;
@@ -117,8 +117,8 @@ public abstract class HUDComponent {
                     y = Math.min(Math.max(minY, mouseY - dragOffY), maxY - height);
                 }
             } else {
-                x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.screen.width - width);
-                y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.screen.height - height);
+                x = Math.min(Math.max(0, mouseX - dragOffX), KiwiClient.mc.gui.screen().width - width);
+                y = Math.min(Math.max(0, mouseY - dragOffY), KiwiClient.mc.gui.screen().height - height);
             }
         }
 

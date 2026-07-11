@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.module.render.Freecam;
 
@@ -25,6 +26,11 @@ public class CameraMixin {
 
 	@Shadow
 	private Level level;
+
+	@ModifyExpressionValue(method = "extractRenderState", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isSpectator()Z"))
+    private boolean hookFreeCamDisableSmartCullInBlocks(boolean original) {
+        return original || KiwiClient.moduleManager.getModule(Freecam.class).isEnabled();
+    }
 
 	@Inject(at = {
 			@At("HEAD") }, method = "setEntity(Lnet/minecraft/world/entity/Entity;)V", cancellable = true)

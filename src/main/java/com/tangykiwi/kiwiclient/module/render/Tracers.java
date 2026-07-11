@@ -33,8 +33,8 @@ public class Tracers extends Module {
             Vec3 vec = e.getEyePosition().subtract(RenderUtils.getInterpolationOffset(e));
 
             Vec3 vec2 = new Vec3(0, 0, 75)
-                        .xRot(-(float) Math.toRadians(mc.gameRenderer.getMainCamera().xRot()))
-                        .yRot(-(float) Math.toRadians(mc.gameRenderer.getMainCamera().yRot()))
+                        .xRot(-(float) Math.toRadians(mc.gameRenderer.mainCamera().xRot()))
+                        .yRot(-(float) Math.toRadians(mc.gameRenderer.mainCamera().yRot()))
                         .add(mc.getCameraEntity().getEyePosition());
 
             int color = -1;

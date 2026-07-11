@@ -32,7 +32,7 @@ public class Freecam extends Module {
 
     @Override
     public void onEnable() {
-        Camera camera = mc.gameRenderer.getMainCamera();
+        Camera camera = mc.gameRenderer.mainCamera();
         CameraAccessor iCamera = (CameraAccessor) camera;
         LocalPlayer player = mc.player;
 
@@ -49,7 +49,7 @@ public class Freecam extends Module {
         pos = startPos;
         iCamera.setCameraPos(startPos);
 
-        mc.levelRenderer.allChanged();
+        mc.levelRenderer.invalidateCompiledGeometry(mc.level, mc.options, camera, mc.getBlockColors());
 
         super.onEnable();
     }
@@ -63,7 +63,7 @@ public class Freecam extends Module {
 
 		savedInput = null;
 
-        mc.levelRenderer.allChanged();
+        mc.levelRenderer.invalidateCompiledGeometry(mc.level, mc.options, mc.gameRenderer.mainCamera(), mc.getBlockColors());
 
         super.onDisable();
     }
@@ -73,7 +73,7 @@ public class Freecam extends Module {
     public void onLevelRender(LevelRenderEvent event) {
         if (mc.player == null || mc.level == null) return;
 
-        Camera camera = mc.gameRenderer.getMainCamera();
+        Camera camera = mc.gameRenderer.mainCamera();
         CameraAccessor iCamera = (CameraAccessor) camera;
 
         float tickDelta = event.getPartialTicks();
@@ -101,7 +101,7 @@ public class Freecam extends Module {
     public void onPostTick(TickEvent.Post event) {
         if (mc.player == null) return;
 
-        Camera camera = mc.gameRenderer.getMainCamera();
+        Camera camera = mc.gameRenderer.mainCamera();
         Vec3 cameraPos = camera.position();
         prevPos = cameraPos;
 

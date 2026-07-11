@@ -101,8 +101,8 @@ public class HUDEditorScreen extends Base {
         fontRenderer.drawCenteredStringWithShadow(context, "HUD Editor", width / 2 + 26, 2, 0xf0f0f0);
 
         if (InputConstants.isKeyDown(KiwiClient.mc.getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-            RenderUtils.drawLine2D(context, KiwiClient.mc.screen.width / 2F, 0F, KiwiClient.mc.screen.width / 2F, (float) KiwiClient.mc.screen.height, 0.5F, 0xFFFFFFFF);
-            RenderUtils.drawLine2D(context, 0F, KiwiClient.mc.screen.height / 2F, (float) KiwiClient.mc.screen.width, KiwiClient.mc.screen.height / 2F, 0.5F, 0xFFFFFFFF);
+            RenderUtils.drawLine2D(context, mc.gui.screen().width / 2F, 0F, mc.gui.screen().width / 2F, (float) mc.gui.screen().height, 0.5F, 0xFFFFFFFF);
+            RenderUtils.drawLine2D(context, 0F, mc.gui.screen().height / 2F, (float) mc.gui.screen().width, mc.gui.screen().height / 2F, 0.5F, 0xFFFFFFFF);
         }
 
         for(HUDComponent component : components) {
@@ -122,10 +122,10 @@ public class HUDEditorScreen extends Base {
         if (button == 0) {
             if (mouseX >= width / 2 - 50 && mouseX <= width / 2 - 2 && mouseY >= 0 && mouseY <= 12) {
 				this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
-				this.minecraft.setScreen(ClickGUIScreen.INSTANCE);
+				this.minecraft.setScreenAndShow(ClickGUIScreen.INSTANCE);
 			} else if (mouseX >= width / 2 + 2 && mouseX <= width / 2 + 50 && mouseY >= 0 && mouseY <= 12) {
 				this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
-                this.minecraft.setScreen(INSTANCE);
+                this.minecraft.setScreenAndShow(INSTANCE);
 			} else {
                 lmDown = true;
                 lmHeld = true;

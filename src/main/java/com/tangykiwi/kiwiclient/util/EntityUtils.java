@@ -5,53 +5,54 @@ import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 
 public class EntityUtils {
     public static boolean isAnimal(EntityType<?> e) {
-        return e == EntityType.ALLAY
-            || e == EntityType.ARMADILLO
-            || e == EntityType.BAT
-            || e == EntityType.BEE
-            || e == EntityType.CAMEL
-            || e == EntityType.CAT
-            || e == EntityType.CHICKEN
-            || e == EntityType.COD
-            || e == EntityType.COW
-            || e == EntityType.DOLPHIN
-            || e == EntityType.DONKEY
-            || e == EntityType.FOX
-            || e == EntityType.FROG
-            || e == EntityType.GLOW_SQUID
-            || e == EntityType.GOAT
-            || e == EntityType.HAPPY_GHAST
-            || e == EntityType.HORSE
-            || e == EntityType.IRON_GOLEM
-            || e == EntityType.LLAMA
-            || e == EntityType.MOOSHROOM
-            || e == EntityType.MULE
-            || e == EntityType.OCELOT
-            || e == EntityType.PANDA
-            || e == EntityType.PARROT
-            || e == EntityType.PIG
-            || e == EntityType.POLAR_BEAR
-            || e == EntityType.PUFFERFISH
-            || e == EntityType.RABBIT
-            || e == EntityType.SALMON
-            || e == EntityType.SHEEP
-            || e == EntityType.SNIFFER
-            || e == EntityType.SNOW_GOLEM
-            || e == EntityType.SQUID
-            || e == EntityType.STRIDER
-            || e == EntityType.TADPOLE
-            || e == EntityType.TRADER_LLAMA
-            || e == EntityType.TROPICAL_FISH
-            || e == EntityType.TURTLE
-            || e == EntityType.VILLAGER
-            || e == EntityType.WANDERING_TRADER
-            || e == EntityType.WOLF;
+        return e == EntityTypes.ALLAY
+            || e == EntityTypes.ARMADILLO
+            || e == EntityTypes.BAT
+            || e == EntityTypes.BEE
+            || e == EntityTypes.CAMEL
+            || e == EntityTypes.CAT
+            || e == EntityTypes.CHICKEN
+            || e == EntityTypes.COD
+            || e == EntityTypes.COW
+            || e == EntityTypes.DOLPHIN
+            || e == EntityTypes.DONKEY
+            || e == EntityTypes.FOX
+            || e == EntityTypes.FROG
+            || e == EntityTypes.GLOW_SQUID
+            || e == EntityTypes.GOAT
+            || e == EntityTypes.HAPPY_GHAST
+            || e == EntityTypes.HORSE
+            || e == EntityTypes.IRON_GOLEM
+            || e == EntityTypes.LLAMA
+            || e == EntityTypes.MOOSHROOM
+            || e == EntityTypes.MULE
+            || e == EntityTypes.OCELOT
+            || e == EntityTypes.PANDA
+            || e == EntityTypes.PARROT
+            || e == EntityTypes.PIG
+            || e == EntityTypes.POLAR_BEAR
+            || e == EntityTypes.PUFFERFISH
+            || e == EntityTypes.RABBIT
+            || e == EntityTypes.SALMON
+            || e == EntityTypes.SHEEP
+            || e == EntityTypes.SNIFFER
+            || e == EntityTypes.SNOW_GOLEM
+            || e == EntityTypes.SQUID
+            || e == EntityTypes.STRIDER
+            || e == EntityTypes.TADPOLE
+            || e == EntityTypes.TRADER_LLAMA
+            || e == EntityTypes.TROPICAL_FISH
+            || e == EntityTypes.TURTLE
+            || e == EntityTypes.VILLAGER
+            || e == EntityTypes.WANDERING_TRADER
+            || e == EntityTypes.WOLF;
     }
 
     public static boolean isAnimal(Entity e) {
@@ -59,44 +60,44 @@ public class EntityUtils {
     }
 
     public static boolean isMob(EntityType<?> e) {
-        return e == EntityType.BLAZE
-            || e == EntityType.BOGGED
-            || e == EntityType.BREEZE
-            || e == EntityType.CAVE_SPIDER
-            || e == EntityType.CREAKING
-            || e == EntityType.CREEPER
-            || e == EntityType.DROWNED
-            || e == EntityType.ELDER_GUARDIAN
-            || e == EntityType.ENDERMAN
-            || e == EntityType.ENDERMITE
-            || e == EntityType.EVOKER
-            || e == EntityType.GHAST
-            || e == EntityType.GUARDIAN
-            || e == EntityType.HOGLIN
-            || e == EntityType.HUSK
-            || e == EntityType.ILLUSIONER
-            || e == EntityType.MAGMA_CUBE
-            || e == EntityType.PHANTOM
-            || e == EntityType.PIGLIN
-            || e == EntityType.PIGLIN_BRUTE
-            || e == EntityType.RAVAGER
-            || e == EntityType.SHULKER
-            || e == EntityType.SILVERFISH
-            || e == EntityType.SKELETON
-            || e == EntityType.SKELETON_HORSE
-            || e == EntityType.SLIME
-            || e == EntityType.SPIDER
-            || e == EntityType.STRAY
-            || e == EntityType.VEX
-            || e == EntityType.VINDICATOR
-            || e == EntityType.WARDEN
-            || e == EntityType.WITCH
-            || e == EntityType.WITHER_SKELETON
-            || e == EntityType.ZOGLIN
-            || e == EntityType.ZOMBIE
-            || e == EntityType.ZOMBIE_HORSE
-            || e == EntityType.ZOMBIE_VILLAGER
-            || e == EntityType.ZOMBIFIED_PIGLIN;
+        return e == EntityTypes.BLAZE
+            || e == EntityTypes.BOGGED
+            || e == EntityTypes.BREEZE
+            || e == EntityTypes.CAVE_SPIDER
+            || e == EntityTypes.CREAKING
+            || e == EntityTypes.CREEPER
+            || e == EntityTypes.DROWNED
+            || e == EntityTypes.ELDER_GUARDIAN
+            || e == EntityTypes.ENDERMAN
+            || e == EntityTypes.ENDERMITE
+            || e == EntityTypes.EVOKER
+            || e == EntityTypes.GHAST
+            || e == EntityTypes.GUARDIAN
+            || e == EntityTypes.HOGLIN
+            || e == EntityTypes.HUSK
+            || e == EntityTypes.ILLUSIONER
+            || e == EntityTypes.MAGMA_CUBE
+            || e == EntityTypes.PHANTOM
+            || e == EntityTypes.PIGLIN
+            || e == EntityTypes.PIGLIN_BRUTE
+            || e == EntityTypes.RAVAGER
+            || e == EntityTypes.SHULKER
+            || e == EntityTypes.SILVERFISH
+            || e == EntityTypes.SKELETON
+            || e == EntityTypes.SKELETON_HORSE
+            || e == EntityTypes.SLIME
+            || e == EntityTypes.SPIDER
+            || e == EntityTypes.STRAY
+            || e == EntityTypes.VEX
+            || e == EntityTypes.VINDICATOR
+            || e == EntityTypes.WARDEN
+            || e == EntityTypes.WITCH
+            || e == EntityTypes.WITHER_SKELETON
+            || e == EntityTypes.ZOGLIN
+            || e == EntityTypes.ZOMBIE
+            || e == EntityTypes.ZOMBIE_HORSE
+            || e == EntityTypes.ZOMBIE_VILLAGER
+            || e == EntityTypes.ZOMBIFIED_PIGLIN;
     }
 
     public static boolean isMob(Entity e) {

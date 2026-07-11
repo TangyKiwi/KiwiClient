@@ -31,7 +31,7 @@ public class ClientPacketListenerMixin {
                 KiwiClient.LOGGER.error(e.getMessage());
             }
 
-            mc.gui.getChat().addRecentChat(message);
+            mc.gui.hud.getChat().addRecentChat(message);
             ci.cancel();
         }
     }

@@ -72,11 +72,11 @@ public abstract class Command {
 
     public static void addMessage(String text) {
         String prefix = "§a[§6KiwiClient§a]§r";
-        KiwiClient.mc.gui.getChat().addClientSystemMessage(Component.literal(prefix + " " + text));
+        KiwiClient.mc.gui.hud.getChat().addClientSystemMessage(Component.literal(prefix + " " + text));
     }
 
     public void addMessage(Component text) {
         String prefix = "§a[§6KiwiClient§a]§r ";
-        KiwiClient.mc.gui.getChat().addClientSystemMessage(Component.literal(prefix).append(text));
+        KiwiClient.mc.gui.hud.getChat().addClientSystemMessage(Component.literal(prefix).append(text));
     }
 }

@@ -11,12 +11,10 @@ public class CustomRenderLayers {
 
     static {
         QUADS = RenderType.create("kiwiclient_layer_quads", RenderSetup.builder(CustomRenderPipelines.QUADS)
-                .bufferSize(1536)
                 .setLayeringTransform(LayeringTransform.VIEW_OFFSET_Z_LAYERING)
                 .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET)
                 .createRenderSetup());
         LINES = RenderType.create("kiwiclient_layer_lines", RenderSetup.builder(CustomRenderPipelines.LINES)
-                .bufferSize(1536)
                 .setLayeringTransform(LayeringTransform.VIEW_OFFSET_Z_LAYERING)
                 .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET)
                 .createRenderSetup());

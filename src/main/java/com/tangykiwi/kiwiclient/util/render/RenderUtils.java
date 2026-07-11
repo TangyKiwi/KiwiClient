@@ -1,9 +1,9 @@
 package com.tangykiwi.kiwiclient.util.render;
 
+import com.mojang.blaze3d.PrimitiveTopology;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
@@ -17,7 +17,9 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.renderer.StagedVertexBuffer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.AxisDirection;
@@ -139,47 +141,51 @@ public class RenderUtils {
 
     public static void drawLine(double x1, double y1, double z1, double x2, double y2, double z2, int color, float lineWidth) {
         PoseStack matrices = matrixFrom(x1, y1, z1);
-        BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL_LINE_WIDTH);
+        KiwiBufferSource bufferSource = new KiwiBufferSource();
+        VertexConsumer bufferBuilder = bufferSource.getBuffer(CustomRenderLayers.LINES);
         Vertexer.vertexLine(matrices, bufferBuilder, 0, 0, 0, (float)(x2 - x1), (float)(y2 - y1), (float)(z2 - z1), color, lineWidth);
-        CustomRenderLayers.LINES.draw(bufferBuilder.build());
+        bufferSource.uploadAndDraw();
     }
 
     public static void drawQuad(double x1, double y1, double z1, double x2, double y2, double z2, int color) {
         PoseStack matrices = matrixFrom(x1, y1, z1);
-        BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        KiwiBufferSource bufferSource = new KiwiBufferSource();
+        VertexConsumer bufferBuilder = bufferSource.getBuffer(CustomRenderLayers.QUADS);
         float dx = (float)(x2 - x1);
         float dy = (float)(y2 - y1);
         float dz = (float)(z2 - z1);
         Vertexer.vertexQuad(matrices, bufferBuilder, 0, 0, 0, 0, 0, dz, dx, dy, dz, 0, dy, 0, 2, color);
-        CustomRenderLayers.QUADS.draw(bufferBuilder.build());
+        bufferSource.uploadAndDraw();
     }
 
-    public static void drawWorldText(PoseStack matrices, Quaternionf rotation, float height, String text, int color, VertexConsumer vertexConsumers, Font textRenderer, float scale) {
-        matrices.pushPose();
-        matrices.translate(0, height + 0.2f, 0);
-        matrices.scale(3, 3, 3);
-        // matrices.multiply(rotation);
+    // public static void drawWorldText(PoseStack matrices, Quaternionf rotation, float height, String text, int color, VertexConsumer vertexConsumers, Font textRenderer, float scale) {
+    //     matrices.pushPose();
+    //     matrices.translate(0, height + 0.2f, 0);
+    //     matrices.scale(3, 3, 3);
+    //     // matrices.multiply(rotation);
 
-        float max_x = -0.5f;
-        float min_x = 0.5f;
-        float min_y = 0;
-        float max_y = 0.1f;
-        float z = -0.0001f;
+    //     float max_x = -0.5f;
+    //     float min_x = 0.5f;
+    //     float min_y = 0;
+    //     float max_y = 0.1f;
+    //     float z = -0.0001f;
 
-        BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        Matrix4f model = matrices.last().pose();
-        bufferBuilder.addVertex(model, min_x, min_y, z).setLight(0xF000F0).setColor(color);
-        bufferBuilder.addVertex(model, max_x, min_y, z).setLight(0xF000F0).setColor(color);
-        bufferBuilder.addVertex(model, max_x, max_y, z).setLight(0xF000F0).setColor(color);
-        bufferBuilder.addVertex(model, min_x, max_y, z).setLight(0xF000F0).setColor(color);
-        CustomRenderLayers.QUADS.draw(bufferBuilder.build());
+    //     StagedVertexBuffer.Draw draw = getStagedVertexBuffer().appendDraw(DefaultVertexFormat.POSITION_COLOR, PrimitiveTopology.QUADS);
+    //     VertexConsumer bufferBuilder = getStagedVertexBuffer().getVertexBuilder(draw);
+    //     Matrix4f model = matrices.last().pose();
+    //     bufferBuilder.addVertex(model, min_x, min_y, z).setLight(0xF000F0).setColor(color);
+    //     bufferBuilder.addVertex(model, max_x, min_y, z).setLight(0xF000F0).setColor(color);
+    //     bufferBuilder.addVertex(model, max_x, max_y, z).setLight(0xF000F0).setColor(color);
+    //     bufferBuilder.addVertex(model, min_x, max_y, z).setLight(0xF000F0).setColor(color);
+    //     StagedVertexBuffer.ExecuteInfo executeInfo = getStagedVertexBuffer().getExecuteInfo(draw);
+    //     CustomRenderLayers.QUADS.prepare().drawFromBuffer(executeInfo);
 
-        matrices.pushPose();
-        matrices.scale(0.01f, -0.01f, 0.01f);
-        textRenderer.drawInBatch(text, -(textRenderer.width(text)) / 2f, -9, 0xFFFFFFFF, false, matrices.last().pose(), KiwiClient.mc.renderBuffers().bufferSource(), Font.DisplayMode.SEE_THROUGH, 0, 0xF000F0);
-        matrices.popPose();
-        matrices.popPose();
-    }
+    //     matrices.pushPose();
+    //     matrices.scale(0.01f, -0.01f, 0.01f);
+    //     textRenderer.drawInBatch(text, -(textRenderer.width(text)) / 2f, -9, 0xFFFFFFFF, false, matrices.last().pose(), KiwiClient.mc.renderBuffers().bufferSource(), Font.DisplayMode.SEE_THROUGH, 0, 0xF000F0);
+    //     matrices.popPose();
+    //     matrices.popPose();
+    // }
 
     // public static void drawLine(MatrixStack matrixStack, float x1, float y1, float z1, float x2, float y2, float z2, int color, double lineWidth) {
     //     Matrix4f matrices = matrixStack.peek().getPositionMatrix();
@@ -212,18 +218,85 @@ public class RenderUtils {
         return new Vector3f(dx / normalSqrt, dy / normalSqrt, dz / normalSqrt);
     }
 
-    public static void drawBoxOutline(BlockPos blockPos, int color, float lineWidth, Direction... excludeDirs) {
-        drawBoxOutline(new AABB(blockPos), color, lineWidth, excludeDirs);
+    public static void drawBoxOutline(PoseStack matrices, BlockPos blockPos, int color, float lineWidth, Direction... excludeDirs) {
+        drawBoxOutline(matrices, new AABB(blockPos), color, lineWidth, excludeDirs);
     }
 
-    public static void drawBoxOutline(AABB box, int color, float lineWidth, Direction... excludeDirs) {
+    public static void drawBoxOutline(PoseStack matrices, AABB box, int color, float lineWidth, Direction... excludeDirs) {
         // if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
-        PoseStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
-        BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL_LINE_WIDTH);
-        Vertexer.vertexBoxOutline(matrices, bufferBuilder, box.move(new Vec3(box.minX, box.minY, box.minZ).reverse()), color, lineWidth, excludeDirs);
-        CustomRenderLayers.LINES.draw(bufferBuilder.build());
+        // PoseStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
+        KiwiBufferSource bufferSource = new KiwiBufferSource();
+        VertexConsumer bufferBuilder = bufferSource.getBuffer(CustomRenderLayers.LINES);
+        Vec3 camOffset = mc.gameRenderer.mainCamera().position().reverse();
+        drawOutlinedBox(matrices, bufferBuilder, box.move(camOffset), color);
+        bufferSource.uploadAndDraw();
     }
+    public static void drawOutlinedBox(PoseStack matrices,
+		VertexConsumer buffer, AABB box, int color)
+	{
+		PoseStack.Pose entry = matrices.last();
+		float x1 = (float)box.minX;
+		float y1 = (float)box.minY;
+		float z1 = (float)box.minZ;
+		float x2 = (float)box.maxX;
+		float y2 = (float)box.maxY;
+		float z2 = (float)box.maxZ;
+		
+		// bottom lines
+		buffer.addVertex(entry, x1, y1, z1).setColor(color)
+			.setNormal(entry, 1, 0, 0).setLineWidth(2);
+		buffer.addVertex(entry, x2, y1, z1).setColor(color)
+			.setNormal(entry, 1, 0, 0).setLineWidth(2);
+		buffer.addVertex(entry, x1, y1, z1).setColor(color)
+			.setNormal(entry, 0, 0, 1).setLineWidth(2);
+		buffer.addVertex(entry, x1, y1, z2).setColor(color)
+			.setNormal(entry, 0, 0, 1).setLineWidth(2);
+		buffer.addVertex(entry, x2, y1, z1).setColor(color)
+			.setNormal(entry, 0, 0, 1).setLineWidth(2);
+		buffer.addVertex(entry, x2, y1, z2).setColor(color)
+			.setNormal(entry, 0, 0, 1).setLineWidth(2);
+		buffer.addVertex(entry, x1, y1, z2).setColor(color)
+			.setNormal(entry, 1, 0, 0).setLineWidth(2);
+		buffer.addVertex(entry, x2, y1, z2).setColor(color)
+			.setNormal(entry, 1, 0, 0).setLineWidth(2);
+		
+		// top lines
+		buffer.addVertex(entry, x1, y2, z1).setColor(color)
+			.setNormal(entry, 1, 0, 0).setLineWidth(2);
+		buffer.addVertex(entry, x2, y2, z1).setColor(color)
+			.setNormal(entry, 1, 0, 0).setLineWidth(2);
+		buffer.addVertex(entry, x1, y2, z1).setColor(color)
+			.setNormal(entry, 0, 0, 1).setLineWidth(2);
+		buffer.addVertex(entry, x1, y2, z2).setColor(color)
+			.setNormal(entry, 0, 0, 1).setLineWidth(2);
+		buffer.addVertex(entry, x2, y2, z1).setColor(color)
+			.setNormal(entry, 0, 0, 1).setLineWidth(2);
+		buffer.addVertex(entry, x2, y2, z2).setColor(color)
+			.setNormal(entry, 0, 0, 1).setLineWidth(2);
+		buffer.addVertex(entry, x1, y2, z2).setColor(color)
+			.setNormal(entry, 1, 0, 0).setLineWidth(2);
+		buffer.addVertex(entry, x2, y2, z2).setColor(color)
+			.setNormal(entry, 1, 0, 0).setLineWidth(2);
+		
+		// side lines
+		buffer.addVertex(entry, x1, y1, z1).setColor(color)
+			.setNormal(entry, 0, 1, 0).setLineWidth(2);
+		buffer.addVertex(entry, x1, y2, z1).setColor(color)
+			.setNormal(entry, 0, 1, 0).setLineWidth(2);
+		buffer.addVertex(entry, x2, y1, z1).setColor(color)
+			.setNormal(entry, 0, 1, 0).setLineWidth(2);
+		buffer.addVertex(entry, x2, y2, z1).setColor(color)
+			.setNormal(entry, 0, 1, 0).setLineWidth(2);
+		buffer.addVertex(entry, x1, y1, z2).setColor(color)
+			.setNormal(entry, 0, 1, 0).setLineWidth(2);
+		buffer.addVertex(entry, x1, y2, z2).setColor(color)
+			.setNormal(entry, 0, 1, 0).setLineWidth(2);
+		buffer.addVertex(entry, x2, y1, z2).setColor(color)
+			.setNormal(entry, 0, 1, 0).setLineWidth(2);
+		buffer.addVertex(entry, x2, y2, z2).setColor(color)
+			.setNormal(entry, 0, 1, 0).setLineWidth(2);
+	}
 
     public static void drawBoxFilled(BlockPos blockPos, int color, Direction... excludeDirs) {
         drawBoxFilled(new AABB(blockPos), color, excludeDirs);
@@ -233,15 +306,16 @@ public class RenderUtils {
         // if (!mc.worldRenderer.frustum.isVisible(box)) return;
 
         PoseStack matrices = matrixFrom(box.minX, box.minY, box.minZ);
-        BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        KiwiBufferSource bufferSource = new KiwiBufferSource();
+        VertexConsumer bufferBuilder = bufferSource.getBuffer(CustomRenderLayers.QUADS);
         Vertexer.vertexBoxFilled(matrices, bufferBuilder, box.move(new Vec3(box.minX, box.minY, box.minZ).reverse()), color, excludeDirs);
-        CustomRenderLayers.QUADS.draw(bufferBuilder.build());
+        bufferSource.uploadAndDraw();
     }
 
     public static PoseStack matrixFrom(double x, double y, double z) {
 		PoseStack matrices = new PoseStack();
 
-		Camera camera = mc.gameRenderer.getMainCamera();
+		Camera camera = mc.gameRenderer.mainCamera();
         matrices.mulPose(Axis.XP.rotationDegrees(camera.xRot()));
         matrices.mulPose(Axis.YP.rotationDegrees(camera.yRot() + 180.0F));
 

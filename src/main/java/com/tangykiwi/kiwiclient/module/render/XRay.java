@@ -1,39 +1,32 @@
 package com.tangykiwi.kiwiclient.module.render;
 
-import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.tangykiwi.kiwiclient.event.ChunkOcclusionEvent;
-import com.tangykiwi.kiwiclient.event.TickEvent;
-import com.tangykiwi.kiwiclient.mixininterface.ISimpleOption;
 import com.tangykiwi.kiwiclient.module.Category;
 import com.tangykiwi.kiwiclient.module.Module;
-import com.tangykiwi.kiwiclient.module.setting.SliderSetting;
-import com.tangykiwi.kiwiclient.module.setting.ToggleSetting;
 
-import net.minecraft.client.OptionInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.shapes.Shapes;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 public class XRay extends Module {
 
     private double gamma;
-    public ArrayList<Block> blocks = new ArrayList<Block>(Arrays.asList(
+    public ArrayList<Block> blocks = new ArrayList<>(List.of(
         Blocks.COAL_ORE,
         Blocks.DEEPSLATE_COAL_ORE,
         Blocks.COAL_BLOCK,
         Blocks.COPPER_ORE,
         Blocks.DEEPSLATE_COPPER_ORE,
-        Blocks.COPPER_BLOCK,
+        Blocks.RAW_COPPER_BLOCK,
         Blocks.IRON_ORE,
         Blocks.DEEPSLATE_IRON_ORE,
         Blocks.IRON_BLOCK,
@@ -56,18 +49,21 @@ public class XRay extends Module {
         Blocks.NETHERITE_BLOCK,
         Blocks.SPAWNER,
         Blocks.END_PORTAL_FRAME
-    ));
+    )); 
 
     public XRay() {
         super("XRay", "Shows ores", KEY_UNBOUND, Category.RENDER
         /*new ToggleSetting("Fluids", "Show fluids, toggle xray to see changes", true)*/);
+        for(Block block : Blocks.COPPER_BLOCK.asList()) {
+            blocks.add(block);
+        }
     }
 
     @Override
     public void onEnable() {
         super.onEnable();
 
-        mc.levelRenderer.allChanged();
+        mc.levelRenderer.invalidateCompiledGeometry(mc.level, mc.options, mc.gameRenderer.mainCamera(), mc.getBlockColors());
         gamma = mc.options.gamma().get();
     }
 
@@ -77,7 +73,7 @@ public class XRay extends Module {
         // @SuppressWarnings("unchecked")
         // ISimpleOption<Double> gammaOption2 = (ISimpleOption<Double>)(Object)gammaOption;
         // gammaOption2.forceSetValue(gamma);
-        mc.levelRenderer.allChanged();
+        mc.levelRenderer.invalidateCompiledGeometry(mc.level, mc.options, mc.gameRenderer.mainCamera(), mc.getBlockColors());
 
         super.onDisable();
     }

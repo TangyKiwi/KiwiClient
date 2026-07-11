@@ -11,14 +11,14 @@ import com.tangykiwi.kiwiclient.gui.hudeditor.components.SpeedComponent;
 import com.tangykiwi.kiwiclient.util.Textures;
 
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.client.renderer.RenderPipelines;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
-@Mixin(Gui.class)
-public class GuiMixin {
+@Mixin(Hud.class)
+public class HudMixin {
     public int frame = 0, tick = 0;
 
     @Inject(method = "extractRenderState", at = @At("TAIL"), cancellable = true)

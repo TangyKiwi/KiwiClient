@@ -30,7 +30,7 @@ public class InvMove extends Module {
 
     @Subscribe
     public void onTick(TickEvent event) {
-        if (shouldInvMove(mc.screen)) {
+        if (shouldInvMove(mc.gui.screen())) {
             for (KeyMapping k : new KeyMapping[] { mc.options.keyUp, mc.options.keyDown,
                     mc.options.keyLeft, mc.options.keyRight, mc.options.keyJump, mc.options.keyShift }) {
                 k.setDown(InputConstants.isKeyDown(mc.getWindow(), InputConstants.getKey(k.saveString()).getValue()));

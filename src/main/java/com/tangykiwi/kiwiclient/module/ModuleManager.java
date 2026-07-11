@@ -59,8 +59,8 @@ public class ModuleManager {
         moduleList.add(new Nametags());
         moduleList.add(new NoRender());
         moduleList.add(new SeedRay());
-        moduleList.add(new StorageESP());
-        moduleList.add(new Tracers());
+        // moduleList.add(new StorageESP());
+        // moduleList.add(new Tracers());
         moduleList.add(new XRay());
     }
 
@@ -132,7 +132,7 @@ public class ModuleManager {
     @Subscribe
     @AllowConcurrentEvents
     public void handleKeyPress(KeyPressEvent e) {
-        if(mc.screen != null) return;
+        if(mc.gui.screen() != null) return;
 
         // figure out handling for F keys and command prefix
         if (InputConstants.isKeyDown(mc.getWindow(), GLFW.GLFW_KEY_F3)) return;

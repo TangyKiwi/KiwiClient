@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.mixin.ClientChunkCacheAccessor;
 import com.tangykiwi.kiwiclient.mixin.ClientChunkMapAccessor;
@@ -75,16 +76,16 @@ public class SeedRay extends Module{
             int rangeVal = getSetting(10).asSlider().getValueInt();
             for (int range = 0; range <= rangeVal; range++) {
                 for (int x = -range + chunkX; x <= range + chunkX; x++) {
-                    renderChunk(x, chunkZ + range - rangeVal);
+                    renderChunk(event.getPoseStack(), x, chunkZ + range - rangeVal);
                 }
                 for (int x = (-range) + 1 + chunkX; x < range + chunkX; x++) {
-                    renderChunk(x, chunkZ - range + rangeVal + 1);
+                    renderChunk(event.getPoseStack(), x, chunkZ - range + rangeVal + 1);
                 }
             }
         }
     }
 
-    private void renderChunk(int x, int z) {
+    private void renderChunk(PoseStack matrices, int x, int z) {
         long chunkKey = ChunkPos.pack(x, z);
 
         if (chunkRenderers.containsKey(chunkKey)) {
@@ -94,7 +95,7 @@ public class SeedRay extends Module{
                 if (oreRenders.getKey().enabled) {
                     for (Vec3 pos : oreRenders.getValue()) {
                         AABB box = new AABB(new BlockPos(new Vec3i((int) pos.x, (int) pos.y, (int) pos.z)));
-                        RenderUtils.drawBoxOutline(box, oreRenders.getKey().color.getRGB(), 1);
+                        RenderUtils.drawBoxOutline(matrices, box, oreRenders.getKey().color.getRGB(), 1);
                     }
                 }
             }

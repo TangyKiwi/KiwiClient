@@ -50,15 +50,15 @@ public abstract class LoadingOverlayMixin {
         // float h = 0.0F;
         int k;
         if (f >= 1.0F) {
-            if (mc.screen != null)
-                mc.screen.extractRenderState(context, 0, 0, delta);
+            if (mc.gui.screen() != null)
+                mc.gui.screen().extractRenderState(context, 0, 0, delta);
 
             k = Mth.ceil((1.0F - Mth.clamp(f - 1.0F, 0.0F, 1.0F)) * 255.0F);
             context.fill(0, 0, i, j, withAlpha(new Color(0x070015).getRGB(), k));
             // h = 1.0F - Mth.clamp(f - 1.0F, 0.0F, 1.0F);
         } else if (fadeIn) {
-            if (mc.screen != null && g < 1.0F)
-                mc.screen.extractRenderState(context, mouseX, mouseY, delta);
+            if (mc.gui.screen() != null && g < 1.0F)
+                mc.gui.screen().extractRenderState(context, mouseX, mouseY, delta);
 
             k = Mth.ceil(Mth.clamp((double) g, 0.15, 1.0) * 255.0);
             context.fill(0, 0, i, j, withAlpha(new Color(0x070015).getRGB(), k));
@@ -84,7 +84,7 @@ public abstract class LoadingOverlayMixin {
 
 
         if (f >= 2.0F) {
-            mc.setOverlay(null);
+            mc.gui.setOverlay(null);
         }
 
         if (fadeOutStart == -1L && reload.isDone() && (!fadeIn || g >= 2.0F)) {
@@ -96,8 +96,8 @@ public abstract class LoadingOverlayMixin {
             }
 
             fadeOutStart = Util.getMillis();
-            if (mc.screen != null) {
-                mc.screen.init(mc.getWindow().getGuiScaledWidth(), mc.getWindow().getGuiScaledHeight());
+            if (mc.gui.screen() != null) {
+                mc.gui.screen().init(mc.getWindow().getGuiScaledWidth(), mc.getWindow().getGuiScaledHeight());
             }
         }
     }
