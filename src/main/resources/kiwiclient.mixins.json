@@ -28,7 +28,6 @@
     "GameRendererMixin",
     "GuiGraphicsExtractorAccessor",
     "GuiGraphicsExtractorMixin",
-    "GuiRendererMixin",
     "HeightRangePlacementModifierAccessor",
     "HudMixin",
     "ItemContainerContentsMixin",

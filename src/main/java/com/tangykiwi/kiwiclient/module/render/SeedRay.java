@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.tangykiwi.kiwiclient.command.Command;
 import com.tangykiwi.kiwiclient.mixin.ClientChunkCacheAccessor;
 import com.tangykiwi.kiwiclient.mixin.ClientChunkMapAccessor;

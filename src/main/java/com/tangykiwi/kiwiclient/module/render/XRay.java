@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XRay extends Module {
-
-    private double gamma;
     public ArrayList<Block> blocks = new ArrayList<>(List.of(
         Blocks.COAL_ORE,
         Blocks.DEEPSLATE_COAL_ORE,
@@ -64,28 +62,14 @@ public class XRay extends Module {
         super.onEnable();
 
         mc.levelRenderer.invalidateCompiledGeometry(mc.level, mc.options, mc.gameRenderer.mainCamera(), mc.getBlockColors());
-        gamma = mc.options.gamma().get();
     }
 
     @Override
     public void onDisable() {
-        // OptionInstance<Double> gammaOption = mc.options.gamma();
-        // @SuppressWarnings("unchecked")
-        // ISimpleOption<Double> gammaOption2 = (ISimpleOption<Double>)(Object)gammaOption;
-        // gammaOption2.forceSetValue(gamma);
         mc.levelRenderer.invalidateCompiledGeometry(mc.level, mc.options, mc.gameRenderer.mainCamera(), mc.getBlockColors());
 
         super.onDisable();
     }
-
-    // @Subscribe
-    // @AllowConcurrentEvents
-    // public void onTick(TickEvent e) {
-    //     OptionInstance<Double> gammaOption = mc.options.gamma();
-    //     @SuppressWarnings("unchecked")
-    //     ISimpleOption<Double> gammaOption2 = (ISimpleOption<Double>)(Object)gammaOption;
-    //     gammaOption2.forceSetValue(16.0);
-    // }
 
     // light handling in BlockBehaviorMixin
 
@@ -96,13 +80,6 @@ public class XRay extends Module {
 
     public boolean modifyDrawSide(BlockState state, BlockGetter view, BlockPos pos, Direction facing, boolean returns) {
         return blocks.contains(state.getBlock());
-        // if (!returns && blocks.contains(state.getBlock())) {
-        //     BlockPos adjPos = pos.relative(facing);
-        //     BlockState adjState = view.getBlockState(adjPos);
-        //     return adjState.getFaceOcclusionShape(facing.getOpposite()) != Shapes.block() || adjState.getBlock() != state.getBlock() || !adjState.isSolidRender() || !blocks.contains(adjState.getBlock());
-        // }
-
-        // return returns;
     }
 
     private static final ThreadLocal<BlockPos.MutableBlockPos> EXPOSED_POS = ThreadLocal.withInitial(BlockPos.MutableBlockPos::new);
