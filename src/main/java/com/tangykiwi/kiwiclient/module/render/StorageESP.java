@@ -94,11 +94,11 @@ public class StorageESP extends Module {
 
             float opacity = getSetting(2).asSlider().getValueFloat();
             if (getSetting(0).asMode().asMode().getValue() == 0 || getSetting(0).asMode().asMode().getValue() == 2) {
-                RenderUtils.drawBoxFilled(box, (int)(opacity * 255) << 24 | e.getValue());
+                RenderUtils.drawBoxFilled(event.getSubmitNodeStorage(), box, (int)(opacity * 255) << 24 | e.getValue());
             }
 
             if (getSetting(0).asMode().asMode().getValue() == 0 || getSetting(0).asMode().asMode().getValue() == 1) {
-                RenderUtils.drawBoxOutline(event.getPoseStack(), box, (int)(opacity * 255) << 24 | e.getValue(), getSetting(1).asSlider().getValueFloat());
+                RenderUtils.drawBoxOutline(event.getSubmitNodeStorage(), box, (int)(opacity * 255) << 24 | e.getValue(), getSetting(1).asSlider().getValueFloat());
             }
         }
 

@@ -20,6 +20,7 @@ import com.tangykiwi.kiwiclient.module.render.NoRender;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 
@@ -28,11 +29,15 @@ public class LevelRendererMixin {
     @Shadow @Final
     private EntityRenderDispatcher entityRenderDispatcher;
 
+    @Final
+    @Shadow
+    private SubmitNodeStorage submitNodeStorage;
+
     @Inject(method = "render", at = @At("HEAD"))
     private void onRenderLevelHead(GraphicsResourceAllocator resourceAllocator, DeltaTracker deltaTracker, boolean renderOutline, CameraRenderState cameraState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, CallbackInfo ci) {
         PoseStack poseStack = new PoseStack();
         poseStack.mulPose(modelViewMatrix);
-        LevelRenderEvent event = new LevelRenderEvent(poseStack, deltaTracker.getGameTimeDeltaPartialTick(false));
+        LevelRenderEvent event = new LevelRenderEvent(poseStack, deltaTracker.getGameTimeDeltaPartialTick(false), submitNodeStorage);
         KiwiClient.eventBus.post(event);
     }
 

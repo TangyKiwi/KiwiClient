@@ -59,8 +59,8 @@ public class ModuleManager {
         moduleList.add(new Nametags());
         moduleList.add(new NoRender());
         moduleList.add(new SeedRay());
-        // moduleList.add(new StorageESP());
-        // moduleList.add(new Tracers());
+        moduleList.add(new StorageESP());
+        moduleList.add(new Tracers());
         moduleList.add(new XRay());
     }
 

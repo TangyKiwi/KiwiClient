@@ -29,6 +29,7 @@ import com.tangykiwi.kiwiclient.util.seedray.Dimension;
 import com.tangykiwi.kiwiclient.util.seedray.Ore;
 
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -76,16 +77,16 @@ public class SeedRay extends Module{
             int rangeVal = getSetting(10).asSlider().getValueInt();
             for (int range = 0; range <= rangeVal; range++) {
                 for (int x = -range + chunkX; x <= range + chunkX; x++) {
-                    renderChunk(event.getPoseStack(), x, chunkZ + range - rangeVal);
+                    renderChunk(event.getSubmitNodeStorage(), x, chunkZ + range - rangeVal);
                 }
                 for (int x = (-range) + 1 + chunkX; x < range + chunkX; x++) {
-                    renderChunk(event.getPoseStack(), x, chunkZ - range + rangeVal + 1);
+                    renderChunk(event.getSubmitNodeStorage(), x, chunkZ - range + rangeVal + 1);
                 }
             }
         }
     }
 
-    private void renderChunk(PoseStack matrices, int x, int z) {
+    private void renderChunk(SubmitNodeStorage submitNodeStorage, int x, int z) {
         long chunkKey = ChunkPos.pack(x, z);
 
         if (chunkRenderers.containsKey(chunkKey)) {
@@ -95,7 +96,7 @@ public class SeedRay extends Module{
                 if (oreRenders.getKey().enabled) {
                     for (Vec3 pos : oreRenders.getValue()) {
                         AABB box = new AABB(new BlockPos(new Vec3i((int) pos.x, (int) pos.y, (int) pos.z)));
-                        RenderUtils.drawBoxOutline(matrices, box, oreRenders.getKey().color.getRGB(), 1);
+                        RenderUtils.drawBoxOutline(submitNodeStorage, box, oreRenders.getKey().color.getRGB(), 1);
                     }
                 }
             }

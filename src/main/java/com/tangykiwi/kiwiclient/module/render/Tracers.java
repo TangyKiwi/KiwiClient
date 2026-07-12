@@ -9,6 +9,7 @@ import com.tangykiwi.kiwiclient.module.setting.ToggleSetting;
 import com.tangykiwi.kiwiclient.util.EntityUtils;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
@@ -30,13 +31,8 @@ public class Tracers extends Module {
         float opacity = getSetting(1).asSlider().getValueFloat();
 
         for(Entity e : mc.level.entitiesForRendering()) {
-            Vec3 vec = e.getEyePosition().subtract(RenderUtils.getInterpolationOffset(e));
-
-            Vec3 vec2 = new Vec3(0, 0, 75)
-                        .xRot(-(float) Math.toRadians(mc.gameRenderer.mainCamera().xRot()))
-                        .yRot(-(float) Math.toRadians(mc.gameRenderer.mainCamera().yRot()))
-                        .add(mc.getCameraEntity().getEyePosition());
-
+            Vec3 vec = e.getEyePosition().add(mc.gameRenderer.mainCamera().position().reverse());
+            Vec3 vec2 = mc.hitResult.getLocation().add(mc.gameRenderer.mainCamera().position().reverse());
             int color = -1;
 
             if(EntityUtils.isPlayer(e) && e != mc.player && e != mc.getCameraEntity() && getSetting("Players").asToggle().getValue()) {
@@ -49,7 +45,7 @@ public class Tracers extends Module {
 
             if (color != -1) {
                 color = ((int)(opacity * 255) << 24) | (color & 0x00FFFFFF);
-                RenderUtils.drawLine(vec2.x, vec2.y, vec2.z, vec.x, vec.y, vec.z, color, width);
+                RenderUtils.drawLine(event.getSubmitNodeStorage(), vec2.x, vec2.y, vec2.z, vec.x, vec.y, vec.z, color, width);
             }
         }
     }
@@ -125,4 +121,16 @@ public class Tracers extends Module {
     public int percToColor(double percentage) {
         return (int) (percentage * 255);
     }
+
+    public Vec3 getInterpolationOffset(Entity e) {
+		if (mc.isPaused()) {
+			return Vec3.ZERO;
+		}
+
+		double tickDelta = mc.getDeltaTracker().getGameTimeDeltaPartialTick(true);
+		return new Vec3(
+				e.getX() - Mth.lerp(tickDelta, e.xo, e.getX()),
+				e.getY() - Mth.lerp(tickDelta, e.yo, e.getY()),
+				e.getZ() - Mth.lerp(tickDelta, e.zo, e.getZ()));
+	}
 }

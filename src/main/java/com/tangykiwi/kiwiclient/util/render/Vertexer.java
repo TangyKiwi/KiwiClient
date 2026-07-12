@@ -2,7 +2,6 @@ package com.tangykiwi.kiwiclient.util.render;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -12,13 +11,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;
 
 public class Vertexer {
-    public static void vertexLine(PoseStack matrices, VertexConsumer vertexConsumer, float x1, float y1, float z1, float x2, float y2, float z2, int color, float lineWidth) {
-        Matrix4f model = matrices.last().pose();
-        Matrix3f normal = matrices.last().normal();
+    public static void vertexLine(PoseStack.Pose matrices, VertexConsumer vertexConsumer, float x1, float y1, float z1, float x2, float y2, float z2, int color, float lineWidth) {
+        Matrix3f normal = matrices.normal();
 
         Vector3f normalVec = getNormal(normal, x1, y1, z1, x2, y2, z2);
-        vertexConsumer.addVertex(model, x1, y1, z1).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z()).setLineWidth(lineWidth);
-        vertexConsumer.addVertex(model, x2, y2, z2).setColor(color).setNormal(matrices.last(), normalVec.x(), normalVec.y(), normalVec.z()).setLineWidth(lineWidth);
+        vertexConsumer.addVertex(matrices, x1, y1, z1).setColor(color).setNormal(matrices, normalVec.x(), normalVec.y(), normalVec.z()).setLineWidth(lineWidth);
+        vertexConsumer.addVertex(matrices, x2, y2, z2).setColor(color).setNormal(matrices, normalVec.x(), normalVec.y(), normalVec.z()).setLineWidth(lineWidth);
     }
 
     public static Vector3f getNormal(Matrix3f normal, float x1, float y1, float z1, float x2, float y2, float z2) {
@@ -29,7 +27,7 @@ public class Vertexer {
 		return new Vector3f(xNormal, yNormal, zNormal).normalize();
 	}
 
-    public static void vertexBoxOutline(PoseStack matrices, VertexConsumer vertexConsumer, AABB box, int color, float lineWidth, Direction... excludeDirs) {
+    public static void vertexBoxOutline(PoseStack.Pose matrices, VertexConsumer vertexConsumer, AABB box, int color, float lineWidth, Direction... excludeDirs) {
         float x1 = (float) box.minX;
         float y1 = (float) box.minY;    
         float z1 = (float) box.minZ;
@@ -90,7 +88,7 @@ public class Vertexer {
 	public static final int CULL_FRONT = 1;
 	public static final int CULL_NONE = 2;
 
-    public static void vertexBoxFilled(PoseStack matrices, VertexConsumer vertexConsumer, AABB box, int color, Direction... excludeDirs) {
+    public static void vertexBoxFilled(PoseStack.Pose matrices, VertexConsumer vertexConsumer, AABB box, int color, Direction... excludeDirs) {
         float x1 = (float) box.minX;
 		float y1 = (float) box.minY;
 		float z1 = (float) box.minZ;
@@ -125,20 +123,19 @@ public class Vertexer {
 		}
     }
 
-    public static void vertexQuad(PoseStack matrices, VertexConsumer vertexConsumer, float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4, int cullMode, int color) {
-		Matrix4f model = matrices.last().pose();
+    public static void vertexQuad(PoseStack.Pose matrices, VertexConsumer vertexConsumer, float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4, int cullMode, int color) {
 		if (cullMode != CULL_FRONT) {
-			vertexConsumer.addVertex(model, x1, y1, z1).setColor(color);
-			vertexConsumer.addVertex(model, x2, y2, z2).setColor(color);
-			vertexConsumer.addVertex(model, x3, y3, z3).setColor(color);
-			vertexConsumer.addVertex(model, x4, y4, z4).setColor(color);
+			vertexConsumer.addVertex(matrices, x1, y1, z1).setColor(color);
+			vertexConsumer.addVertex(matrices, x2, y2, z2).setColor(color);
+			vertexConsumer.addVertex(matrices, x3, y3, z3).setColor(color);
+			vertexConsumer.addVertex(matrices, x4, y4, z4).setColor(color);
 		}
 
 		if (cullMode != CULL_BACK) {
-			vertexConsumer.addVertex(model, x4, y4, z4).setColor(color);
-			vertexConsumer.addVertex(model, x3, y3, z3).setColor(color);
-			vertexConsumer.addVertex(model, x2, y2, z2).setColor(color);
-			vertexConsumer.addVertex(model, x1, y1, z1).setColor(color);
+			vertexConsumer.addVertex(matrices, x4, y4, z4).setColor(color);
+			vertexConsumer.addVertex(matrices, x3, y3, z3).setColor(color);
+			vertexConsumer.addVertex(matrices, x2, y2, z2).setColor(color);
+			vertexConsumer.addVertex(matrices, x1, y1, z1).setColor(color);
 		}
 	}
 }

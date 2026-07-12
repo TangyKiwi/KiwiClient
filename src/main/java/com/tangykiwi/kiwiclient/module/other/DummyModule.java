@@ -15,7 +15,7 @@ public class DummyModule extends Module {
 
     @Subscribe
     public void onWorldRender(LevelRenderEvent event) {
-        RenderUtils.drawBoxFilled(mc.player.blockPosition().below(1), 0x7F00FF00);
-        RenderUtils.drawBoxOutline(event.getPoseStack(), mc.player.blockPosition().below(1), 0xFFFF0000, 4);
+        RenderUtils.drawBoxFilled(event.getSubmitNodeStorage(), mc.player.blockPosition().below(1), 0x7F00FF00);
+        RenderUtils.drawBoxOutline(event.getSubmitNodeStorage(), mc.player.blockPosition().below(1), 0xFFFF0000, 4);
     }
 }

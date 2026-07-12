@@ -36,11 +36,11 @@ public class ESP extends Module {
                 if (color != -1) {
                     if (fill != 0 && (getSetting("Mode").asMode().getValue() == 1 || getSetting("Mode").asMode().getValue() == 3)) {
                         int fillColor = ((int)(fill * 255) << 24) | color;
-                        RenderUtils.drawBoxFilled(entity.getBoundingBox(), fillColor);
+                        RenderUtils.drawBoxFilled(event.getSubmitNodeStorage(), entity.getBoundingBox(), fillColor);
                     }
                     if (getSetting("Mode").asMode().getValue() == 1 || getSetting("Mode").asMode().getValue() == 2) {
                         int outlineColor = (255 << 24) | color;
-                        RenderUtils.drawBoxOutline(event.getPoseStack(), entity.getBoundingBox(), outlineColor, width);
+                        RenderUtils.drawBoxOutline(event.getSubmitNodeStorage(), entity.getBoundingBox(), outlineColor, width);
                     }
 
                 }
