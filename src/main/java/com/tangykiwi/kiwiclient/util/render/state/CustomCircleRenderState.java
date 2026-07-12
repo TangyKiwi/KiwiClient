@@ -5,9 +5,11 @@ import org.joml.Matrix3x2f;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.tangykiwi.kiwiclient.mixin.GuiGraphicsExtractorAccessor;
 import com.tangykiwi.kiwiclient.util.render.CustomRenderPipelines;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphicsExtractor.ScissorStack;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
@@ -25,8 +27,10 @@ public record CustomCircleRenderState(RenderPipeline pipeline,
 
     public CustomCircleRenderState(GuiGraphicsExtractor context, float x, float y,
         float a1, float a2, float rad, int samples, int color) {
+        GuiGraphicsExtractorAccessor contextAccessor = (GuiGraphicsExtractorAccessor) context;
+        ScissorStack scissorStack = contextAccessor.getScissorStack();
         this(CustomRenderPipelines.GUI_TRIANGLE_FAN, TextureSetup.noTexture(), context.pose(), x, y, a1, a2, rad, samples, color,
-            context.scissorStack.peek(), createBounds(x, y, rad, context.pose(), context.scissorStack.peek()));
+            scissorStack.peek(), createBounds(x, y, rad, context.pose(), scissorStack.peek()));
     }
 
     @Override

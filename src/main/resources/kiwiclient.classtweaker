@@ -1,7 +1,17 @@
 classTweaker v1 official
 
 # ClientChunkCacheAccessor, ClientChunkMapAccessor
-accessible   class   net/minecraft/client/multiplayer/ClientChunkCache$Storage
+accessible  class   net/minecraft/client/multiplayer/ClientChunkCache$Storage
 
 # GuiRendererMixin
-accessible class net/minecraft/client/gui/render/GuiRenderer$Draw
+accessible  class   net/minecraft/client/gui/render/GuiRenderer$Draw
+
+# GuiGraphicsExtractorAccessor
+accessible  class   net/minecraft/client/gui/GuiGraphicsExtractor$ScissorStack
+
+# RenderType
+accessible  method  net/minecraft/client/renderer/rendertype/RenderType create (Ljava/lang/String;Lnet/minecraft/client/renderer/rendertype/RenderSetup;)Lnet/minecraft/client/renderer/rendertype/RenderType;
+
+# RenderPipelines
+accessible  field   net/minecraft/client/renderer/RenderPipelines GUI_SNIPPET Lcom/mojang/blaze3d/pipeline/RenderPipeline$Snippet;
+accessible  field   net/minecraft/client/renderer/RenderPipelines LINES_SNIPPET Lcom/mojang/blaze3d/pipeline/RenderPipeline$Snippet;

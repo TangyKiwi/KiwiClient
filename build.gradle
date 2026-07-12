@@ -77,7 +77,7 @@ dependencies {
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
-	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	// implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	implementation("maven.modrinth:sodium:${project.sodium_version}")
 

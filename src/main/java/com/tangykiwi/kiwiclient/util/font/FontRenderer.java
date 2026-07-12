@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.util.font;
 
 import com.google.common.base.Preconditions;
+import com.tangykiwi.kiwiclient.mixin.GuiGraphicsExtractorAccessor;
 import com.tangykiwi.kiwiclient.util.render.RenderUtils;
 import com.tangykiwi.kiwiclient.util.render.state.CustomFontRenderState;
 
@@ -174,8 +175,9 @@ public class FontRenderer implements Closeable {
      */
     public void drawString(GuiGraphicsExtractor context, String s, float x, float y, Color color) {
         Matrix3x2fStack stack = context.pose();
-        ScreenRectangle scissor = context.scissorStack.peek();
-        
+        GuiGraphicsExtractorAccessor contextAccessor = (GuiGraphicsExtractorAccessor) context;
+        ScreenRectangle scissor = contextAccessor.getScissorStack().peek();
+
         float r = (float) color.getRed() / 255;
         float g = (float) color.getGreen() / 255;
         float b = (float) color.getBlue() / 255;
@@ -258,7 +260,7 @@ public class FontRenderer implements Closeable {
                 float u2 = (float) (glyph.u() + glyph.width()) / owner.width;
                 float v2 = (float) (glyph.v() + glyph.height() * mult) / owner.height;
 
-                context.guiRenderState.addGuiElement(new CustomFontRenderState(
+                contextAccessor.getGuiRenderState().addGuiElement(new CustomFontRenderState(
                     matrix,
                     owner.tex.getTextureView(),
                     xo, yo, w, h, mult, u1, u2, v1, v2,

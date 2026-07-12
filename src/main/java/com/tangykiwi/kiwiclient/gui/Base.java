@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import org.joml.Matrix3x2f;
 
+import com.tangykiwi.kiwiclient.mixin.GuiGraphicsExtractorAccessor;
 import com.tangykiwi.kiwiclient.util.render.state.CustomQuadRenderState;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -19,7 +20,8 @@ public abstract class Base extends Screen {
     @Override
     public void extractBackground(GuiGraphicsExtractor drawContext, int mouseX, int mouseY, float delta) {
         Matrix3x2f matrix = new Matrix3x2f(drawContext.pose());
-        ScreenRectangle scissor = drawContext.scissorStack.peek();
+        GuiGraphicsExtractorAccessor contextAccessor = (GuiGraphicsExtractorAccessor) drawContext;
+        ScreenRectangle scissor = contextAccessor.getScissorStack().peek();
         if (this.minecraft.level == null) {
             int colorOffset = (int) ((System.currentTimeMillis() / 75) % 100);
             if (colorOffset > 50)
@@ -28,7 +30,7 @@ public abstract class Base extends Screen {
             // smooth
             colorOffset = (int) (-(Math.cos(Math.PI * (colorOffset / 50d)) - 1) / 2 * 50);
             
-            drawContext.guiRenderState.addGuiElement(new CustomQuadRenderState(
+            contextAccessor.getGuiRenderState().addGuiElement(new CustomQuadRenderState(
                 matrix,
                 width, 0, 0, 0, 0, height + 16, width, height + 16,
                 new Color(80, 53, 20). getRGB(),
@@ -38,7 +40,7 @@ public abstract class Base extends Screen {
                 scissor
             ));
         } else {
-            drawContext.guiRenderState.addGuiElement(new CustomQuadRenderState(
+            contextAccessor.getGuiRenderState().addGuiElement(new CustomQuadRenderState(
                 matrix,
                 0, 0, 0, height, width, height, width, 0,
                 -1072689136,

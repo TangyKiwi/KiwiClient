@@ -5,8 +5,10 @@ import org.joml.Matrix3x2f;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.tangykiwi.kiwiclient.mixin.GuiGraphicsExtractorAccessor;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphicsExtractor.ScissorStack;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -26,7 +28,9 @@ public record CustomQuadRenderState(RenderPipeline pipeline,
 
 	public CustomQuadRenderState(GuiGraphicsExtractor context, float x1, float y1, float x2,
 		float y2, int color1) {
-		this(context.pose(), x1, y1, x2, y2, color1, context.scissorStack.peek());
+		GuiGraphicsExtractorAccessor contextAccessor = (GuiGraphicsExtractorAccessor) context;
+		ScissorStack scissorStack = contextAccessor.getScissorStack();
+		this(context.pose(), x1, y1, x2, y2, color1, scissorStack.peek());
 	}
 
 	public CustomQuadRenderState(Matrix3x2f pose, float x1, float y1, float x2,
@@ -40,10 +44,12 @@ public record CustomQuadRenderState(RenderPipeline pipeline,
 	public CustomQuadRenderState(GuiGraphicsExtractor context, float x1, float y1, float x2,
 		float y2, float x3, float y3, float x4, float y4, int color1,
 		int color2, int color3, int color4) {
+		GuiGraphicsExtractorAccessor contextAccessor = (GuiGraphicsExtractorAccessor) context;
+		ScissorStack scissorStack = contextAccessor.getScissorStack();
 		this(RenderPipelines.GUI, TextureSetup.noTexture(), context.pose(), x1, y1, x2, y2,
 			x3, y3, x4, y4, color1, color2, color3, color4,
-			context.scissorStack.peek(),
-			createBounds(x1, y1, x2, y2, x3, y3, x4, y4, context.pose(), context.scissorStack.peek()));
+			scissorStack.peek(),
+			createBounds(x1, y1, x2, y2, x3, y3, x4, y4, context.pose(), scissorStack.peek()));
 	}
 	
 	public CustomQuadRenderState(Matrix3x2f pose, float x1, float y1, float x2,
@@ -57,8 +63,10 @@ public record CustomQuadRenderState(RenderPipeline pipeline,
 	public CustomQuadRenderState(GuiGraphicsExtractor context, float x1, float y1, float x2,
 		float y2, float x3, float y3, float x4, float y4, int color)
 	{
+		GuiGraphicsExtractorAccessor contextAccessor = (GuiGraphicsExtractorAccessor) context;
+		ScissorStack scissorStack = contextAccessor.getScissorStack();
 		this(context.pose(), x1, y1, x2, y2, x3, y3, x4, y4, color,
-			context.scissorStack.peek());
+			scissorStack.peek());
 	}
 	
 	@Override

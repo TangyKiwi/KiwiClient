@@ -1,6 +1,7 @@
 package com.tangykiwi.kiwiclient.util.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.tangykiwi.kiwiclient.mixin.GuiGraphicsExtractorAccessor;
 import com.tangykiwi.kiwiclient.util.render.state.CustomCircleRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomLineRenderState;
 import com.tangykiwi.kiwiclient.util.render.state.CustomQuadRenderState;
@@ -42,7 +43,8 @@ public class RenderUtils {
     }
 
     public static void drawRectXY(GuiGraphicsExtractor context, float x, float y, float x2, float y2, int c) {
-        context.guiRenderState.addGuiElement(new CustomQuadRenderState(
+        GuiGraphicsExtractorAccessor contextAccessor = (GuiGraphicsExtractorAccessor) context;
+        contextAccessor.getGuiRenderState().addGuiElement(new CustomQuadRenderState(
             context,
             x, y, x2, y2,
             c
@@ -58,7 +60,8 @@ public class RenderUtils {
     }
 
     private static void drawRoundedQuadInternal(GuiGraphicsExtractor context, float x1, float y1, float x2, float y2, float rad, float samples, int color) {
-        context.guiRenderState.addGuiElement(new CustomRoundedQuadRenderState(
+        GuiGraphicsExtractorAccessor contextAccessor = (GuiGraphicsExtractorAccessor) context;
+        contextAccessor.getGuiRenderState().addGuiElement(new CustomRoundedQuadRenderState(
             context,
             x1, y1, x2, y2, rad, samples,
             color
@@ -67,7 +70,8 @@ public class RenderUtils {
 
     public static void drawLine2D(GuiGraphicsExtractor context, float x1, float y1, float x2, float y2, float thickness, int c)
     {
-        context.guiRenderState.addGuiElement(new CustomLineRenderState(
+        GuiGraphicsExtractorAccessor contextAccessor = (GuiGraphicsExtractorAccessor) context;
+        contextAccessor.getGuiRenderState().addGuiElement(new CustomLineRenderState(
             context,
             x1, y1, x2, y2,
             thickness,
@@ -77,7 +81,8 @@ public class RenderUtils {
 
     public static void drawCircle(GuiGraphicsExtractor context, float x, float y, float radius, int c)
     {
-        context.guiRenderState.addGuiElement(new CustomCircleRenderState(
+        GuiGraphicsExtractorAccessor contextAccessor = (GuiGraphicsExtractorAccessor) context;
+        contextAccessor.getGuiRenderState().addGuiElement(new CustomCircleRenderState(
             context,
             x, y, 0, 360, radius, 90,
             c
