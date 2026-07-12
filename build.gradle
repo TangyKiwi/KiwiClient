@@ -79,7 +79,28 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	// implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-	implementation("maven.modrinth:sodium:${project.sodium_version}")
+	// def embeddedFabricModules = [
+	// 	"fabric-api-base",
+	// 	"fabric-block-getter-api-v2",
+	// 	"fabric-rendering-v1",
+	// 	"fabric-renderer-api-v1",
+	// 	"fabric-lifecycle-events-v1",
+	// 	"fabric-rendering-fluids-v1",
+	// 	"fabric-resource-loader-v0",
+	// 	"fabric-resource-loader-v1",
+	// 	"fabric-transitive-access-wideners-v1"
+	// ]
+
+	// embeddedFabricModules.each { moduleName ->
+	// 	def module = fabricApi.module(moduleName, project.fabric_api_version)
+
+	// 	implementation(module)
+	// 	include(module)
+	// }
+    
+	implementation(fabricApi.module("fabric-renderer-indigo", project.fabric_api_version))
+
+	include(implementation("maven.modrinth:sodium:${project.sodium_version}"))
 
 	implementation(files("discord-game-sdk4j-0067367ec5.jar"))
 }
