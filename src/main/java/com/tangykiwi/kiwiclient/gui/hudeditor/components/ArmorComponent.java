@@ -33,7 +33,7 @@ public class ArmorComponent extends HUDComponent {
             for (int i = 0; i < 4; i++) {
                 ItemStack is = armor.get(i);
                 if (is.isEmpty()) continue;
-                RenderUtils.drawItem(context, is, (int) getX() + i * 20 + 2, (int) getY(), 1);
+                RenderUtils.drawItem(context, is, (int) getX() + i * 20 + 2, (int) getY(), 1, true, null);
 
                 if (is.isDamageableItem()) {
                     String dur = is.getMaxDamage() - is.getDamageValue() + "";
