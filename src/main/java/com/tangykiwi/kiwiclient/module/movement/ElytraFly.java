@@ -46,7 +46,6 @@ public class ElytraFly extends Module {
         if (mc.player == null) return;
 
         Vec3 vel = new Vec3(0, 0, getSetting(3).asSlider().getValue()).yRot(-(float) Math.toRadians(mc.player.getYRot()));
-        Vec3 currentVec = mc.player.getDeltaMovement();
         double currentVel = Math.abs(mc.player.getDeltaMovement().x) + Math.abs(mc.player.getDeltaMovement().y) + Math.abs(mc.player.getDeltaMovement().z);
         float radianYaw = (float) Math.toRadians(mc.player.getYRot());
 
@@ -55,11 +54,11 @@ public class ElytraFly extends Module {
         if(getSetting(0).asMode().getValue() == 0) {
             if (mc.player.isFallFlying() && currentVel <= getSetting(2).asSlider().getValue()) {
                 if (mc.options.keyUp.isDown()) {
-                    mc.player.setDeltaMovement(currentVec.x + Mth.sin(radianYaw) * -boost, currentVec.y, currentVec.z + Mth.cos(radianYaw) * boost);
+                    mc.player.addDeltaMovement(new Vec3(Mth.sin(radianYaw) * -boost, 0, Mth.cos(radianYaw) * boost));
                 } else if (mc.options.keyDown.isDown()) {
-                    mc.player.setDeltaMovement(currentVec.x + Mth.sin(radianYaw) * boost, currentVec.y, currentVec.z + Mth.cos(radianYaw) * -boost);
+                    mc.player.addDeltaMovement(new Vec3(Mth.sin(radianYaw) * boost, 0, Mth.cos(radianYaw) * -boost));
                 } else if (mc.options.keyJump.isDown()) {
-                    mc.player.setDeltaMovement(0, boost, 0);
+                    mc.player.addDeltaMovement(new Vec3(0, boost, 0));
                 }
             }
         }
