@@ -42,6 +42,7 @@ public class ModuleManager {
         moduleList.add(new Fly());
         moduleList.add(new InvMove());
         moduleList.add(new NoFall());
+        moduleList.add(new SafeWalk());
         moduleList.add(new Speed());
 
         // other

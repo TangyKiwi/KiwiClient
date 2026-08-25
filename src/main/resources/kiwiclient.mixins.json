@@ -47,6 +47,7 @@
     "ModelBlockRendererMixin",
     "OptionInstanceMixin",
     "OptionsMixin",
+    "PlayerMixin",
     "RarityFilterAccessor",
     "ScreenMixin",
     "ServerboundMovePlayerPacketAccessor",
