@@ -7,9 +7,8 @@
 <div align="center">
     <img src="https://img.shields.io/github/last-commit/TangyKiwi/KiwiClient/v2" alt="GitHub last commit"/>
     <img src="https://img.shields.io/github/actions/workflow/status/TangyKiwi/KiwiClient/build.yml?branch=v2" alt="Build status"/>
-    <img src="https://img.shields.io/badge/MC-26.1.2-brightgreen.svg" alt="Minecraft"/>
+    <img src="https://img.shields.io/badge/MC-26.3-brightgreen.svg" alt="Minecraft"/>
     <br>
-    <img src="https://img.shields.io/github/v/release/TangyKiwi/KiwiClient.svg" alt="Release"/>
     <img src="https://img.shields.io/github/languages/code-size/TangyKiwi/KiwiClient" alt="GitHub code size in bytes"/>
     <img src="https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/TangyKiwi/KiwiClient/badge?branch=v2&filter=.java$&label=lines%20of%20code&color=blue" alt="GitHub lines of code"/>
 </div>
