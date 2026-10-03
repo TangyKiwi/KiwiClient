@@ -12,7 +12,7 @@ public class KeyPressEvent extends Event {
     public KeyPressEvent(KeyEvent keyInput, int action) {
         this.keyInput = keyInput;
         this.key = keyInput.key();
-        this.scanCode = keyInput.scancode();
+        this.scanCode = keyInput.keycode();
         this.modifiers = keyInput.modifiers();
         this.action = action;
     }

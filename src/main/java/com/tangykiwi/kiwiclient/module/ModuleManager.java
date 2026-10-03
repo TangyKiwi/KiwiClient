@@ -14,8 +14,6 @@ import com.tangykiwi.kiwiclient.module.render.*;
 import com.tangykiwi.kiwiclient.util.font.FontManager;
 import com.tangykiwi.kiwiclient.util.font.FontRenderer;
 
-import org.lwjgl.glfw.GLFW;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -137,7 +135,7 @@ public class ModuleManager {
         if(mc.gui.screen() != null) return;
 
         // figure out handling for F keys and command prefix
-        if (InputConstants.isKeyDown(mc.getWindow(), GLFW.GLFW_KEY_F3)) return;
+        if (InputConstants.isKeyDown(InputConstants.KEY_F3)) return;
 //
 //        if(InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_COMMA)) {
 //            mc.setScreen(new ChatScreen(""));

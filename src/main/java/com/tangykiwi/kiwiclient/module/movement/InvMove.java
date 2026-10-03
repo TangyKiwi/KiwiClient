@@ -33,15 +33,15 @@ public class InvMove extends Module {
         if (shouldInvMove(mc.gui.screen())) {
             for (KeyMapping k : new KeyMapping[] { mc.options.keyUp, mc.options.keyDown,
                     mc.options.keyLeft, mc.options.keyRight, mc.options.keyJump, mc.options.keyShift }) {
-                k.setDown(InputConstants.isKeyDown(mc.getWindow(), InputConstants.getKey(k.saveString()).getValue()));
+                k.setDown(InputConstants.isKeyDown(InputConstants.getKey(k.saveString()).getValue()));
             }
 
             if (getSetting(0).asToggle().getValue()) {
-                mc.options.keyShift.setDown(InputConstants.isKeyDown(mc.getWindow(), InputConstants.getKey(mc.options.keyShift.saveString()).getValue()));
+                mc.options.keyShift.setDown(InputConstants.isKeyDown(InputConstants.getKey(mc.options.keyShift.saveString()).getValue()));
             }
 
             if (getSetting(1).asToggle().getValue()) {
-                mc.options.keyJump.setDown(InputConstants.isKeyDown(mc.getWindow(), InputConstants.getKey(mc.options.keyJump.saveString()).getValue()));
+                mc.options.keyJump.setDown(InputConstants.isKeyDown(InputConstants.getKey(mc.options.keyJump.saveString()).getValue()));
             }
         }
     }

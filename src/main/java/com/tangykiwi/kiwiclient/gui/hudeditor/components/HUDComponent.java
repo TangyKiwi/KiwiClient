@@ -11,8 +11,6 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 import java.awt.Color;
 
-import org.lwjgl.glfw.GLFW;
-
 public abstract class HUDComponent {
     private String name;
     private float x, y;
@@ -50,7 +48,7 @@ public abstract class HUDComponent {
 
     public void render(GuiGraphicsExtractor context) {
         if (dragging) {
-            if (InputConstants.isKeyDown(KiwiClient.mc.getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+            if (InputConstants.isKeyDown(InputConstants.KEY_LSHIFT)) {
                 if (x < KiwiClient.mc.gui.screen().width / 2) {
                     minX = 0;
                     maxX = KiwiClient.mc.gui.screen().width / 2;
@@ -210,7 +208,7 @@ public abstract class HUDComponent {
         dragging = false;
     }
 
-    public void keyPressed(int keyCode, int scanCode, int modifiers) {
+    public void keyPressed(int keyCode, int modifiers) {
         keyDown = keyCode;
     }
 

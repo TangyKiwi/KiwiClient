@@ -101,7 +101,7 @@ public class MainMenu extends Screen {
                         this.minecraft.setScreenAndShow(new RealmsMainScreen(this));
                         break;
                     case "Options":
-                        this.minecraft.setScreenAndShow(new OptionsScreen(this, this.minecraft.options, false));
+                        this.minecraft.setScreenAndShow(new OptionsScreen(this, this.minecraft.options));
                         break;
                     case "Language":
                         this.minecraft.setScreenAndShow(new LanguageSelectScreen(this, this.minecraft.options, this.minecraft.getLanguageManager()));

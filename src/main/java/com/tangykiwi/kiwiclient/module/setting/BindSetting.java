@@ -2,8 +2,6 @@ package com.tangykiwi.kiwiclient.module.setting;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -37,8 +35,8 @@ public class BindSetting extends Setting<Integer> {
             context.fill(x + 1, y + 1, x + width - 1, y + fontHeight + 1, 0x70303070);
         }
 
-        if (window.keyDown >= 0 && window.keyDown != GLFW.GLFW_KEY_ESCAPE && window.mouseOver(x, y, x + width, y + fontHeight)) {
-            setValue(window.keyDown == GLFW.GLFW_KEY_DELETE ? Module.KEY_UNBOUND : window.keyDown);
+        if (window.keyDown >= 0 && window.keyDown != InputConstants.KEY_ESCAPE && window.mouseOver(x, y, x + width, y + fontHeight)) {
+            setValue(window.keyDown == InputConstants.KEY_DELETE ? Module.KEY_UNBOUND : window.keyDown);
             mc.getSoundManager().play(
                 SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F, 0.3F));
         }

@@ -2,11 +2,10 @@ package com.tangykiwi.kiwiclient.module.combat;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
-import org.lwjgl.glfw.GLFW;
-
 import java.util.Random;
 
 import com.google.common.eventbus.Subscribe;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.module.Category;
@@ -19,10 +18,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.component.SwingAnimation;
 
 public class TriggerBot extends Module {
     public TriggerBot() {
-        super("TriggerBot", "Automatically attacks the entity you are looking at", GLFW.GLFW_KEY_X, Category.COMBAT,
+        super("TriggerBot", "Automatically attacks the entity you are looking at", InputConstants.KEY_X, Category.COMBAT,
             new ToggleSetting("Delay", "Enable random delay", false).withChildren(
                 new SliderSetting("Time", "Average random delay in milliseconds", 0, 500, 100, -1)
             )
@@ -59,6 +59,6 @@ public class TriggerBot extends Module {
             lastAttack = System.currentTimeMillis();
             randomDelay = (long) (delay.getChild(0).asSlider().getValueD() * (1 + random.nextGaussian() * 0.18));
         }
-        player.swing(InteractionHand.MAIN_HAND);
+        player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, true);
     }
 }

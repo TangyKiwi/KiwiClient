@@ -5,8 +5,6 @@ import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.mojang.blaze3d.platform.InputConstants;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.Base;
@@ -100,7 +98,7 @@ public class HUDEditorScreen extends Base {
         fontRenderer.drawCenteredStringWithShadow(context, "ClickGUI", width / 2 - 26, 2, 0xf0f0f0);
         fontRenderer.drawCenteredStringWithShadow(context, "HUD Editor", width / 2 + 26, 2, 0xf0f0f0);
 
-        if (InputConstants.isKeyDown(KiwiClient.mc.getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+        if (InputConstants.isKeyDown(InputConstants.KEY_LSHIFT)) {
             RenderUtils.drawLine2D(context, mc.gui.screen().width / 2F, 0F, mc.gui.screen().width / 2F, (float) mc.gui.screen().height, 0.5F, 0xFFFFFFFF);
             RenderUtils.drawLine2D(context, 0F, mc.gui.screen().height / 2F, (float) mc.gui.screen().width, mc.gui.screen().height / 2F, 0.5F, 0xFFFFFFFF);
         }
@@ -119,7 +117,7 @@ public class HUDEditorScreen extends Base {
         double mouseX = click.x();
         double mouseY = click.y();
         int button = click.button();
-        if (button == 0) {
+        if (button == InputConstants.MOUSE_BUTTON_LEFT) {
             if (mouseX >= width / 2 - 50 && mouseX <= width / 2 - 2 && mouseY >= 0 && mouseY <= 12) {
 				this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
 				this.minecraft.setScreenAndShow(ClickGUIScreen.INSTANCE);
@@ -130,7 +128,7 @@ public class HUDEditorScreen extends Base {
                 lmDown = true;
                 lmHeld = true;
             }
-        } else if (button == 1) {
+        } else if (button == InputConstants.MOUSE_BUTTON_RIGHT) {
             rmDown = true;
         }
 
@@ -146,7 +144,7 @@ public class HUDEditorScreen extends Base {
     }
 
     public boolean mouseReleased(MouseButtonEvent click) {
-        if (click.button() == 0) lmHeld = false;
+        if (click.button() == InputConstants.MOUSE_BUTTON_LEFT) lmHeld = false;
 
         for (HUDComponent component : components) {
             component.mouseReleased(click.x(), click.y(), click.button());
@@ -157,12 +155,11 @@ public class HUDEditorScreen extends Base {
 
     public boolean keyPressed(KeyEvent keyInput) {
         int keyCode = keyInput.key();
-        int scanCode = keyInput.scancode();
         int modifiers = keyInput.modifiers();
         keyDown = keyCode;
 
         for (HUDComponent component : components) {
-            component.keyPressed(keyCode, scanCode, modifiers);
+            component.keyPressed(keyCode, modifiers);
         }
 
         return super.keyPressed(keyInput);

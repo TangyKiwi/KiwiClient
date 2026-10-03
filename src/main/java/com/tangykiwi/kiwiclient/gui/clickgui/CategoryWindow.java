@@ -173,7 +173,7 @@ public class CategoryWindow {
         dragging = false;
     }
 
-    public void keyPressed(int keyCode, int scanCode, int modifiers) {
+    public void keyPressed(int key, int keyCode, int modifiers) {
 
     }
 

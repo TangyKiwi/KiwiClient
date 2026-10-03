@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.ShaderManager;
 
 @Mixin(ShaderManager.class)
 public abstract class ShaderManagerMixin {
-    @Inject(method = "apply(Lnet/minecraft/client/renderer/ShaderManager$Configs;Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)V", at = @At("TAIL"))
+    @Inject(method = "apply", at = @At("TAIL"))
     private void reloadPipelines(CallbackInfo info) {
         CustomRenderPipelines.precompile();
     }

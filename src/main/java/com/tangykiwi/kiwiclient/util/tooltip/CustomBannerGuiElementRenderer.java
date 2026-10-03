@@ -36,8 +36,7 @@ public class CustomBannerGuiElementRenderer extends PictureInPictureRenderer<Cus
             0.0F,
             true,
             state.baseColor(),
-            state.resultBannerPatterns(),
-            null
+            state.resultBannerPatterns()
         );
     }
 

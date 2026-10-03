@@ -1,5 +1,6 @@
 package com.tangykiwi.kiwiclient.gui.clickgui;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.gui.Base;
 import com.tangykiwi.kiwiclient.gui.hudeditor.HUDEditorScreen;
@@ -88,7 +89,7 @@ public class ClickGUIScreen extends Base {
         double mouseX = click.x();
         double mouseY = click.y();
         int button = click.button();
-        if (button == 0) {
+        if (button == InputConstants.MOUSE_BUTTON_LEFT) {
             if (mouseX >= width / 2 - 50 && mouseX <= width / 2 - 2 && mouseY >= 0 && mouseY <= 12) {
 				this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
                 this.minecraft.setScreenAndShow(INSTANCE);
@@ -99,7 +100,7 @@ public class ClickGUIScreen extends Base {
                 lmDown = true;
                 lmHeld = true;
             }
-        } else if (button == 1) {
+        } else if (button == InputConstants.MOUSE_BUTTON_RIGHT) {
             rmDown = true;
         }
 
@@ -114,7 +115,7 @@ public class ClickGUIScreen extends Base {
     }
 
     public boolean mouseReleased(MouseButtonEvent click) {
-        if (click.button() == 0) lmHeld = false;
+        if (click.button() == InputConstants.MOUSE_BUTTON_LEFT) lmHeld = false;
 
         for (CategoryWindow window : windows) {
             window.mouseReleased(click.x(), click.y(), click.button());
@@ -124,13 +125,13 @@ public class ClickGUIScreen extends Base {
     }
 
     public boolean keyPressed(KeyEvent keyInput) {
-        int keyCode = keyInput.key();
-        int scanCode = keyInput.scancode();
+        int key = keyInput.key();
+        int keyCode = keyInput.keycode();
         int modifiers = keyInput.modifiers();
-        keyDown = keyCode;
+        keyDown = key;
 
         for (CategoryWindow window : windows) {
-            window.keyPressed(keyCode, scanCode, modifiers);
+            window.keyPressed(key, keyCode, modifiers);
         }
 
         return super.keyPressed(keyInput);

@@ -2,10 +2,7 @@ package com.tangykiwi.kiwiclient.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.mojang.blaze3d.platform.IconSet;
-import com.mojang.blaze3d.platform.MacosUtil;
-import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.OpenScreenEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
@@ -20,25 +17,17 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.server.IntegratedServer;
+import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.VanillaPackResources;
 import net.minecraft.world.entity.Entity;
 
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWImage;
-import org.lwjgl.system.MemoryStack;
-import org.lwjgl.system.MemoryUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.tangykiwi.kiwiclient.KiwiClient.LOGGER;
 import static com.tangykiwi.kiwiclient.KiwiClient.discordRPC;
@@ -48,6 +37,8 @@ import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 public class MinecraftMixin {
     @Shadow public ClientLevel level;
     @Shadow private IntegratedServer singleplayerServer;
+    @Shadow private Window window;
+    @Shadow private VanillaPackResources vanillaPackResources;
 
 	@Inject(at = @At("TAIL"), method = "<init>"/*method = "onResourceLoadFinished(Lnet/minecraft/client/Minecraft$GameLoadCookie;)V"*/)
     private void init(CallbackInfo callback) {
@@ -64,41 +55,46 @@ public class MinecraftMixin {
         KiwiClient.eventBus.post(TickEvent.Post.get());
     }
 
+    // @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Window;setIcon(Lnet/minecraft/server/packs/PackMetadataResources;Lcom/mojang/blaze3d/platform/IconSet;)V"))
+    // private void setIcon(Window window, PackResources resourcePack, IconSet icons) {
+        
+    // }
+
     // @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Window;setIcon(Lnet/minecraft/server/packs/VanillaPackResources;Lcom/mojang/blaze3d/platform/IconSet;)V"))
-    private void setIcon(Window window, VanillaPackResources resourcePack, IconSet icons) throws IOException {
-        RenderSystem.assertOnRenderThread();
+    // private void setIcon(Window window, VanillaPackResources resourcePack, IconSet icons) throws IOException {
+    //     RenderSystem.assertOnRenderThread();
 
-        if (GLFW.glfwGetPlatform() == 393218) {
-            MacosUtil.loadIcon(icons.getMacIcon(resourcePack));
-            return;
-        }
-        setWindowIcon(KiwiClient.class.getResourceAsStream("/assets/kiwiclient/icon64.png"), KiwiClient.class.getResourceAsStream("/assets/kiwiclient/icon128.png"));
-    }
+    //     if (GLFW.glfwGetPlatform() == 393218) {
+    //         MacosUtil.loadIcon(icons.getMacIcon(resourcePack));
+    //         return;
+    //     }
+    //     setWindowIcon(KiwiClient.class.getResourceAsStream("/assets/kiwiclient/icon64.png"), KiwiClient.class.getResourceAsStream("/assets/kiwiclient/icon128.png"));
+    // }
 
-    public void setWindowIcon(InputStream img16x16, InputStream img32x32) {
-        try (MemoryStack memorystack = MemoryStack.stackPush()) {
-            GLFWImage.Buffer buffer = GLFWImage.malloc(2, memorystack);
-            List<InputStream> imgList = List.of(img16x16, img32x32);
-            List<ByteBuffer> buffers = new ArrayList<>();
+    // public void setWindowIcon(InputStream img16x16, InputStream img32x32) {
+    //     try (MemoryStack memorystack = MemoryStack.stackPush()) {
+    //         GLFWImage.Buffer buffer = GLFWImage.malloc(2, memorystack);
+    //         List<InputStream> imgList = List.of(img16x16, img32x32);
+    //         List<ByteBuffer> buffers = new ArrayList<>();
 
-            for (int i = 0; i < imgList.size(); i++) {
-                NativeImage nativeImage = NativeImage.read(imgList.get(i));
-                ByteBuffer bytebuffer = MemoryUtil.memAlloc(nativeImage.getWidth() * nativeImage.getHeight() * 4);
+    //         for (int i = 0; i < imgList.size(); i++) {
+    //             NativeImage nativeImage = NativeImage.read(imgList.get(i));
+    //             ByteBuffer bytebuffer = MemoryUtil.memAlloc(nativeImage.getWidth() * nativeImage.getHeight() * 4);
 
-                bytebuffer.asIntBuffer().put(nativeImage.getPixelsABGR());
-                buffer.position(i);
-                buffer.width(nativeImage.getWidth());
-                buffer.height(nativeImage.getHeight());
-                buffer.pixels(bytebuffer);
+    //             bytebuffer.asIntBuffer().put(nativeImage.getPixelsABGR());
+    //             buffer.position(i);
+    //             buffer.width(nativeImage.getWidth());
+    //             buffer.height(nativeImage.getHeight());
+    //             buffer.pixels(bytebuffer);
 
-                buffers.add(bytebuffer);
-            }
+    //             buffers.add(bytebuffer);
+    //         }
 
-            GLFW.glfwSetWindowIcon(KiwiClient.mc.getWindow().handle(), buffer);
-            buffers.forEach(MemoryUtil::memFree);
-        } catch (IOException ignored) {
-        }
-    }
+    //         GLFW.glfwSetWindowIcon(KiwiClient.mc.getWindow().handle(), buffer);
+    //         buffers.forEach(MemoryUtil::memFree);
+    //     } catch (IOException ignored) {
+    //     }
+    // }
 
     @ModifyArg(method = "updateTitle", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Window;setTitle(Ljava/lang/String;)V"))
     private String getWindowTitle(String original) {

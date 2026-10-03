@@ -31,7 +31,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
@@ -94,7 +93,7 @@ public class SeedRay extends Module{
             for (Map.Entry<Ore, Set<Vec3>> oreRenders : chunk.entrySet()) {
                 if (oreRenders.getKey().enabled) {
                     for (Vec3 pos : oreRenders.getValue()) {
-                        AABB box = new AABB(new BlockPos(new Vec3i((int) pos.x, (int) pos.y, (int) pos.z)));
+                        AABB box = new AABB(new BlockPos((int) pos.x, (int) pos.y, (int) pos.z));
                         RenderUtils.drawBoxOutline(submitNodeStorage, box, oreRenders.getKey().color.getRGB(), 1);
                     }
                 }

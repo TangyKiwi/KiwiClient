@@ -2,6 +2,7 @@ package com.tangykiwi.kiwiclient.module.render;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.tangykiwi.kiwiclient.event.LevelRenderEvent;
 import com.tangykiwi.kiwiclient.event.TickEvent;
 import com.tangykiwi.kiwiclient.module.Category;
@@ -26,8 +27,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.phys.AABB;
 
-import org.lwjgl.glfw.GLFW;
-
 import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 
 import java.util.HashMap;
@@ -41,7 +40,7 @@ public class StorageESP extends Module {
     private Set<BlockPos> blacklist = new HashSet<>();
 
     public StorageESP() {
-        super("StorageESP","Highlights storage containers", GLFW.GLFW_KEY_R, Category.RENDER,
+        super("StorageESP","Highlights storage containers", InputConstants.KEY_R, Category.RENDER,
             new ModeSetting("Mode", "ESP mode", "Box+Fill", "Box", "Fill"),
             new SliderSetting("Box", "Box line thickness", 0.1, 4, 2, 1),
             new SliderSetting("Fill", "Fill opacity", 0, 1, 0.3, 2));

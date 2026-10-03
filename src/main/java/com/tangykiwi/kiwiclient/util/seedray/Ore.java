@@ -27,9 +27,9 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.FeatureSorter;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.WorldGenerationContext;
+import net.minecraft.world.level.levelgen.feature.OreFeature;
 import net.minecraft.world.level.levelgen.feature.ScatteredOreFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.featuresize.FeatureSize;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
@@ -40,7 +40,7 @@ import net.minecraft.world.level.levelgen.presets.WorldPresets;
 
 public class Ore {
     public static Map<ResourceKey<Biome>, List<Ore>> getRegistry(Dimension dimension) {
-        HolderLookup.Provider registry = VanillaRegistries.createLookup();
+        HolderLookup.Provider registry = VanillaRegistries.createWorldLookup();
         HolderLookup.RegistryLookup<PlacedFeature> features = registry.lookupOrThrow(Registries.PLACED_FEATURE);
         var reg = registry.lookupOrThrow(Registries.WORLD_PRESET).getOrThrow(WorldPresets.NORMAL).value().createWorldDimensions().dimensions();
 
@@ -154,16 +154,12 @@ public class Ore {
             }
         }
 
-        FeatureConfiguration featureConfig = feature.feature().value().config();
-
-        if (featureConfig instanceof OreConfiguration oreFeatureConfig) {
-            this.discardOnAirChance = oreFeatureConfig.discardChanceOnAirExposure;
-            this.size = oreFeatureConfig.size;
-        } else {
-            throw new IllegalStateException("config for " + feature + "is not OreFeatureConfig.class");
+        if (feature.feature().value() instanceof OreFeature oreFeature) {
+            this.size = oreFeature.size();
+            this.discardOnAirChance = oreFeature.discardChanceOnAirExposure();
         }
 
-        if (feature.feature().value().feature() instanceof ScatteredOreFeature) {
+        if (feature.feature().value() instanceof ScatteredOreFeature) {
             this.scattered = true;
         }
     }

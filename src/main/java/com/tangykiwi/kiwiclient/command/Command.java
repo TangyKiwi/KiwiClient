@@ -15,7 +15,7 @@ import net.minecraft.network.chat.Component;
 import java.util.List;
 
 public abstract class Command {
-    public static CommandBuildContext REGISTRY_ACCESS = Commands.createValidationContext(VanillaRegistries.createLookup());
+    public static CommandBuildContext REGISTRY_ACCESS = Commands.createValidationContext(VanillaRegistries.createWorldLookup());
 
     private final String name;
     private final String description;

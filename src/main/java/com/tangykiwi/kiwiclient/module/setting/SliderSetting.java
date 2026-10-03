@@ -5,8 +5,6 @@ import static com.tangykiwi.kiwiclient.KiwiClient.mc;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -82,7 +80,7 @@ public class SliderSetting extends Setting<Double> {
                 setValue(round(percent * (max - min) / 100 + min, decimals));
             }
 
-            if (window.mwScroll != 0 && InputConstants.isKeyDown(mc.getWindow(), GLFW.GLFW_KEY_LEFT_CONTROL)) {
+            if (window.mwScroll != 0 && InputConstants.isKeyDown(InputConstants.KEY_LCONTROL)) {
                 double units = 1 / (Math.pow(10, decimals));
 
                 setValue(Mth.clamp(getValue() + units * window.mwScroll, min, max));

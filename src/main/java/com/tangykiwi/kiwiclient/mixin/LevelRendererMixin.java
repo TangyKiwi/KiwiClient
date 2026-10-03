@@ -1,6 +1,5 @@
 package com.tangykiwi.kiwiclient.mixin;
 
-import org.joml.Matrix4fc;
 import org.joml.Vector4f;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
@@ -11,14 +10,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
 import com.tangykiwi.kiwiclient.KiwiClient;
 import com.tangykiwi.kiwiclient.event.LevelRenderEvent;
 import com.tangykiwi.kiwiclient.module.render.NoRender;
 
-import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -34,10 +33,10 @@ public class LevelRendererMixin {
     private SubmitNodeStorage submitNodeStorage;
 
     @Inject(method = "render", at = @At("HEAD"))
-    private void onRenderLevelHead(GraphicsResourceAllocator resourceAllocator, DeltaTracker deltaTracker, boolean renderOutline, CameraRenderState cameraState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, CallbackInfo ci) {
+    private void onRenderLevelHead(GraphicsResourceAllocator resourceAllocator, boolean renderOutline, CameraRenderState cameraState, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, boolean consistentDepthRequired, CallbackInfo ci) {
         PoseStack poseStack = new PoseStack();
-        poseStack.mulPose(modelViewMatrix);
-        LevelRenderEvent event = new LevelRenderEvent(poseStack, deltaTracker.getGameTimeDeltaPartialTick(false), submitNodeStorage);
+        poseStack.mulPose(RenderSystem.getModelViewStack());
+        LevelRenderEvent event = new LevelRenderEvent(poseStack, KiwiClient.mc.getDeltaTracker().getGameTimeDeltaPartialTick(false), submitNodeStorage);
         KiwiClient.eventBus.post(event);
     }
 

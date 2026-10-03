@@ -3,11 +3,11 @@ package com.tangykiwi.kiwiclient.util.render.state;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.textures.FilterMode;
-import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.textures.FilterMode;
+import com.mojang.renderpearl.api.textures.GpuTextureView;
 import com.tangykiwi.kiwiclient.mixin.GuiGraphicsExtractorAccessor;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
