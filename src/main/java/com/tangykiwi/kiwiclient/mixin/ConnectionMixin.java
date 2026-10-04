@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -19,6 +20,9 @@ import net.minecraft.network.SkipPacketEncoderException;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBundlePacket;
+import net.minecraft.network.protocol.game.ServerboundClientTickEndPacket;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
 @Mixin(value = Connection.class, priority = 1010)
 public class ConnectionMixin {
@@ -37,6 +41,43 @@ public class ConnectionMixin {
             if (event.isCancelled()) ci.cancel();
         }
     }
+
+    private boolean sentPositionThisTick;
+
+    /**
+	 * Since 26.3-snapshot-10, {@link ServerGamePacketListenerImpl} rejects
+	 * multiple position packets in a single client tick. This mixin inserts
+	 * {@link ServerboundClientTickEndPacket}s as needed to prevent that.
+	 */
+	@Inject(
+		method = "doSendPacket(Lnet/minecraft/network/protocol/Packet;Lio/netty/channel/ChannelFutureListener;Z)V",
+		at = @At("HEAD"))
+	private void onDoSendPacket(Packet<?> packet,
+		@Nullable ChannelFutureListener listener, boolean flush,
+		CallbackInfo ci)
+	{
+		if(packet instanceof ServerboundClientTickEndPacket)
+		{
+			sentPositionThisTick = false;
+			return;
+		}
+		
+		if(!(packet instanceof ServerboundMovePlayerPacket move)
+			|| !move.hasPosition())
+			return;
+		
+		if(sentPositionThisTick)
+			sendPacket(ServerboundClientTickEndPacket.INSTANCE, null, false);
+		
+		sentPositionThisTick = true;
+	}
+
+    @Shadow
+	private void sendPacket(Packet<?> packet,
+		@Nullable ChannelFutureListener listener, boolean flush)
+	{
+		
+	}
 
     @Inject(at = @At("HEAD"), method = "send(Lnet/minecraft/network/protocol/Packet;Lio/netty/channel/ChannelFutureListener;)V", cancellable = true)
     private void onSendPacketHead(Packet<?> packet, @Nullable ChannelFutureListener channelFutureListener, CallbackInfo ci) {
